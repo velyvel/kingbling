@@ -4,104 +4,82 @@
 <html>
 <head>
     <!-- meta -->
-    <jsp:include page="/WEB-INF/views/modules/common-meta.jsp" />
+<%--    <jsp:include page="/WEB-INF/views/modules/common-meta.jsp" />--%>
     <!-- Css Styles ,font -->
     <jsp:include page="/WEB-INF/views/modules/common-css.jsp" />
-    <meta charset="UTF-8">
-    <title>임블리 사이트</title>
+    <jsp:include page="/WEB-INF/views/modules/admin/common-css.jsp" />
+
+    <title>로그인</title>
 </head>
+
+
 <body>
-<jsp:include page="/WEB-INF/views/modules/common-offcanvas.jsp" />
-<jsp:include page="/WEB-INF/views/modules/header.jsp" />
-<h2>로그인</h2>
 
-<!-- ****************************** sale ************************** -->
-<section class="categories spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="categories__text">
-                    <h2>Clothings Hot <br /> <span>Shoe Collection</span> <br /> Accessories</h2>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="categories__hot__deal">
-                    <img src="/resources/dist/img/product-sale.png" alt="">
-                    <div class="hot__deal__sticker">
-                        <span>Sale Of</span>
-                        <h5>$29.99</h5>
+<div class="container">
+    <jsp:include page="/WEB-INF/views/modules/common-offcanvas.jsp" />
+    <jsp:include page="/WEB-INF/views/modules/header.jsp" />
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block" style="background-color: #0c5460;"></div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                </div>
+                                <form class="user">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control form-control-user"
+                                               id="exampleInputEmail" aria-describedby="emailHelp"
+                                               placeholder="Enter Email Address...">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control form-control-user"
+                                               id="exampleInputPassword" placeholder="Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck">
+                                            <label class="custom-control-label" for="customCheck">Remember
+                                                Me</label>
+                                        </div>
+                                    </div>
+                                    <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                        Login
+                                    </a>
+                                    <hr>
+                                    <a href="index.html" class="btn btn-google btn-user btn-block">
+                                        <i class="fab fa-google fa-fw"></i> Login with Google
+                                    </a>
+                                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                        <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                                    </a>
+                                </form>
+                                <hr>
+                                <div class="text-center">
+                                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                </div>
+                                <div class="text-center">
+                                    <a class="small" href="register.html">Create an Account!</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 offset-lg-1">
-                <div class="categories__deal__countdown">
-                    <span>Deal Of The Week</span>
-                    <h2>Multi-pocket Chest Bag Black</h2>
-                    <div class="categories__deal__countdown__timer" id="countdown">
-                        <div class="cd-item">
-                            <span>3</span>
-                            <p>Days</p>
-                        </div>
-                        <div class="cd-item">
-                            <span>1</span>
-                            <p>Hours</p>
-                        </div>
-                        <div class="cd-item">
-                            <span>50</span>
-                            <p>Minutes</p>
-                        </div>
-                        <div class="cd-item">
-                            <span>18</span>
-                            <p>Seconds</p>
-                        </div>
-                    </div>
-                    <a href="#" class="primary-btn">Shop now</a>
-                </div>
-            </div>
+
         </div>
+
     </div>
-</section>
-<!-- ****************************** end sale ************************** -->
 
-<!-- ****************************** instagram ************************** -->
-<section class="instagram spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="instagram__pic">
-                    <div class="instagram__pic__item set-bg" data-setbg="/resources/dist/img/instagram/instagram-1.jpg"></div>
-                    <div class="instagram__pic__item set-bg" data-setbg="/resources/dist/img/instagram/instagram-2.jpg"></div>
-                    <div class="instagram__pic__item set-bg" data-setbg="/resources/dist/img/instagram/instagram-3.jpg"></div>
-                    <div class="instagram__pic__item set-bg" data-setbg="/resources/dist/img/instagram/instagram-4.jpg"></div>
-                    <div class="instagram__pic__item set-bg" data-setbg="/resources/dist/img/instagram/instagram-5.jpg"></div>
-                    <div class="instagram__pic__item set-bg" data-setbg="/resources/dist/img/instagram/instagram-6.jpg"></div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="instagram__text">
-                    <h2>Instagram</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua.</p>
-                    <h3>#Male_Fashion</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br><br><br>
-</section>
-<!-- ****************************** end instagram ************************** -->
-
-<!-- ****************************** footer ************************** -->
-<jsp:include page="/WEB-INF/views/modules/footer.jsp" />
-<!-- ****************************** end footer ************************** -->
-
-
-
-
-
-<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
-
-
+</div>
+<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 
 </body>
 </html>

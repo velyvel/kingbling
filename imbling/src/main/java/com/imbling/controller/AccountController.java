@@ -11,6 +11,12 @@ public class AccountController {
 		
 		return "member/login";
 	}
+
+	@GetMapping(path = { "/member/register" })
+	public String showRegisterForm() {
+
+		return "member/register";
+	}
 	
 
 }

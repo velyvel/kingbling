@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-lg-3 col-md-3">
                 <div class="header__logo">
-                    <a href="#"><img src="/resources/dist/img/logo.png" alt=""></a>
+                    <a href="/"><img src="/resources/dist/img/jamlogo.png" alt=""></a>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">
@@ -17,14 +17,24 @@
                         <li><a href="/product/list">상품</a></li>
                         <li><a href="#">마이페이지</a>
                             <ul class="dropdown">
-                                <li><a href="#">❤️🧡💛</a></li>
-                                <li><a href="#">장바구니</a></li>
-                                <li><a href="#">주문</a></li>
-                                <li><a href="#">배송현황</a></li>
+                                <li><a href="/mypage/myInfo">내 정보 관리❤️🧡💛</a></li>
+                                <li><a href="/mypage/cart">장바구니</a></li>
+                                <li><a href="/mypage/heart">관심상품</a></li>
+                                <li><a href="/mypage/orderList">주문내역</a></li>
+                                <li><a href="/mypage/myboard">내가 쓴 게시글</a></li>
+                                <li><a href="/mypage/goodbye">회원 탈퇴</a></li>
                             </ul>
                         </li>
                         <li><a href="/home">Blog</a></li>
                         <li><a href="/member/login">로그인</a></li>
+                        <li><a href="/member/register">회원가입</a></li>
+                        <li><a href="/member/register">게시판</a>
+                            <ul class="dropdown">
+                                <li><a href="/board/notice">1:1문의</a></li>
+                                <li><a href="/board/qna">상품후기</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/admin-home">관리자페이지</a></li>
                     </ul>
                 </nav>
             </div>
