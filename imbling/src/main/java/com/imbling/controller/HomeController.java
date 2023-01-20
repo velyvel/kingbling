@@ -12,6 +12,11 @@ public class HomeController {
 		return "home";
 	}
 	
+	@GetMapping(path= {"admin-home"})
+	public String adminHome() {
+		return "admin-home";
+	}
+	
 
 }
 
