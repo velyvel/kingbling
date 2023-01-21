@@ -262,13 +262,6 @@
 
 	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 
-    <!-- Page level plugins -->
-    <script src="/resources/plugins/admin/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="/resources/dist/admin/js/demo/chart-area-demo.js"></script>
-    <script src="/resources/dist/admin/js/demo/chart-pie-demo.js"></script>
-
 </body>
 
 </html>

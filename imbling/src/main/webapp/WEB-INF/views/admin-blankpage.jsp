@@ -31,7 +31,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">비어 있는 페이지. 처음 페이지 만들 때 이거 가져가서 안에 원하는 내용 붙여넣으면 됨</h1>
+                    <h1 class="h3 mb-4 text-gray-800">비어 있는 페이지. 처음 페이지 만들 때 이거 가져가서 안에 원하는 내용 붙여넣어서 쓰세영</h1>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -56,13 +56,6 @@
     <!-- End of Page Wrapper -->
 
 	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
-
-    <!-- Page level plugins -->
-    <script src="/resources/plugins/admin/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="/resources/dist/admin/js/demo/chart-area-demo.js"></script>
-    <script src="/resources/dist/admin/js/demo/chart-pie-demo.js"></script>
 
 </body>
 

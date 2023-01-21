@@ -9,7 +9,7 @@
 
     <jsp:include page="/WEB-INF/views/modules/admin/common-css.jsp" />
 
-    <title>Blank Page</title>
+    <title>Order List</title>
 
 </head>
 
@@ -31,8 +31,51 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">비어 있는 페이지. 처음 페이지 만들 때 이거 가져가서 안에 원하는 내용 붙여넣으면 됨</h1>
+                    <h1 class="h3 mb-2 text-gray-800">주문 내역을 확인하세요.</h1>
+                    <p class="mb-4">전체 주문 내역을 조회할 수 있는 페이지 입니다.</p>
 
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">주문 내역 목록</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Tiger Nixon</td>
+                                            <td>System Architect</td>
+                                            <td>Edinburgh</td>
+                                            <td>61</td>
+                                            <td>2011/04/25</td>
+                                            <td>$320,800</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Garrett Winters</td>
+                                            <td>Accountant</td>
+                                            <td>Tokyo</td>
+                                            <td>63</td>
+                                            <td>2011/07/25</td>
+                                            <td>$170,750</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                 
                 </div>
                 <!-- /.container-fluid -->
 
@@ -60,34 +103,7 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">로그아웃 하기를 원하시면 하단의 [로그아웃] 버튼을 눌러주세요.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
-                    <a class="btn btn-primary" href="/admin-home">로그아웃</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
 	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
-
-    <!-- Page level plugins -->
-    <script src="/resources/plugins/admin/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="/resources/dist/admin/js/demo/chart-area-demo.js"></script>
-    <script src="/resources/dist/admin/js/demo/chart-pie-demo.js"></script>
 
 </body>
 

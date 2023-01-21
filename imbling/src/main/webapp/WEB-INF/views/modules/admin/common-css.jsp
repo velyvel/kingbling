@@ -17,3 +17,5 @@
         rel="stylesheet">
 
 <link href="/resources/dist/admin/css/sb-admin-2.min.css" rel="stylesheet">
+
+<link href="/resources/plugins/admin/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
