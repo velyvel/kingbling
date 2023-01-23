@@ -13,3 +13,4 @@
 <script src="/resources/dist/js/mixitup.min.js"></script>
 <script src="/resources/dist/js/owl.carousel.min.js"></script>
 <script src="/resources/dist/js/main.js"></script>
+<script src="https://kit.fontawesome.com/59c4b897d3.js" crossorigin="anonymous"></script>

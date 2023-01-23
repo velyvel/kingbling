@@ -5,12 +5,12 @@
 <header class="header">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-3">
+            <div>
                 <div class="header__logo">
-                    <a href="/"><img src="/resources/dist/img/jamlogo.png" alt=""></a>
+                    <a href="/"><img src="/resources/dist/img/jamlogo.png" alt="jamLogo" style="width: 60px;"></a>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6">
+            <div class="col-lg-10 col-lg-10">
                 <nav class="header__menu mobile-menu">
                     <ul>
                         <li class="active"><a href="/">임블리홈</a></li>
@@ -28,24 +28,24 @@
                         <li><a href="/home">Blog</a></li>
                         <li><a href="/member/login">로그인</a></li>
                         <li><a href="/member/register">회원가입</a></li>
-                        <li><a href="/member/register">게시판</a>
+                        <li><a href="/board/home">게시판</a>
                             <ul class="dropdown">
-                                <li><a href="/board/notice">1:1문의</a></li>
-                                <li><a href="/board/qna">상품후기</a></li>
+                                <li><a href="/board/notice">공지사항/문의</a></li>
+                                <li><a href="/board/review">상품후기</a></li>
                             </ul>
                         </li>
                         <li><a href="/admin-home">관리자페이지</a></li>
                     </ul>
                 </nav>
             </div>
-            <div class="col-lg-3 col-md-3">
-                <div class="header__nav__option">
-                    <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-                    <a href="#"><img src="/resources/dist/img/icon/heart.png" alt=""></a>
-                    <a href="#"><img src="/resources/dist/img/icon/cart.png" alt=""> <span>0</span></a>
-                    <div class="price">$0.00</div>
-                </div>
-            </div>
+<%--            <div class="col-lg-3 col-md-2">--%>
+<%--                <div class="header__nav__option">--%>
+<%--                    <a href="#" class="search-switch"><img src="/resources/dist/img/icon/search.png" alt=""></a>--%>
+<%--                    <a href="#"><img src="/resources/dist/img/icon/heart.png" alt=""></a>--%>
+<%--                    <a href="#"><img src="/resources/dist/img/icon/cart.png" alt=""> <span>0</span></a>--%>
+<%--                    <div class="price">$0.00</div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
         </div>
         <div class="canvas__open"><i class="fa fa-bars"></i></div>
     </div>
