@@ -9,7 +9,6 @@ public interface AccountService {
 
 	public default AccountDto accountEntityAccountDto(AccountDtoEntity accountEntity) {
 		AccountDto accountDto = new AccountDto();
-		accountDto.setUserNo(accountEntity.getUserNo());
 		accountDto.setUserName(accountEntity.getUserName());
 		accountDto.setUserPhone(accountEntity.getUserPhone());
 		accountDto.setUserEmail(accountEntity.getUserEmail());
@@ -25,7 +24,6 @@ public interface AccountService {
 	
 	public default AccountDtoEntity boardDtoToEntity(AccountDto accountDto) {
 		AccountDtoEntity accountEntity = AccountDtoEntity.builder()
-				.userNo(accountDto.getUserNo())
 				.userName(accountDto.getUserName())
 				.userPhone(accountDto.getUserPhone())
 				.userEmail(accountDto.getUserEmail())
@@ -40,7 +38,6 @@ public interface AccountService {
 	
 	public default AccountDocImgDto AccountDocImgDtoEntitytoDto(AccountDocImgDtoEntity accountDocImgDtoEntity) {
 		AccountDocImgDto accountDocImgDto = new AccountDocImgDto();
-//		accountDocImgDto.setUserNo(accountDocImgDtoEntity.getUserNo());
 		accountDocImgDto.setDocName(accountDocImgDtoEntity.getDocName());
 		accountDocImgDto.setDocNo(accountDocImgDtoEntity.getDocNo());
 
@@ -49,7 +46,6 @@ public interface AccountService {
 	
 	public default AccountDocImgDtoEntity accountDocImgDtoToEntity(AccountDocImgDto accountDocImgDto) {
 		AccountDocImgDtoEntity accountEntity = AccountDocImgDtoEntity.builder()
-//				.userNo(accountDocImgDto.getUserNo())
 				.docName(accountDocImgDto.getDocName())
 				.docNo(accountDocImgDto.getDocNo())
 				.build();

@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 public class AccountDto {
 	//유저 정보 
-	private int userNo;	//유저 번호(식별자) 
 	private String userName;
 	private String userPhone;
 	private String userEmail;

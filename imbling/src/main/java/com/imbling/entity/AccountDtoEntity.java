@@ -25,9 +25,7 @@ import lombok.NoArgsConstructor;
 @Table(name="imb_user")
 public class AccountDtoEntity {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int userNo;
+	
 	
 	@Column(nullable = false)
 	private String userName;
@@ -41,6 +39,7 @@ public class AccountDtoEntity {
 	@Column(nullable = false)
 	private String userAddress;
 	
+	@Id
 	@Column(nullable = false)
 	private String userId;
 	
