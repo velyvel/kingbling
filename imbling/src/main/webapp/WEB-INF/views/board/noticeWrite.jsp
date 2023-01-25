@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <jsp:include page="/WEB-INF/views/modules/common-css.jsp" />
     <jsp:include page="/WEB-INF/views/modules/admin/common-css.jsp" />
-    <title>상품후기작성</title>
+    <title>공지사항작성(관리자)</title>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -23,7 +23,8 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <form method="post" id="writeNotice" action="writeNotice">
+            <!--=============form start========================================-->
+            <form method="post" id="noticeWrite" action="noticeWrite">
             <div style="float: right;">
                 <a href="notice"class="btn btn-danger"><i class="fas fa-close"></i> 취소하기</a>
                 <input id="submitBtn" type="submit" class="btn btn-success" value="작성완료">
@@ -34,11 +35,11 @@
             <div class="card-body">
                 <div class="col-sm-6" style="float: right;">
                     <div class="form-group">
-                        <label>게시판 종류</label>
-                        <select class="form-control">
+                        <label for="boardCategory" >게시판 종류</label>
+                        <select class="form-control" id="boardCategory" name="boardCategory">
                             <option selected>게시판 종류 선택️</option>
-                            <option name="boardCategory" value="1">공지사항</option>
-                            <option name="boardCategory" value="2">이벤트️️</option>
+                            <option value="1">이벤트</option>
+                            <option value="2">공지사항️️</option>
                         </select>
                     </div>
                 </div>
@@ -50,8 +51,8 @@
                 </div>
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <label>제목</label>
-                        <input type="text" class="form-control" placeholder="공지사항제목" name="boardTitle" value="${board.boardTitle}">
+                        <label for="boardTitle">제목</label>
+                        <input type="text" class="form-control" placeholder="공지사항제목" name="boardTitle" id="boardTitle">
 <%--                        <input type="hidden" class="form-control" readonly name="boardNo" value="${board.boardNo}">--%>
 <%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
                     </div>

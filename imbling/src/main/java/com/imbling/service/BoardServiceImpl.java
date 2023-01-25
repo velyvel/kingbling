@@ -15,7 +15,29 @@ public class BoardServiceImpl implements BoardService{
     @Autowired
     private BoardRepository boardRepository;
 
+    //이벤트 리스트 조회
+    @Override
+    public List<BoardDto> findEventBoard() {
+        List<BoardEntity> boardList = boardRepository.findEventByBoardCategoryDesc();
+        ArrayList<BoardDto> boards = new ArrayList<>();
+        for (BoardEntity boardEntity: boardList){
+            boards.add(boardEntityToDto(boardEntity));
+        }
+        return boards;
+    }
 
+
+    // 공지사항 리스트 조회
+    @Override
+    public List<BoardDto> findNoticeBoard() {
+        List<BoardEntity> boardList = boardRepository.findNoticeByBoardCategoryDesc();
+        ArrayList<BoardDto> boards = new ArrayList<>();
+        for (BoardEntity boardEntity: boardList){
+            boards.add(boardEntityToDto(boardEntity));
+        }
+        return boards;
+    }
+    //카테고리 번호 받아 글쓰기
     @Override
     public void writeBoardNotice(BoardDto board) {
         BoardEntity boardEntity = BoardEntity.builder()
@@ -27,15 +49,7 @@ public class BoardServiceImpl implements BoardService{
 
     }
 
-    @Override
-    public List<BoardDto> findAllBoard() {
-        List<BoardEntity> boardList = boardRepository.findAllByBoardDesc();
-        ArrayList<BoardDto> boards = new ArrayList<>();
-        for (BoardEntity boardEntity: boardList){
-            boards.add(boardEntityToDto(boardEntity));
-        }
-        return boards;
-    }
+
 
     @Override
     public BoardDto findBoardByBoardNo(int boardNo) {
@@ -52,6 +66,7 @@ public class BoardServiceImpl implements BoardService{
         boardEntity.setBoardContent(board.getBoardContent());
         boardRepository.save(boardEntity);
     }
+
 
 
 }

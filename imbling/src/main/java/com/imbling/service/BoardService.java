@@ -2,6 +2,7 @@ package com.imbling.service;
 
 import com.imbling.dto.BoardDto;
 import com.imbling.entity.BoardEntity;
+import jdk.jfr.Category;
 
 import java.util.List;
 
@@ -34,13 +35,15 @@ public interface BoardService {
                             .build();
         return boardEntity;
     }
+    List<BoardDto> findEventBoard();
 
     void writeBoardNotice(BoardDto board);
 
-    List<BoardDto> findAllBoard();
+    List<BoardDto> findNoticeBoard();
 
     BoardDto findBoardByBoardNo(int boardNo);
 
     void modifiedNoticeBoard(BoardDto board);
+
 
 }

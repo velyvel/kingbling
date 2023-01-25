@@ -28,7 +28,7 @@
                         <li><a href="/home">Blog</a></li>
                         <li><a href="/member/login">로그인</a></li>
                         <li><a href="/member/register">회원가입</a></li>
-                        <li><a href="/board/home">게시판</a>
+                        <li><a href="/board/event">게시판</a>
                             <ul class="dropdown">
                                 <li><a href="/board/notice">공지사항/문의</a></li>
                                 <li><a href="/board/review">상품후기</a></li>

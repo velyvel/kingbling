@@ -24,28 +24,36 @@ public class BoardController {
 	@Qualifier("boardService")
 	private BoardService boardService;
 
-//페이지 보여주기
-	@GetMapping(path = {"/home"})
-	public String showBoardHome(){
-		return "board/home";
+//이벤트(메인)페이지 보여주기
+	@GetMapping(path = {"/event"})
+	public String showBoardHome(@RequestParam(defaultValue = "1") int pageNo, Model model){
+		List<BoardDto> boards = boardService.findEventBoard();
+		model.addAttribute("boards", boards);
+		model.addAttribute("pageNo", pageNo);
+
+		return "board/event";
 	}
 
+
+
+//============================ 공지사항 ============================
+//공지사항 페이지 보여주기
 	@GetMapping(path = { "/notice" })
 	public String showBoardNotice(@RequestParam (defaultValue = "1") int pageNo, Model model) {
-		List<BoardDto> boards = boardService.findAllBoard();
+		List<BoardDto> boards = boardService.findNoticeBoard();
 		model.addAttribute("boards", boards);
 		model.addAttribute("pageNo", pageNo);
 
 		return "board/notice";
 	}
-
-	@GetMapping(path = {"/writeNotice"})
+//공지사항 작성 페이지 보여주기
+	@GetMapping(path = {"/noticeWrite"})
 	public String showWriteNotice(){
 
-		return "board/writeNotice";
+		return "board/noticeWrite";
 	}
-//(카테고리별로 나누어 게시판 작성)
-	@PostMapping(path = {"/writeNotice"})
+//공지사항 작성(카테고리별로 나눔)
+	@PostMapping(path = {"/noticeWrite"})
 	public String writeNotice(BoardDto board){
 
 		int boardCategory = board.getBoardCategory();
@@ -57,13 +65,13 @@ public class BoardController {
 			return "redirect:notice";
 		}else if(boardCategory == 2) {
 			board.setBoardCategory(board.getBoardCategory());
-			return "redirect:home";
+			return "redirect:event";
 		} else {
-			return "board/writeNotice";
+			return "board/noticeWrite";
 		}
 
 	}
-// 글 상세보기
+// 공지사항 상세보기
 	@GetMapping(path = {"/noticeDetail"})
 	public String showNoticeDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, Model model){
 		BoardDto board = boardService.findBoardByBoardNo(boardNo);
@@ -72,7 +80,7 @@ public class BoardController {
 		return "board/noticeDetail";
 	}
 
-// 글 수정화면 보여주기
+// 공지사항 수정화면 보여주기
 	@GetMapping(path = {"/noticeEdit"})
 	public String showNoticeEdit(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, Model model){
 		BoardDto board = boardService.findBoardByBoardNo(boardNo);
@@ -83,7 +91,7 @@ public class BoardController {
 		return "board/noticeEdit";
 	}
 
-// 글 수정(기능)
+// 공지사항 수정(기능)
 	@PostMapping(path = {"/noticeEdit"})
 	public String noticeEdit(@RequestParam(defaultValue = "-1") int pageNo, BoardDto board, Model model){
 
@@ -93,12 +101,8 @@ public class BoardController {
 		return "redirect:noticeDetail?boardNo=" + board.getBoardNo() + "&pageNo=" + pageNo;
 	}
 
-//리뷰페이지 보여주기
-	@GetMapping(path = { "/review" })
-	public String showBoardReview() {
+//============================ 1:1문의 ============================
 
-		return "board/review";
-	}
 
 
 

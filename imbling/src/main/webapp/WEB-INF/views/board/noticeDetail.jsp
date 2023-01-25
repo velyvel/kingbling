@@ -27,6 +27,7 @@
             <form method="get" id="noticeDetail" action="noticeDetail">
             <div style="float: right;">
                 <a href="notice"class="btn btn-danger"><i class="fas fa-sticky-note"></i>목록보기</a>
+                <a href="event"class="btn btn-danger"><i class="fas fa-sticky-note"></i>목록보기2</a>
                 <input type="button" id="editBtn" value="글 수정" class="btn btn-success">
             </div>
             <h5>상세보기</h5>

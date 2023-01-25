@@ -96,7 +96,7 @@
 <script type="text/javascript">
 
         $('#boardContent').summernote({
-            placeholder: '관라자가 공지사항 작성',
+            placeholder: '관리자가 공지사항 작성',
             tabsize: 2,
             height: 500,
             lang:'ko-KR'

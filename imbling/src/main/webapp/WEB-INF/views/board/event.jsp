@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -19,7 +20,7 @@
     <jsp:include page="/WEB-INF/views/modules/common-offcanvas.jsp" />
     <jsp:include page="/WEB-INF/views/modules/header.jsp" />
     <!-- ****************************** 바로가기메뉴 ************************** -->
-    <a href="home"class="btn btn-secondary">게시판홈</a>
+    <a href="event"class="btn btn-secondary">게시판홈</a>
     <a href="notice"class="btn btn-secondary">공지사항</a>
     <a href="review"class="btn btn-secondary">상품후기</a>
     <br><br>
@@ -61,9 +62,10 @@
             </div>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
             <div style="float: right;">
-                <a href="#"class="btn btn-secondary">편집하기</a>
+                <a href="noticeWrite" class="btn btn-dark" style="margin-bottom: 10px;">글쓰기</a></button>
             </div>
         </div>
+        <form method="get" name="noticeWrite">
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
@@ -73,62 +75,19 @@
                         <th>내용</th>
                         <th>이벤트 기간</th>
                         <th>진행상황</th>
+                        <th>조회수</th>
                     </tr>
                     </thead>
                     <tbody style="align-content: center;">
+                    <c:forEach var="board" items="${boards}">
                     <tr>
-                        <td>새해 덕담 이벤트</td>
-                        <td>덕담 나누고 복주머니 받아가고 두마리토끼 잡아가세영</td>
-                        <td>2023.01.01~2023.01.31</td>
-                        <td>
-<%--                            <div class="my-2"></div>--%>
-                            <a href="#" class="btn btn-success btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-check"></i>
-                                        </span>
-                                <span class="text">진행중</span>
-                            </a>
-                        </td>
+                        <td>${board.boardTitle}</td>
+                        <td><a href="noticeDetail?boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardContent}</a></td>
+                        <td>${board.boardRegDate}</td>
+                        <td>${board.boardRegDate}</td>
+                        <td>${board.boardCount}</td>
                     </tr>
-                    <tr>
-                        <td>새해 덕담 이벤트</td>
-                        <td>덕담 나누고 복주머니 받아가고 두마리토끼 잡아가세영</td>
-                        <td>2023.01.01~2023.01.31</td>
-                        <td>
-                            <a href="#" class="btn btn-danger btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-trash"></i>
-                                        </span>
-                                <span class="text">종료됨</span>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>새해 덕담 이벤트</td>
-                        <td>덕담 나누고 복주머니 받아가고 두마리토끼 잡아가세영</td>
-                        <td>2023.01.01~2023.01.31</td>
-                        <td>
-                            <a href="#" class="btn btn-danger btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-trash"></i>
-                                        </span>
-                                <span class="text">종료됨</span>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>새해 덕담 이벤트</td>
-                        <td>덕담 나누고 복주머니 받아가고 두마리토끼 잡아가세영</td>
-                        <td>2023.01.01~2023.01.31</td>
-                        <td>
-                            <a href="#" class="btn btn-success btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-check"></i>
-                                        </span>
-                                <span class="text">진행중</span>
-                            </a>
-                        </td>
-                    </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
                 <nav aria-label="...">
@@ -148,6 +107,7 @@
                 </nav>
             </div>
         </div>
+        </form>
     </div>
     <!-- ****************************** end of 이벤트리스트 ************************** -->
 

@@ -19,7 +19,7 @@
     <jsp:include page="/WEB-INF/views/modules/common-offcanvas.jsp" />
     <jsp:include page="/WEB-INF/views/modules/header.jsp" />
 <!-- ****************************** 바로가기메뉴 ************************** -->
-    <a href="home"class="btn btn-secondary">게시판홈</a>
+    <a href="event"class="btn btn-secondary">게시판홈</a>
     <a href="notice"class="btn btn-secondary">공지사항</a>
     <a href="review"class="btn btn-secondary">상품후기</a>
     <br><br>

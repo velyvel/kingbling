@@ -20,7 +20,7 @@
     <jsp:include page="/WEB-INF/views/modules/common-offcanvas.jsp" />
     <jsp:include page="/WEB-INF/views/modules/header.jsp" />
 
-    <a href="home"class="btn btn-secondary">게시판홈</a>
+    <a href="event"class="btn btn-secondary">게시판홈</a>
     <a href="notice"class="btn btn-secondary">공지사항</a>
     <a href="review"class="btn btn-secondary">상품후기</a>
     <br><br>
@@ -233,8 +233,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <span>공지사항 리스트</span>
-            <form
-                    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                 <div class="input-group">
                     <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                            aria-label="Search" aria-describedby="basic-addon2">
@@ -247,10 +246,10 @@
             </form>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
             <div style="float: right;">
-                <a href="writeNotice" class="btn btn-dark" style="margin-bottom: 10px;">편집하기</a></button>
+                <a href="noticeWrite" class="btn btn-dark" style="margin-bottom: 10px;">글쓰기</a></button>
             </div>
         </div>
-        <form method="get" name="writeNotice">
+        <form method="get" name="noticeWrite">
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">

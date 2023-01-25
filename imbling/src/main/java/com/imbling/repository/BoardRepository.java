@@ -9,10 +9,14 @@ import java.util.List;
 
 public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
 
-    @Query(value = "SELECT * FROM imb_board ORDER BY boardRegDate DESC", nativeQuery = true)
-    List<BoardEntity> findAllByBoardDesc();
+    @Query(value = "SELECT * FROM imb_board WHERE boardcategory=1 ORDER BY boardRegDate DESC", nativeQuery = true)
+    List<BoardEntity> findEventByBoardCategoryDesc();
+
+    @Query(value = "SELECT * FROM imb_board WHERE boardcategory=2 ORDER BY boardRegDate DESC", nativeQuery = true)
+    List<BoardEntity> findNoticeByBoardCategoryDesc();
 
 
     BoardEntity findByBoardNo(int boardNo);
+
 
 }
