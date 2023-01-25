@@ -27,13 +27,13 @@ public class ProductEntity {
 	@Column(nullable = false)
 	private int productNo; // 상품 식별자
 
-	@Column(nullable = false)
-	private String productName; // 상품
+	@Column(length = 50, nullable = false)
+	private String productName; // 상품명 
 
-	@Column
+	@Column(length = 5000)
 	private String productContent; // 상품 설명
 
-	@Column(nullable = false)
+	@Column(length = 200, nullable = false)
 	private String productImage; // 상품 이미지
 
 	@Column(nullable = false)

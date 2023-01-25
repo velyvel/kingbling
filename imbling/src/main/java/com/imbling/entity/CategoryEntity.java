@@ -31,7 +31,7 @@ public class CategoryEntity {
 	@Column(nullable=false)
 	private int categoryNo;			// 카테고리 식별자 
 	
-	@Column
+	@Column(length = 50, nullable = false)
 	private String categoryName;	// 카테고리 이름 
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

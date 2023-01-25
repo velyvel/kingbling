@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -246,7 +247,7 @@
             </form>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
             <div style="float: right;">
-                <button type="button" class="btn btn-dark" style="margin-bottom: 10px;">편집하기</button>
+                <a href="writeNotice" class="btn btn-dark" style="margin-bottom: 10px;">편집하기</a></button>
             </div>
         </div>
         <div class="card-body">
@@ -254,47 +255,25 @@
                 <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
-                        <th>Salary</th>
+                        <th>글번호</th>
+                        <th>카테고리</th>
+                        <th>제목</th>
+                        <th>내용</th>
+                        <th>작성날짜</th>
+                        <th>조회수</th>
                     </tr>
                     </thead>
                     <tbody>
+                    <c:forEach var="board" items="${boards}">
                     <tr>
-                        <td>Haley Kennedy</td>
-                        <td>Senior Marketing Designer</td>
-                        <td>London</td>
-                        <td>43</td>
-                        <td>2012/12/18</td>
-                        <td>$313,500</td>
+                        <td>${board.boardNo}</td>
+                        <td>${board.boardCategory}</td>
+                        <td>${board.title}</td>
+                        <td>${board.content}</td>
+                        <td>${board.regdate}</td>
+                        <td>${board.boardCount}</td>
                     </tr>
-                    <tr>
-                        <td>Tatyana Fitzpatrick</td>
-                        <td>Regional Director</td>
-                        <td>London</td>
-                        <td>19</td>
-                        <td>2010/03/17</td>
-                        <td>$385,750</td>
-                    </tr>
-                    <tr>
-                        <td>Michael Silva</td>
-                        <td>Marketing Designer</td>
-                        <td>London</td>
-                        <td>66</td>
-                        <td>2012/11/27</td>
-                        <td>$198,500</td>
-                    </tr>
-                    <tr>
-                        <td>Paul Byrd</td>
-                        <td>Chief Financial Officer (CFO)</td>
-                        <td>New York</td>
-                        <td>64</td>
-                        <td>2010/06/09</td>
-                        <td>$725,000</td>
-                    </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
                 <nav aria-label="...">
@@ -319,92 +298,92 @@
     <!-- ****************************** 1:1 문의사항 리스트 보여주기 ************************** -->
     <br>
     <br>
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <span>1:1 문의사항 리스트</span>
-            <forme
-                    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                           aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search fa-sm"></i>
-                        </button>
-                    </div>
-                </div>
-            </forme>
-            <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
-            <div style="float: right;">
-                <button type="button" class="btn btn-dark" style="margin-bottom: 10px;">편집하기</button>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
-                        <th>Salary</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Haley Kennedy</td>
-                        <td>Senior Marketing Designer</td>
-                        <td>London</td>
-                        <td>43</td>
-                        <td>2012/12/18</td>
-                        <td>$313,500</td>
-                    </tr>
-                    <tr>
-                        <td>Tatyana Fitzpatrick</td>
-                        <td>Regional Director</td>
-                        <td>London</td>
-                        <td>19</td>
-                        <td>2010/03/17</td>
-                        <td>$385,750</td>
-                    </tr>
-                    <tr>
-                        <td>Michael Silva</td>
-                        <td>Marketing Designer</td>
-                        <td>London</td>
-                        <td>66</td>
-                        <td>2012/11/27</td>
-                        <td>$198,500</td>
-                    </tr>
-                    <tr>
-                        <td>Paul Byrd</td>
-                        <td>Chief Financial Officer (CFO)</td>
-                        <td>New York</td>
-                        <td>64</td>
-                        <td>2010/06/09</td>
-                        <td>$725,000</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <nav aria-label="...">
-                    <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active" aria-current="page">
-                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
+<%--    <div class="card shadow mb-4">--%>
+<%--        <div class="card-header py-3">--%>
+<%--            <span>1:1 문의사항 리스트</span>--%>
+<%--            <forme--%>
+<%--                    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">--%>
+<%--                <div class="input-group">--%>
+<%--                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."--%>
+<%--                           aria-label="Search" aria-describedby="basic-addon2">--%>
+<%--                    <div class="input-group-append">--%>
+<%--                        <button class="btn btn-primary" type="button">--%>
+<%--                            <i class="fas fa-search fa-sm"></i>--%>
+<%--                        </button>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </forme>--%>
+<%--            &lt;%&ndash;    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현&ndash;%&gt;--%>
+<%--            <div style="float: right;">--%>
+<%--                <button type="button" class="btn btn-dark" style="margin-bottom: 10px;">편집하기</button>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="card-body">--%>
+<%--            <div class="table-responsive">--%>
+<%--                <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">--%>
+<%--                    <thead>--%>
+<%--                    <tr>--%>
+<%--                        <th>Name</th>--%>
+<%--                        <th>Position</th>--%>
+<%--                        <th>Office</th>--%>
+<%--                        <th>Age</th>--%>
+<%--                        <th>Start date</th>--%>
+<%--                        <th>Salary</th>--%>
+<%--                    </tr>--%>
+<%--                    </thead>--%>
+<%--                    <tbody>--%>
+<%--                    <tr>--%>
+<%--                        <td>Haley Kennedy</td>--%>
+<%--                        <td>Senior Marketing Designer</td>--%>
+<%--                        <td>London</td>--%>
+<%--                        <td>43</td>--%>
+<%--                        <td>2012/12/18</td>--%>
+<%--                        <td>$313,500</td>--%>
+<%--                    </tr>--%>
+<%--                    <tr>--%>
+<%--                        <td>Tatyana Fitzpatrick</td>--%>
+<%--                        <td>Regional Director</td>--%>
+<%--                        <td>London</td>--%>
+<%--                        <td>19</td>--%>
+<%--                        <td>2010/03/17</td>--%>
+<%--                        <td>$385,750</td>--%>
+<%--                    </tr>--%>
+<%--                    <tr>--%>
+<%--                        <td>Michael Silva</td>--%>
+<%--                        <td>Marketing Designer</td>--%>
+<%--                        <td>London</td>--%>
+<%--                        <td>66</td>--%>
+<%--                        <td>2012/11/27</td>--%>
+<%--                        <td>$198,500</td>--%>
+<%--                    </tr>--%>
+<%--                    <tr>--%>
+<%--                        <td>Paul Byrd</td>--%>
+<%--                        <td>Chief Financial Officer (CFO)</td>--%>
+<%--                        <td>New York</td>--%>
+<%--                        <td>64</td>--%>
+<%--                        <td>2010/06/09</td>--%>
+<%--                        <td>$725,000</td>--%>
+<%--                    </tr>--%>
+<%--                    </tbody>--%>
+<%--                </table>--%>
+<%--                <nav aria-label="...">--%>
+<%--                    <ul class="pagination">--%>
+<%--                        <li class="page-item disabled">--%>
+<%--                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>--%>
+<%--                        </li>--%>
+<%--                        <li class="page-item"><a class="page-link" href="#">1</a></li>--%>
+<%--                        <li class="page-item active" aria-current="page">--%>
+<%--                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>--%>
+<%--                        </li>--%>
+<%--                        <li class="page-item"><a class="page-link" href="#">3</a></li>--%>
+<%--                        <li class="page-item">--%>
+<%--                            <a class="page-link" href="#">Next</a>--%>
+<%--                        </li>--%>
+<%--                    </ul>--%>
+<%--                </nav>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
 </div>
 <jsp:include page="/WEB-INF/views/modules/footer.jsp" />
 

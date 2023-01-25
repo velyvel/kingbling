@@ -8,7 +8,7 @@ import lombok.Data;
 public class BoardDto {
 	
 	private int boardNo;
-	private String boardCategory;
+	private int boardCategory;
 	private String boardTitle;
 	private String boardContent;
 	private Date boardRegDate;

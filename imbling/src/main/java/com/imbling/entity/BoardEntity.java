@@ -21,14 +21,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "imb_board")
 public class BoardEntity {
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false)
 	private int boardNo;
 	
-	@Column(length = 20, nullable = false)
-	private String boardCategory;
+	@Column(nullable = false)
+	private int boardCategory;
 	
 	@Column(length = 100, nullable = false)
 	private String boardTitle;

@@ -97,7 +97,7 @@
                 </form>
                 <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
                 <div style="float: right;">
-                    <a href="write"class="btn btn-secondary">후기 작성하기</a>
+                    <a href="writeReview"class="btn btn-secondary">후기 작성하기</a>
                 </div>
             </div>
             <div class="card-body">
