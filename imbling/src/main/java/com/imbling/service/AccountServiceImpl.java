@@ -1,6 +1,8 @@
 package com.imbling.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,11 +49,19 @@ public class AccountServiceImpl implements AccountService {
 	public AccountDto  findByUserIdAndUserPassword(String userId, String userPassword) {
 		userPassword = Util.getHashedString(userPassword, "SHA-256");
 		AccountDtoEntity loginuser=accountRepository.findByUserIdAndUserPassword(userId,userPassword);
-		System.out.printf("===========");
-		System.out.printf("\\\\\\\\\\\\");
-		System.out.print("service accountid:"+userId+"service account pw:"+userPassword);
 		AccountDto loginuserDto =accountEntityAccountDto(loginuser);
 		return loginuserDto;
+	}
+
+
+	@Override
+	public List<AccountDto> findByUserId(String userId) {
+		List<AccountDtoEntity> checkerId= accountRepository.findByUserId(userId);
+		ArrayList<AccountDto> returnId=new ArrayList<>(); 
+		for (AccountDtoEntity id :checkerId ) {
+			returnId.add(accountEntityAccountDto(id));
+		}
+		return returnId;
 	}
 
 
