@@ -1,5 +1,7 @@
 package com.imbling.service;
 
+import java.util.List;
+
 import com.imbling.dto.AccountDocImgDto;
 import com.imbling.dto.AccountDto;
 import com.imbling.entity.AccountDocImgDtoEntity;
@@ -61,5 +63,7 @@ public interface AccountService {
 	
 
 	AccountDto findByUserIdAndUserPassword(String userId, String userPassword);
+
+	List<AccountDto> findByUserId(String userId);
 
 }

@@ -2,6 +2,7 @@ package com.imbling.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -96,6 +98,23 @@ public class AccountController {
 		
 		return "redirect:login";
 	}
+	
+	@ResponseBody
+	@GetMapping(path = { "/member/checkId" })
+	public String checkId(String userId) {
+		
+		List<AccountDto> checkedMember= accountService.findByUserId(userId);
+		System.out.print("checkedMember"+checkedMember);
+		if(checkedMember.size()>0) {
+			return "success";
+
+		}else {
+			return "noId";
+
+		}
+	}
+	
+	
 
 }
 
