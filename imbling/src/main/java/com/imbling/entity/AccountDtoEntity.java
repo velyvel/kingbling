@@ -59,7 +59,7 @@ public class AccountDtoEntity {
 	
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "userNo")
+	@JoinColumn(name = "userId")
 	private Collection<AccountDocImgDtoEntity> attachments;
 	
 }
