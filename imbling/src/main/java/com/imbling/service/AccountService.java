@@ -10,6 +10,8 @@ public interface AccountService {
 	public default AccountDto accountEntityAccountDto(AccountDtoEntity accountEntity) {
 		AccountDto accountDto = new AccountDto();
 		accountDto.setUserName(accountEntity.getUserName());
+		accountDto.setUserType(accountEntity.getUserType());
+
 		accountDto.setUserPhone(accountEntity.getUserPhone());
 		accountDto.setUserEmail(accountEntity.getUserEmail());
 		accountDto.setUserAddress(accountEntity.getUserAddress());
@@ -26,6 +28,7 @@ public interface AccountService {
 		AccountDtoEntity accountEntity = AccountDtoEntity.builder()
 				.userName(accountDto.getUserName())
 				.userPhone(accountDto.getUserPhone())
+				.userType(accountDto.getUserType())
 				.userEmail(accountDto.getUserEmail())
 				.userAddress(accountDto.getUserAddress())
 				.userId(accountDto.getUserId())

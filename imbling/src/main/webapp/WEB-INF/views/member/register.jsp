@@ -79,6 +79,8 @@
                             <div class="form-group ">
                                  <input type="submit" class="btn btn-primary btn-user btn-block" value="Register Account">
                             </div>
+                            <input type="hidden" name="userType" value="basic">
+                            
                         </form>
                         <hr>
                         

@@ -36,6 +36,11 @@ public class AccountDtoEntity {
 	@Column(nullable = false)
 	private String userEmail;
 	
+	@Builder.Default
+	@Column(nullable = false)
+	private String userType="basic"; //유저 구분 
+
+	
 	@Column(nullable = false)
 	private String userAddress;
 	
