@@ -28,10 +28,10 @@ public class BoardEntity {
 	@Column(nullable = false)
 	private int boardNo;
 	
-	@Column(length = 20, nullable = false)
-	private String boardCategory;
+	@Column
+	private int boardCategory;
 	
-	@Column(length = 100, nullable = false)
+	@Column(length = 100)
 	private String boardTitle;
 	
 	@Column(length = 1000, nullable = false)
@@ -45,7 +45,7 @@ public class BoardEntity {
 	@Column(nullable = false)
 	private int boardCount = 0;
 	
-	@Column(nullable = false)
+	@Column
 	private int userNo;
 	
 	@Builder.Default

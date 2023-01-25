@@ -23,12 +23,12 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <form method="post" id="writeNotice" action="writeNotice">
+            <form method="post" id="noticeEdit" action="noticeEdit">
             <div style="float: right;">
-                <a href="notice"class="btn btn-danger"><i class="fas fa-close"></i> 취소하기</a>
+                <input id="cancelBtn" type="button" class="btn btn-danger" value="취소하기">
                 <input id="submitBtn" type="submit" class="btn btn-success" value="작성완료">
             </div>
-            <h5>게시글 작성</h5>
+            <h5>게시글 수정</h5>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
         </div>
             <div class="card-body">
@@ -52,6 +52,7 @@
                     <div class="form-group">
                         <label>제목</label>
                         <input type="text" class="form-control" placeholder="공지사항제목" name="boardTitle" value="${board.boardTitle}">
+                        ${board.boardTitle}
 <%--                        <input type="hidden" class="form-control" readonly name="boardNo" value="${board.boardNo}">--%>
 <%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
                     </div>
@@ -67,7 +68,7 @@
                         <tbody>
                         <tr>
                             <td>
-                                <textarea id="boardContent" name="boardContent"></textarea>
+                                <textarea id="boardContent" name="boardContent">${board.boardContent}</textarea>
                             </td>
                         </tr>
                         </tbody>
@@ -99,6 +100,12 @@
             tabsize: 2,
             height: 500,
             lang:'ko-KR'
+        });
+
+        $(function (){
+            $('#cancelBtn').on('click', function (event){
+                location.href='noticeDetail?boardNo=${board.boardNo}&pageNo=${pageNo}';
+            });
         });
 
     //     $(function (){

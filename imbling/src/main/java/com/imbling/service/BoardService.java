@@ -38,4 +38,9 @@ public interface BoardService {
     void writeBoardNotice(BoardDto board);
 
     List<BoardDto> findAllBoard();
+
+    BoardDto findBoardByBoardNo(int boardNo);
+
+    void modifiedNoticeBoard(BoardDto board);
+
 }

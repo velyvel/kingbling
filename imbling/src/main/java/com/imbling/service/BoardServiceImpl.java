@@ -29,12 +29,28 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public List<BoardDto> findAllBoard() {
-        List<BoardEntity> boardList = boardRepository.findAllByBoardCategoryNoByBoardNoDesc();
+        List<BoardEntity> boardList = boardRepository.findAllByBoardDesc();
         ArrayList<BoardDto> boards = new ArrayList<>();
         for (BoardEntity boardEntity: boardList){
             boards.add(boardEntityToDto(boardEntity));
         }
         return boards;
+    }
+
+    @Override
+    public BoardDto findBoardByBoardNo(int boardNo) {
+        BoardEntity boardEntity = boardRepository.findByBoardNo(boardNo);
+        BoardDto board = boardEntityToDto(boardEntity);
+        return board;
+    }
+
+    @Override
+    public void modifiedNoticeBoard(BoardDto board) {
+        BoardEntity boardEntity = boardRepository.findByBoardNo(board.getBoardNo());
+        //boardEntity.setBoardTitle(board.getBoardTitle());
+        //boardEntity.setBoardCategory(board.getBoardCategory());
+        boardEntity.setBoardContent(board.getBoardContent());
+        boardRepository.save(boardEntity);
     }
 
 

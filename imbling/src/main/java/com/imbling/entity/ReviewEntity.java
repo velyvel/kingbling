@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Entity
-//@Table(name = "imb_review")
+@Table(name = "imb_review")
 public class ReviewEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

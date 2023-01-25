@@ -250,49 +250,52 @@
                 <a href="writeNotice" class="btn btn-dark" style="margin-bottom: 10px;">편집하기</a></button>
             </div>
         </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th>글번호</th>
-                        <th>카테고리</th>
-                        <th>제목</th>
-                        <th>내용</th>
-                        <th>작성날짜</th>
-                        <th>조회수</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="board" items="${boards}">
-                    <tr>
-                        <td>${board.boardNo}</td>
-                        <td>${board.boardCategory}</td>
-                        <td>${board.title}</td>
-                        <td>${board.content}</td>
-                        <td>${board.regdate}</td>
-                        <td>${board.boardCount}</td>
-                    </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <nav aria-label="...">
-                    <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li c`lass="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active" aria-current="page">
-                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+        <form method="get" name="writeNotice">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>글번호</th>
+                            <th>카테고리</th>
+                            <th>제목</th>
+                            <th>내용</th>
+                            <th>작성날짜</th>
+                            <th>조회수</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="board" items="${boards}">
+                            <tr>
+                                <td>${board.boardNo}</td>
+                                <td>${board.boardCategory}</td>
+                                <td>${board.boardTitle}</td>
+                                <td><a href="noticeDetail?boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardContent}</a></td>
+                                <td>${board.boardRegDate}</td>
+                                <td>${board.boardCount}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
-        </div>
+
+        </form>
     </div>
     <!-- ****************************** end of qna 리스트 보여주기 ************************** -->
     <!-- ****************************** 1:1 문의사항 리스트 보여주기 ************************** -->

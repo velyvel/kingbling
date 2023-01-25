@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <html lang="en">
@@ -23,12 +24,12 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <form method="post" id="writeNotice" action="writeNotice">
+            <form method="get" id="noticeDetail" action="noticeDetail">
             <div style="float: right;">
-                <a href="notice"class="btn btn-danger"><i class="fas fa-close"></i> 취소하기</a>
-                <input id="submitBtn" type="submit" class="btn btn-success" value="작성완료">
+                <a href="notice"class="btn btn-danger"><i class="fas fa-sticky-note"></i>목록보기</a>
+                <input type="button" id="editBtn" value="글 수정" class="btn btn-success">
             </div>
-            <h5>게시글 작성</h5>
+            <h5>상세보기</h5>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
         </div>
             <div class="card-body">
@@ -51,7 +52,7 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label>제목</label>
-                        <input type="text" class="form-control" placeholder="공지사항제목" name="boardTitle" value="${board.boardTitle}">
+                        <input type="text" class="form-control" placeholder="공지사항제목" name="boardTitle" readonly>${board.boardTitle}
 <%--                        <input type="hidden" class="form-control" readonly name="boardNo" value="${board.boardNo}">--%>
 <%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
                     </div>
@@ -66,8 +67,8 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td>
-                                <textarea id="boardContent" name="boardContent"></textarea>
+                            <td style="align-content: center;">
+                                <textarea style="width: 1000px; height: 500px;" readonly>${board.boardContent}</textarea>
                             </td>
                         </tr>
                         </tbody>
@@ -93,29 +94,13 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 <script src="/resources/dist/js/summernote-ko-KR.js"></script>
 <script type="text/javascript">
+    $(function (){
+        $('#editBtn').on('click', function (event){
+            location.href='noticeEdit?boardNo=${board.boardNo}&pageNo=${pageNo}';
+        })
+    });
 
-        $('#boardContent').summernote({
-            placeholder: '관라자가 공지사항 작성',
-            tabsize: 2,
-            height: 500,
-            lang:'ko-KR'
-        });
 
-    //     $(function (){
-    //     $('#submitBtn').on('click', function (event){
-    //         event.preventDefault();
-    //         const boardTitle = $('input[name = boardTitle]').val();
-    //         const boardContent = $('textarea[name = boardContent]').val();
-    //
-    //         if (boardTitle.length==0){
-    //             alert("제목 빠짐")
-    //             return;
-    //         }else {
-    //             return;
-    //         }
-    //         $('#writeNotice')[0].submit();
-    //     });
-    // });
 </script>
 </body>
 </html>
