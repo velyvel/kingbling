@@ -13,7 +13,7 @@ public interface BoardService {
         boardDto.setBoardCategory(boardEntity.getBoardCategory());
         boardDto.setBoardTitle(boardDto.getBoardTitle());
         boardDto.setBoardContent(boardEntity.getBoardContent());
-        boardDto.setBoardRegdate(boardEntity.getBoardRegdate());
+        boardDto.setBoardRegDate(boardEntity.getBoardRegDate());
         boardDto.setBoardCount(boardEntity.getBoardCount());
         boardDto.setUserNo(boardEntity.getUserNo());
         boardDto.setBoardDeleted(boardEntity.isBoardDeleted());
@@ -27,7 +27,7 @@ public interface BoardService {
                             .boardCategory(boardDto.getBoardCategory())
                             .boardTitle(boardDto.getBoardTitle())
                             .boardContent(boardDto.getBoardContent())
-                            .boardRegdate(boardDto.getBoardRegdate())
+                            .boardRegDate(boardDto.getBoardRegDate())
                             .boardCount(boardDto.getBoardCount())
                             .userNo(boardDto.getUserNo())
                             .boardDeleted(boardDto.isBoardDeleted())
