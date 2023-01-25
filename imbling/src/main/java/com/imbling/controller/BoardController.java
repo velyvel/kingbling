@@ -1,38 +1,75 @@
 package com.imbling.controller;
 
+import com.imbling.dto.BoardDto;
+import com.imbling.service.BoardService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
+@RequestMapping(path = { "/board" })
 public class BoardController {
-	@GetMapping(path = {"/board/home"})
+	private final int PAGE_SIZE = 5;
+
+	@Autowired
+	@Qualifier("boardService")
+	private BoardService boardService;
+
+//페이지 보여주기
+	@GetMapping(path = {"/home"})
 	public String showBoardHome(){
 		return "board/home";
 	}
-//****************************** 메인이벤트 작성 및 수정 **************************
-//****************************** 이벤트 리스트 조회 및 분류(지난이벤트) 이벤트 상세보기 **************************
 
-	@GetMapping(path = { "/board/notice" })
+	@GetMapping(path = { "/notice" })
 	public String showBoardNotice() {
-		
+
 		return "board/notice";
 	}
-//****************************** 자주묻는질문 작성 및 수정 **************************
-//****************************** 공지사항작성, 수정, 상세보기, 페이징 **************************
-//****************************** 1:1  문의사항 작성(모달창), 마이페이지연결, 페이징 **************************
 
-	@GetMapping(path = { "/board/review" })
+	@GetMapping(path = {"/writeNotice"})
+	public String showWriteNotice(@RequestParam(defaultValue = "1") int pageNo, Model model){
+		List<BoardDto> boards = boardService.findAllBoard();
+		model.addAttribute("boards", boards);
+		model.addAttribute("pageNo", pageNo);
+		return "board/writeNotice";
+	}
+
+//글쓰기
+	@PostMapping(path = {"/writeNotice"})
+	public String writeNotice(BoardDto board){
+
+		int boardCategory = board.getBoardCategory();
+		boardService.writeBoardNotice(board);
+		System.out.println(board);
+
+		if(boardCategory == 1) {
+			board.setBoardCategory(board.getBoardCategory());
+			return "redirect:notice";
+		}else if(boardCategory == 2) {
+			board.setBoardCategory(board.getBoardCategory());
+			return "redirect:home";
+		} else {
+			return "board/writeNotice";
+		}
+
+	}
+
+	@GetMapping(path = { "/review" })
 	public String showBoardReview() {
 
 		return "board/review";
 	}
 
-//****************************** 베스트 후기 조회하기, 리스트 바꾸기 (연관상품으로 이동하기)**************************
-//****************************** 후기 작성, 조회(최신순), 검색, 페이징**************************
-	@GetMapping(path = { "/board/write" })
-	public String showBoardWrite() {
 
-		return "board/write";
-	}
+
+
 }
 

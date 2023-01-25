@@ -24,12 +24,12 @@
         <div class="card-header py-3">
             <div style="float: right;">
                 <a href="write"class="btn btn-danger"><i class="fas fa-close"></i> 취소하기</a>
-                <a href="write"class="btn btn-success"><i class="fas fa-pencil-alt"></i>  작성완료!</a>
+                <button class="btn btn-success" type="submit"><i class="fas fa-pencil-alt"></i>  작성완료!</button>
             </div>
             <h5>소중한 리뷰</h5>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
-
         </div>
+        <form method="post">
         <div class="card-body">
             <div class="col-sm-6" style="float: right;">
                 <div class="form-group">
@@ -46,13 +46,14 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>상품명</label>
-                    <input type="text" class="form-control" placeholder="자동으로 상품명" readonly>
+                    <input type="text" class="form-control" placeholder="자동으로 상품명" readonly name="#">
                 </div>
             </div>
             <div class="col-lg-12">
                 <div class="form-group">
                     <label>제목</label>
-                    <input type="text" class="form-control" placeholder="후기제목">
+                    <input type="text" class="form-control" placeholder="후기제목" name="">
+                    <input type="hidden" class="form-control" readonly value="#">
                 </div>
             </div>
             <div class="table-responsive">
@@ -71,15 +72,16 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="form-group">
-                    <div class="btn btn-default btn-file">
-                        <i class="fas fa-paperclip"></i> Attachment
-                        <input type="file" name="attachment">
-                    </div>
-                    <p class="help-block">첨부파일 최대: 32MB</p>
-                </div>
+<%--                <div class="form-group">--%>
+<%--                    <div class="btn btn-default btn-file">--%>
+<%--                        <i class="fas fa-paperclip"></i> Attachment--%>
+<%--                        <input type="file" name="attachment">--%>
+<%--                    </div>--%>
+<%--                    <p class="help-block">첨부파일 최대: 32MB</p>--%>
+<%--                </div>--%>
             </div>
         </div>
+        </form>
     </div>
 </div>
 <br>
