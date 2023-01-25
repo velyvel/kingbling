@@ -27,7 +27,7 @@ public class AccountServiceImpl implements AccountService {
 		member.setUserPassword(passwd); // 암호화된 패스워드를 멤버에 저장
 		
 		AccountDtoEntity accountEntity;
-		accountEntity= boardDtoToEntity(member);
+		accountEntity= accountDtoToEntity(member);
 		
 		HashSet<AccountDocImgDtoEntity> attachments = new HashSet<>();
  		for (AccountDocImgDto boardAttachDto : member.getAttachments()) {
@@ -41,6 +41,20 @@ public class AccountServiceImpl implements AccountService {
 		
 		
 	}
+
+
+	@Override
+	public AccountDto  findByUserIdAndUserPassword(String userId, String userPassword) {
+		userPassword = Util.getHashedString(userPassword, "SHA-256");
+		AccountDtoEntity loginuser=accountRepository.findByUserIdAndUserPassword(userId,userPassword);
+		System.out.printf("===========");
+		System.out.printf("\\\\\\\\\\\\");
+		System.out.print("service accountid:"+userId+"service account pw:"+userPassword);
+		AccountDto loginuserDto =accountEntityAccountDto(loginuser);
+		return loginuserDto;
+	}
+
+
 
 	
 

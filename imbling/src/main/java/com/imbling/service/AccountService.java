@@ -22,7 +22,7 @@ public interface AccountService {
 		return accountDto;		
 	}
 	
-	public default AccountDtoEntity boardDtoToEntity(AccountDto accountDto) {
+	public default AccountDtoEntity accountDtoToEntity(AccountDto accountDto) {
 		AccountDtoEntity accountEntity = AccountDtoEntity.builder()
 				.userName(accountDto.getUserName())
 				.userPhone(accountDto.getUserPhone())
@@ -53,5 +53,10 @@ public interface AccountService {
 	}
 	
 	void registerMember(AccountDto accountDto);
+
+	
+	
+
+	AccountDto findByUserIdAndUserPassword(String userId, String userPassword);
 
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,6 +35,21 @@ public class AccountController {
 		return "member/login";
 	}
 
+	@PostMapping(path = { "/member/login" })
+	public String Login(AccountDto account, HttpSession session) {
+		AccountDto  loginUser=accountService.findByUserIdAndUserPassword(account.getUserId(),account.getUserPassword());
+		if (loginUser==null) {
+			loginUser.setUserId("아이디와 비밀번호가 일치하지 않습니다 ")	;
+		}
+		session.setAttribute("loginuser", loginUser);
+
+		
+		System.out.print(loginUser);
+		return "redirect:/home"; // return "redirect:/home.action";
+	}
+
+	
+	
 	@GetMapping(path = { "/member/register" })
 	public String showRegisterForm() {
 

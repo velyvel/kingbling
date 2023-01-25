@@ -77,7 +77,7 @@
                             
                             
                             <div class="form-group ">
-                                 <input type="submit" class="form-control  btn btn-facebook" value="Register Account">
+                                 <input type="submit" class="btn btn-primary btn-user btn-block" value="Register Account">
                             </div>
                         </form>
                         <hr>
