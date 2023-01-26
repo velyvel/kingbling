@@ -6,11 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ReviewController {
-    //****************************** 자주묻는질문 작성 및 수정 **************************
-//****************************** 공지사항작성, 수정, 상세보기, 페이징 **************************
-//****************************** 1:1  문의사항 작성(모달창), 마이페이지연결, 페이징 **************************
+
 //리뷰페이지 보여주기
-    @GetMapping(path = { "/review" })
+    @GetMapping(path = { "/board/review" })
     public String showBoardReview() {
 
         return "board/review";

@@ -52,7 +52,6 @@
                     <div class="form-group">
                         <label>제목</label>
                         <input type="text" class="form-control" placeholder="공지사항제목" name="boardTitle" value="${board.boardTitle}">
-                        ${board.boardTitle}
                         <input type="hidden" class="form-control" readonly name="boardNo" value="${board.boardNo}">
 <%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
                     </div>

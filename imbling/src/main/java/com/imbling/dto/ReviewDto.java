@@ -12,7 +12,7 @@ public class ReviewDto {
     private int  userNo;
     private String reviewTitle;
     private String reviewContent;
-    private Date reviewRegdate;
+    private Date reviewRegDate;
     private int reviewStar;
     private int reviewCount;
     private boolean reviewDeleted;

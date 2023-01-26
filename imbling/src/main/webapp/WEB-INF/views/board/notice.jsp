@@ -197,26 +197,28 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">1:1문의</h5>
+                                    <div> 작성자: ${user.userName} </div>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form name="boardModal" method="post" action="boardModal.action">
                                         <div class="form-group">
-                                            <label for="recipient-name" class="col-form-label">카테고리:</label>
-                                            <input type="text" class="form-control" id="recipient-name">
+                                            <label for="recipient-name" class="col-form-label" >제목:</label>
+                                            <input type="text" class="form-control" id="recipient-name" name="boardTitle">
+                                            <input type="hidden" class="form-control" name="boardCategory" value="3">
                                         </div>
                                         <div class="form-group">
-                                            <label for="message-text" class="col-form-label">문의사항:</label>
-                                            <textarea class="form-control" id="message-text"></textarea>
+                                            <label for="message-text" class="col-form-label">내용:</label>
+                                            <textarea class="form-control" id="message-text" name="boardContent"></textarea>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소하기</button>
+                                            <input id="submitBtn" type="submit" class="btn btn-primary" value="작성완료">
                                         </div>
                                     </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소하기</button>
-                                    <button type="button" class="btn btn-primary">전송</button>
                                 </div>
                             </div>
                         </div>
@@ -299,94 +301,56 @@
     </div>
     <!-- ****************************** end of qna 리스트 보여주기 ************************** -->
     <!-- ****************************** 1:1 문의사항 리스트 보여주기 ************************** -->
+    <!--답변 버튼누르면 모달로 답변 조회 가능함; 열람은 로그인 한 사람과 관리자만 볼 수 있도록 구현-->
     <br>
     <br>
-<%--    <div class="card shadow mb-4">--%>
-<%--        <div class="card-header py-3">--%>
-<%--            <span>1:1 문의사항 리스트</span>--%>
-<%--            <forme--%>
-<%--                    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">--%>
-<%--                <div class="input-group">--%>
-<%--                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."--%>
-<%--                           aria-label="Search" aria-describedby="basic-addon2">--%>
-<%--                    <div class="input-group-append">--%>
-<%--                        <button class="btn btn-primary" type="button">--%>
-<%--                            <i class="fas fa-search fa-sm"></i>--%>
-<%--                        </button>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </forme>--%>
-<%--            &lt;%&ndash;    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현&ndash;%&gt;--%>
-<%--            <div style="float: right;">--%>
-<%--                <button type="button" class="btn btn-dark" style="margin-bottom: 10px;">편집하기</button>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="card-body">--%>
-<%--            <div class="table-responsive">--%>
-<%--                <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">--%>
-<%--                    <thead>--%>
-<%--                    <tr>--%>
-<%--                        <th>Name</th>--%>
-<%--                        <th>Position</th>--%>
-<%--                        <th>Office</th>--%>
-<%--                        <th>Age</th>--%>
-<%--                        <th>Start date</th>--%>
-<%--                        <th>Salary</th>--%>
-<%--                    </tr>--%>
-<%--                    </thead>--%>
-<%--                    <tbody>--%>
-<%--                    <tr>--%>
-<%--                        <td>Haley Kennedy</td>--%>
-<%--                        <td>Senior Marketing Designer</td>--%>
-<%--                        <td>London</td>--%>
-<%--                        <td>43</td>--%>
-<%--                        <td>2012/12/18</td>--%>
-<%--                        <td>$313,500</td>--%>
-<%--                    </tr>--%>
-<%--                    <tr>--%>
-<%--                        <td>Tatyana Fitzpatrick</td>--%>
-<%--                        <td>Regional Director</td>--%>
-<%--                        <td>London</td>--%>
-<%--                        <td>19</td>--%>
-<%--                        <td>2010/03/17</td>--%>
-<%--                        <td>$385,750</td>--%>
-<%--                    </tr>--%>
-<%--                    <tr>--%>
-<%--                        <td>Michael Silva</td>--%>
-<%--                        <td>Marketing Designer</td>--%>
-<%--                        <td>London</td>--%>
-<%--                        <td>66</td>--%>
-<%--                        <td>2012/11/27</td>--%>
-<%--                        <td>$198,500</td>--%>
-<%--                    </tr>--%>
-<%--                    <tr>--%>
-<%--                        <td>Paul Byrd</td>--%>
-<%--                        <td>Chief Financial Officer (CFO)</td>--%>
-<%--                        <td>New York</td>--%>
-<%--                        <td>64</td>--%>
-<%--                        <td>2010/06/09</td>--%>
-<%--                        <td>$725,000</td>--%>
-<%--                    </tr>--%>
-<%--                    </tbody>--%>
-<%--                </table>--%>
-<%--                <nav aria-label="...">--%>
-<%--                    <ul class="pagination">--%>
-<%--                        <li class="page-item disabled">--%>
-<%--                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>--%>
-<%--                        </li>--%>
-<%--                        <li class="page-item"><a class="page-link" href="#">1</a></li>--%>
-<%--                        <li class="page-item active" aria-current="page">--%>
-<%--                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>--%>
-<%--                        </li>--%>
-<%--                        <li class="page-item"><a class="page-link" href="#">3</a></li>--%>
-<%--                        <li class="page-item">--%>
-<%--                            <a class="page-link" href="#">Next</a>--%>
-<%--                        </li>--%>
-<%--                    </ul>--%>
-<%--                </nav>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <span>1:1 문의사항 리스트</span>
+            <forme
+                    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div class="input-group">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                           aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </forme>
+            <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
+            <div style="float: right;">
+                <button type="button" class="btn btn-dark" style="margin-bottom: 10px;">편집하기</button>
+            </div>
+        </div>
+        <form method="get" name=showModal action="showModal.action">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>작성날짜</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>답변</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="board" items="${boards}">
+                        <tr>
+                            <td>${board.boardRegDate}</td>
+                            <td>${board.boardTitle}</td>
+                            <td>${user.userName}</td>
+                            <td><button type="button" class="btn btn-primary" id="showMemo">상세보기</button></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </form>
+    </div>
 </div>
 <jsp:include page="/WEB-INF/views/modules/footer.jsp" />
 
@@ -394,7 +358,12 @@
 <script type="text/javascript">
     $('#exampleModal').on('show.bs.modal', function (event) {
 
-    })
+    });
+
+    $(function(){
+
+    });
+
 </script>
 
 </body>

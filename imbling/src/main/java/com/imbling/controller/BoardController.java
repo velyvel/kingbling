@@ -2,6 +2,7 @@ package com.imbling.controller;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.imbling.dto.BoardDto;
+import com.imbling.entity.BoardEntity;
 import com.imbling.service.BoardService;
 import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,7 @@ public class BoardController {
 
 		int boardCategory = board.getBoardCategory();
 		boardService.writeBoardNotice(board);
-		System.out.println(board);
+		//System.out.println(board);
 
 		if(boardCategory == 1) {
 			board.setBoardCategory(board.getBoardCategory());
@@ -84,6 +85,9 @@ public class BoardController {
 //	}
 	@GetMapping(path = {"/noticeDetail"})
 	public String showNoticeDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, Model model){
+
+		boardService.increaseBoardCount(boardNo);
+
 		BoardDto board = boardService.findBoardByBoardNo(boardNo);
 		model.addAttribute("board",board);
 		model.addAttribute("pageNo", pageNo);
@@ -119,10 +123,32 @@ public class BoardController {
 
 		return "redirect:/board/event?pageNo=" + pageNo;
 	}
+//============================ 1:1 문의 ============================
 
+	@PostMapping(path = {"/boardModal.action"})
+	public String writeModal(BoardDto board){
+		int boardCategory = board.getBoardCategory();
+		boardService.writeBoardModal(board);
+		System.out.println(board);
 
+		if(boardCategory == 3) {
+			board.setBoardCategory(board.getBoardCategory());
+			return "redirect:notice";
+		}else{
+			return "/";
+		}
 
+	}
+// 모달 리스트 불러오기(이건 실패, 오류는 아님)
+	@GetMapping(path = {"/showModal.action"})
+	public String showModalList(@RequestParam (defaultValue = "1") int pageNo, BoardDto board, Model model){
+		board.setBoardCategory(3);
+		List<BoardDto> boards = boardService.findModalBoard();
+		model.addAttribute("boards", boards);
+		model.addAttribute("pageNo", pageNo);
 
+		return "board/showModal.action";
+	}
 
 }
 
