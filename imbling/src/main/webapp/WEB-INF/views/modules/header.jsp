@@ -17,7 +17,7 @@
                         <li><a href="/product/list">상품</a></li>
                         <li><a href="#">마이페이지</a>
                             <ul class="dropdown">
-                                <li><a href="/mypage/myInfo">내 정보 관리❤️🧡💛</a></li>
+                                <li><a href="/mypage/myInfo">내 정보 관리</a></li>
                                 <li><a href="/mypage/cart">장바구니</a></li>
                                 <li><a href="/mypage/heart">관심상품</a></li>
                                 <li><a href="/mypage/orderList">주문내역</a></li>
