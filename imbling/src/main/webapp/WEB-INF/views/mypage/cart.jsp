@@ -8,7 +8,7 @@
     <!-- Css Styles ,font -->
     <jsp:include page="/WEB-INF/views/modules/common-css.jsp" />
     <meta charset="UTF-8">
-    <title>쇼핑카트</title>
+    <title>장바구니</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/modules/common-offcanvas.jsp" />
@@ -23,9 +23,9 @@
                     <table>
                         <thead>
                         <tr>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
+                            <th>주문 제품</th>
+                            <th>주문 수량</th>
+                            <th>주문 금액</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="product__cart__item__text">
                                     <h6>T-shirt Contrast Pocket</h6>
-                                    <h5>$98.49</h5>
+                                    <h5>300,000원</h5>
                                 </div>
                             </td>
                             <td class="quantity__item">
@@ -47,7 +47,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="cart__price">$ 30.00</td>
+                            <td class="cart__price">300,000원</td>
                             <td class="cart__close"><i class="fa fa-close"></i></td>
                         </tr>
                         <tr>
@@ -116,31 +116,30 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="continue__btn">
-                            <a href="#">Continue Shopping</a>
+                            <a href="#">쇼핑 계속 하기</a>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+<!--                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="continue__btn update__btn">
-                            <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
+                            <a href="#"><i class="fa fa-spinner"></i>장바구니 새로고침</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="cart__discount">
+<!--                 <div class="cart__discount">
                     <h6>Discount codes</h6>
                     <form action="#">
                         <input type="text" placeholder="Coupon code">
                         <button type="submit">Apply</button>
                     </form>
-                </div>
+                </div> -->
                 <div class="cart__total">
-                    <h6>Cart total</h6>
+                    <h6>장바구니 주문 총계</h6>
                     <ul>
-                        <li>Subtotal <span>$ 169.50</span></li>
-                        <li>Total <span>$ 169.50</span></li>
+                        <li>주문 총액 <span>$ 169.50</span></li>
                     </ul>
-                    <a href="#" class="primary-btn">Proceed to checkout</a>
+                    <a href="#" class="primary-btn">주문하기</a>
                 </div>
             </div>
         </div>
