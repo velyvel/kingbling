@@ -37,6 +37,8 @@ public class BoardServiceImpl implements BoardService{
         }
         return boards;
     }
+
+
     //카테고리 번호 받아 글쓰기
     @Override
     public void writeBoardNotice(BoardDto board) {
@@ -48,8 +50,14 @@ public class BoardServiceImpl implements BoardService{
         boardRepository.save(boardEntity);
 
     }
-
-
+    //카테고리 번호 받아 상세보기
+//    @Override
+//    public BoardDto findBoardByBoardNoAndBoardCategory(int boardNo, int boardCategory) {
+//        BoardEntity boardEntity = boardRepository.findByBoardNoAndCategory(boardNo, boardCategory);
+//        BoardDto board = boardEntityToDto(boardEntity);
+//
+//        return board;
+//    }
 
     @Override
     public BoardDto findBoardByBoardNo(int boardNo) {
@@ -61,12 +69,17 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public void modifiedNoticeBoard(BoardDto board) {
         BoardEntity boardEntity = boardRepository.findByBoardNo(board.getBoardNo());
-        //boardEntity.setBoardTitle(board.getBoardTitle());
-        //boardEntity.setBoardCategory(board.getBoardCategory());
+        boardEntity.setBoardTitle(board.getBoardTitle());
+        boardEntity.setBoardCategory(board.getBoardCategory());
         boardEntity.setBoardContent(board.getBoardContent());
         boardRepository.save(boardEntity);
     }
 
+    @Override
+    public void deleteBoard(int boardNo) {
+        BoardEntity boardEntity = boardRepository.findByBoardNo(boardNo);
+        boardRepository.delete(boardEntity);
+    }
 
 
 }

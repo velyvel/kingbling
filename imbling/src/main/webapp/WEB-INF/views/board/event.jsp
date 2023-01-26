@@ -83,6 +83,7 @@
                     <tr>
                         <td>${board.boardTitle}</td>
                         <td><a href="noticeDetail?boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardContent}</a></td>
+<%--                        <td><a href="noticeDetail?boardCategory=${board.boardCategory}&boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardContent}</a></td>--%>
                         <td>${board.boardRegDate}</td>
                         <td>${board.boardRegDate}</td>
                         <td>${board.boardCount}</td>

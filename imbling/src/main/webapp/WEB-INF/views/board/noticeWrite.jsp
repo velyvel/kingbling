@@ -52,7 +52,7 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label for="boardTitle">제목</label>
-                        <input type="text" class="form-control" placeholder="공지사항제목" name="boardTitle" id="boardTitle">
+                        <input type="text" class="form-control" placeholder="공지사항제목" name="boardTitle" id="boardTitle">${board.boardTitle}
 <%--                        <input type="hidden" class="form-control" readonly name="boardNo" value="${board.boardNo}">--%>
 <%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
                     </div>

@@ -34,11 +34,11 @@
             <div class="card-body">
                 <div class="col-sm-6" style="float: right;">
                     <div class="form-group">
-                        <label>게시판 종류</label>
-                        <select class="form-control">
-                            <option selected>게시판 종류 선택️</option>
-                            <option name="boardCategory" value="1">공지사항</option>
-                            <option name="boardCategory" value="2">이벤트️️</option>
+                        <label for="boardCategory">게시판 종류</label>
+                        <select class="form-control" id="boardCategory" name="boardCategory">
+                        <option selected>게시판 종류 선택️</option>
+                            <option name="boardCategory" value="1">이벤트</option>
+                            <option name="boardCategory" value="2">공지사항</option>
                         </select>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                         <label>제목</label>
                         <input type="text" class="form-control" placeholder="공지사항제목" name="boardTitle" value="${board.boardTitle}">
                         ${board.boardTitle}
-<%--                        <input type="hidden" class="form-control" readonly name="boardNo" value="${board.boardNo}">--%>
+                        <input type="hidden" class="form-control" readonly name="boardNo" value="${board.boardNo}">
 <%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
 <script type="text/javascript">
 
         $('#boardContent').summernote({
-            placeholder: '관리자가 공지사항 작성',
+            placeholder: '관자가 공지사항 작성',
             tabsize: 2,
             height: 500,
             lang:'ko-KR'

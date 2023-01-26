@@ -37,13 +37,15 @@ public interface BoardService {
     }
     List<BoardDto> findEventBoard();
 
-    void writeBoardNotice(BoardDto board);
-
     List<BoardDto> findNoticeBoard();
 
+    void writeBoardNotice(BoardDto board);
+
+    //Detail 수정
+    //BoardDto findBoardByBoardNoAndBoardCategory(int boardNo, int boardCategory);
     BoardDto findBoardByBoardNo(int boardNo);
 
     void modifiedNoticeBoard(BoardDto board);
 
-
+    void deleteBoard(int boardNo);
 }

@@ -38,11 +38,11 @@ public class BoardEntity {
 	private String boardContent;
 	
 	@Builder.Default
-	@Column(nullable = false)
+	@Column
 	private Date boardRegDate = new Date();
 	
 	@Builder.Default
-	@Column(nullable = false)
+	@Column
 	private int boardCount = 0;
 	
 	@Column
