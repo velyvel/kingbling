@@ -1,5 +1,7 @@
 package com.imbling.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,18 +19,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "imb_cart")
-public class CartEntity {
+@Table(name = "imb_order")
+public class OrderEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false)
-	private int cartNo;
+	private int orderNo;
+	
+	@Column(nullable = false) @Builder.Default
+	private String orderState ="주문완료";
+	
+	@Column(nullable = false) @Builder.Default
+	private Date orderDate = new Date();
+	
+	@Column(nullable = true)
+	private String orderDeliveryRequire;
+	
+	@Column(nullable = false)
+	private String orderPay;
 	
 	@Column(nullable = false)
 	private String userId;
-	
-	@Column(nullable = false)
-	private int cartEA;
 
 }
