@@ -8,8 +8,11 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
+import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.BoardEntity;
+import com.imbling.repository.AccountRepository;
 import com.imbling.repository.MypageRepository;
 
 @Service("mypageService")
@@ -18,6 +21,9 @@ public class MypageServiceImpl implements MypageService{
 	@Autowired
 	private MypageRepository mypageRepository;
 
+	@Autowired
+	private AccountRepository accountRepository;
+	
 	@Override
 	public List<BoardDto> findAllMyBoard() {
 		List<BoardEntity> boardList = mypageRepository.findAll();
@@ -27,6 +33,20 @@ public class MypageServiceImpl implements MypageService{
 		}
 		
 		return boards;
+	}
+
+	@Override
+	public void modifyAccount(AccountDto account) {
+		
+		AccountDtoEntity modifyAccount=accountRepository.findByUserId(account.getUserId());
+		modifyAccount.setUserEmail(account.getUserEmail());
+		modifyAccount.setUserAddress(account.getUserAddress());
+		modifyAccount.setUserName(account.getUserName());
+		modifyAccount.setUserPhone(account.getUserPhone());
+		
+		
+		
+		accountRepository.save(modifyAccount);
 	}
 
 

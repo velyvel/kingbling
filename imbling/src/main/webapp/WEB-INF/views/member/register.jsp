@@ -83,7 +83,7 @@
                             
                             
                             <div class="form-group ">
-                                 <input type="submit" class="btn btn-primary btn-user btn-block" value="Register Account">
+                                 <input type="submit" class="btn btn-primary btn-user btn-block" id="submit" value="Register Account" >
                             </div>
                             <input type="hidden" name="userType" value="basic">
                             
@@ -115,6 +115,7 @@
 					if (data == "success") {
 						//alert($("#userId").val()+"아이디 확 ")
 						$("#IdExistence").html("사용 가능합니다 ")
+						/*  $("#submit").attr("disabled","able")submit*/ 
 					} else if(data == "noId") {
 						//alert('noId')//컨트롤러 오작
 						$("#IdExistence").html("사용 불가능합니다 ")

@@ -64,6 +64,6 @@ public interface AccountService {
 
 	AccountDto findByUserIdAndUserPassword(String userId, String userPassword);
 
-	List<AccountDto> findByUserId(String userId);
+	AccountDto findByUserId(String userId);
 
 }

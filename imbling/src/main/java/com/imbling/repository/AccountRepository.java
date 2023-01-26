@@ -13,6 +13,6 @@ public interface AccountRepository extends JpaRepository<AccountDtoEntity, Strin
 //	@Query(value = "SELECT user FROM imb_user user  WHERE user.userId = :userId and user.userPassword= :userPassword")
 	AccountDtoEntity findByUserIdAndUserPassword(String userId, String userPassword);
 
-	List<AccountDtoEntity> findByUserId(String userId);
+	AccountDtoEntity findByUserId(String userId);
 
 }
