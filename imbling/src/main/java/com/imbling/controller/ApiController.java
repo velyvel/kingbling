@@ -41,17 +41,13 @@ public class ApiController {
         	e.printStackTrace();
         }
 
-//      String apiURL = "https://openapi.naver.com/v1/search/shop.json?query=" + text;    // JSON 결과
         String apiURL = "https://openapi.naver.com/v1/search/shop.xml?query="+ text; // XML 결과
-
-        apiURL += "&display=100";
+        apiURL += "&display=60";
 
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         
-//        String responseBody = get(apiURL,requestHeaders);
-//        System.out.println(responseBody);
         HashMap<String, Object> response = new HashMap<>();
         try {
         	HttpURLConnection con = connect(apiURL);
