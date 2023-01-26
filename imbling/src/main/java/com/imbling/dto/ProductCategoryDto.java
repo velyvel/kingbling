@@ -3,7 +3,7 @@ package com.imbling.dto;
 import lombok.Data;
 
 @Data
-public class CategoryDto {
+public class ProductCategoryDto {
 
 	private int categoryNo;
 	private String categoryName;

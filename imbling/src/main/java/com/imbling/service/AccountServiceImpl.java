@@ -55,13 +55,15 @@ public class AccountServiceImpl implements AccountService {
 
 
 	@Override
-	public List<AccountDto> findByUserId(String userId) {
-		List<AccountDtoEntity> checkerId= accountRepository.findByUserId(userId);
-		ArrayList<AccountDto> returnId=new ArrayList<>(); 
-		for (AccountDtoEntity id :checkerId ) {
-			returnId.add(accountEntityAccountDto(id));
+	public AccountDto findByUserId(String userId) {
+		AccountDtoEntity checkerId= accountRepository.findByUserId(userId);
+		if(checkerId==null) {
+			return null;
+		}else {
+			AccountDto returnId=accountEntityAccountDto(checkerId);
+			return returnId;	
 		}
-		return returnId;
+		
 	}
 
 
