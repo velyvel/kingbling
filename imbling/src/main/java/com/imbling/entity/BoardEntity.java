@@ -22,32 +22,32 @@ import lombok.NoArgsConstructor;
 @Table(name = "imb_board")
 public class BoardEntity {
 
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false)
 	private int boardNo;
-	
+
 	@Column
 	private int boardCategory;
-	
+
 	@Column(length = 100)
 	private String boardTitle;
-	
+
 	@Column(length = 1000, nullable = false)
 	private String boardContent;
-	
+
 	@Builder.Default
-	@Column
+	@Column(nullable = false)
 	private Date boardRegDate = new Date();
-	
+
 	@Builder.Default
-	@Column
+	@Column(nullable = false)
 	private int boardCount = 0;
-	
+
 	@Column
 	private int userNo;
-	
+
 	@Builder.Default
 	@Column(nullable = false)
 	private boolean boardDeleted = false;
