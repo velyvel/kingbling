@@ -25,6 +25,7 @@ var lang_kor = {
     };
 $(document).ready(function() {
   $('#dataTable').DataTable({
-	  language : lang_kor
+	  language : lang_kor,
+	  order: [ [ 0, "desc" ] ]
   });
 });
