@@ -25,7 +25,6 @@
                                 <li><a href="/mypage/goodbye">회원 탈퇴</a></li>
                             </ul>
                         </li>
-                        <li><a href="/home">Blog</a></li>
                         <li><a href="/member/login">로그인</a></li>
                         <li><a href="/member/register">회원가입</a></li>
                         <li><a href="/board/event">게시판</a>
