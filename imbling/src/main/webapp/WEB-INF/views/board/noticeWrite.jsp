@@ -35,8 +35,8 @@
             <div class="card-body">
                 <div class="col-sm-6" style="float: right;">
                     <div class="form-group">
-                        <label for="boardCategory" >게시판 종류</label>
-                        <select class="form-control" id="boardCategory" name="boardCategory">
+                        <label for="boardCategory">게시판 종류</label>
+                        <select class="form-control" id="boardCategory" name="boardCategory" required>
                             <option selected>게시판 종류 선택️</option>
                             <option value="1">이벤트</option>
                             <option value="2">공지사항️️</option>
@@ -99,24 +99,30 @@
             placeholder: '관라자가 공지사항 작성',
             tabsize: 2,
             height: 500,
-            lang:'ko-KR'
         });
 
-    //     $(function (){
-    //     $('#submitBtn').on('click', function (event){
-    //         event.preventDefault();
-    //         const boardTitle = $('input[name = boardTitle]').val();
-    //         const boardContent = $('textarea[name = boardContent]').val();
-    //
-    //         if (boardTitle.length==0){
-    //             alert("제목 빠짐")
-    //             return;
-    //         }else {
-    //             return;
-    //         }
-    //         $('#writeNotice')[0].submit();
-    //     });
-    // });
+        $(function (){
+        $('#submitBtn').on('click', function (event){
+            event.preventDefault();
+            const boardTitle = $('input[name = boardTitle]').val();
+            const boardContent = $('textarea[name = boardContent]').val();
+            const boardCategory = $('select[name="boardCategory]').val();
+
+            if (boardTitle.length==0){
+                alert("제목 빠짐")
+                return;
+            }else if(boardContent.length==0){
+                alert("내용이 없다")
+                return;
+            }else if(boardCategory == null){
+                alert("아이고오 카테고리가 빠졌슈")
+                return;
+            }else{
+                return;
+            }
+            // $('#writeNotice')[0].submit();
+        });
+    });
 </script>
 </body>
 </html>

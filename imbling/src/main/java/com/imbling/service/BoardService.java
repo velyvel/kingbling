@@ -43,6 +43,8 @@ public interface BoardService {
 
     //Detail 수정
     //BoardDto findBoardByBoardNoAndBoardCategory(int boardNo, int boardCategory);
+    BoardDto findBoardByBoardNo(int boardNo, int boardCategory);
+
     BoardDto findBoardByBoardNo(int boardNo);
 
     void modifiedNoticeBoard(BoardDto board);

@@ -66,10 +66,10 @@ public class BoardController {
 
 		if(boardCategory == 1) {
 			board.setBoardCategory(board.getBoardCategory());
-			return "redirect:notice";
+			return "redirect:event";
 		}else if(boardCategory == 2) {
 			board.setBoardCategory(board.getBoardCategory());
-			return "redirect:event";
+			return "redirect:notice";
 		} else {
 			return "board/noticeWrite";
 		}
@@ -83,14 +83,16 @@ public class BoardController {
 //		model.addAttribute("pageNo", pageNo);
 //		return "board/noticeDetail";
 //	}
+	//====여기 수정 중
 	@GetMapping(path = {"/noticeDetail"})
-	public String showNoticeDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, Model model){
+	public String showNoticeDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int boardCategory, Model model){
 
 		boardService.increaseBoardCount(boardNo);
 
-		BoardDto board = boardService.findBoardByBoardNo(boardNo);
+		BoardDto board = boardService.findBoardByBoardNo(boardNo, boardCategory);
 		model.addAttribute("board",board);
 		model.addAttribute("pageNo", pageNo);
+
 		return "board/noticeDetail";
 	}
 

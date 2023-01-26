@@ -259,8 +259,8 @@
                         <tr>
                             <th>글번호</th>
                             <th>카테고리</th>
+                            <th>작성자</th>
                             <th>제목</th>
-                            <th>내용</th>
                             <th>작성날짜</th>
                             <th>조회수</th>
                         </tr>
@@ -270,9 +270,9 @@
                             <tr>
                                 <td>${board.boardNo}</td>
                                 <td>${board.boardCategory}</td>
-                                <td>${board.boardTitle}</td>
+                                <td>${loginuser.userName}</td>
 <%--                                <td><a href="noticeDetail?boardCategory=${board.boardCategory}&boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardContent}</a></td>--%>
-                                <td><a href="noticeDetail?boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardContent}</a></td>
+                                <td><a href="noticeDetail?boardNo=${board.boardNo}&pageNo=${pageNo}&boardCategory=${board.boardCategory}">${board.boardTitle}</a></td>
                                 <td>${board.boardRegDate}</td>
                                 <td>${board.boardCount}</td>
                             </tr>
@@ -341,7 +341,7 @@
                         <tr>
                             <td>${board.boardRegDate}</td>
                             <td>${board.boardTitle}</td>
-                            <td>${user.userName}</td>
+                            <td>${loginuser.userName}</td>
                             <td><button type="button" class="btn btn-primary" id="showMemo">상세보기</button></td>
                         </tr>
                     </c:forEach>

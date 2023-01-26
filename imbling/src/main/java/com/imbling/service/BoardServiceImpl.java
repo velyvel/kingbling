@@ -61,8 +61,8 @@ public class BoardServiceImpl implements BoardService{
 //    }
 
     @Override
-    public BoardDto findBoardByBoardNo(int boardNo) {
-        BoardEntity boardEntity = boardRepository.findByBoardNo(boardNo);
+    public BoardDto findBoardByBoardNo(int boardNo, int boardCategory) {
+        BoardEntity boardEntity = boardRepository.findByBoardNoAndBoardCategory(boardNo, boardCategory);
         BoardDto board = boardEntityToDto(boardEntity);
         return board;
     }
