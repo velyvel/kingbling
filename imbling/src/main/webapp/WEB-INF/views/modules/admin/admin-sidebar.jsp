@@ -56,6 +56,13 @@
                     <span>주문 내역</span>
                 </a>
             </li>
+            
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/board/event">
+                    <i class="fas fa-chalkboard"></i>
+                    <span>게시판 관리</span>
+                </a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

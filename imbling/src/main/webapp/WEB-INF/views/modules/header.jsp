@@ -17,7 +17,7 @@
                         <li><a href="/product/list">상품</a></li>
                         <li><a href="#">마이페이지</a>
                             <ul class="dropdown">
-                                <li><a href="/mypage/myInfo">내 정보 관리❤️🧡💛</a></li>
+                                <li><a href="/mypage/myInfo">내 정보 관리</a></li>
                                 <li><a href="/mypage/cart">장바구니</a></li>
                                 <li><a href="/mypage/heart">관심상품</a></li>
                                 <li><a href="/mypage/orderList">주문내역</a></li>
@@ -25,7 +25,6 @@
                                 <li><a href="/mypage/goodbye">회원 탈퇴</a></li>
                             </ul>
                         </li>
-                        <li><a href="/home">Blog</a></li>
                         <li><a href="/member/login">로그인</a></li>
                         <li><a href="/member/register">회원가입</a></li>
                         <li><a href="/board/event">게시판</a>

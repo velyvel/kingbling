@@ -19,37 +19,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "imb_board")
-public class BoardEntity {
-
-
+@Table(name = "imb_order")
+public class OrderEntity {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false)
-	private int boardNo;
+	private int orderNo;
 	
-	@Column(length = 100)
-	private int boardCategory;
-
-	@Column(length = 100)
-	private String boardTitle;
-
-	@Column(length = 1000, nullable = false)
-	private String boardContent;
-
-	@Builder.Default
+	@Column(nullable = false) @Builder.Default
+	private String orderState ="주문완료";
+	
+	@Column(nullable = false) @Builder.Default
+	private Date orderDate = new Date();
+	
+	@Column(nullable = true)
+	private String orderDeliveryRequire;
+	
 	@Column(nullable = false)
-	private Date boardRegDate = new Date();
-
-	@Builder.Default
+	private String orderPay;
+	
 	@Column(nullable = false)
-	private int boardCount = 0;
-
-	@Column
-	private int userNo;
-
-	@Builder.Default
-	@Column(nullable = false)
-	private boolean boardDeleted = false;
+	private String userId;
 
 }

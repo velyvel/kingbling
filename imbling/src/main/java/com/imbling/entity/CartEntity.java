@@ -1,7 +1,5 @@
 package com.imbling.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,37 +17,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "imb_board")
-public class BoardEntity {
-
-
+@Table(name = "imb_cart")
+public class CartEntity {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false)
-	private int boardNo;
+	private int cartNo;
 	
-	@Column(length = 100)
-	private int boardCategory;
-
-	@Column(length = 100)
-	private String boardTitle;
-
-	@Column(length = 1000, nullable = false)
-	private String boardContent;
-
-	@Builder.Default
 	@Column(nullable = false)
-	private Date boardRegDate = new Date();
-
-	@Builder.Default
+	private String userId;
+	
 	@Column(nullable = false)
-	private int boardCount = 0;
-
-	@Column
-	private int userNo;
-
-	@Builder.Default
-	@Column(nullable = false)
-	private boolean boardDeleted = false;
+	private int cartEA;
 
 }
