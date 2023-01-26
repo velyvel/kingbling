@@ -41,9 +41,15 @@
                             <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                         </div>
                         <form class="user" action="/member/register" method="post"  enctype="multipart/form-data">
-                            <div class="form-group">
-                                <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                           <div class="row">
+                            <div class="form-group col-lg-6 ">
+                                <input type="text" class="form-control form-control-user" id="userId"
                                        placeholder="Name" name="userName">
+                            </div>
+                            <div class="form-group col-lg-6 ">
+                            <div id="IdExistence">아이디 중복을 확인해주세요 </div>
+             		        	<input id="btn-checkId" type="button" value="id 중복 확인 " style="height:40px"  />
+           		        	</div>
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user" id="exampleInputEmail"
@@ -95,6 +101,36 @@
 
 </div>
 <jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
+<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		$('#btn-checkId').on('click', function(event) {
+			
+			
+			$.ajax({
+				"url" : '/member/checkId',//해당 컨트롤러에서 리턴값으로success를 받
+				"method" : "get",
+				"data" : 'userId='+ $("#userId").val(),//지정된 변
+				"success" : function(data, status, xhr) {
+					if (data == "success") {
+						//alert($("#userId").val()+"아이디 확 ")
+						$("#IdExistence").html("사용 가능합니다 ")
+					} else if(data == "noId") {
+						//alert('noId')//컨트롤러 오작
+						$("#IdExistence").html("사용 불가능합니다 ")
+
+					}
+				},
+				"error" : function(xhr, status, err) {
+					alert('삭제실패 1')
+				}
+			})
+			
+			
+		});
+	});
+	</script>
+
 
 </body>
 </html>

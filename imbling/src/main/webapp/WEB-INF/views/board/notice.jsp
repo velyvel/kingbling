@@ -20,7 +20,7 @@
     <jsp:include page="/WEB-INF/views/modules/common-offcanvas.jsp" />
     <jsp:include page="/WEB-INF/views/modules/header.jsp" />
 
-    <a href="home"class="btn btn-secondary">게시판홈</a>
+    <a href="event"class="btn btn-secondary">게시판홈</a>
     <a href="notice"class="btn btn-secondary">공지사항</a>
     <a href="review"class="btn btn-secondary">상품후기</a>
     <br><br>
@@ -233,8 +233,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <span>공지사항 리스트</span>
-            <form
-                    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                 <div class="input-group">
                     <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                            aria-label="Search" aria-describedby="basic-addon2">
@@ -247,52 +246,56 @@
             </form>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
             <div style="float: right;">
-                <a href="writeNotice" class="btn btn-dark" style="margin-bottom: 10px;">편집하기</a></button>
+                <a href="noticeWrite" class="btn btn-dark" style="margin-bottom: 10px;">글쓰기</a></button>
             </div>
         </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th>글번호</th>
-                        <th>카테고리</th>
-                        <th>제목</th>
-                        <th>내용</th>
-                        <th>작성날짜</th>
-                        <th>조회수</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="board" items="${boards}">
-                    <tr>
-                        <td>${board.boardNo}</td>
-                        <td>${board.boardCategory}</td>
-                        <td>${board.title}</td>
-                        <td>${board.content}</td>
-                        <td>${board.regdate}</td>
-                        <td>${board.boardCount}</td>
-                    </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <nav aria-label="...">
-                    <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li c`lass="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active" aria-current="page">
-                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+        <form method="get" name="noticeWrite">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>글번호</th>
+                            <th>카테고리</th>
+                            <th>제목</th>
+                            <th>내용</th>
+                            <th>작성날짜</th>
+                            <th>조회수</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="board" items="${boards}">
+                            <tr>
+                                <td>${board.boardNo}</td>
+                                <td>${board.boardCategory}</td>
+                                <td>${board.boardTitle}</td>
+<%--                                <td><a href="noticeDetail?boardCategory=${board.boardCategory}&boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardContent}</a></td>--%>
+                                <td><a href="noticeDetail?boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardContent}</a></td>
+                                <td>${board.boardRegDate}</td>
+                                <td>${board.boardCount}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
-        </div>
+
+        </form>
     </div>
     <!-- ****************************** end of qna 리스트 보여주기 ************************** -->
     <!-- ****************************** 1:1 문의사항 리스트 보여주기 ************************** -->
