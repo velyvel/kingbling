@@ -31,12 +31,12 @@ public class ReviewEntity {
     @Column(nullable = false)
     private String reviewTitle;
 
-    @Column(nullable = true)
+    @Column
     private String reviewContent;
 
     @Builder.Default
     @Column
-    private Date reviewRegdate = new Date();
+    private Date reviewRegDate = new Date();
 
     @Builder.Default
     @Column

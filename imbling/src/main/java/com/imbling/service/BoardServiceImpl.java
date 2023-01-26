@@ -32,6 +32,7 @@ public class BoardServiceImpl implements BoardService{
     public List<BoardDto> findNoticeBoard() {
         List<BoardEntity> boardList = boardRepository.findNoticeByBoardCategoryDesc();
         ArrayList<BoardDto> boards = new ArrayList<>();
+        System.out.println(boardList);
         for (BoardEntity boardEntity: boardList){
             boards.add(boardEntityToDto(boardEntity));
         }
@@ -81,5 +82,29 @@ public class BoardServiceImpl implements BoardService{
         boardRepository.delete(boardEntity);
     }
 
+    @Override
+    public void increaseBoardCount(int boardNo) {
+        boardRepository.increaseBoardCount(boardNo);
+    }
+//1:1 문의 모달창
+    @Override
+    public void writeBoardModal(BoardDto board) {
+        BoardEntity boardEntity = BoardEntity.builder()
+                .boardTitle(board.getBoardTitle())
+                .boardCategory(board.getBoardCategory())
+                .boardContent(board.getBoardContent())
+                .build();
+        boardRepository.save(boardEntity);
+    }
+
+    @Override
+    public List<BoardDto> findModalBoard() {
+        List<BoardEntity> boardList = boardRepository.findModalByBoardCategoryDesc();
+        ArrayList<BoardDto> boards = new ArrayList<>();
+        for (BoardEntity boardEntity : boardList) {
+            boards.add(boardEntityToDto(boardEntity));
+        }
+        return boards;
+    }
 
 }

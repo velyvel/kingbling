@@ -68,12 +68,11 @@
         <form method="get" name="noticeWrite">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
+                        <th>이벤트기간</th>
                         <th>제목</th>
-                        <th>내용</th>
-                        <th>이벤트 기간</th>
                         <th>진행상황</th>
                         <th>조회수</th>
                     </tr>
@@ -81,31 +80,15 @@
                     <tbody style="align-content: center;">
                     <c:forEach var="board" items="${boards}">
                     <tr>
-                        <td>${board.boardTitle}</td>
-                        <td><a href="noticeDetail?boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardContent}</a></td>
-<%--                        <td><a href="noticeDetail?boardCategory=${board.boardCategory}&boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardContent}</a></td>--%>
                         <td>${board.boardRegDate}</td>
+                        <td><a href="noticeDetail?boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardTitle}</a></td>
+<%--                        <td><a href="noticeDetail?boardCategory=${board.boardCategory}&boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardContent}</a></td>--%>
                         <td>${board.boardRegDate}</td>
                         <td>${board.boardCount}</td>
                     </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <nav aria-label="...">
-                    <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active" aria-current="page">
-                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
         </div>
         </form>

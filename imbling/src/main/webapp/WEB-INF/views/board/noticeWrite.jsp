@@ -45,14 +45,14 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>작성날짜</label>
-                        <input type="date" class="form-control">
+                        <label for="boardRegDate">작성날짜</label>
+                        <input type="date" class="form-control" id="boardRegDate">
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label for="boardTitle">제목</label>
-                        <input type="text" class="form-control" placeholder="공지사항제목" name="boardTitle" id="boardTitle">${board.boardTitle}
+                        <input type="text" class="form-control" placeholder="공지사항제목" name="boardTitle" id="boardTitle">
 <%--                        <input type="hidden" class="form-control" readonly name="boardNo" value="${board.boardNo}">--%>
 <%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
                     </div>

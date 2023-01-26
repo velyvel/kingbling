@@ -12,7 +12,7 @@ public interface BoardService {
         BoardDto boardDto = new BoardDto();
         boardDto.setBoardNo(boardEntity.getBoardNo());
         boardDto.setBoardCategory(boardEntity.getBoardCategory());
-        boardDto.setBoardTitle(boardDto.getBoardTitle());
+        boardDto.setBoardTitle(boardEntity.getBoardTitle());
         boardDto.setBoardContent(boardEntity.getBoardContent());
         boardDto.setBoardRegDate(boardEntity.getBoardRegDate());
         boardDto.setBoardCount(boardEntity.getBoardCount());
@@ -48,4 +48,10 @@ public interface BoardService {
     void modifiedNoticeBoard(BoardDto board);
 
     void deleteBoard(int boardNo);
+
+    void increaseBoardCount(int boardNo);
+
+    void writeBoardModal(BoardDto board);
+
+    List<BoardDto> findModalBoard();
 }

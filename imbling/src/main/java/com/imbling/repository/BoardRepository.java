@@ -21,6 +21,15 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
 
     BoardEntity findByBoardNo(int boardNo);
 
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE imb_board b set b. boardCount = b.boardCount + 1 WHERE b.boardNo = :boardNo", nativeQuery = true)
+    void increaseBoardCount(int boardNo);
+
+    @Query(value = "SELECT * FROM imb_board WHERE boardCategory=3 ORDER BY boardRegDate DESC", nativeQuery = true)
+    List<BoardEntity> findModalByBoardCategoryDesc();
+
+
 //    @Modifying
 //    @Query(value = "update imb_board b set b.boardcontent =#{boardContent}, b.boardregdate = sysdate where b. boardNo = #{boardNo}", nativeQuery = true)
 //    BoardEntity updateBoardOnly(int BoardNo);

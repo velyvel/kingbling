@@ -23,38 +23,35 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "imb_cartDetail")
-public class CartDetailEntity {
+@Table(name = "imb_orderDetail")
+public class OrderDetailEntity {
 	
 	@Column(nullable = false)
-	private int cartDetailEA;
+	private int orderDetailEA;
 	
 	@Column(nullable = false)
-	private int cartDetailTotalPrice;
+	private int orderDetailTotalPrice;
 	
-
 	@Embedded @Id
-	private CartDetailId cartDetailId;
+	private OrderDetailId orderDetailId;
 	
 	@SuppressWarnings("serial")
 	@Embeddable
-	public class CartDetailId implements Serializable {
+	public class OrderDetailId implements Serializable {
 		
 		@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-		@JoinColumn(name = "cartNo")
-	    private CartEntity cartNo;
+		@JoinColumn(name = "orderNo")
+	    private OrderEntity orderNo;
 
 		@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 		@JoinColumn(name = "productNo")
 		private ProductEntity productNo;
 
-	    public CartDetailId(CartEntity cartNo, ProductEntity productNo) {
-	        this.cartNo = cartNo;
+	    public OrderDetailId(OrderEntity orderNo, ProductEntity productNo) {
+	        this.orderNo = orderNo;
 	        this.productNo = productNo;
 	    }
 
 	}
-	
-	
 
 }
