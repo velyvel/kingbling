@@ -38,15 +38,28 @@ public class AccountController {
 	}
 
 	@PostMapping(path = { "/member/login" })
-	public String Login(AccountDto account, HttpSession session) {
-		AccountDto  loginUser=accountService.findByUserIdAndUserPassword(account.getUserId(),account.getUserPassword());
-		if (loginUser==null) {
-			loginUser.setUserId("아이디와 비밀번호가 일치하지 않습니다 ")	;
-		}
-		session.setAttribute("loginuser", loginUser);
-
+	public String Login(String userId,String userPassword, HttpSession session) {
 		
-		System.out.print(loginUser);
+		
+		System.out.print("Login"+userId+"Loginpw"+userPassword);
+
+		if (userId==""|| userPassword=="") {
+//			session.setAttribute("loginuser", account);
+			System.out.print("Login");
+
+			return "redirect:/home"; // return "redirect:/home.action";
+
+
+		}else {
+			AccountDto  loginUser=accountService.findByUserIdAndUserPassword(userId,userPassword);
+
+			session.setAttribute("loginuser", loginUser);
+
+		}
+		
+		
+		
+		//System.out.print(loginUser);
 		return "redirect:/home"; // return "redirect:/home.action";
 	}
 
@@ -103,9 +116,9 @@ public class AccountController {
 	@GetMapping(path = { "/member/checkId" })
 	public String checkId(String userId) {
 		
-		List<AccountDto> checkedMember= accountService.findByUserId(userId);
-		System.out.print("checkedMember"+checkedMember);
-		if(checkedMember.size()>0) {
+		//AccountDto checkedMember=;
+		//System.out.print("checkedMember"+checkedMember);
+		if( accountService.findByUserId(userId)==null) {
 			return "success";
 
 		}else {
@@ -114,7 +127,12 @@ public class AccountController {
 		}
 	}
 	
-	
+	@GetMapping(path = { "/member/logout" })
+	public String logout(HttpSession session) {
+		session.setAttribute("loginuser", null);
+
+		return "/home";
+	}
 
 }
 

@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.imbling.dto.AccountDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +26,36 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="imb_user")
 public class AccountDtoEntity {
+	
+	public AccountDtoEntity(AccountDto member) {
+		this.userName = member.getUserName();
+		this.userPhone = member.getUserPhone();
+		this.userEmail = member.getUserEmail();
+		this.userType = member.getUserType();
+		this.userAddress = member.getUserAddress();
+		this.userId = member.getUserId();
+		this.userPassword = member.getUserPassword();
+		this.userActiveState = member.isUserActiveState();
+		this.userDocValid = member.isUserDocValid();
+
+	}
+	
+	public AccountDto exportAccountDto() {
+		AccountDto member = new AccountDto();
+		member.setUserName(userName);
+		member.setUserPhone(userPhone);
+		member.setUserEmail(userEmail);
+		member.setUserType(userType);
+		member.setUserAddress(userAddress);
+		member.setUserId(userId);
+		member.setUserPassword(userPassword);
+		member.setUserActiveState(userActiveState);
+		member.setUserDocValid(userDocValid);
+
+		return member;
+	}
+	
+	
 	
 	
 	

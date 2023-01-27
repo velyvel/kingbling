@@ -43,7 +43,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#">
+                <a class="nav-link collapsed" href="/admin/product-list">
                     <i class="fas fa-list"></i>
                     <span>상품 목록</span>
                 </a>

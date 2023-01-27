@@ -179,6 +179,19 @@ ol {
 	padding: 14px 30px;
 }
 
+.cancel-btn {
+	font-size: 14px;
+	color: #111111;
+	background: #ffffff;
+	font-weight: 700;
+	border: none;
+	text-transform: uppercase;
+	display: inline-block;
+	padding: 14px 30px;
+	width:100%;
+	margin-top:10px;
+}
+
 /* Preloder */
 
 #preloder {

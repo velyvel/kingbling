@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <jsp:include page="/WEB-INF/views/modules/common-css.jsp" />
     <jsp:include page="/WEB-INF/views/modules/admin/common-css.jsp" />
-    <title>상품후기작성</title>
+    <title>상세보기</title>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -28,18 +28,16 @@
             <form method="get" id="noticeDetail" action="noticeDetail">
             <div style="float: right;">
 <%--      내가 하고 싶은 것          --%>
-<%--                <c:choose>--%>
-<%--                    <c:when test="${board.boardCategory == 1}">--%>
-<%--                        <a href="notice"class="btn btn-danger"><i class="fas fa-sticky-note"></i>1.이벤트</a>--%>
-<%--                    </c:when>--%>
-<%--                    <c:otherwise>--%>
-<%--                        <a href="event"class="btn btn-danger"><i class="fas fa-sticky-note"></i>2.공지사항</a>--%>
-<%--                    </c:otherwise>--%>
-<%--                </c:choose>--%>
-                <a href="event"class="btn btn-dark"><i class="fas fa-sticky-note"></i>1.이벤트</a>
-                <a href="notice"class="btn btn-dark"><i class="fas fa-sticky-note"></i>2.공지사항</a>
+                <c:choose>
+                    <c:when test="${board.boardCategory == 1}">
+                        <a href="event"class="btn btn-dark"><i class="fas fa-sticky-note"></i>목록보기</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="notice"class="btn btn-dark"><i class="fas fa-sticky-note"></i>목록보기</a>
+                    </c:otherwise>
+                </c:choose>
                 <input type="button" id="editBtn" value="글 수정" class="btn btn-success">
-                <input type="button" id="deleteBtn" value="글 삭제" class="btn btn-danger">
+                <input type="button" id="deleteBtn" value="글 삭제" class="btn btn-warning">
             </div>
             <h5>상세보기</h5>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
@@ -69,14 +67,20 @@
                     <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                         <thead hidden>
                         <tr>
-                            <th>
-                            </th>
+                            <th></th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <td style="align-content: center;">
-                                <textarea style="width: 1000px; height: 500px;" readonly>${board.boardContent}</textarea>
+                               <p>글 내용</p>
+                                <span id="selected-file-name"> 첨부파일: ${board.boardAttachments.attachName}</span><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="align-content: center;">
+                                ${board.boardContent}
                             </td>
                         </tr>
                         </tbody>
@@ -102,9 +106,11 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 <script src="/resources/dist/js/summernote-ko-KR.js"></script>
 <script type="text/javascript">
+
+
     $(function (){
         $('#editBtn').on('click', function (event){
-            location.href='noticeEdit?boardNo=${board.boardNo}&pageNo=${pageNo}';
+            location.href='noticeEdit?boardNo=${board.boardNo}&pageNo=${pageNo}&boardCategory=${board.boardCategory}';
         });
         $('#deleteBtn').on('click', function (event){
 

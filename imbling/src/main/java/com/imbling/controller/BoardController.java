@@ -1,6 +1,8 @@
 package com.imbling.controller;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.imbling.common.Util;
+import com.imbling.dto.BoardAttachDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.entity.BoardEntity;
 import com.imbling.service.BoardService;
@@ -10,8 +12,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -56,7 +65,40 @@ public class BoardController {
 		model.addAttribute("boardCategory", boardCategory);
 		return "board/noticeWrite";
 	}
-//공지사항 작성(카테고리별로 나눔)
+
+	@PostMapping(path = {"/uploadNoticeImageFile"})
+	@ResponseBody
+	public HashMap<String, Object> uploadNoticeImage(MultipartHttpServletRequest req){
+
+		HashMap<String, Object> response = new HashMap<>();
+
+		MultipartFile attach = req.getFile("file");
+
+		if(attach != null){
+			ServletContext application = req.getServletContext();
+			String path = application.getRealPath("/board-attachments");
+			String fileName = attach.getOriginalFilename();
+			response.put("attachName", fileName);
+
+			if(fileName != null && fileName.length()>0){
+				String uniqueFileName = Util.makeUniqueFileName(fileName); //파일 저장하는 코드입니다
+				response.put("savedFileName", uniqueFileName);
+
+				try {
+					attach.transferTo(new File(path, uniqueFileName));
+					response.put("url", "/board-attachments/"+uniqueFileName);
+				}catch (Exception ex){
+					ex.printStackTrace();
+				}
+			}
+		}
+
+		return response;
+
+
+
+	}
+//공지사항 작성(카테고리별로 나눔)//
 	@PostMapping(path = {"/noticeWrite"})
 	public String writeNotice(BoardDto board){
 
@@ -66,38 +108,33 @@ public class BoardController {
 
 		if(boardCategory == 1) {
 			board.setBoardCategory(board.getBoardCategory());
-			return "redirect:notice";
+			return "redirect:event";
 		}else if(boardCategory == 2) {
 			board.setBoardCategory(board.getBoardCategory());
-			return "redirect:event";
+			return "redirect:notice";
 		} else {
 			return "board/noticeWrite";
 		}
 
 	}
-// 공지사항 상세보기(카테고리 받아서 조회하기): 파라미터로 받으면 오류남
-//	@GetMapping(path = {"/noticeDetail"})
-//	public String showNoticeDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int boardCategory, Model model){
-//		BoardDto board = boardService.findBoardByBoardNoAndBoardCategory(boardNo, boardCategory);
-//		model.addAttribute("board",board);
-//		model.addAttribute("pageNo", pageNo);
-//		return "board/noticeDetail";
-//	}
+
+
 	@GetMapping(path = {"/noticeDetail"})
-	public String showNoticeDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, Model model){
+	public String showNoticeDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int boardCategory, Model model){
 
 		boardService.increaseBoardCount(boardNo);
 
-		BoardDto board = boardService.findBoardByBoardNo(boardNo);
+		BoardDto board = boardService.findBoardByBoardNo(boardNo, boardCategory);
 		model.addAttribute("board",board);
 		model.addAttribute("pageNo", pageNo);
+
 		return "board/noticeDetail";
 	}
 
 // 공지사항 수정화면 보여주기
 	@GetMapping(path = {"/noticeEdit"})
 	public String showNoticeEdit(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int boardCategory, Model model){
-		BoardDto board = boardService.findBoardByBoardNo(boardNo);
+		BoardDto board = boardService.findBoardByBoardNo(boardNo, boardCategory);
 		model.addAttribute("board", board);
 		model.addAttribute("boardNo", boardNo);
 		model.addAttribute("pageNo", pageNo);
@@ -108,12 +145,12 @@ public class BoardController {
 
  //공지사항 수정(기능)
 	@PostMapping(path = {"/noticeEdit"})
-	public String noticeEdit(@RequestParam(defaultValue = "-1") int pageNo, BoardDto board){
+	public String noticeEdit(@RequestParam(defaultValue = "-1") int pageNo,@RequestParam(defaultValue = "1") int boardCategory, BoardDto board){
 
 		boardService.modifiedNoticeBoard(board);
 		//System.out.println(board);
 
-		return "redirect:noticeDetail?boardNo=" + board.getBoardNo() + "&pageNo=" + pageNo;
+		return "redirect:noticeDetail?boardNo=" + board.getBoardNo() + "&pageNo=" + pageNo + "&boardCategory=" + board.getBoardCategory() ;
 	}
 
 //게시글삭제

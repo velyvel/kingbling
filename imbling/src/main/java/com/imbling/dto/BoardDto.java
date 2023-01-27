@@ -1,6 +1,8 @@
 package com.imbling.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -13,7 +15,8 @@ public class BoardDto {
 	private String boardContent;
 	private Date boardRegDate;
 	private int boardCount;
-	private int userNo;
-	private boolean boardDeleted; 
+	private String userId;
+	private boolean boardDeleted;
 
+	private List<BoardAttachDto> boardAttachments;
 }
