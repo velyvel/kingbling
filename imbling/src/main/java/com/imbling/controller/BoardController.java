@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -64,34 +65,42 @@ public class BoardController {
 		model.addAttribute("boardCategory", boardCategory);
 		return "board/noticeWrite";
 	}
-//공지사항 작성(카테고리별로 나눔)
-	@PostMapping(path = {"/noticeWrite"})
-	public String writeNotice(BoardDto board, MultipartHttpServletRequest req){
 
-//		MultipartFile attach = req.getFile("attach");
-//
-//		if(attach != null){
-//			ServletContext application = req.getServletContext();
-//			String path = application.getRealPath("/board-attachments");
-//			String fileName = attach.getOriginalFilename();
-//
-//			if(fileName != null && fileName.length()>0){
-//				String uniqueFileName = Util.makeUniqueFileName(fileName); //파일 저장하는 코드입니다
-//
-//				ArrayList<BoardAttachDto> boardAttachments = new ArrayList<>();
-//				BoardAttachDto attachment = new BoardAttachDto();
-//				attachment.setAttachName(fileName);
-//				attachment.setSavedAttachName(uniqueFileName);
-//
-//				boardAttachments.add(attachment);
-//				board.setBoardAttachments(boardAttachments);
-//				try {
-//					attach.transferTo(new File(path, uniqueFileName));
-//				}catch (Exception ex){
-//					ex.printStackTrace();
-//				}
-//			}
-//		}
+	@PostMapping(path = {"/uploadNoticeImageFile"})
+	@ResponseBody
+	public HashMap<String, Object> uploadNoticeImage(MultipartHttpServletRequest req){
+
+		HashMap<String, Object> response = new HashMap<>();
+
+		MultipartFile attach = req.getFile("file");
+
+		if(attach != null){
+			ServletContext application = req.getServletContext();
+			String path = application.getRealPath("/board-attachments");
+			String fileName = attach.getOriginalFilename();
+			response.put("attachName", fileName);
+
+			if(fileName != null && fileName.length()>0){
+				String uniqueFileName = Util.makeUniqueFileName(fileName); //파일 저장하는 코드입니다
+				response.put("savedFileName", uniqueFileName);
+
+				try {
+					attach.transferTo(new File(path, uniqueFileName));
+					response.put("url", "/board-attachments/"+uniqueFileName);
+				}catch (Exception ex){
+					ex.printStackTrace();
+				}
+			}
+		}
+
+		return response;
+
+
+
+	}
+//공지사항 작성(카테고리별로 나눔)//
+	@PostMapping(path = {"/noticeWrite"})
+	public String writeNotice(BoardDto board){
 
 		int boardCategory = board.getBoardCategory();
 		boardService.writeBoardNotice(board);
@@ -108,6 +117,7 @@ public class BoardController {
 		}
 
 	}
+
 
 	@GetMapping(path = {"/noticeDetail"})
 	public String showNoticeDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int boardCategory, Model model){

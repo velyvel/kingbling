@@ -59,16 +59,7 @@ public class BoardServiceImpl implements BoardService{
 //        }
 //        boardEntity.setBoardAttachments(boardAttachments);
         boardRepository.save(boardEntity);
-
     }
-    //카테고리 번호 받아 상세보기
-//    @Override
-//    public BoardDto findBoardByBoardNoAndBoardCategory(int boardNo, int boardCategory) {
-//        BoardEntity boardEntity = boardRepository.findByBoardNoAndCategory(boardNo, boardCategory);
-//        BoardDto board = boardEntityToDto(boardEntity);
-//
-//        return board;
-//    }
 
     @Override
     public BoardDto findBoardByBoardNo(int boardNo, int boardCategory) {
