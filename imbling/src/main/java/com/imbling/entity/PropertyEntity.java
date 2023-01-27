@@ -1,0 +1,45 @@
+package com.imbling.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "imb_property")
+public class PropertyEntity {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(nullable = false)
+	private int propertyNo; // 속성 식별자
+
+	@Column(length = 200, nullable = false)
+	private String productColor; // 상품 색상
+	
+	@Column(length = 200, nullable = false)
+	private String productSize;	// 상품 사이즈 
+	
+	@Column(nullable = false)
+	private int productEA;	// 상품 수량
+
+	// 장바구니 외래키 ...
+	// 주문 외래키 ...
+	@ManyToOne
+	@JoinColumn(name = "productNo")
+	private ProductEntity product;
+	
+}

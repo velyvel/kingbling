@@ -23,18 +23,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="imb_size")
-public class ProductSizeEntity {
+@Table(name="imb_category")
+public class CategoryEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable=false)
-	private int sizeNo;			// 사이즈 식별자 
+	private int categoryNo;			// 카테고리 식별자 
 	
-	@Column(length = 20)
-	private String sizeName;	// 사이즈 이름 
+	@Column(length = 50, nullable = false)
+	private String categoryName;	// 카테고리 이름 
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "sizeNo")
-	private Collection<ProductEntity> products;
 }

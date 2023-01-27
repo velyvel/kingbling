@@ -1,6 +1,7 @@
 package com.imbling.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -12,7 +13,9 @@ public class ProductDto {
 	private String productContent;
 	private String productImage;
 	private int productPrice;
-	private int productEA;
 	private Date productRegdate;
 	private int productCount;
+	
+	private CategoryDto category;
+	private List<PropertyDto> properties;
 }

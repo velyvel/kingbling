@@ -1,5 +1,8 @@
 package com.imbling.service;
 
+import java.util.List;
+
+import com.imbling.dto.CategoryDto;
 import com.imbling.dto.ProductDto;
 import com.imbling.entity.ProductEntity;
 
@@ -12,7 +15,6 @@ public interface ProductService {
 		productDto.setProductContent(productEntity.getProductContent());
 		productDto.setProductImage(productEntity.getProductImage());
 		productDto.setProductPrice(productEntity.getProductPrice());
-		productDto.setProductEA(productEntity.getProductEA());
 		productDto.setProductRegdate(productEntity.getProductRegdate());
 		productDto.setProductCount(productEntity.getProductCount());
 		
@@ -26,7 +28,6 @@ public interface ProductService {
 												   .productContent(productDto.getProductContent())
 												   .productImage(productDto.getProductImage())
 												   .productPrice(productDto.getProductPrice())
-												   .productEA(productDto.getProductEA())
 												   .productRegdate(productDto.getProductRegdate())
 												   .productCount(productDto.getProductCount())
 												   .build();
@@ -36,4 +37,8 @@ public interface ProductService {
 	
 	// 네이버 쇼핑 API 데이터 저장
 	void saveProductInfo(ProductDto product);
+
+	void saveCategoryInfo(CategoryDto category);
+
+	List<CategoryDto> findAllCategories();
 }
