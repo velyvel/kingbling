@@ -17,7 +17,7 @@ public interface MypageService {
 		boardDto.setBoardContent(boardEntity.getBoardContent());
 		boardDto.setBoardRegDate(boardEntity.getBoardRegDate());
 		boardDto.setBoardCount(boardEntity.getBoardCount());
-		boardDto.setUserNo(boardEntity.getUserNo());
+		boardDto.setUserId(boardEntity.getUserId());
 		boardDto.setBoardDeleted(boardEntity.isBoardDeleted());
 
 		return boardDto;
@@ -31,7 +31,7 @@ public interface MypageService {
 											 .boardContent(boardDto.getBoardContent())
 											 .boardRegDate(boardDto.getBoardRegDate())
 											 .boardCount(boardDto.getBoardCount())
-											 .userNo(boardDto.getUserNo())
+											 .userId(boardDto.getUserId())
 											 .boardDeleted(boardDto.isBoardDeleted())
 											 .build();		
 		return boardEntity;
@@ -69,7 +69,7 @@ public interface MypageService {
 		return accountEntity;
 	}
 	
-	List<BoardDto> findAllMyBoard();
+	List<BoardDto> findMyInquery(String userId);
 
 	void modifyAccount(AccountDto account);
 

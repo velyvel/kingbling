@@ -15,7 +15,7 @@ public class BoardDto {
 	private String boardContent;
 	private Date boardRegDate;
 	private int boardCount;
-	private int userNo;
+	private String userId;
 	private boolean boardDeleted;
 
 	private List<BoardAttachDto> boardAttachments;

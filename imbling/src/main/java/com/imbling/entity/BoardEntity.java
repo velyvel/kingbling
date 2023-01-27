@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "imb_board")
 public class BoardEntity {
 
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false)
@@ -41,8 +40,8 @@ public class BoardEntity {
 	@Column(nullable = false)
 	private int boardCount = 0;
 
-	@Column
-	private int userNo;
+	@Column(nullable = false)
+	private String userId;
 
 	@Builder.Default
 	@Column(nullable = false)

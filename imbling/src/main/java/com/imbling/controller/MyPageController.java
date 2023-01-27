@@ -55,14 +55,18 @@ public class MyPageController {
 		return "redirect:myInfo";
 	}
 	
+	/////////////////////////장바구니////////////////////////////////////////
 	@GetMapping(path = { "/mypage/cart", })
 	public String showCart() {
 		return "mypage/cart";
 	}
+	/////////////////////////관심상품////////////////////////////////////////
 	@GetMapping(path = { "/mypage/heart", })
 	public String showHeart() {
 		return "mypage/heart";
 	}
+	
+	//////////////////////////내 주문 내역//////////////////////////////////
 	@GetMapping(path = { "/mypage/orderList", })
 	public String showOrderList() {
 		return "mypage/orderList";
@@ -71,30 +75,33 @@ public class MyPageController {
 	public String showOrderListDetail() {
 		return "mypage/orderList-detail";
 	}
+	
+	//////////////////////////내가 쓴 게시글////////////////////////////////////////////
 	@GetMapping(path = { "/mypage/myboard", })
-	public String showByboard(Model model) {
-		
-		List<BoardDto> boards = mypageService.findAllMyBoard();
+	public String showByboard(HttpSession session,Model model) {
+		AccountDto loginUser=(AccountDto) session.getAttribute("loginuser");
+		List<BoardDto> boards = mypageService.findMyInquery(loginUser.getUserId());
 		model.addAttribute("boards", boards);
 		
 		return "mypage/myboard";
 	}
-	@GetMapping(path = { "/mypage/myboardInquery", })
-	public String showByboardInquery(Model model) {
-		
-		List<BoardDto> boards = mypageService.findAllMyBoard();
-		model.addAttribute("boards", boards);
-		
-		return "mypage/myboard-see-more";
-	}
-	@GetMapping(path = { "/mypage/myboardReview", })
-	public String showByboardReview(Model model) {
-		
-		List<BoardDto> boards = mypageService.findAllMyBoard();
-		model.addAttribute("boards", boards);
-		
-		return "mypage/myboard-see-more";
-	}
+	/*
+	 * @GetMapping(path = { "/mypage/myboardInquery", }) public String
+	 * showByboardInquery(Model model) {
+	 * 
+	 * List<BoardDto> boards = mypageService.findMyAllInquery();
+	 * model.addAttribute("boards", boards);
+	 * 
+	 * return "mypage/myboard-see-more"; }
+	 * 
+	 * @GetMapping(path = { "/mypage/myboardReview", }) public String
+	 * showByboardReview(Model model) {
+	 * 
+	 * List<BoardDto> boards = mypageService.findAllMyBoard();
+	 * model.addAttribute("boards", boards);
+	 * 
+	 * return "mypage/myboard-see-more"; }
+	 */
 
 
 	

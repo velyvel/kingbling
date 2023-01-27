@@ -11,7 +11,8 @@ import com.imbling.entity.BoardEntity;
 
 public interface MypageRepository extends JpaRepository<BoardEntity, Long> {
 	
-	List<BoardEntity> findAll();
+	@Query(value = "SELECT * FROM imb_board WHERE (boardCategory=3 AND userId= :userId AND ROWNUM<6 ) ORDER BY boardRegDate DESC", nativeQuery = true)
+	List<BoardEntity> findByIdAndCategory(@Param("userId") String userId);
 
 
 
