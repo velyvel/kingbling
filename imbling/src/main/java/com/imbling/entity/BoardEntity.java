@@ -1,13 +1,9 @@
 package com.imbling.entity;
 
+import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,5 +47,10 @@ public class BoardEntity {
 	@Builder.Default
 	@Column(nullable = false)
 	private boolean boardDeleted = false;
+
+	//첨부파일 추가
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "boardNo")
+	private Collection<BoardAttachEntity> boardAttachments;
 
 }

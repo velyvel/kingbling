@@ -1,6 +1,8 @@
 package com.imbling.controller;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.imbling.common.Util;
+import com.imbling.dto.BoardAttachDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.entity.BoardEntity;
 import com.imbling.service.BoardService;
@@ -10,8 +12,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -60,6 +67,31 @@ public class BoardController {
 	@PostMapping(path = {"/noticeWrite"})
 	public String writeNotice(BoardDto board){
 
+		//MultipartFile attach = req.getFile("attach");
+
+//		if(attach != null){
+//			ServletContext application = req.getServletContext();
+//			String path = application.getRealPath("/board-attachments");
+//			String fileName = attach.getOriginalFilename();
+//
+//			if(fileName != null && fileName.length()>0){
+//				String uniqueFileName = Util.makeUniqueFileName(fileName); //파일 저장하는 코드입니다
+//
+//				ArrayList<BoardAttachDto> boardAttachments = new ArrayList<>();
+//				BoardAttachDto attachment = new BoardAttachDto();
+//				attachment.setAttachName(fileName);
+//				attachment.setSavedAttachName(uniqueFileName);
+//
+//				boardAttachments.add(attachment);
+//				board.setBoardAttachments(boardAttachments);
+//				try {
+//					attach.transferTo(new File(path, uniqueFileName));
+//				}catch (Exception ex){
+//					ex.printStackTrace();
+//				}
+//			}
+//		}
+
 		int boardCategory = board.getBoardCategory();
 		boardService.writeBoardNotice(board);
 		//System.out.println(board);
@@ -75,15 +107,7 @@ public class BoardController {
 		}
 
 	}
-// 공지사항 상세보기(카테고리 받아서 조회하기): 파라미터로 받으면 오류남
-//	@GetMapping(path = {"/noticeDetail"})
-//	public String showNoticeDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int boardCategory, Model model){
-//		BoardDto board = boardService.findBoardByBoardNoAndBoardCategory(boardNo, boardCategory);
-//		model.addAttribute("board",board);
-//		model.addAttribute("pageNo", pageNo);
-//		return "board/noticeDetail";
-//	}
-	//====여기 수정 중
+
 	@GetMapping(path = {"/noticeDetail"})
 	public String showNoticeDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int boardCategory, Model model){
 
@@ -110,12 +134,12 @@ public class BoardController {
 
  //공지사항 수정(기능)
 	@PostMapping(path = {"/noticeEdit"})
-	public String noticeEdit(@RequestParam(defaultValue = "-1") int pageNo, BoardDto board){
+	public String noticeEdit(@RequestParam(defaultValue = "-1") int pageNo,@RequestParam(defaultValue = "1") int boardCategory, BoardDto board){
 
 		boardService.modifiedNoticeBoard(board);
 		//System.out.println(board);
 
-		return "redirect:noticeDetail?boardNo=" + board.getBoardNo() + "&pageNo=" + pageNo;
+		return "redirect:noticeDetail?boardNo=" + board.getBoardNo() + "&pageNo=" + pageNo + "&boardCategory=" ;
 	}
 
 //게시글삭제

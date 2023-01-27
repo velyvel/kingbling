@@ -101,28 +101,21 @@
             height: 500,
         });
 
-        $(function (){
-        $('#submitBtn').on('click', function (event){
-            event.preventDefault();
-            const boardTitle = $('input[name = boardTitle]').val();
-            const boardContent = $('textarea[name = boardContent]').val();
-            const boardCategory = $('select[name="boardCategory]').val();
-
-            if (boardTitle.length==0){
-                alert("제목 빠짐")
-                return;
-            }else if(boardContent.length==0){
-                alert("내용이 없다")
-                return;
-            }else if(boardCategory == null){
-                alert("아이고오 카테고리가 빠졌슈")
-                return;
-            }else{
-                return;
-            }
-            // $('#writeNotice')[0].submit();
-        });
-    });
+    //     $(function (){
+    //     $('#submitBtn').on('click', function (event){
+    //         event.preventDefault();
+    //         const boardTitle = $('input[name = boardTitle]').val();
+    //         const boardContent = $('textarea[name = boardContent]').val();
+    //
+    //         if (boardTitle.length==0){
+    //             alert("제목 빠짐")
+    //             return;
+    //         }else {
+    //             return;
+    //         }
+    //         $('#writeNotice')[0].submit();
+    //     });
+    // });
 </script>
 </body>
 </html>
