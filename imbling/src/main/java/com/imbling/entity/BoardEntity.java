@@ -42,7 +42,7 @@ public class BoardEntity {
 	private int boardCount = 0;
 
 	@Column
-	private int userNo;
+	private String userId;
 
 	@Builder.Default
 	@Column(nullable = false)

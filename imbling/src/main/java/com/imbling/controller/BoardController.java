@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.ArrayList;
@@ -65,10 +66,10 @@ public class BoardController {
 	}
 //공지사항 작성(카테고리별로 나눔)
 	@PostMapping(path = {"/noticeWrite"})
-	public String writeNotice(BoardDto board){
+	public String writeNotice(BoardDto board, MultipartHttpServletRequest req){
 
-		//MultipartFile attach = req.getFile("attach");
-
+//		MultipartFile attach = req.getFile("attach");
+//
 //		if(attach != null){
 //			ServletContext application = req.getServletContext();
 //			String path = application.getRealPath("/board-attachments");
@@ -123,7 +124,7 @@ public class BoardController {
 // 공지사항 수정화면 보여주기
 	@GetMapping(path = {"/noticeEdit"})
 	public String showNoticeEdit(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int boardCategory, Model model){
-		BoardDto board = boardService.findBoardByBoardNo(boardNo);
+		BoardDto board = boardService.findBoardByBoardNo(boardNo, boardCategory);
 		model.addAttribute("board", board);
 		model.addAttribute("boardNo", boardNo);
 		model.addAttribute("pageNo", pageNo);
@@ -139,7 +140,7 @@ public class BoardController {
 		boardService.modifiedNoticeBoard(board);
 		//System.out.println(board);
 
-		return "redirect:noticeDetail?boardNo=" + board.getBoardNo() + "&pageNo=" + pageNo + "&boardCategory=" ;
+		return "redirect:noticeDetail?boardNo=" + board.getBoardNo() + "&pageNo=" + pageNo + "&boardCategory=" + board.getBoardCategory() ;
 	}
 
 //게시글삭제

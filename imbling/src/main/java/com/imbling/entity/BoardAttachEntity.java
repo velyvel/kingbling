@@ -28,6 +28,7 @@ public class BoardAttachEntity {
     @Column
     private String savedAttachName;
 
+
 //    @Column
 //    private int boardNo;
 }

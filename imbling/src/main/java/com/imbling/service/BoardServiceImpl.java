@@ -1,12 +1,15 @@
 package com.imbling.service;
 
+import com.imbling.dto.BoardAttachDto;
 import com.imbling.dto.BoardDto;
+import com.imbling.entity.BoardAttachEntity;
 import com.imbling.entity.BoardEntity;
 import com.imbling.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service("boardService")
@@ -48,6 +51,13 @@ public class BoardServiceImpl implements BoardService{
                 .boardCategory(board.getBoardCategory())
                 .boardContent(board.getBoardContent())
                 .build();
+
+        // 여기에 첨부파일 작업 추가해야함
+//        HashSet<BoardAttachEntity> boardAttachments = new HashSet<>();
+//        for(BoardAttachDto boardAttachDto : board.getBoardAttachments()){
+//            boardAttachments.add(boardAttachDtoToEntity(boardAttachDto));
+//        }
+//        boardEntity.setBoardAttachments(boardAttachments);
         boardRepository.save(boardEntity);
 
     }

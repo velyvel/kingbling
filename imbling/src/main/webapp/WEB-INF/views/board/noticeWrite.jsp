@@ -24,7 +24,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <!--=============form start========================================-->
-            <form method="post" id="noticeWrite" action="noticeWrite">
+            <form method="post" id="noticeWrite" action="noticeWrite" enctype="multipart/form-data">
             <div style="float: right;">
                 <a href="notice"class="btn btn-danger"><i class="fas fa-close"></i> 취소하기</a>
                 <input id="submitBtn" type="submit" class="btn btn-success" value="작성완료">
@@ -73,13 +73,6 @@
                         </tr>
                         </tbody>
                     </table>
-                    <%--                <div class="form-group">--%>
-                    <%--                    <div class="btn btn-default btn-file">--%>
-                    <%--                        <i class="fas fa-paperclip"></i> Attachment--%>
-                    <%--                        <input type="file" name="attachment">--%>
-                    <%--                    </div>--%>
-                    <%--                    <p class="help-block">첨부파일 최대: 32MB</p>--%>
-                    <%--                </div>--%>
                 </div>
             </div>
         </form>
@@ -95,27 +88,94 @@
 <script src="/resources/dist/js/summernote-ko-KR.js"></script>
 <script type="text/javascript">
 
-        $('#boardContent').summernote({
-            placeholder: '관라자가 공지사항 작성',
-            tabsize: 2,
-            height: 500,
+    $('#boardContent').summernote({
+        placeholder: '관자가 공지사항 작성',
+        tabsize: 2,
+        height: 500,
+        lang:'ko-KR',
+        callbacks: {	//여기 부분이 이미지를 첨부하는 부분
+            onImageUpload : function(files) {
+                uploadSummernoteImageFile(files[0],this);
+            },
+            onPaste: function (e) {
+                var clipboardData = e.originalEvent.clipboardData;
+                if (clipboardData && clipboardData.items && clipboardData.items.length) {
+                    var item = clipboardData.items[0];
+                    if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+                        e.preventDefault();
+                    }
+                }
+            }
+        }
+    });
+
+    function uploadSummernoteImageFile(file, editor){
+        data = new FormData();
+        data.append("file", file);
+        $.ajax({
+            data : data,
+            type : "POST",
+            url:"/uploadSummernoteImageFile",
+            contentType: false,
+            processData: false,
+            success: function(data){
+                $(editor).summernote('insertImage', data.url)
+            }
         });
 
-    //     $(function (){
-    //     $('#submitBtn').on('click', function (event){
-    //         event.preventDefault();
-    //         const boardTitle = $('input[name = boardTitle]').val();
-    //         const boardContent = $('textarea[name = boardContent]').val();
-    //
-    //         if (boardTitle.length==0){
-    //             alert("제목 빠짐")
-    //             return;
-    //         }else {
-    //             return;
-    //         }
-    //         $('#writeNotice')[0].submit();
-    //     });
-    // });
+    }
+
+         $(function (){
+        //     $('#boardContent').summernote({
+        //         dialogsInBody: true,
+        //         placeholder:'공지사항 작성합니다',
+        //         tabsize: 2,
+        //         height: 400,
+        //         onImageUpload: function(files, editor, welEditable) {
+        //             // 서버로 이미지 전송
+        //             uploadSummernoteImageFile(files[0], editor, welEditable);
+        //         }
+        //     });
+        //
+        //     function uploadSummernoteImageFile(file, editor, welEditable){
+        //         formData = new FormData();
+        //         formData.append("file", file);
+        //         $.ajax({
+        //             data : formData,
+        //             type : "post",
+        //             url : "/imbling/board/upload-image-file",
+        //             cache : false,
+        //             contentType : false,
+        //             processData : false,
+        //             success : function(url) {
+        //                 editor.insertImage(welEditable, url);
+        //             },
+        //             error : function(err) {
+        //                 alert(err + '이미지 파일 업로드에 실패했습니다.');
+        //             }
+        //         });
+        //     }
+
+        $('#submitBtn').on('click', function (event){
+            event.preventDefault();
+            const boardTitle = $('input[name = boardTitle]').val();
+            const boardContent = $('textarea[name = boardContent]').val();
+            const boardCategory = $('select[name=boardCategory]').val();
+
+            if (boardTitle.length==0){
+                alert("제목 빠짐")
+                return;
+            }else if(boardContent.length==0){
+                alert("내용빠짐")
+                return;
+            }else if(boardCategory == null){
+                alert("아이고오 카테고리가 빠졌슈")
+                return;
+            }else{
+                $('#noticeWrite')[0].submit();
+            }
+        });
+    });
 </script>
 </body>
 </html>

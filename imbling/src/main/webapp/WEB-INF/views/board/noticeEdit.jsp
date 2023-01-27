@@ -98,8 +98,38 @@
             placeholder: '관자가 공지사항 작성',
             tabsize: 2,
             height: 500,
-            lang:'ko-KR'
+            lang:'ko-KR',
+            callbacks: {	//여기 부분이 이미지를 첨부하는 부분
+                onImageUpload : function(files) {
+                    uploadSummernoteImageFile(files[0],this);
+                },
+                onPaste: function (e) {
+                    var clipboardData = e.originalEvent.clipboardData;
+                    if (clipboardData && clipboardData.items && clipboardData.items.length) {
+                        var item = clipboardData.items[0];
+                        if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+                            e.preventDefault();
+                        }
+                    }
+                }
+            }
         });
+
+        function uploadSummernoteImageFile(file, editor){
+            data = new FormData();
+            data.append("file", file);
+            $.ajax({
+                data : data,
+                type : "POST",
+                url:"/uploadSummernoteImageFile",
+                contentType: false,
+                processData: false,
+                success: function(data){
+                    $(editor).summernote('insertImage', data.url)
+                }
+            });
+
+        }
 
         $(function (){
             $('#cancelBtn').on('click', function (event){
@@ -110,7 +140,8 @@
                 event.preventDefault();
                 const boardTitle = $('input[name = boardTitle]').val();
                 const boardContent = $('textarea[name = boardContent]').val();
-                const boardCategory = $('select[name=boardCategory]').val();
+                //const boardCategory = $('select[name="boardCategory"]').val();
+
 
                 if (boardTitle.length==0){
                     alert("제목 빠짐")

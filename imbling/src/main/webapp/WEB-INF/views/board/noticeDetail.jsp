@@ -75,6 +75,7 @@
                         <tr>
                             <td style="align-content: center;">
                                <p>글 내용</p>
+                                <span id="selected-file-name"> 첨부파일: ${board.boardAttachments.attachName}</span><br>
                             </td>
                         </tr>
                         <tr>
