@@ -86,8 +86,9 @@ public class MyPageController {
 		return "mypage/myboard";
 	}
 	
-	  @GetMapping(path = { "/mypage/myboardInquery", }) 
+	  @GetMapping(path = { "/mypage/myboardInquery"}) 
 	  public String showByboardInquery(String userId, Model model) {
+	  System.out.println(userId);
 	  List<BoardDto> boards = mypageService.findMyAllInquery(userId);
 	  model.addAttribute("boards", boards);
 	  model.addAttribute("sort", "inquery");
@@ -95,8 +96,9 @@ public class MyPageController {
 	  return "mypage/myboard-see-more";
 	  }
 	  
-	  @GetMapping(path = { "/mypage/myboardReview", }) 
+	  @GetMapping(path = { "/mypage/myboardReview"}) 
 	  public String showByboardReview(String userId, Model model) {
+	  System.out.println(userId);
 	  List<ReviewDto> reviews = mypageService.findMyAllReview(userId);
 	  model.addAttribute("reviews", reviews);
 	  model.addAttribute("sort", "review");

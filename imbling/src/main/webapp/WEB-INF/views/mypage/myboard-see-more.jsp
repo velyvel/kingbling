@@ -19,7 +19,11 @@
 <!-- ****************************** main ************************** -->
     <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">내가 쓴 게시글</h6>
+        <h6 class="m-0 font-weight-bold text-primary">내가 쓴 게시글 
+        <c:choose>
+        <c:when test="${sort=='inquery'}">- 1:1 문의</c:when>
+        <c:otherwise>- 상품 후기</c:otherwise>
+        </c:choose></h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -47,7 +51,6 @@
                	</c:forEach>
                 </c:when>
                 <c:otherwise>
-                <c:when test="${sort=='review'}">
                 <c:forEach items="${reviews}" var="review"> 
                	<tr>
                		<td>${review.reviewNo}</td>
@@ -57,7 +60,6 @@
                     <td>${review.reviewCount}</td>
                 </tr>
                	</c:forEach>
-                </c:when>
                 </c:otherwise>
                 </c:choose>
                 </tbody>
