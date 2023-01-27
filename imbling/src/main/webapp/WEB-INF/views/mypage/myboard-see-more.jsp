@@ -34,15 +34,32 @@
                 </tr>
                 </thead>
                 <tbody>
-               	<c:forEach items="${boards}" var="board"> 
+                <c:choose>
+                <c:when test="${sort=='inquery'}">
+                <c:forEach items="${boards}" var="board"> 
                	<tr>
                		<td>${board.boardNo}</td>
                     <td>${board.boardTitle}</td>
-                    <td>${board.userNo}</td>
+                    <td>${board.userId}</td>
                     <td>${board.boardRegDate}</td>
                     <td>${board.boardCount}</td>
                 </tr>
                	</c:forEach>
+                </c:when>
+                <c:otherwise>
+                <c:when test="${sort=='review'}">
+                <c:forEach items="${reviews}" var="review"> 
+               	<tr>
+               		<td>${review.reviewNo}</td>
+                    <td>${review.reviewTitle}</td>
+                    <td>${review.userId}</td>
+                    <td>${review.reviewRegDate}</td>
+                    <td>${review.reviewCount}</td>
+                </tr>
+               	</c:forEach>
+                </c:when>
+                </c:otherwise>
+                </c:choose>
                 </tbody>
             </table>
         </div>

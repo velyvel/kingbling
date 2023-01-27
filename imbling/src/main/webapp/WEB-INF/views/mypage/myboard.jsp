@@ -40,7 +40,7 @@
                	<tr>
                		<td>${board.boardNo}</td>
                     <td>${board.boardTitle}</td>
-                    <td>${board.userNo}</td>
+                    <td>${board.userId}</td>
                     <td>${board.boardRegDate}</td>
                     <td>${board.boardCount}</td>
                 </tr>
@@ -52,6 +52,7 @@
             <button type="button" class="btn btn-secondary" style="float:right" id="seeMoreInquery">더보기</button>
             <br><br>
             <h5>내가 쓴 글 - 상품 후기</h5>
+            
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
@@ -63,14 +64,14 @@
                 </tr>
                 </thead>
                 <tbody>
-               	<c:forEach items="${boards}" var="board"> 
-               	<c:if test="${!board.boardDeleted}">
+               	<c:forEach items="${reviews}" var="review"> 
+               	<c:if test="${!review.reviewDeleted}">
                	<tr>
-               		<td>${board.boardNo}</td>
-                    <td>${board.boardTitle}</td>
-                    <td>${board.userNo}</td>
-                    <td>${board.boardRegDate}</td>
-                    <td>${board.boardCount}</td>
+               		<td>${review.reviewNo}</td>
+                    <td>${review.reviewTitle}</td>
+                    <td>${review.userId}</td>
+                    <td>${review.reviewRegDate}</td>
+                    <td>${review.reviewCount}</td>
                 </tr>
                	</c:if>
                	</c:forEach>
@@ -94,12 +95,13 @@ $(function(){
 	$('.dataTables_info').hide();
 	$('.dataTables_filter').hide();
 	$('.dataTables_length').hide();
+	$('table.dataTable thead .sorting').css( "background", "none" );
 	
 	$('#seeMoreInquery').on('click',function(event){
-		location.href = "/mypage/myboardInquery";
+		location.href = "/mypage/myboardInquery?userId="+${loginuser.userId};
 	});
 	$('#seeMoreReview').on('click',function(event){
-		location.href = "/mypage/myboardReview";
+		location.href = "/mypage/myboardReview?userId="+${loginuser.userId};
 	});
 	
 });
