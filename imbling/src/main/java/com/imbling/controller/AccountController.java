@@ -38,17 +38,21 @@ public class AccountController {
 	}
 
 	@PostMapping(path = { "/member/login" })
-	public String Login(AccountDto account, HttpSession session) {
+	public String Login(String userId,String userPassword, HttpSession session) {
 		
 		
-		
-		AccountDto  loginUser=accountService.findByUserIdAndUserPassword(account.getUserId(),account.getUserPassword());
+		System.out.print("Login"+userId+"Loginpw"+userPassword);
 
-		if (account.getUserPassword()==null || account.getUserId()==null ||loginUser==null) {
-			account.setUserId("notuser")	;
-			session.setAttribute("loginuser", account);
+		if (userId==""|| userPassword=="") {
+//			session.setAttribute("loginuser", account);
+			System.out.print("Login");
+
+			return "redirect:/home"; // return "redirect:/home.action";
+
 
 		}else {
+			AccountDto  loginUser=accountService.findByUserIdAndUserPassword(userId,userPassword);
+
 			session.setAttribute("loginuser", loginUser);
 
 		}
@@ -123,7 +127,12 @@ public class AccountController {
 		}
 	}
 	
-	
+	@GetMapping(path = { "/member/logout" })
+	public String logout(HttpSession session) {
+		session.setAttribute("loginuser", null);
+
+		return "/home";
+	}
 
 }
 

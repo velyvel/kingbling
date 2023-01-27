@@ -25,8 +25,8 @@ public class ReviewEntity {
     @Column
     private int productNo;
 
-    @Column
-    private int  userNo;
+	@Column(nullable = false)
+	private String userId;
 
     @Column(nullable = false)
     private String reviewTitle;

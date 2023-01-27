@@ -69,7 +69,7 @@ public interface MypageService {
 		return accountEntity;
 	}
 	
-	List<BoardDto> findAllMyBoard();
+	List<BoardDto> findMyInquery(String userId);
 
 	void modifyAccount(AccountDto account);
 

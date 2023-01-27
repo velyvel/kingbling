@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "imb_board")
 public class BoardEntity {
 
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false)
