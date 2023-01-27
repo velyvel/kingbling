@@ -47,7 +47,7 @@ public class AccountController {
 //			session.setAttribute("loginuser", account);
 			System.out.print("Login");
 
-			return "redirect:/home"; // return "redirect:/home.action";
+			return "redirect:login";
 
 
 		}else {
