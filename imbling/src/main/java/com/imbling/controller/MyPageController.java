@@ -27,9 +27,9 @@ public class MyPageController {
 	@GetMapping(path = { "/mypage/myInfo", })
 	public String showMyInfo(HttpSession session) {
 		AccountDto loginUser=(AccountDto) session.getAttribute("loginuser");
-		//System.out.print(loginUser);
-		if(loginUser.getUserId()=="notuser" ||loginUser==null) {
-			return "redirect:home";
+		System.out.print(loginUser);
+		if(loginUser==null) {
+			return "/member/login";
 
 		}
 		

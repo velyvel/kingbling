@@ -2,6 +2,7 @@
          contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 
+
 <header class="header">
     <div class="container">
         <div class="row">
@@ -25,8 +26,7 @@
                                 <li><a href="/mypage/goodbye">회원 탈퇴</a></li>
                             </ul>
                         </li>
-                        <li><a href="/member/login">로그인</a></li>
-                        <li><a href="/member/register">회원가입</a></li>
+                        
                         <li><a href="/board/event">게시판</a>
                             <ul class="dropdown">
                                 <li><a href="/board/notice">공지사항/문의</a></li>
@@ -35,6 +35,8 @@
                         </li>
                         <li><a href="/admin-home">관리자페이지</a></li>
                     </ul>
+                    <jsp:include page="/WEB-INF/views/modules/userLogin.jsp" />
+
                 </nav>
             </div>
 <%--            <div class="col-lg-3 col-md-2">--%>
