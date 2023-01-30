@@ -100,7 +100,7 @@
 									<div class="product__item__text">
 
 										<h6>${product.productName}</h6>
-										<a href="#" class="add-cart">+ Add To Cart</a>
+										<a href="/product/detail?productNo=${product.productNo}" class="add-cart">+ 상세페이지 보기</a>
 										<h5><fmt:formatNumber value="${product.productPrice}" pattern="₩#,###"/></h5>
 									</div>
 								</div>
@@ -125,12 +125,12 @@
 	<jsp:include page="/WEB-INF/views/modules/footer.jsp" />
 	<!-- ****************************** end footer ************************** -->
 
-
-
-
-
 	<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
-
+	<script type="text/javascript">
+		$(function() {
+			
+		});
+	</script>
 
 
 </body>
