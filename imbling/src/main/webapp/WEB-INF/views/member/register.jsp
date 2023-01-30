@@ -64,7 +64,7 @@
 									<input id="btn-checkId" type="button" value="id 중복 확인 "
 										style="height: 40px" />
 								</div>
-								
+
 								<div class="form-group col-lg-12">
 									<div class=" col-lg-12 ">사업자 등록증 이미지 파일을 등록 후 등록 버튼을
 										눌러주세요</div>
@@ -74,25 +74,32 @@
 										</div>
 										<div class=" col-lg-5  ">
 											<input id="btn-checkDoc" type="button" value="등록"
-												style="height: 40px" /> <input id="btn-checkInfoByDocNo"
-												type="button" value="정보 조회  " style="height: 40px" />
+												style="height: 40px" />
 										</div>
 									</div>
 
 
 								</div>
 
-								<div class="form-group">
-									<input type="text" class="form-control form-control-user"
-										id="userCorpNo" placeholder="사업자 등록번호 " name="userCorpNo">
+								<div class="form-group col-lg-12">
+									<div class="row">
+										<input type="text" class="form-control form-control-user"
+											id="userCorpNo" placeholder="사업자 등록번호 " name="userCorpNo">
+									</div>
+									<input id="btn-checkInfoByDocNo" type="button" value="정보 조회  "
+										style="height: 40px" />
 								</div>
 
-								<div class="form-group  ">
-									<input type="text" class="form-control form-control-user"
-										id="userName" placeholder="Name" name="userName">
+								<div class="form-group  col-lg-12">
+									<div class="row">
+										<input type="text" class="form-control form-control-user"
+											id="userName" placeholder="Name" name="userName">
+									</div>
+									<input id="btn-checkDocValid" type="button" value="정보 확인   "
+										style="height: 40px" />
 								</div>
 
-								
+
 								<div class="form-group">
 									<input type="text" class="form-control form-control-user"
 										id="exampleInputEmail" placeholder="주소" name="userAddress">
@@ -159,18 +166,17 @@
 					function(event) {
 						const imageInput = $("#inputed_doc")[0];
 
-						  if(imageInput.files.length === 0){
-						    alert("파일은 선택해주세요");
-						    return;
-						  }
+						if (imageInput.files.length === 0) {
+							alert("파일은 선택해주세요");
+							return;
+						}
 
-						  const formData = new FormData();
-						  formData.append("attach", imageInput.files[0]);// hashmap 형식 
+						const formData = new FormData();
+						formData.append("attach", imageInput.files[0]);// hashmap 형식 
 
-						
 						var extensionLocation = $("#inputed_doc").val()
 								.lastIndexOf(".")
-								
+
 						var extension = $("#inputed_doc").val().substr(
 								extensionLocation + 1);
 
@@ -178,31 +184,32 @@
 								|| extension == "gif" || extension == "jpg"
 								|| extension == "png" || extension == "ppm") {
 
-
 							$.ajax({
-								 type:"POST",
-								    url: "/member/identifyCorpNo",
-								    processData: false,
-								    contentType: false,
-								    data: formData,
-								    success: function(rtn){
-								      
-								      console.log("message: ", rtn)
-								      //$("#resultUploadPath").text(message.uploadFilePath)
-								      if(rtn!="fail 1"){
-								    	  
-								    	  if(rtn==="cropNo"){
-									    	  $("#userCorpNo").attr("placeholder","인식 실패. 직접 입력해 주세요. ")
+								type : "POST",
+								url : "/member/identifyCorpNo",
+								processData : false,
+								contentType : false,
+								data : formData,
+								success : function(rtn) {
 
-								    	  }else{
-								    		  $("#userCorpNo").val(rtn)
-								    	  }
-								      }
-								      
-								    },
-								    err: function(err){
-								      console.log("err:", err)
-								    }
+									console.log("message: ", rtn)
+									//$("#resultUploadPath").text(message.uploadFilePath)
+									if (rtn != "fail 1") {
+
+										if (rtn === "cropNo") {
+											$("#userCorpNo").attr(
+													"placeholder",
+													"인식 실패. 직접 입력해 주세요. ")
+
+										} else {
+											$("#userCorpNo").val(rtn)
+										}
+									}
+
+								},
+								err : function(err) {
+									console.log("err:", err)
+								}
 							})
 							alert("사용 가능한 파일입니다 ")
 
@@ -213,26 +220,47 @@
 						}
 
 					});
-			
+
 			$('#btn-checkInfoByDocNo').on('click', function(event) {
-				
+
 				$.ajax({
-					 type:"POST",
-					    url: "/member/searchByCorpNo",
-					    "method" : "get",
-						"data" : 'docNo=' + $("#userCorpNo").val(),
-						"success" : function(data, status, xhr) {
-							console.log("message: ", data)
-							 $("#userName").val(data)
-						},
-						"error" : function(xhr, status, err) {
-							alert('삭제실패 1')
-						}
+					type : "POST",
+					url : "/member/searchByCorpNo",
+					"method" : "get",
+					"data" : 'docNo=' + $("#userCorpNo").val(),
+					"success" : function(data, status, xhr) {
+						console.log("message: ", data)
+						$("#userName").val(data)
+					},
+					"error" : function(xhr, status, err) {
+						alert('삭제실패 1')
+					}
 				})
-				
-				
 
 			});
+
+			$('#btn-checkDocValid').on('click', function(event) {
+				/* var data = {
+					    "b_no": $("#userCorpNo").val(rtn) // 사업자번호 "xxxxxxx" 로 조회 시,
+					   }; 
+					   
+					$.ajax({
+					  url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=xxxxxx",  // serviceKey 값을 xxxxxx에 입력
+					  type: "POST",
+					  data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+					  dataType: "JSON",
+					  contentType: "application/json",
+					  accept: "application/json",
+					  success: function(result) {
+					      console.log(result);
+					  },
+					  error: function(result) {
+					      console.log(result.responseText); //responseText의 에러메세지 확인
+					  }
+					}); */
+
+			});
+
 		});
 	</script>
 
