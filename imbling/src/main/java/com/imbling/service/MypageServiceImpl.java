@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
+import com.imbling.dto.ReviewDto;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.BoardEntity;
+import com.imbling.entity.ReviewEntity;
 import com.imbling.repository.AccountRepository;
 import com.imbling.repository.MypageRepository;
 
@@ -26,7 +28,37 @@ public class MypageServiceImpl implements MypageService{
 	
 	@Override
 	public List<BoardDto> findMyInquery(String userId){
-		List<BoardEntity> boardList = mypageRepository.findByIdAndCategory(userId);
+		List<BoardEntity> boardList = mypageRepository.findSomeByIdAndCategory(userId);
+		ArrayList<BoardDto> boards = new ArrayList<>();
+		for (BoardEntity boardEntity : boardList) {
+			boards.add(boardEntityToDto(boardEntity));
+		}
+		return boards;
+	}
+	
+	@Override
+	public List<ReviewDto> findMyreview(String userId) {
+		List<ReviewEntity> reviewList = mypageRepository.findSomeById(userId);
+		ArrayList<ReviewDto> reviews = new ArrayList<>();
+		for (ReviewEntity reviewEntity : reviewList) {
+			reviews.add(reviewEntityToDto(reviewEntity));
+		}
+		return reviews;
+	}
+	
+	@Override
+	public List<ReviewDto> findMyAllReview(String userId) {
+		List<ReviewEntity> reviewList = mypageRepository.findAllById(userId);
+		ArrayList<ReviewDto> reviews = new ArrayList<>();
+		for (ReviewEntity reviewEntity : reviewList) {
+			reviews.add(reviewEntityToDto(reviewEntity));
+		}
+		return reviews;
+	}
+	
+	@Override
+	public List<BoardDto> findMyAllInquery(String userId) {
+		List<BoardEntity> boardList = mypageRepository.findAllByIdAndCategory(userId);
 		ArrayList<BoardDto> boards = new ArrayList<>();
 		for (BoardEntity boardEntity : boardList) {
 			boards.add(boardEntityToDto(boardEntity));
@@ -44,10 +76,9 @@ public class MypageServiceImpl implements MypageService{
 		modifyAccount.setUserName(account.getUserName());
 		modifyAccount.setUserPhone(account.getUserPhone());
 		
-		
-		
 		accountRepository.save(modifyAccount);
 	}
+
 
 
 	

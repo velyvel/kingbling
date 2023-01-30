@@ -1,22 +1,24 @@
 package com.imbling.service;
 
-import com.imbling.dto.BoardAttachDto;
+import com.imbling.dto.BoardCommentDto;
 import com.imbling.dto.BoardDto;
-import com.imbling.entity.BoardAttachEntity;
+import com.imbling.entity.BoardCommentEntity;
 import com.imbling.entity.BoardEntity;
+import com.imbling.repository.CommentRepository;
 import com.imbling.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService{
-    
+
     @Autowired
     private BoardRepository boardRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
     //이벤트 리스트 조회
     @Override
@@ -34,6 +36,7 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public List<BoardDto> findNoticeBoard() {
         List<BoardEntity> boardList = boardRepository.findNoticeByBoardCategoryDesc();
+
         ArrayList<BoardDto> boards = new ArrayList<>();
         System.out.println(boardList);
         for (BoardEntity boardEntity: boardList){
@@ -50,6 +53,7 @@ public class BoardServiceImpl implements BoardService{
                 .boardTitle(board.getBoardTitle())
                 .boardCategory(board.getBoardCategory())
                 .boardContent(board.getBoardContent())
+                .userId(board.getUserId())
                 .build();
 
         // 여기에 첨부파일 작업 추가해야함
@@ -114,5 +118,41 @@ public class BoardServiceImpl implements BoardService{
         }
         return boards;
     }
+
+    //============ 댓글 ============
+
+    @Override
+    public List<BoardCommentDto> findComments(int boardNo) {
+
+        List<BoardCommentEntity> comments = commentRepository.findBoardCommentDesc(boardNo);
+        ArrayList<BoardCommentDto> comments2 = new ArrayList<>();
+        for (BoardCommentEntity comment : comments) {
+            comments2.add(boardCommentEntityToDto(comment));
+        }
+        return comments2;
+    }
+
+    @Override
+    public void writeComment(BoardCommentDto comment) {
+
+        BoardEntity board = boardRepository.findByBoardNo(comment.getBoardNo());
+
+        BoardCommentEntity commentEntity = BoardCommentEntity.builder()
+                .commentNo(comment.getCommentNo())
+                .commentContent(comment.getCommentContent())
+                .commentGroup(comment.getCommentGroup())
+                //.commentRegDate(comment.getCommentRegDate())
+                .board(board)
+                .build();
+
+        commentRepository.save(commentEntity);
+    }
+
+//    @Override
+//    public void updateGroupNo(int commentNo, int commentGroup) {
+//        BoardCommentEntity commentEntity = commentRepository.findByBoardCommentNo(commentNo, commentGroup);
+//
+//    }
+
 
 }

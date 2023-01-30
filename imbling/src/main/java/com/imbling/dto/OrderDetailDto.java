@@ -6,7 +6,7 @@ import lombok.Data;
 public class OrderDetailDto {
 
 	private int orderNo;
-	private int productNo;
+	private int propertyNo;
 	private int orderDetailEA;
 	private int orderDetailTotalPrice;
 	

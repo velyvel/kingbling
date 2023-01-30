@@ -44,12 +44,12 @@ public class OrderDetailEntity {
 	    private OrderEntity orderNo;
 
 		@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-		@JoinColumn(name = "productNo")
-		private ProductEntity productNo;
+		@JoinColumn(name = "propertyNo")
+		private PropertyEntity propertyNo;
 
-	    public OrderDetailId(OrderEntity orderNo, ProductEntity productNo) {
+	    public OrderDetailId(OrderEntity orderNo, PropertyEntity propertyNo) {
 	        this.orderNo = orderNo;
-	        this.productNo = productNo;
+	        this.propertyNo = propertyNo;
 	    }
 
 	}

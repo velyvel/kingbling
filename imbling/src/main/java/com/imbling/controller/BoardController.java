@@ -2,10 +2,13 @@ package com.imbling.controller;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.imbling.common.Util;
+import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardAttachDto;
+import com.imbling.dto.BoardCommentDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.entity.BoardEntity;
 import com.imbling.service.BoardService;
+import com.imbling.ui.BoardPager;
 import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,7 +29,9 @@ import java.util.List;
 @Controller
 @RequestMapping(path = { "/board" })
 public class BoardController {
-	private final int PAGE_SIZE = 5;
+	private final int PAGE_SIZE = 3;
+	private final int PAGER_SIZE = 3;
+	private final String E_LINK_URL = "event";
 
 	@Autowired
 	@Qualifier("boardService")
@@ -55,6 +60,7 @@ public class BoardController {
 		List<BoardDto> boards = boardService.findNoticeBoard();
 		model.addAttribute("boards", boards);
 		model.addAttribute("pageNo", pageNo);
+
 
 		return "board/notice";
 	}
@@ -94,8 +100,6 @@ public class BoardController {
 		}
 
 		return response;
-
-
 
 	}
 //공지사항 작성(카테고리별로 나눔)//
@@ -142,6 +146,38 @@ public class BoardController {
 
 		return "board/noticeEdit";
 	}
+// 공지사항 서머노트로 편집(첨부파일도 같이 편집)
+	@PostMapping(path = {"/editNoticeImageFile"})
+	@ResponseBody
+	public HashMap<String, Object> editNoticeImage(MultipartHttpServletRequest req){
+
+		HashMap<String, Object> response = new HashMap<>();
+
+		MultipartFile attach = req.getFile("file");
+
+		if(attach != null){
+			ServletContext application = req.getServletContext();
+			String path = application.getRealPath("/board-attachments");
+			String fileName = attach.getOriginalFilename();
+			response.put("attachName", fileName);
+
+			if(fileName != null && fileName.length()>0){
+				String uniqueFileName = Util.makeUniqueFileName(fileName); //파일 저장하는 코드입니다
+				response.put("savedFileName", uniqueFileName);
+
+				try {
+					attach.transferTo(new File(path, uniqueFileName));
+					response.put("url", "/board-attachments/"+uniqueFileName);
+				}catch (Exception ex){
+					ex.printStackTrace();
+				}
+			}
+		}
+
+		return response;
+
+	}
+
 
  //공지사항 수정(기능)
 	@PostMapping(path = {"/noticeEdit"})
@@ -160,6 +196,27 @@ public class BoardController {
 
 		return "redirect:/board/event?pageNo=" + pageNo;
 	}
+//============================ 댓글 ============================
+	//댓글 리스트 조회
+	@GetMapping(path = "/commentList")
+	public String showCommentList(int boardNo, Model model){
+
+		List<BoardCommentDto> comments = boardService.findComments(boardNo);
+		model.addAttribute("comments", comments);
+
+		return "board/commentList";
+	}
+
+	// 댓글 쓰기
+	@PostMapping(path = {"/commentForm"})
+	@ResponseBody
+	public String writeComment(BoardCommentDto comment){
+		boardService.writeComment(comment);
+		//boardService.updateGroupNo(comment.getCommentNo(), comment.getCommentGroup());
+		return "success";
+	}
+
+
 //============================ 1:1 문의 ============================
 
 	@PostMapping(path = {"/boardModal.action"})
@@ -183,7 +240,7 @@ public class BoardController {
 		List<BoardDto> boards = boardService.findModalBoard();
 		model.addAttribute("boards", boards);
 		model.addAttribute("pageNo", pageNo);
-
+//이거 jsp하나 더 만들고 넣어보기
 		return "board/showModal.action";
 	}
 

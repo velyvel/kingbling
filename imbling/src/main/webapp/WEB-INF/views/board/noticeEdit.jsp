@@ -24,6 +24,8 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <form method="post" id="noticeEdit" action="noticeEdit">
+                <input type="hidden" name="attach" value="">
+                <input type="hidden" name="savedFileName" value="">
             <div style="float: right;">
                 <input id="cancelBtn" type="button" class="btn btn-danger" value="취소하기">
                 <input id="submitBtn" type="submit" class="btn btn-success" value="작성완료">
@@ -72,13 +74,6 @@
                         </tr>
                         </tbody>
                     </table>
-                    <%--                <div class="form-group">--%>
-                    <%--                    <div class="btn btn-default btn-file">--%>
-                    <%--                        <i class="fas fa-paperclip"></i> Attachment--%>
-                    <%--                        <input type="file" name="attachment">--%>
-                    <%--                    </div>--%>
-                    <%--                    <p class="help-block">첨부파일 최대: 32MB</p>--%>
-                    <%--                </div>--%>
                 </div>
             </div>
         </form>
@@ -95,13 +90,13 @@
 <script type="text/javascript">
 
         $('#boardContent').summernote({
-            placeholder: '관자가 공지사항 작성',
+            placeholder: '관리자가 공지사항 작성',
             tabsize: 2,
             height: 500,
             lang:'ko-KR',
             callbacks: {	//여기 부분이 이미지를 첨부하는 부분
                 onImageUpload : function(files) {
-                    uploadSummernoteImageFile(files[0],this);
+                    editSummernoteImageFile(files[0],this);
                 },
                 onPaste: function (e) {
                     var clipboardData = e.originalEvent.clipboardData;
@@ -115,17 +110,19 @@
             }
         });
 
-        function uploadSummernoteImageFile(file, editor){
+        function editSummernoteImageFile(file, editor){
             data = new FormData();
             data.append("file", file);
             $.ajax({
                 data : data,
                 type : "POST",
-                url:"/uploadSummernoteImageFile",
+                url:"/board/editNoticeImageFile",
                 contentType: false,
                 processData: false,
                 success: function(data){
                     $(editor).summernote('insertImage', data.url)
+                    $('#noticeEdit input[name=attach]').val(data.attach);
+                    $('#noticeEdit input[name=savedFileName]').val(data.savedFileName);
                 }
             });
 

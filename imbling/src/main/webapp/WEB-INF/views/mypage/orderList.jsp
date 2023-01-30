@@ -21,34 +21,48 @@
         <h6 class="m-0 font-weight-bold text-primary">주문 목록</h6>
     </div>
     <div class="card-body">
+		<div>
+			<select class="custom-select" size="3">
+			  <option selected>전체보기</option>
+			  <option value="주문완료">주문완료</option>
+  			  <option value="상품준비중">상품준비중</option>
+			  <option value="배송중">배송중</option>
+			  <option value="배송완료">배송완료</option>
+  			  <option value="구매확정">구매확정</option>
+  			  <option value="주문취소">주문취소</option>
+  			  <option value="반품교환신청">반품/교환신청</option>
+			</select>
+		</div>
         <div class="table-responsive">
+
+			<br>
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
+                    <th>주문번호</th>
+                    <th>주문자</th>
+                    <th>주문일자</th>
+                    <th>주문총액</th>
+                    <th>주문상태</th>
+                    <th>결제정보</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td><a href="/mypage/orderList-detail">Shou Itou</a></td>
-                    <td>Regional Marketing</td>
-                    <td>Tokyo</td>
-                    <td>20</td>
+                    <td><a href="/mypage/orderList-detail">12313</a></td>
+                    <td>aaa</td>
                     <td>2011/08/14</td>
                     <td>$163,000</td>
+                    <td>주문완료</td>
+                    <td>신용카드</td>
                 </tr>
                 <tr>
-                    <td>Michelle House</td>
-                    <td>Integration Specialist</td>
-                    <td>Sidney</td>
-                    <td>37</td>
-                    <td>2011/06/02</td>
+                    <td><a href="/userOrder/sample">23224</a></td>
+                    <td>bbb</td>
+                    <td>2011/03/21</td>
                     <td>$95,400</td>
+                    <td>배송완료</td>
+                    <td>카카오페이</td>
                 </tr>
                 </tbody>
             </table>

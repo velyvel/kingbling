@@ -32,13 +32,4 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
     List<BoardEntity> findModalByBoardCategoryDesc();
 
 
-//    @Modifying
-//    @Query(value = "update imb_board b set b.boardcontent =#{boardContent}, b.boardregdate = sysdate where b. boardNo = #{boardNo}", nativeQuery = true)
-//    BoardEntity updateBoardOnly(int BoardNo);
-
-//질문? 파라미터로 받으면 안받아짐
-//    @Query(value = "SELECT * FROM imb_board WHERE boardCategory= :boardCategory AND boardNo= :boardNo",nativeQuery = true)
-//    BoardEntity findByBoardNoAndCategory(@Param("boardCategory")int boardCategory,@Param("boardNo")int boardNo);
-
-    
 }

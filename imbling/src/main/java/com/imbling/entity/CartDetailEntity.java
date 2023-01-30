@@ -45,12 +45,12 @@ public class CartDetailEntity {
 	    private CartEntity cartNo;
 
 		@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-		@JoinColumn(name = "productNo")
-		private ProductEntity productNo;
+		@JoinColumn(name = "propertyNo")
+		private PropertyEntity propertyNo;
 
-	    public CartDetailId(CartEntity cartNo, ProductEntity productNo) {
+	    public CartDetailId(CartEntity cartNo, PropertyEntity propertyNo) {
 	        this.cartNo = cartNo;
-	        this.productNo = productNo;
+	        this.propertyNo = propertyNo;
 	    }
 
 	}
