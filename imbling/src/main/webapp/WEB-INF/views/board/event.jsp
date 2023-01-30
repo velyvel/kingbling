@@ -74,6 +74,7 @@
                         <th>이벤트기간</th>
                         <th>제목</th>
                         <th>진행상황</th>
+                        <th>작성자</th>
                         <th>조회수</th>
                     </tr>
                     </thead>
@@ -84,6 +85,7 @@
                         <td><a href="noticeDetail?boardNo=${board.boardNo}&pageNo=${pageNo}&boardCategory=${board.boardCategory}">${board.boardTitle}</a></td>
 <%--                        <td><a href="noticeDetail?boardCategory=${board.boardCategory}&boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardContent}</a></td>--%>
                         <td>${board.boardRegDate}</td>
+                        <td>${board.userId}</td>
                         <td>${board.boardCount}</td>
                     </tr>
                     </c:forEach>

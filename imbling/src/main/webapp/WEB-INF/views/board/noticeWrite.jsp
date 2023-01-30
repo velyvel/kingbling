@@ -25,7 +25,7 @@
         <div class="card-header py-3">
             <!--=============form start========================================-->
             <form method="post" id="noticeWrite" action="noticeWrite">
-                <input  type="hidden" name="attach" value="">
+                <input type="hidden" name="attach" value="">
                 <input type="hidden" name="savedFileName" value="">
             <div style="float: right;">
                 <a href="notice"class="btn btn-danger"><i class="fas fa-close"></i> 취소하기</a>
@@ -47,8 +47,9 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="boardRegDate">작성날짜</label>
-                        <input type="date" class="form-control" id="boardRegDate">
+                        <label for="userId">작성자</label>
+                        <input type="text" class="form-control" id="userId" name="userId" value="${loginuser.userId}" readonly>
+                        <input type="hidden" class="form-control" id="boardRegDate" value="boardRegDate">
                     </div>
                 </div>
                 <div class="col-lg-12">

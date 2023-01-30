@@ -19,7 +19,11 @@
 <!-- ****************************** main ************************** -->
     <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">내가 쓴 게시글</h6>
+        <h6 class="m-0 font-weight-bold text-primary">내가 쓴 게시글 
+        <c:choose>
+        <c:when test="${sort=='inquery'}">- 1:1 문의</c:when>
+        <c:otherwise>- 상품 후기</c:otherwise>
+        </c:choose></h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -34,15 +38,30 @@
                 </tr>
                 </thead>
                 <tbody>
-               	<c:forEach items="${boards}" var="board"> 
+                <c:choose>
+                <c:when test="${sort=='inquery'}">
+                <c:forEach items="${boards}" var="board"> 
                	<tr>
                		<td>${board.boardNo}</td>
                     <td>${board.boardTitle}</td>
-                    <td>${board.userNo}</td>
+                    <td>${board.userId}</td>
                     <td>${board.boardRegDate}</td>
                     <td>${board.boardCount}</td>
                 </tr>
                	</c:forEach>
+                </c:when>
+                <c:otherwise>
+                <c:forEach items="${reviews}" var="review"> 
+               	<tr>
+               		<td>${review.reviewNo}</td>
+                    <td>${review.reviewTitle}</td>
+                    <td>${review.userId}</td>
+                    <td>${review.reviewRegDate}</td>
+                    <td>${review.reviewCount}</td>
+                </tr>
+               	</c:forEach>
+                </c:otherwise>
+                </c:choose>
                 </tbody>
             </table>
         </div>

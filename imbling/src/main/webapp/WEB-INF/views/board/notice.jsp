@@ -254,7 +254,7 @@
         <form method="get" name="noticeWrite">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
                             <th>글번호</th>
@@ -270,7 +270,7 @@
                             <tr>
                                 <td>${board.boardNo}</td>
                                 <td>${board.boardCategory}</td>
-                                <td>${loginuser.userName}</td>
+                                <td>${board.userId}</td>
 <%--                                <td><a href="noticeDetail?boardCategory=${board.boardCategory}&boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardContent}</a></td>--%>
                                 <td><a href="noticeDetail?boardNo=${board.boardNo}&pageNo=${pageNo}&boardCategory=${board.boardCategory}">${board.boardTitle}</a></td>
                                 <td>${board.boardRegDate}</td>

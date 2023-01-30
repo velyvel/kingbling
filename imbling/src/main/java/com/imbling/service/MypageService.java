@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
+import com.imbling.dto.ReviewDto;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.BoardEntity;
+import com.imbling.entity.ReviewEntity;
 
 public interface MypageService {
 	
@@ -35,6 +37,38 @@ public interface MypageService {
 											 .boardDeleted(boardDto.isBoardDeleted())
 											 .build();		
 		return boardEntity;
+	}
+	
+	public default ReviewDto reviewEntityToDto(ReviewEntity ReviewEntity) {
+		ReviewDto reviewDto = new ReviewDto();
+		reviewDto.setReviewNo(ReviewEntity.getReviewNo());
+		reviewDto.setOrderNo(ReviewEntity.getOrderNo());
+		reviewDto.setProductNo(ReviewEntity.getProductNo());
+		reviewDto.setUserId(ReviewEntity.getUserId());
+		reviewDto.setReviewTitle(ReviewEntity.getReviewTitle());
+		reviewDto.setReviewContent(ReviewEntity.getReviewContent());
+		reviewDto.setReviewRegDate(ReviewEntity.getReviewRegDate());
+		reviewDto.setReviewStar(ReviewEntity.getReviewStar());
+		reviewDto.setReviewCount(ReviewEntity.getReviewCount());
+		reviewDto.setReviewDeleted(ReviewEntity.isReviewDeleted());
+
+		return reviewDto;
+	}
+	
+	public default ReviewEntity reviewDtoToEntity(ReviewDto reviewDto) {
+		ReviewEntity reviewEntity = ReviewEntity.builder()
+											 .reviewNo(reviewDto.getReviewNo())
+											 .orderNo(reviewDto.getOrderNo())
+											 .productNo(reviewDto.getProductNo())
+											 .userId(reviewDto.getUserId())
+											 .reviewTitle(reviewDto.getReviewTitle())
+											 .reviewContent(reviewDto.getReviewContent())
+											 .reviewRegDate(reviewDto.getReviewRegDate())
+											 .reviewStar(reviewDto.getReviewStar())
+											 .reviewCount(reviewDto.getReviewCount())
+											 .reviewDeleted(reviewDto.isReviewDeleted())
+											 .build();		
+		return reviewEntity;
 	}
 	
 	public default AccountDto accountEntityAccountDto(AccountDtoEntity accountEntity) {
@@ -70,6 +104,12 @@ public interface MypageService {
 	}
 	
 	List<BoardDto> findMyInquery(String userId);
+	
+	List<BoardDto> findMyAllInquery(String userId);
+	
+	List<ReviewDto> findMyreview(String userId);
+	
+	List<ReviewDto> findMyAllReview(String userId);
 
 	void modifyAccount(AccountDto account);
 

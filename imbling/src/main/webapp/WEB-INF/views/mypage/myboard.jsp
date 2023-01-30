@@ -23,15 +23,16 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
+        <input type="hidden" value="${loginuser.userId}" id="userId" />
         <h5>내가 쓴 글 - 1:1 문의</h5>
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                    <th>글 번호</th>
-                    <th>글 제목</th>
-                    <th>작성자</th>
-                    <th>작성일</th>
-                    <th>조회수</th>
+                    <th data-orderable="false">글 번호</th>
+                    <th data-orderable="false">글 제목</th>
+                    <th data-orderable="false">작성자</th>
+                    <th data-orderable="false">작성일</th>
+                    <th data-orderable="false">조회수</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -40,18 +41,18 @@
                	<tr>
                		<td>${board.boardNo}</td>
                     <td>${board.boardTitle}</td>
-                    <td>${board.userNo}</td>
+                    <td>${board.userId}</td>
                     <td>${board.boardRegDate}</td>
                     <td>${board.boardCount}</td>
                 </tr>
                	</c:if>
-
                	</c:forEach>
                 </tbody>
             </table>
             <button type="button" class="btn btn-secondary" style="float:right" id="seeMoreInquery">더보기</button>
-            <br><br>
+            <br>
             <h5>내가 쓴 글 - 상품 후기</h5>
+            
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
@@ -63,17 +64,26 @@
                 </tr>
                 </thead>
                 <tbody>
-               	<c:forEach items="${boards}" var="board"> 
-               	<c:if test="${!board.boardDeleted}">
+                <c:choose>
+                <c:when test="${not empty reviews}">
+                <c:forEach items="${reviews}" var="review"> 
+               	<c:if test="${!review.reviewDeleted}">
                	<tr>
-               		<td>${board.boardNo}</td>
-                    <td>${board.boardTitle}</td>
-                    <td>${board.userNo}</td>
-                    <td>${board.boardRegDate}</td>
-                    <td>${board.boardCount}</td>
+               		<td>${review.reviewNo}</td>
+                    <td>${review.reviewTitle}</td>
+                    <td>${review.userId}</td>
+                    <td>${review.reviewRegDate}</td>
+                    <td>${review.reviewCount}</td>
                 </tr>
                	</c:if>
                	</c:forEach>
+                </c:when>
+                <c:otherwise>
+                <tr class="odd">
+                	<td valign="top" style="text-align:center" colspan="5" class="dataTables_empty">데이터가 없습니다.</td>
+                </tr>
+                </c:otherwise>
+                </c:choose>
                 </tbody>
             </table>
             <button type="button" class="btn btn-secondary" style="float:right" id="seeMoreReview">더보기</button>
@@ -94,12 +104,15 @@ $(function(){
 	$('.dataTables_info').hide();
 	$('.dataTables_filter').hide();
 	$('.dataTables_length').hide();
+	$('.sorting_disabled').removeClass('sorting_desc');
+	
+	const userId = $('#userId').val();
 	
 	$('#seeMoreInquery').on('click',function(event){
-		location.href = "/mypage/myboardInquery";
+		location.href = "/mypage/myboardInquery?userId="+userId;
 	});
 	$('#seeMoreReview').on('click',function(event){
-		location.href = "/mypage/myboardReview";
+		location.href = "/mypage/myboardReview?userId="+userId;
 	});
 	
 });

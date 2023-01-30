@@ -1,12 +1,20 @@
 package com.imbling.entity;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,20 +35,17 @@ public class ProductEntity {
 	@Column(nullable = false)
 	private int productNo; // 상품 식별자
 
-	@Column(length = 50, nullable = false)
+	@Column(length = 300, nullable = false)
 	private String productName; // 상품명 
 
 	@Column(length = 5000)
 	private String productContent; // 상품 설명
 
-	@Column(length = 200, nullable = false)
+	@Column(length = 500, nullable = false)
 	private String productImage; // 상품 이미지
 
 	@Column(nullable = false)
 	private int productPrice; // 상품 가격
-
-	@Column(nullable = false)
-	private int productEA; // 상품 수량
 
 	@Builder.Default
 	@Column(nullable = false)
@@ -48,5 +53,13 @@ public class ProductEntity {
 
 	@Builder.Default
 	@Column(nullable = false)
-	private int productCount = 0; // 상품 조회수 
+	private int productCount = 0; // 상품 조회수
+
+	@ManyToOne
+	@JoinColumn(name = "categoryNo")
+	private CategoryEntity category;
+	
+	@OneToMany(mappedBy="product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<PropertyEntity> properties;
+	
 }
