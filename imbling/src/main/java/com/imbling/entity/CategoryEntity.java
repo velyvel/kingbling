@@ -34,4 +34,8 @@ public class CategoryEntity {
 	@Column(length = 50, nullable = false)
 	private String categoryName;	// 카테고리 이름 
 	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "categoryNo")
+	private Collection<ProductEntity> products;
+	
 }

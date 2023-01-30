@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.imbling.dto.CategoryDto;
 import com.imbling.dto.ProductDto;
+import com.imbling.entity.CategoryEntity;
 import com.imbling.entity.ProductEntity;
 
 public interface ProductService {
@@ -35,10 +36,30 @@ public interface ProductService {
 		return productEntity;
 	}
 	
-	// 네이버 쇼핑 API 데이터 저장
+	public default CategoryDto categoryEntityToDto(CategoryEntity categoryEntity) {
+		CategoryDto categoryDto = new CategoryDto();
+		categoryDto.setCategoryNo(categoryEntity.getCategoryNo());
+		categoryDto.setCategoryName(categoryEntity.getCategoryName());
+		
+		return categoryDto;
+	}
+	
+	public default CategoryEntity categoryDtoToEntity(CategoryDto categoryDto) {
+		CategoryEntity categoryEntity = CategoryEntity.builder()
+													  .categoryNo(categoryDto.getCategoryNo())
+													  .categoryName(categoryDto.getCategoryName())
+													  .build();
+		return categoryEntity;
+	}
+	
+	// 네이버 쇼핑 API 데이터 저장 ////////////////////////////////
 	void saveProductInfo(ProductDto product);
 
 	void saveCategoryInfo(CategoryDto category);
 
 	List<CategoryDto> findAllCategories();
+
+	// 상품리스트 /////////////////////////////////////////////
+	
+	public CategoryDto findProductList(int categoryNo);
 }
