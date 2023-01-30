@@ -7,16 +7,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class UserOrderController {
 	
-	@GetMapping(path= {"/userOrder/sample"})
-	public String ShowjusoPage() {
+	@GetMapping(path= {"/userOrder/doOrder"})
+	public String ShowOrderPage() {
 		
-		return "/userOrder/Sample";
+		return "/userOrder/order";
 	}
 	
 	@RequestMapping(path= {"/userOrder/jusoPopup"})
 	public String showJusoPopup() {
 		
-		return "/userOrder/jusoPopup";
+		return "/modules/jusoPopup";
 	}
 
 }

@@ -57,7 +57,7 @@
                     <td>신용카드</td>
                 </tr>
                 <tr>
-                    <td><a href="/userOrder/sample">23224</a></td>
+                    <td><a href="/mypage/orderList-detail">23224</a></td>
                     <td>bbb</td>
                     <td>2011/03/21</td>
                     <td>$95,400</td>
