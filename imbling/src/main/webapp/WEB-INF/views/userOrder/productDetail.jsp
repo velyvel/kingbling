@@ -21,7 +21,9 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="product__details__breadcrumb">
-							<a href="/">Home</a> <a href="/product/list">Shop</a> <span><a href="/userOrder/detail?productNo=${productNo}">Product Details</a></span>
+							<a href="/">Home</a> <a href="/product/list">Shop</a> <span>
+							
+							<a href="/userOrder/detail?productNo=${productNo?productNo:product.productNo}">Product Details</a></span>
 						</div>
 					</div>
 				</div>
@@ -34,7 +36,7 @@
 						<div class="tab-content">
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
 								<div class="product__details__pic__item">
-									<img src="/resources/dist/img/shop-details/product-big-2.png"
+									<img src="${product.productImage}"
 										alt="">
 								</div>
 							</div>
@@ -51,23 +53,19 @@
 				<div class="row d-flex justify-content-center">
 					<div class="col-lg-8">
 						<div class="product__details__text">
-							<h4>Hooded thermal anorak</h4>
+							<h4>${product.productName}</h4>
 							<div class="rating">
 								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 									class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 									class="fa fa-star-o"></i> <span> - 5 Reviews</span>
 							</div>
-							<h3>$270.00</h3>
-							<p>Coat with quilted lining and an adjustable hood. Featuring
-								long sleeves with adjustable cuff tabs, adjustable asymmetric
-								hem with elastic side tabs and a front zip fastening with
-								placket.</p>
+							<h3>${product.productPrice}원</h3>
+							<p>${product.productContent?product.productContent:product.productName}</p>
 							<div class="product__details__option">
 								<div class="product__details__option__size">
-									<span>Size:</span> <label for="xxl">xxl <input
-										type="radio" id="xxl">
-									</label> <label class="active" for="xl">xl <input type="radio"
-										id="xl">
+									<span>Size:</span> 
+									<label for="xxl">xxl <input type="radio" id="xxl">
+									</label> <label class="active" for="xl">xl <input type="radio" id="xl">
 									</label> <label for="l">l <input type="radio" id="l">
 									</label> <label for="sm">s <input type="radio" id="sm">
 									</label>
@@ -86,7 +84,6 @@
 										<input type="text" value="1">
 									</div>
 								</div>
-								<input type="hidden" value="${productNo}" id="productNo" />
 								<button id="addToCart" class="primary-btn">+ 장바구니</button>
 								<div class="product__details__option__size">
 									<a href="#" class="primary-btn" style="border: 1px solid lightgray; background-color: white;"><i class="fa fa-heart-o" style="color:black;"></i></a>
@@ -244,19 +241,20 @@
 
 <script type="text/javascript">
 $(function(){
-	var productNo=$('#productNo').val();
 	$("#addToCart").on('click',function(event){
 		$.ajax({
 			url:"/userOrder/addToCart",
 		    type : 'post',
-		    dataType : 'JSON',       // 데이터 타입 (html, xml, json, text 등등)
-		    data : productNo,
+		    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
+		    data : {"productNo":${product.productNo},"productPrice":${product.productPrice},"productColor":"단일색상","productSize":"free","productEA":5},
 		    success : function(result) { // 결과 성공 콜백함수
 		        alert('장바구니에 상품 넣음.');
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
 		    	alert('힝');
-		        console.log(error)
+		        console.log(request);
+		        console.log(status);
+		        console.log(error);
 		    }
 		    });
 		
