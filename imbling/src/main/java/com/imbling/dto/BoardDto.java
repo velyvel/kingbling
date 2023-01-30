@@ -19,4 +19,5 @@ public class BoardDto {
 	private boolean boardDeleted;
 
 	private List<BoardAttachDto> boardAttachments;
+	private List<BoardCommentDto> boardComments;
 }

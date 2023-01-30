@@ -1,8 +1,10 @@
 package com.imbling.service;
 
 import com.imbling.dto.BoardAttachDto;
+import com.imbling.dto.BoardCommentDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.entity.BoardAttachEntity;
+import com.imbling.entity.BoardCommentEntity;
 import com.imbling.entity.BoardEntity;
 import jdk.jfr.Category;
 
@@ -37,7 +39,7 @@ public interface BoardService {
                             .build();
         return boardEntity;
     }
-
+//=========================== boardAttach ===========================
     public default BoardAttachDto boardAttachEntityToDto(BoardAttachEntity boardAttachEntity){
         BoardAttachDto boardAttachDto = new BoardAttachDto();
         boardAttachDto.setAttachName(boardAttachEntity.getAttachName());
@@ -57,6 +59,35 @@ public interface BoardService {
                             .savedAttachName(boardAttachDto.getSavedAttachName())
                             .build();
         return boardAttachEntity;
+    }
+
+//=========================== boardComment ===========================
+    public default BoardCommentDto boardCommentEntityToDto(BoardCommentEntity commentEntity){
+        BoardCommentDto commentDto = new BoardCommentDto();
+        commentDto.setCommentNo(commentEntity.getCommentNo());
+        commentDto.setCommentContent(commentEntity.getCommentContent());
+        commentDto.setCommentRegDate(commentEntity.getCommentRegDate());
+        commentDto.setCommentGroup(commentEntity.getCommentGroup());
+        commentDto.setDepth(commentEntity.getDepth());
+        commentDto.setStep(commentEntity.getStep());
+
+        return commentDto;
+    }
+
+    public default BoardCommentEntity boardCommentDtoToEntity(BoardCommentDto commentDto){
+        BoardCommentEntity commentEntity = BoardCommentEntity.builder()
+                .commentNo(commentDto.getCommentNo())
+                // .commentRegDate(commentDto.getCommentRegDate())
+                .commentGroup(commentDto.getCommentGroup())
+                .depth(commentDto.getDepth())
+                .step(commentDto.getStep())
+                .build();
+
+//        if (commentDto.getCommentRegDate() != null) {
+//            commentEntity.setCommentRegDate(commentDto.getCommentRegDate());
+//        }
+
+        return commentEntity;
     }
 
 
@@ -81,4 +112,11 @@ public interface BoardService {
     void writeBoardModal(BoardDto board);
 
     List<BoardDto> findModalBoard();
+
+    //댓글
+    List<BoardCommentDto> findComments(int boardNo);
+
+    void writeComment(BoardCommentDto comment);
+
+    //void updateGroupNo(int commentNo, int commentGroup);
 }

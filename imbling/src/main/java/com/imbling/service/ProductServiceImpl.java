@@ -33,15 +33,6 @@ public class ProductServiceImpl implements ProductService {
 	public void saveProductInfo(ProductDto product) {
 		
 		CategoryEntity category = categoryRepository.findByCategoryName(product.getCategory().getCategoryName());
-		
-		// List<PropertyEntity> property = propertyRepository.findAllByProductNo(product.getProductNo());
-		
-//		ColorEntity color = colorRepository.findByColorName(product.getColor().getColorName());
-//		ArrayList<ProductColorEntity> productColors = new ArrayList<>();
-//		ProductColorEntity productColor = new ProductColorEntity();
-//		productColor.setColor(color);
-//		productColors.add(productColor);
-		
 		ProductEntity productEntity = ProductEntity.builder()
 												   .productName(product.getProductName())
 												   .productImage(product.getProductImage())
@@ -84,6 +75,30 @@ public class ProductServiceImpl implements ProductService {
 		}
 		
 		return categoryDtos;
+	}
+
+	// 상품리스트 ////////////////////////////////////////////////////////////
+	
+	@Override
+	public CategoryDto findProductList(int categoryNo) {
+		
+		CategoryEntity categoryEntity = categoryRepository.findByCategoryNo(categoryNo);
+		CategoryDto category = categoryEntityToDto(categoryEntity);
+		
+		ArrayList<ProductDto> products = new ArrayList<>();
+		for (ProductEntity productEntity : categoryEntity.getProducts()) {
+			ProductDto productDto = new ProductDto();
+			productDto.setProductNo(productEntity.getProductNo());
+			productDto.setProductName(productEntity.getProductName());
+			productDto.setProductImage(productEntity.getProductImage());
+			productDto.setProductPrice(productEntity.getProductPrice());
+			productDto.setProductRegdate(productEntity.getProductRegdate());
+			
+			products.add(productDto);
+		}
+		category.setProducts(products);
+		
+		return category;
 	}
 
 }

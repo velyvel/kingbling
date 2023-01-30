@@ -36,8 +36,10 @@
                         <a href="notice"class="btn btn-dark"><i class="fas fa-sticky-note"></i>목록보기</a>
                     </c:otherwise>
                 </c:choose>
+                <c:if test="${ not empty loginuser and loginuser.userId eq board.userId}">
                 <input type="button" id="editBtn" value="글 수정" class="btn btn-success">
                 <input type="button" id="deleteBtn" value="글 삭제" class="btn btn-warning">
+                </c:if>
             </div>
             <h5>상세보기</h5>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
@@ -51,8 +53,11 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="regDate">작성날짜</label>
-                        <input type="date" class="form-control" id="regDate">
+                        <div class="form-group">
+                            <label for="userId">작성자</label>
+                            <input type="text" class="form-control" id="userId" name="userId" value="${board.userId}" readonly>
+                            <input type="hidden" class="form-control" id="boardRegDate" value="boardRegDate">
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -75,7 +80,6 @@
                         <tr>
                             <td style="align-content: center;">
                                <p>글 내용</p>
-                                <span id="selected-file-name"> 첨부파일: ${board.boardAttachments.attachName}</span><br>
                             </td>
                         </tr>
                         <tr>
@@ -85,16 +89,32 @@
                         </tr>
                         </tbody>
                     </table>
-                    <%--                <div class="form-group">--%>
-                    <%--                    <div class="btn btn-default btn-file">--%>
-                    <%--                        <i class="fas fa-paperclip"></i> Attachment--%>
-                    <%--                        <input type="file" name="attachment">--%>
-                    <%--                    </div>--%>
-                    <%--                    <p class="help-block">첨부파일 최대: 32MB</p>--%>
-                    <%--                </div>--%>
                 </div>
             </div>
         </form>
+<%--   댓글작성     --%>
+        <form id="commentForm" action="commentForm" method="post">
+            <input type="hidden" name="boardNo" value="${ board.boardNo }" />
+            <input type="hidden" name="pageNo" value="${ pageNo }" />
+            <div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <textarea id="commentContent" name="commentContent" class="form-control" rows="3" placeholder="댓글을 입력해 주세요"></textarea>
+                    </div>
+                        <div class="col-sm-2">
+                            <input class="form-control" value="${session.loginuser}" name="board.userId">
+                            <a id="writeComment" href="javascript:" class="btn btn-warning" style="width: 100%; margin-top: 10px"> 댓글 등록 </a>
+                        </div>
+                    </div>
+            </div>
+<%--     댓글목록       --%>
+            <div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
+                <h6 class="border-bottom pb-2 mb-0">Reply list</h6>
+                <table id="commentList" class="table table-bordered"></table>
+            </div>
+        <br>
+<%--대댓글쓰기--%>
+
     </div>
 </div>
 <br>
@@ -118,6 +138,27 @@
             if (!agree) return;
             location.href='${board.boardNo}/delete?pageNo=${pageNo}';
         });
+        $('#commentList').load("commentList?boardNo=${board.boardNo}");
+        $('#writeComment').on('click',function (event){
+            const formData = $('#commentForm').serialize();
+            $.ajax({
+                "url":"commentForm",
+                "method":"post",
+                "data":formData,
+                "success":function(data, status, xhr){
+                    if(data == "success"){
+                        alert("댓글등록 성공");
+                        $('#commentList').load("commentList?boardNo=${board.boardNo}");
+                        $('#commentForm textarea').val("");
+                    }
+                },
+                "error": function (xhr, status, err){
+
+                }
+            });
+
+        });
+
     });
 
 

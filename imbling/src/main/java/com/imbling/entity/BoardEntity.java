@@ -52,4 +52,8 @@ public class BoardEntity {
 	@JoinColumn(name = "boardNo")
 	private Collection<BoardAttachEntity> boardAttachments;
 
+	//댓글 추가
+	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Collection<BoardCommentEntity> boardComments;
+
 }
