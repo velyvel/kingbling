@@ -23,7 +23,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="product__details__breadcrumb">
-							<a href="/">홈</a> <a href="/product/list?categoryNo=${categoryNo}">상품목록</a><span>${product.productName}</span>
+							<a href="/">홈</a><a href="/product/list?categoryNo=${categoryNo}">상품목록</a><span>${product.productName}</span>
 						</div>
 					</div>
 				</div>
@@ -86,14 +86,13 @@
 										<input type="text" value="1">
 									</div>
 								</div>
-								<a href="#" class="primary-btn"><i
-									class="fa-regular fa-credit-card"></i> 결제하기</a> <a href="#"
-									class="primary-btn"><i class="fa-solid fa-cart-plus"></i>
-									장바구니</a>
+								<a href="#" class="primary-btn"><i class="fa-regular fa-credit-card"></i> 결제하기</a>
+								<a href="#" class="primary-btn"><i class="fa-solid fa-cart-plus"></i> 장바구니</a>
+								<input type="hidden" value="${productNo}" id="productNo" />
+								
 								<div class="product__details__option__size">
-									<a href="#" class="primary-btn"
-										style="border: 1px solid lightgray; background-color: white;"><i
-										class="fa fa-heart-o" style="color: black;"></i></a>
+									<a href="#" class="primary-btn" style="border: 1px solid lightgray; background-color: white;">
+									<i class="fa fa-heart-o" style="color: black;"></i></a>
 								</div>
 							</div>
 							<div class="product__details__last__option">
@@ -232,6 +231,29 @@
 
 	<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
 
+<script type="text/javascript">
+$(function(){
+	var productNo=$('#productNo').val();
+	$("#addToCart").on('click',function(event){
+		$.ajax({
+			url:"/userOrder/addToCart",
+		    type : 'post',
+		    dataType : 'JSON',       // 데이터 타입 (html, xml, json, text 등등)
+		    data : productNo,
+		    success : function(result) { // 결과 성공 콜백함수
+		        alert('장바구니에 상품 넣음.');
+		    },
+		    error : function(request, status, error) { // 결과 에러 콜백함수
+		    	alert('힝');
+		        console.log(error)
+		    }
+		    });
+		
+		
+	});
+	
+});
+</script>
 
 
 </body>

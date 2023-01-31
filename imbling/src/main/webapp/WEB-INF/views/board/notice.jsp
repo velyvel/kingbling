@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -198,17 +199,18 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">1:1문의</h5>
-                                    <div> 작성자: ${user.userName} </div>
+                                    <div> 작성자: ${loginuser.userId} </div>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form name="boardModal" method="post" action="boardModal.action">
+                                    <form name="boardModal" method="post" action="boardModal" id="boardModal">
                                         <div class="form-group">
                                             <label for="recipient-name" class="col-form-label" >제목:</label>
                                             <input type="text" class="form-control" id="recipient-name" name="boardTitle">
                                             <input type="hidden" class="form-control" name="boardCategory" value="3">
+                                            <input type="hidden" name="userId" value="${loginuser.userId}">
                                         </div>
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">내용:</label>
@@ -273,27 +275,12 @@
                                 <td>${board.userId}</td>
 <%--                                <td><a href="noticeDetail?boardCategory=${board.boardCategory}&boardNo=${board.boardNo}&pageNo=${pageNo}">${board.boardContent}</a></td>--%>
                                 <td><a href="noticeDetail?boardNo=${board.boardNo}&pageNo=${pageNo}&boardCategory=${board.boardCategory}">${board.boardTitle}</a></td>
-                                <td>${board.boardRegDate}</td>
+                                <td><fmt:formatDate pattern="yy-MM-dd" value="${board.boardRegDate}"/></td>
                                 <td>${board.boardCount}</td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
-                    <nav aria-label="...">
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active" aria-current="page">
-                                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
 
@@ -307,8 +294,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <span>1:1 문의사항 리스트</span>
-            <forme
-                    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                 <div class="input-group">
                     <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                            aria-label="Search" aria-describedby="basic-addon2">
@@ -318,18 +304,19 @@
                         </button>
                     </div>
                 </div>
-            </forme>
+            </form>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
             <div style="float: right;">
                 <button type="button" class="btn btn-dark" style="margin-bottom: 10px;">편집하기</button>
             </div>
         </div>
-        <form method="get" name=showModal action="showModal.action">
+        <form method="get" name=showModal action="showModal" id="showModal">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                     <thead>
                     <tr>
+                        <th>번호</th>
                         <th>작성날짜</th>
                         <th>제목</th>
                         <th>작성자</th>
@@ -337,12 +324,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="board" items="${boards}">
+                    <c:forEach var="board2" items="${boards2}">
                         <tr>
-                            <td>${board.boardRegDate}</td>
-                            <td>${board.boardTitle}</td>
-                            <td>${loginuser.userName}</td>
-                            <td><button type="button" class="btn btn-primary" id="showMemo">상세보기</button></td>
+                            <td>${board2.boardNo}</td>
+                            <td><fmt:formatDate pattern="yy-MM-dd" value="${board2.boardRegDate}"/></td>
+                            <td>${board2.boardTitle}</td>
+                            <td>${board2.userId}</td>
+                            <td><a href="showModalDetail?boardNo=${board2.boardNo}&pageNo=${pageNo}&boardCategory=${board2.boardCategory}">상세보기</a>
+                                <button type="button" class="btn btn-primary" id="showReply">답변보기</button></td>
+<%--                            <td><button type="button" class="btn btn-primary" >상세보기</button></td>--%>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -350,6 +340,14 @@
             </div>
         </div>
         </form>
+<%-- =======================================모달창 상세보기==========================================       --%>
+        <jsp:include page="showModalDetail.jsp"/>
+
+
+
+
+
+
     </div>
 </div>
 <jsp:include page="/WEB-INF/views/modules/footer.jsp" />
@@ -360,9 +358,25 @@
 
     });
 
-    $(function(){
+    // ////////// 버튼 클릭하면 인풋창 나왔다 안나왔
+    // const targetDiv = document.getElementById("replyForm")
+    // const btn = document.getElementById("showReply");
+    // btn.onclick = function (){
+    //     if (targetDiv.style.display !== "block"){
+    //         targetDiv.style.display = "none";
+    //         }else{
+    //         targetDiv.style.display="none";
+    //     }
+    // };
 
-    });
+    $('#showReply').click(function (){
+        $('#modalDetail').modal();
+        $('.modal-title').text("${board2.boardTitle}")
+        $('#detailText').text("${board2.boardContent}")
+    })
+
+
+
 
 </script>
 

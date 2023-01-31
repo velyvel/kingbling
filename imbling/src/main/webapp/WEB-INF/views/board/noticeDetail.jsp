@@ -2,6 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -93,6 +95,7 @@
             </div>
         </form>
 <%--   댓글작성     --%>
+
         <form id="commentForm" action="commentForm" method="post">
             <input type="hidden" name="boardNo" value="${ board.boardNo }" />
             <input type="hidden" name="pageNo" value="${ pageNo }" />
@@ -102,17 +105,25 @@
                         <textarea id="commentContent" name="commentContent" class="form-control" rows="3" placeholder="댓글을 입력해 주세요"></textarea>
                     </div>
                         <div class="col-sm-2">
-                            <input class="form-control" value="${session.loginuser}" name="board.userId">
+                            <input class="form-control" value="${loginuser.userId}" name="writer" readonly>
                             <a id="writeComment" href="javascript:" class="btn btn-warning" style="width: 100%; margin-top: 10px"> 댓글 등록 </a>
                         </div>
                     </div>
             </div>
-<%--     댓글목록       --%>
-            <div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
-                <h6 class="border-bottom pb-2 mb-0">Reply list</h6>
-                <table id="commentList" class="table table-bordered"></table>
+
+<%--      목록샘플      --%>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="commentList" width="100%" cellspacing="0">
+
+                    </table>
+                </div>
             </div>
+
         <br>
+
+
 <%--대댓글쓰기--%>
 
     </div>
@@ -160,6 +171,10 @@
         });
 
     });
+
+
+
+
 
 
 </script>
