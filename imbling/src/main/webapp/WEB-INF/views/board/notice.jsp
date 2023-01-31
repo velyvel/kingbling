@@ -204,7 +204,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form name="boardModal" method="post" action="boardModal.action">
+                                    <form name="boardModal" method="post" action="boardModal" id="boardModal">
                                         <div class="form-group">
                                             <label for="recipient-name" class="col-form-label" >제목:</label>
                                             <input type="text" class="form-control" id="recipient-name" name="boardTitle">
@@ -279,21 +279,6 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <nav aria-label="...">
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active" aria-current="page">
-                                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
 
@@ -307,8 +292,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <span>1:1 문의사항 리스트</span>
-            <forme
-                    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                 <div class="input-group">
                     <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                            aria-label="Search" aria-describedby="basic-addon2">
@@ -318,16 +302,16 @@
                         </button>
                     </div>
                 </div>
-            </forme>
+            </form>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
             <div style="float: right;">
                 <button type="button" class="btn btn-dark" style="margin-bottom: 10px;">편집하기</button>
             </div>
         </div>
-        <form method="get" name=showModal action="showModal.action">
+        <form method="get" name=showModal action="showModal" id="showModal">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="qList" width="100%" cellspacing="0">
                     <thead>
                     <tr>
                         <th>작성날짜</th>
@@ -337,7 +321,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="board" items="${boards}">
+                    <c:forEach var="board.boardCategory=3" items="${boards}">
                         <tr>
                             <td>${board.boardRegDate}</td>
                             <td>${board.boardTitle}</td>
@@ -357,10 +341,6 @@
 <jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 <script type="text/javascript">
     $('#exampleModal').on('show.bs.modal', function (event) {
-
-    });
-
-    $(function(){
 
     });
 

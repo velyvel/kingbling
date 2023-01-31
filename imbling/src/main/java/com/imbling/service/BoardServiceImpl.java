@@ -1,9 +1,12 @@
 package com.imbling.service;
 
+import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardCommentDto;
 import com.imbling.dto.BoardDto;
+import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.BoardCommentEntity;
 import com.imbling.entity.BoardEntity;
+import com.imbling.repository.AccountRepository;
 import com.imbling.repository.CommentRepository;
 import com.imbling.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,14 +136,14 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public void writeComment(BoardCommentDto comment) {
+    public void writeComment(BoardCommentDto comment, AccountDto account) {
 
         BoardEntity board = boardRepository.findByBoardNo(comment.getBoardNo());
-
         BoardCommentEntity commentEntity = BoardCommentEntity.builder()
                 .commentNo(comment.getCommentNo())
                 .commentContent(comment.getCommentContent())
                 .commentGroup(comment.getCommentGroup())
+                .writer(comment.getWriter())
                 //.commentRegDate(comment.getCommentRegDate())
                 .board(board)
                 .build();

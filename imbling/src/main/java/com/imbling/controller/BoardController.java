@@ -210,8 +210,8 @@ public class BoardController {
 	// 댓글 쓰기
 	@PostMapping(path = {"/commentForm"})
 	@ResponseBody
-	public String writeComment(BoardCommentDto comment){
-		boardService.writeComment(comment);
+	public String writeComment(BoardCommentDto comment, AccountDto account){
+		boardService.writeComment(comment, account);
 		//boardService.updateGroupNo(comment.getCommentNo(), comment.getCommentGroup());
 		return "success";
 	}
@@ -219,7 +219,7 @@ public class BoardController {
 
 //============================ 1:1 문의 ============================
 
-	@PostMapping(path = {"/boardModal.action"})
+	@PostMapping(path = {"/boardModal"})
 	public String writeModal(BoardDto board){
 		int boardCategory = board.getBoardCategory();
 		boardService.writeBoardModal(board);
@@ -234,14 +234,14 @@ public class BoardController {
 
 	}
 // 모달 리스트 불러오기(이건 실패, 오류는 아님)
-	@GetMapping(path = {"/showModal.action"})
+	@GetMapping(path = {"/showModal"})
 	public String showModalList(@RequestParam (defaultValue = "1") int pageNo, BoardDto board, Model model){
 		board.setBoardCategory(3);
 		List<BoardDto> boards = boardService.findModalBoard();
 		model.addAttribute("boards", boards);
 		model.addAttribute("pageNo", pageNo);
 //이거 jsp하나 더 만들고 넣어보기
-		return "board/showModal.action";
+		return "board/notice/showModal.action";
 	}
 
 }

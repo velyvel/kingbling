@@ -1,5 +1,6 @@
 package com.imbling.service;
 
+import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardAttachDto;
 import com.imbling.dto.BoardCommentDto;
 import com.imbling.dto.BoardDto;
@@ -65,6 +66,7 @@ public interface BoardService {
     public default BoardCommentDto boardCommentEntityToDto(BoardCommentEntity commentEntity){
         BoardCommentDto commentDto = new BoardCommentDto();
         commentDto.setCommentNo(commentEntity.getCommentNo());
+        commentDto.setWriter(commentEntity.getWriter());
         commentDto.setCommentContent(commentEntity.getCommentContent());
         commentDto.setCommentRegDate(commentEntity.getCommentRegDate());
         commentDto.setCommentGroup(commentEntity.getCommentGroup());
@@ -77,6 +79,7 @@ public interface BoardService {
     public default BoardCommentEntity boardCommentDtoToEntity(BoardCommentDto commentDto){
         BoardCommentEntity commentEntity = BoardCommentEntity.builder()
                 .commentNo(commentDto.getCommentNo())
+                .writer(commentDto.getWriter())
                 // .commentRegDate(commentDto.getCommentRegDate())
                 .commentGroup(commentDto.getCommentGroup())
                 .depth(commentDto.getDepth())
@@ -116,7 +119,7 @@ public interface BoardService {
     //댓글
     List<BoardCommentDto> findComments(int boardNo);
 
-    void writeComment(BoardCommentDto comment);
+    void writeComment(BoardCommentDto comment, AccountDto account);
 
     //void updateGroupNo(int commentNo, int commentGroup);
 }
