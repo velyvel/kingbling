@@ -103,11 +103,12 @@ public class BoardServiceImpl implements BoardService{
     }
 //1:1 문의 모달창
     @Override
-    public void writeBoardModal(BoardDto board) {
+    public void writeBoardModal(BoardDto board2) {
         BoardEntity boardEntity = BoardEntity.builder()
-                .boardTitle(board.getBoardTitle())
-                .boardCategory(board.getBoardCategory())
-                .boardContent(board.getBoardContent())
+                .boardTitle(board2.getBoardTitle())
+                .boardCategory(board2.getBoardCategory())
+                .boardContent(board2.getBoardContent())
+                .userId(board2.getUserId())
                 .build();
         boardRepository.save(boardEntity);
     }
@@ -115,11 +116,11 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public List<BoardDto> findModalBoard() {
         List<BoardEntity> boardList = boardRepository.findModalByBoardCategoryDesc();
-        ArrayList<BoardDto> boards = new ArrayList<>();
+        ArrayList<BoardDto> boards2 = new ArrayList<>();
         for (BoardEntity boardEntity : boardList) {
-            boards.add(boardEntityToDto(boardEntity));
+            boards2.add(boardEntityToDto(boardEntity));
         }
-        return boards;
+        return boards2;
     }
 
     //============ 댓글 ============

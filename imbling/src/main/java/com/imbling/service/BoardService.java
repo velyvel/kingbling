@@ -112,7 +112,7 @@ public interface BoardService {
 
     void increaseBoardCount(int boardNo);
 
-    void writeBoardModal(BoardDto board);
+    void writeBoardModal(BoardDto board2);
 
     List<BoardDto> findModalBoard();
 
