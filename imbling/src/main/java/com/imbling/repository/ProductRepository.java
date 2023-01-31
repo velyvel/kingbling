@@ -9,5 +9,6 @@ import com.imbling.entity.ProductEntity;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long>{
 
+	ProductEntity findByProductNo(int productNo);
 
 }

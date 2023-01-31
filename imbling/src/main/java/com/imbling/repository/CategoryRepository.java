@@ -9,8 +9,10 @@ import com.imbling.entity.ProductEntity;
 
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Integer> {
 	
+	List<CategoryEntity> findAllByOrderByCategoryNo();
+	
 	CategoryEntity findByCategoryName(String categoryName);
 
 	CategoryEntity findByCategoryNo(int categoryNo);
-
+	
 }

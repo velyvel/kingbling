@@ -47,11 +47,10 @@
 										<div class="card-body">
 											<div class="shop__sidebar__categories">
 												<ul class="nice-scroll">
-													<li><a href="#">귀걸이</a></li>
-													<li><a href="#">목걸이</a></li>
-													<li><a href="#">반지</a></li>
-													<li><a href="#">팔찌</a></li>
-													<li><a href="#">발</a></li>
+													<c:forEach var="category" items="${categories}">
+														<li><a class="product-category" data-category-no="${category.categoryNo}">
+																${category.categoryName}</a></li>
+													</c:forEach>
 												</ul>
 											</div>
 										</div>
@@ -65,6 +64,7 @@
 
 				<!-- ****************************** product-option ************************** -->
 				<div class="col-lg-9">
+					<!-- product category -->
 					<div class="shop__product__option">
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-sm-6">
@@ -86,27 +86,13 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<c:forEach var="product" items="${category.products}">
-							<div class="col-lg-4 col-md-6 col-sm-6">
-								<div class="product__item">
-									<div class="product__item__pic set-bg"
-										data-setbg="${product.productImage}">
-										<a href = "/product/detail"></a>
-										<ul class="product__hover">
-											<li><a href="#"><img src="/resources/dist/img/icon/heart.png" alt=""></a></li>
-										</ul>
-									</div>
-									<div class="product__item__text">
+					<!--  end of product category -->
 
-										<h6>${product.productName}</h6>
-										<a href="/product/detail?productNo=${product.productNo}" class="add-cart">+ 상세페이지 보기</a>
-										<h5><fmt:formatNumber value="${product.productPrice}" pattern="₩#,###"/></h5>
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-					</div>
+					<!-- product list by category -->
+					<div id="product-list" class="row"></div>
+					<!--  end of product list by category -->
+
+					<!-- paging -->
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="product__pagination">
@@ -115,6 +101,7 @@
 							</div>
 						</div>
 					</div>
+					<!-- end of paging -->
 				</div>
 			</div>
 		</div>
@@ -128,6 +115,33 @@
 	<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
 	<script type="text/javascript">
 		$(function() {
+			
+			$('#product-list').load("product-list?categoryNo="+ ${categories[0].categoryNo});
+			
+			// 카테고리 클릭시 그 카테고리에 해당하는 상품리스트 조회 
+			$('.product-category').on('click', function(evnet) {
+				var categoryNo = $(this).data('category-no');
+
+				$.ajax({
+					"url" : "product-list",
+					"method" : "get",
+					"data" : "categoryNo=" + categoryNo,
+					"success" : function(data, status, xhr) {
+						$('#product-list').load("product-list?categoryNo="+ categoryNo);
+					},
+					"error" : function(data, status, err) {
+						alert('error');
+					}
+				})
+			});
+			
+			// 상품명 또는 상품이미지 클릭시 상품상세페이지로 이동
+			$('#product-list').on('click', 'a.product-name', function(event) {
+				var productNo = $(this).data('product-no');
+				var categoryNo = $(this).data('category-no');
+
+				location.href= "/product/detail?productNo=" + productNo + "&categoryNo=" + categoryNo;
+			});
 			
 		});
 	</script>
