@@ -151,5 +151,7 @@ public interface BoardService {
 
     List<BoardFaqDto> findFaq();
 
+    void writeFaq(BoardFaqDto faq);
+
     //void updateGroupNo(int commentNo, int commentGroup);
 }

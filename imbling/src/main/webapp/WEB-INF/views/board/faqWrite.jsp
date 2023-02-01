@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <jsp:include page="/WEB-INF/views/modules/common-css.jsp" />
     <jsp:include page="/WEB-INF/views/modules/admin/common-css.jsp" />
-    <title>자주묻는질문</title>
+    <title>공지사항작성(관리자)</title>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -27,68 +27,58 @@
             <form method="post" id="faqWrite" action="faqWrite">
                 <input type="hidden" name="attach" value="">
                 <input type="hidden" name="savedFileName" value="">
-            <div style="float: right;">
-                <a href="notice"class="btn btn-danger"><i class="fas fa-close"></i> 취소하기</a>
-                <input id="submitBtn" type="submit" class="btn btn-success" value="작성완료">
-            </div>
-            <h5>게시글 작성</h5>
-            <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
+                <div style="float: right;">
+                    <a href="notice"class="btn btn-danger"><i class="fas fa-close"></i> 취소하기</a>
+                    <input id="submitBtn" type="submit" class="btn btn-success" value="작성완료">
+                </div>
+                <h5>게시글 작성</h5>
+                <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
         </div>
-            <div class="card-body">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="boardCategory">게시판 종류</label>
-                        <select class="form-control" id="boardCategory" name="boardCategory" required>
-                            <option selected>게시판 종류 선택️</option>
-                            <option value="1">이벤트</option>
-                            <option value="2">공지사항️️</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="boardCategory">게시판 종류</label>
-                        <select class="form-control" id="boardCategory2" name="boardCategory" required>
-                            <option selected>게시판 종류 선택️</option>
-                            <option value="1">이벤트</option>
-                            <option value="2">공지사항️️</option>
-                        </select>
-                    </div>
-                </div>
-<%--                <div class="col-sm-6">--%>
-
-<%--                    <div class="form-group">--%>
-<%--                        <label for="userId">작성자</label>--%>
-<%--                        <input type="text" class="form-control" id="userId" name="userId" value="${loginuser.userId}" readonly>--%>
-<%--                        <input type="hidden" class="form-control" id="boardRegDate" value="boardRegDate">--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-
-                <br><br>
-                <div class="col-lg-12">
-                    <div class="form-group">
-                        <label for="boardTitle">제목</label>
-                        <input type="text" class="form-control" placeholder="공지사항제목" name="boardTitle" id="boardTitle">
-<%--                        <input type="hidden" class="form-control" readonly name="boardNo" value="${board.boardNo}">--%>
-<%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
-                        <thead hidden>
-                        <tr>
-                            <th>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <textarea id="boardContent" name="boardContent"></textarea>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+        <div class="card-body">
+            <div class="col-sm-6" style="float: right;">
+                <div class="form-group">
+                    <label for="boardCategory">게시판 종류</label>
+                    <select class="form-control" id="boardCategory" name="boardCategory" required>
+                        <option selected>게시판 종류 선택️</option>
+                        <option value="1">주문, 결제</option>
+                        <option value="2">배송문의</option>
+                        <option value="3">회원가입, 로그인</option>
+                    </select>
                 </div>
             </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="faq">게시판</label>
+                    <input type="text" class="form-control" id="faq" value="faq 게시판 편집" readonly>
+                    <input type="hidden" class="form-control" id="boardRegDate" value="boardRegDate">
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="boardTitle">제목</label>
+                    <input type="text" class="form-control" placeholder="공지사항제목" name="boardTitle" id="boardTitle">
+                    <%--                        <input type="hidden" class="form-control" readonly name="boardNo" value="${board.boardNo}">--%>
+                    <%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                    <thead hidden>
+                    <tr>
+                        <th>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <textarea id="boardContent" name="boardContent"></textarea>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         </form>
     </div>
 </div>
@@ -142,7 +132,7 @@
 
     }
 
-         $(function (){
+    $(function (){
         //     $('#boardContent').summernote({
         //         dialogsInBody: true,
         //         placeholder:'공지사항 작성합니다',

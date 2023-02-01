@@ -167,8 +167,12 @@ public class BoardServiceImpl implements BoardService{
 //        return boards;
 //    }
         List<BoardFaqEntity> faqList = boardRepository.findFaqByBoardFaqCategoryDesc();
-
         return null;
+    }
+
+    @Override
+    public void writeFaq(BoardFaqDto faq) {
+
     }
 
 //    @Override

@@ -255,6 +255,13 @@ public class BoardController {
 		return "board/faqWrite";
 		}
 
+	@PostMapping(path = {"/faqWrite"})
+		public String writeFaq(BoardFaqDto faq){
+		int faqCategory = faq.getFaqCategory();
+		boardService.writeFaq(faq);
+			return "board/faqWrite";
+	}
+
 
 
 

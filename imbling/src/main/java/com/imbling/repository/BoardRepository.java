@@ -32,6 +32,6 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
     @Query(value = "SELECT * FROM imb_board WHERE boardCategory=3 ORDER BY boardRegDate DESC", nativeQuery = true)
     List<BoardEntity> findModalByBoardCategoryDesc();
 
-    //@Query(value = )
+    @Query(value = "select * from imb_boardfaq order by faqRegdate desc", nativeQuery = true)
     List<BoardFaqEntity> findFaqByBoardFaqCategoryDesc();
 }
