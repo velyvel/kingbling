@@ -32,6 +32,7 @@ public class AccountServiceImpl implements AccountService {
 		accountEntity= accountDtoToEntity(member);
 		
 		HashSet<AccountDocImgDtoEntity> attachments = new HashSet<>();
+		
  		for (AccountDocImgDto boardAttachDto : member.getAttachments()) {
  			attachments.add(accountDocImgDtoToEntity(boardAttachDto));
  		}
@@ -48,9 +49,17 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public AccountDto  findByUserIdAndUserPassword(String userId, String userPassword) {
 		userPassword = Util.getHashedString(userPassword, "SHA-256");
+
+
 		AccountDtoEntity loginuser=accountRepository.findByUserIdAndUserPassword(userId,userPassword);
-		AccountDto loginuserDto =accountEntityAccountDto(loginuser);
-		return loginuserDto;
+		if (loginuser!=null) {
+			AccountDto loginuserDto =accountEntityAccountDto(loginuser);
+			return loginuserDto;
+
+		}else {
+			return null;
+
+		}
 	}
 
 
@@ -63,6 +72,26 @@ public class AccountServiceImpl implements AccountService {
 			AccountDto returnId=accountEntityAccountDto(checkerId);
 			return returnId;	
 		}
+		
+	}
+
+
+	@Override
+	public void deleteMember(AccountDto member) {
+		
+		AccountDtoEntity accountEntity;
+		accountEntity= accountDtoToEntity(member);
+		
+//		HashSet<AccountDocImgDtoEntity> attachments = new HashSet<>();
+//		
+// 		for (AccountDocImgDto boardAttachDto : member.getAttachments()) {
+// 			attachments.add(accountDocImgDtoToEntity(boardAttachDto));
+// 		}
+// 		accountEntity.setAttachments(attachments);
+ 		
+		
+		accountRepository.save(accountEntity); // 데이터베이스에 데이터 저장	
+		
 		
 	}
 

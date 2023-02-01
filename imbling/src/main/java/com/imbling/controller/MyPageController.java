@@ -1,5 +1,6 @@
 package com.imbling.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,11 +12,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.imbling.dto.AccountDocImgDto;
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.dto.CartDto;
 import com.imbling.dto.ReviewDto;
+import com.imbling.service.AccountService;
 import com.imbling.service.MypageService;
 
 @Controller
@@ -25,6 +29,12 @@ public class MyPageController {
 	@Qualifier("mypageService")
 	private MypageService mypageService;
 
+
+	@Autowired
+	@Qualifier("accountService")
+	private AccountService accountService;
+	
+	
 	@GetMapping(path = { "/mypage/myInfo", })
 	public String showMyInfo(HttpSession session) {
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
@@ -111,6 +121,34 @@ public class MyPageController {
 	  
 	  return "mypage/myboard-see-more";
 	  }
-	 
+	  
+	  
+	  @PostMapping(path = { "/mypage/deleteIdModal" })
+	  @ResponseBody
+
+	  public String deleteIdModal(String userId, String userPassword,HttpSession session) {
+
+		  AccountDto loginUser = accountService.findByUserIdAndUserPassword(userId, userPassword);
+
+		  if(loginUser !=null) {
+			
+			//ArrayList<AccountDocImgDto> attachments = new ArrayList<>(); // 첨부파일 정보를 저장하는 DTO 객체
+//			AccountDocImgDto attachment = new AccountDocImgDto();
+//			attachment.setDocName("deleteUser");
+//			attachments.add(attachment);
+			loginUser.setUserActiveState(true);
+//			loginUser.setAttachments(attachments);
+			  System.out.println(loginUser);
+
+			session.setAttribute("loginuser", null);
+
+		}else {
+			return "wrongIdOrPw"; // return "redirect:/home.action";
+
+		}
+
+		accountService.deleteMember(loginUser);
+		return "success"; 
+		}
 
 }

@@ -23,12 +23,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.imbling.common.Util;
 import com.imbling.dto.AccountDocImgDto;
@@ -49,24 +51,28 @@ public class AccountController {
 	}
 
 	@PostMapping(path = { "/member/login" })
-	public String Login(String userId, String userPassword, HttpSession session) {
+	public String Login(String userId, String userPassword, HttpSession session,Model model,RedirectAttributes rttr) {
 
-		System.out.print("Login" + userId + "Loginpw" + userPassword);
 
 		if (userId == "" || userPassword == "") {
-//			session.setAttribute("loginuser", account);
-			System.out.print("Login");
 
+			rttr.addFlashAttribute("errM","아이디 또는 페스워드가 없습니다 ");
 			return "redirect:login";
 
 		} else {
-			AccountDto loginUser = accountService.findByUserIdAndUserPassword(userId, userPassword);
 
+			AccountDto loginUser = accountService.findByUserIdAndUserPassword(userId, userPassword);
+			if (loginUser == null) {
+
+				rttr.addFlashAttribute("errM","일치하는 아이디가 없습니다 ");
+				return "redirect:login";
+
+			}
+			
 			session.setAttribute("loginuser", loginUser);
 
 		}
 
-		// System.out.print(loginUser);
 		return "redirect:/home"; // return "redirect:/home.action";
 	}
 
@@ -85,7 +91,7 @@ public class AccountController {
 		if (attach != null) { // 내용이 있는 경우
 			// 2. 데이터 처리
 			ServletContext application = req.getServletContext();
-			String path = application.getRealPath("/account-attachments");
+			String path = application.getRealPath("/ocr/venv/account-attachments");
 			String fileName = attach.getOriginalFilename(); // 파일 이름 가져오기
 			if (fileName != null && fileName.length() > 0) {
 				String uniqueFileName = Util.makeUniqueFileName(fileName);
@@ -97,7 +103,7 @@ public class AccountController {
 					ArrayList<AccountDocImgDto> attachments = new ArrayList<>(); // 첨부파일 정보를 저장하는 DTO 객체
 
 					AccountDocImgDto attachment = new AccountDocImgDto();
-					attachment.setDocName(fileName);
+					attachment.setDocName(uniqueFileName);
 
 					attachments.add(attachment);
 
@@ -277,4 +283,5 @@ public class AccountController {
 		}
 		return conn;
 	}
+	
 }
