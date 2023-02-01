@@ -55,6 +55,11 @@ public class UserOrderServiceImpl implements UserOrderService{
 		
 	}
 
+	@Override
+	public void deleteFromCart(String userId, int propertyNo) {
+		cartRepository.deleteById(userId,propertyNo);
+	}
+
 		
 	
 	

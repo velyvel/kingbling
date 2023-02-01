@@ -66,5 +66,7 @@ public interface UserOrderService {
 
 	void addProductToCart(CartDto cart);
 
+	void deleteFromCart(String userId, int propertyNo);
+
 
 }

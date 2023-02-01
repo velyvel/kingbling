@@ -36,23 +36,22 @@
                            <tr>
                             <td class="product__cart__item">
                                 <div class="product__cart__item__pic">
-                                    <img src="/resources/dist/img/shopping-cart/cart-1.jpg" alt="">
+                                    <img src="${cart.product.productImage}" alt="" style="height:120px; weight: 120px">
                                 </div>
                                 <div class="product__cart__item__text">
                                     <h6>${cart.product.productName}</h6>
-                                    <h5><fmt:formatNumber value="${cart.product.productPrice}"
-									pattern="₩#,###" /></h5>
+                                    <h5><fmt:formatNumber value="${cart.product.productPrice}" pattern="₩#,###" /></h5>
                                 </div>
                             </td>
                             <td class="quantity__item">
                                 <div class="quantity">
                                     <div class="pro-qty-2">
-                                        <input type="text" value="1">
+                                        <input id="cartEA${cart.propertyNo}" data-propertyno='${propertyNo}' type="text" value="${cart.cartEA}">
                                     </div>
                                 </div>
                             </td>
-                            <td class="cart__price">300,000원</td>
-                            <td class="cart__close"><i class="fa fa-close"></i></td>
+                            <td class="cart__price"><fmt:formatNumber value="${cart.cartTotalPrice}" pattern="₩#,###" /></td>
+                            <td class="cart__close"><i class="fa fa-close" id="cartDelete${cart.propertyNo}" data-propertyno="${cart.propertyNo}"></i></td>
                         </tr>
                         </c:forEach>
                         </tbody>
@@ -61,28 +60,16 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="continue__btn">
-                            <a href="#">쇼핑 계속 하기</a>
+                            <a href="/product/list">쇼핑 계속 하기</a>
                         </div>
                     </div>
-<!--                     <div class="col-lg-6 col-md-6 col-sm-6">
-                        <div class="continue__btn update__btn">
-                            <a href="#"><i class="fa fa-spinner"></i>장바구니 새로고침</a>
-                        </div>
-                    </div> -->
                 </div>
             </div>
             <div class="col-lg-4">
-<!--                 <div class="cart__discount">
-                    <h6>Discount codes</h6>
-                    <form action="#">
-                        <input type="text" placeholder="Coupon code">
-                        <button type="submit">Apply</button>
-                    </form>
-                </div> -->
                 <div class="cart__total">
                     <h6>장바구니 주문 총계</h6>
                     <ul>
-                        <li>주문 총액 <span>$ 169.50</span></li>
+                        <li>주문 총액 <span id="cartTotalPriceResult"></span></li>
                     </ul>
                     <a href="#" class="primary-btn">주문하기</a>
                 </div>
@@ -96,13 +83,30 @@
 <jsp:include page="/WEB-INF/views/modules/footer.jsp" />
 <!-- ****************************** end footer ************************** -->
 
-
-
-
-
 <jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
 
-
+<script type="text/javascript">
+$(function(){
+	$("i[id *= 'cartDelete']").on('click',function(){
+			var deleteNo = $(this).data("propertyno");
+			$.ajax({
+				url:"/userOrder/deleteFromCart",
+			    type : 'post',
+			    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
+			    data : {"propertyNo":deleteNo},
+			    success : function(result) { // 결과 성공 콜백함수
+			        alert('장바구니에서 아이템이 삭제 되었습니다.');
+			    },
+			    error : function(request, status, error) { // 결과 에러 콜백함수
+			    	alert('에러');
+			        console.log(error);
+			    }
+			});
+		});
+	
+	
+});
+</script>
 
 </body>
 </html>
