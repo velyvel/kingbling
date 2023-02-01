@@ -107,7 +107,6 @@ public class MypageServiceImpl implements MypageService{
 			
 			cartDtos.add(cartDto);
 		}
-		System.out.println(cartDtos);
 		return cartDtos;
 	}
 

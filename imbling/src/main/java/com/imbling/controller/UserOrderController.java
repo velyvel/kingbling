@@ -48,7 +48,7 @@ public class UserOrderController {
 		
 		userOrderService.addProductToCart(cart);
 		
-		return "/mypage/cart";
+		return "success";
 	}
 	
 	@GetMapping(path= {"/deleteFromCart"})
@@ -57,7 +57,7 @@ public class UserOrderController {
 		
 		userOrderService.deleteFromCart(loginUser.getUserId(), propertyNo);
 		
-		return "success";
+		return "redirect:/mypage/cart";
 	}
 	
 	

@@ -43,7 +43,6 @@ public class UserOrderServiceImpl implements UserOrderService{
 	
 	@Override
 	public void addProductToCart(CartDto cart) {
-		System.out.println(cart);
 		
 		AccountDtoEntity userEntity = accountRepository.findByUserId(cart.getUserId());
 		PropertyEntity propertyEntity = propertyRepository.findById(cart.getPropertyNo()).orElse(null);		

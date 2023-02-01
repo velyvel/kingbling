@@ -33,7 +33,7 @@
                         </thead>
                         <tbody>
                         <c:forEach items="${carts}" var="cart">
-                           <tr>
+                           <tr id="cartRow${cart.propertyNo}" data-proNo="${cart.propertyNo}">
                             <td class="product__cart__item">
                                 <div class="product__cart__item__pic">
                                     <img src="${cart.product.productImage}" alt="" style="height:120px; weight: 120px">
@@ -46,7 +46,7 @@
                             <td class="quantity__item">
                                 <div class="quantity">
                                     <div class="pro-qty-2">
-                                        <input id="cartEA${cart.propertyNo}" data-propertyno='${propertyNo}' type="text" value="${cart.cartEA}">
+                                        <input id="cartEA${cart.propertyNo}" type="text" value="${cart.cartEA}">
                                     </div>
                                 </div>
                             </td>
@@ -91,6 +91,14 @@ $(function(){
 			var deleteNo = $(this).data("propertyno");
 			location.href="/userOrder/deleteFromCart?propertyNo="+deleteNo;
 		});
+
+	$("tr[id *= 'cartRow']").on('click',function(event){
+		var proNo = $(this).data("prono");
+		$("#cartRow"+proNo).on("change",'input',function(event){
+			alert('11')
+			alert($("#cartEA"+proNo).val());
+		});
+	});
 	
 	
 });

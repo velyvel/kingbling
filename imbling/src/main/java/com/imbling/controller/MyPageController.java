@@ -1,6 +1,5 @@
 package com.imbling.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,10 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.imbling.dto.AccountDocImgDto;
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.dto.CartDto;
@@ -29,11 +26,9 @@ public class MyPageController {
 	@Qualifier("mypageService")
 	private MypageService mypageService;
 
-
 	@Autowired
 	@Qualifier("accountService")
 	private AccountService accountService;
-	
 	
 	@GetMapping(path = { "/mypage/myInfo", })
 	public String showMyInfo(HttpSession session) {
@@ -122,7 +117,7 @@ public class MyPageController {
 	  return "mypage/myboard-see-more";
 	  }
 	  
-	  
+	  ///////////////////////////////////////////////////////////////////
 	  @PostMapping(path = { "/mypage/deleteIdModal" })
 	  @ResponseBody
 
