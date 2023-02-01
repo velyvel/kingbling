@@ -33,7 +33,7 @@
         <div class="card">
             <div class="card-header py-3">
                 <div style="float: right;">
-                    <button type="button" class="btn btn-dark" style="margin-bottom: 10px;">편집하기</button>
+                    <a href="faqWrite" class="btn btn-dark" style="margin-bottom: 10px;">글쓰기</a></button>
                 </div>
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#order" data-toggle="tab">주문/결제</a></li>
@@ -294,17 +294,6 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <span>1:1 문의사항 리스트</span>
-            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                           aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search fa-sm"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
             <div style="float: right;">
                 <button type="button" class="btn btn-dark" style="margin-bottom: 10px;">편집하기</button>
@@ -321,6 +310,7 @@
                         <th>제목</th>
                         <th>작성자</th>
                         <th>답변</th>
+                        <th>답변2</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -331,8 +321,7 @@
                             <td>${board2.boardTitle}</td>
                             <td>${board2.userId}</td>
                             <td><a href="showModalDetail?boardNo=${board2.boardNo}&pageNo=${pageNo}&boardCategory=${board2.boardCategory}">상세보기</a>
-                                <button type="button" class="btn btn-primary" id="showReply">답변보기</button></td>
-<%--                            <td><button type="button" class="btn btn-primary" >상세보기</button></td>--%>
+                            <td><button type="button" class="btn btn-primary" id="btnShowAnswerModal">1:1문의</button></td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -341,8 +330,41 @@
         </div>
         </form>
 <%-- =======================================모달창 상세보기==========================================       --%>
-        <jsp:include page="showModalDetail.jsp"/>
 
+
+        <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalDetailLabel">1:1문의</h5>
+                        <div> 작성자: ${board.userId} </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <c:forEach var="board2" items="${boards2}">
+                        <form name="boardModal" method="get" action="modalDetail" id="modalForm">
+
+                            <input type="text" class="form-control" value="${board2.boardNo}">
+                            <div class="form-group">
+                                <label for="detailName" class="col-form-label" >제목:</label>
+                                <input type="text" class="form-control" id="detailName" value="${board2.boardTitle}">
+                                <input type="hidden" class="form-control" name="boardCategory" value="${board2.boardCategory}">
+                            </div>
+                            <div class="form-group">
+                                <label for="detailText" class="col-form-label">내용:</label>
+                                <textarea class="form-control" id="detailText" name="boardContent">${board2.boardContent}</textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                            </div>
+                            </c:forEach>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -354,26 +376,38 @@
 
 <jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 <script type="text/javascript">
-    $('#exampleModal').on('show.bs.modal', function (event) {
 
-    });
 
-    // ////////// 버튼 클릭하면 인풋창 나왔다 안나왔
-    // const targetDiv = document.getElementById("replyForm")
-    // const btn = document.getElementById("showReply");
-    // btn.onclick = function (){
-    //     if (targetDiv.style.display !== "block"){
-    //         targetDiv.style.display = "none";
-    //         }else{
-    //         targetDiv.style.display="none";
-    //     }
-    // };
 
-    $('#showReply').click(function (){
-        $('#modalDetail').modal();
-        $('.modal-title').text("${board2.boardTitle}")
-        $('#detailText').text("${board2.boardContent}")
+    //
+
+    $(function (){
+
+        $('#exampleModal').on('show.bs.modal', function (event) {
+
+        });
+
+        $('#showModal').on('show.bs.modal', function (event) {
+
+        });
+        $('#btnShowAnswerModal').on('click',function (event){
+
+            $('#modalDetail').modal('show');
+            // const modalData = $('#modalForm').serialize();
+            // $.ajax({
+            //     "url": "modalForm",
+            //     "method": "post",
+            //     "data": modalData,
+            //     "success" : function (data, status, xhr){
+            //         if(data == "success"){
+            //             alert("모달 수정 완료")
+            //         }
+            //     }
+            // })
+        })
+
     })
+
 
 
 
