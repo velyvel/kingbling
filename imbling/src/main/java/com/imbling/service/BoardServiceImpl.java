@@ -1,9 +1,12 @@
 package com.imbling.service;
 
+import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardCommentDto;
 import com.imbling.dto.BoardDto;
+import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.BoardCommentEntity;
 import com.imbling.entity.BoardEntity;
+import com.imbling.repository.AccountRepository;
 import com.imbling.repository.CommentRepository;
 import com.imbling.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,11 +103,12 @@ public class BoardServiceImpl implements BoardService{
     }
 //1:1 문의 모달창
     @Override
-    public void writeBoardModal(BoardDto board) {
+    public void writeBoardModal(BoardDto board2) {
         BoardEntity boardEntity = BoardEntity.builder()
-                .boardTitle(board.getBoardTitle())
-                .boardCategory(board.getBoardCategory())
-                .boardContent(board.getBoardContent())
+                .boardTitle(board2.getBoardTitle())
+                .boardCategory(board2.getBoardCategory())
+                .boardContent(board2.getBoardContent())
+                .userId(board2.getUserId())
                 .build();
         boardRepository.save(boardEntity);
     }
@@ -112,11 +116,11 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public List<BoardDto> findModalBoard() {
         List<BoardEntity> boardList = boardRepository.findModalByBoardCategoryDesc();
-        ArrayList<BoardDto> boards = new ArrayList<>();
+        ArrayList<BoardDto> boards2 = new ArrayList<>();
         for (BoardEntity boardEntity : boardList) {
-            boards.add(boardEntityToDto(boardEntity));
+            boards2.add(boardEntityToDto(boardEntity));
         }
-        return boards;
+        return boards2;
     }
 
     //============ 댓글 ============
@@ -133,14 +137,14 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public void writeComment(BoardCommentDto comment) {
+    public void writeComment(BoardCommentDto comment, AccountDto account) {
 
         BoardEntity board = boardRepository.findByBoardNo(comment.getBoardNo());
-
         BoardCommentEntity commentEntity = BoardCommentEntity.builder()
                 .commentNo(comment.getCommentNo())
                 .commentContent(comment.getCommentContent())
                 .commentGroup(comment.getCommentGroup())
+                .writer(comment.getWriter())
                 //.commentRegDate(comment.getCommentRegDate())
                 .board(board)
                 .build();

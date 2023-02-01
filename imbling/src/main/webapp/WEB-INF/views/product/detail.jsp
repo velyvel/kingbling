@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -21,7 +23,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="product__details__breadcrumb">
-							<a href="/">Home</a> <a href="/product/list">Shop</a> <span><a href="/userOrder/detail?productNo=${productNo}">Product Details</a></span>
+							<a href="/">홈</a><a href="/product/list?categoryNo=${categoryNo}">상품목록</a><span>${product.productName}</span>
 						</div>
 					</div>
 				</div>
@@ -34,8 +36,7 @@
 						<div class="tab-content">
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
 								<div class="product__details__pic__item">
-									<img src="/resources/dist/img/shop-details/product-big-2.png"
-										alt="">
+									<img src="${product.productImage}" alt="">
 								</div>
 							</div>
 						</div>
@@ -51,33 +52,32 @@
 				<div class="row d-flex justify-content-center">
 					<div class="col-lg-8">
 						<div class="product__details__text">
-							<h4>Hooded thermal anorak</h4>
+							<h4>${product.productName}</h4>
 							<div class="rating">
 								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 									class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 									class="fa fa-star-o"></i> <span> - 5 Reviews</span>
 							</div>
-							<h3>$270.00</h3>
-							<p>Coat with quilted lining and an adjustable hood. Featuring
-								long sleeves with adjustable cuff tabs, adjustable asymmetric
-								hem with elastic side tabs and a front zip fastening with
-								placket.</p>
+							<h3>
+								<fmt:formatNumber value="${product.productPrice}"
+									pattern="₩#,###" />
+							</h3>
 							<div class="product__details__option">
 								<div class="product__details__option__size">
-									<span>Size:</span> <label for="xxl">xxl <input
-										type="radio" id="xxl">
-									</label> <label class="active" for="xl">xl <input type="radio"
-										id="xl">
-									</label> <label for="l">l <input type="radio" id="l">
-									</label> <label for="sm">s <input type="radio" id="sm">
-									</label>
+									<div>Size:</div>
+									<select>
+										<c:forEach var="property" items="${product.properties}">
+											<option value="${property.productSize}">${property.productSize}</option>
+										</c:forEach>
+									</select>
 								</div>
 								<div class="product__details__option__color">
-									<span>Color:</span> <label class="c-1" for="sp-1"> <input
-										type="radio" id="sp-1"></label> <label class="c-2" for="sp-2">
-										<input type="radio" id="sp-2">
-									</label> <label class="c-3" for="sp-3"> <input type="radio"
-										id="sp-3"></label>
+									<div>Color:</div>
+									<select>
+										<c:forEach var="property" items="${product.properties}">
+											<option value="${property.productColor}">${property.productColor}</option>
+										</c:forEach>
+									</select>
 								</div>
 							</div>
 							<div class="product__details__cart__option">
@@ -86,10 +86,13 @@
 										<input type="text" value="1">
 									</div>
 								</div>
+								<a href="#" class="primary-btn"><i class="fa-regular fa-credit-card"></i> 결제하기</a>
+								<a href="#" class="primary-btn"><i class="fa-solid fa-cart-plus"></i> 장바구니</a>
 								<input type="hidden" value="${productNo}" id="productNo" />
-								<button id="addToCart" class="primary-btn">+ 장바구니</button>
+								
 								<div class="product__details__option__size">
-									<a href="#" class="primary-btn" style="border: 1px solid lightgray; background-color: white;"><i class="fa fa-heart-o" style="color:black;"></i></a>
+									<a href="#" class="primary-btn" style="border: 1px solid lightgray; background-color: white;">
+									<i class="fa fa-heart-o" style="color: black;"></i></a>
 								</div>
 							</div>
 							<div class="product__details__last__option">
@@ -103,7 +106,7 @@
 					</div>
 				</div>
 				<!-- ****************************** end show middle 상품 상세 설명 ************************** -->
-				<!-- ****************************** 설명, 결제정보, 리뷰(나눠서 뷰 구성해도 좋음) ************************** -->
+				<!-- ****************************** 상품정보 / 상품후기 / 문의사항 ************************** -->
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="product__details__tab">
@@ -121,21 +124,7 @@
 										<p class="note">상품설명</p>
 										<div class="product__details__tab__content__item">
 											<h5>Products Infomation</h5>
-											<p>A Pocket PC is a handheld computer, which features
-												many of the same capabilities as a modern PC. These handy
-												little devices allow individuals to retrieve and store
-												e-mail messages, create a contact file, coordinate
-												appointments, surf the internet, exchange text messages and
-												more. Every product that is labeled as a Pocket PC must be
-												accompanied with specific software to operate the unit and
-												must feature a touchscreen and touchpad.</p>
-											<p>As is the case with any new technology product, the
-												cost of a Pocket PC was substantial during it’s early
-												release. For approximately $700.00, consumers could purchase
-												one of top-of-the-line Pocket PCs in 2003. These days,
-												customers are finding that prices have become much more
-												reasonable now that the newness is wearing off. For
-												approximately $350.00, a new Pocket PC can now be purchased.</p>
+											<p>${product.productContent}</p>
 										</div>
 										<div class="product__details__tab__content__item">
 											<h5>Material used</h5>
@@ -230,7 +219,7 @@
 	</section>
 	<br>
 	<br>
-	<!-- ****************************** end 설명, 결제정보, 리뷰(나눠서 뷰 구성해도 좋음) ************************** -->
+	<!-- ****************************** 상품정보 / 상품후기 / 문의사항 ************************** -->
 
 	<!-- ****************************** 관련상품 넣어도 그만 안넣어도 그만 ************************** -->
 	<!-- ****************************** end 관심상품 ************************** -->

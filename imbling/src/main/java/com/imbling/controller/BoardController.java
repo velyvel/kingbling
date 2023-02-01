@@ -49,6 +49,31 @@ public class BoardController {
 		return "board/event";
 	}
 
+	//============================ 1:1 문의 ============================
+
+	@PostMapping(path = {"/boardModal"})
+	public String writeModal(BoardDto board2){
+		int boardCategory = board2.getBoardCategory();
+		boardService.writeBoardModal(board2);
+		System.out.println(board2);
+
+		if(boardCategory == 3) {
+			board2.setBoardCategory(board2.getBoardCategory());
+			return "redirect:notice";
+		}else{
+			return "/";
+		}
+
+	}
+
+	@GetMapping(path = {"/showModalDetail"})
+	public String showModalDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int boardCategory, Model model){
+		BoardDto board = boardService.findBoardByBoardNo(boardNo, boardCategory);
+		model.addAttribute("board", board);
+		model.addAttribute("pageNo", pageNo);
+
+		return "board/showModalDetail";
+	}
 
 
 //============================ 공지사항 ============================
@@ -58,9 +83,11 @@ public class BoardController {
 
 		board.setBoardCategory(2);
 		List<BoardDto> boards = boardService.findNoticeBoard();
+		List<BoardDto> boards2 = boardService.findModalBoard();
 		model.addAttribute("boards", boards);
 		model.addAttribute("pageNo", pageNo);
-
+		model.addAttribute("boards2", boards2);
+		model.addAttribute("pageNo", pageNo);
 
 		return "board/notice";
 	}
@@ -121,7 +148,6 @@ public class BoardController {
 		}
 
 	}
-
 
 	@GetMapping(path = {"/noticeDetail"})
 	public String showNoticeDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int boardCategory, Model model){
@@ -191,10 +217,18 @@ public class BoardController {
 
 //게시글삭제
 	@GetMapping(path = {"/{boardNo}/delete"})
-	public String deleteBoard(@PathVariable("boardNo") int boardNo, @RequestParam(defaultValue = "-1")int pageNo){
+	public String deleteBoard(@PathVariable("boardNo") int boardNo, @RequestParam(defaultValue = "-1")int pageNo, BoardDto board){
+		int boardCategory = board.getBoardCategory();
 		boardService.deleteBoard(boardNo);
 
-		return "redirect:/board/event?pageNo=" + pageNo;
+		if(boardCategory == 1) {
+			board.setBoardCategory(board.getBoardCategory());
+			return "redirect:/board/event?pageNo=" + pageNo;
+		}else if(boardCategory == 2) {
+			board.setBoardCategory(board.getBoardCategory());
+
+		}
+		return "redirect:/board/notice?pageNo=" + pageNo;
 	}
 //============================ 댓글 ============================
 	//댓글 리스트 조회
@@ -210,39 +244,12 @@ public class BoardController {
 	// 댓글 쓰기
 	@PostMapping(path = {"/commentForm"})
 	@ResponseBody
-	public String writeComment(BoardCommentDto comment){
-		boardService.writeComment(comment);
+	public String writeComment(BoardCommentDto comment, AccountDto account){
+		boardService.writeComment(comment, account);
 		//boardService.updateGroupNo(comment.getCommentNo(), comment.getCommentGroup());
 		return "success";
 	}
 
-
-//============================ 1:1 문의 ============================
-
-	@PostMapping(path = {"/boardModal.action"})
-	public String writeModal(BoardDto board){
-		int boardCategory = board.getBoardCategory();
-		boardService.writeBoardModal(board);
-		System.out.println(board);
-
-		if(boardCategory == 3) {
-			board.setBoardCategory(board.getBoardCategory());
-			return "redirect:notice";
-		}else{
-			return "/";
-		}
-
-	}
-// 모달 리스트 불러오기(이건 실패, 오류는 아님)
-	@GetMapping(path = {"/showModal.action"})
-	public String showModalList(@RequestParam (defaultValue = "1") int pageNo, BoardDto board, Model model){
-		board.setBoardCategory(3);
-		List<BoardDto> boards = boardService.findModalBoard();
-		model.addAttribute("boards", boards);
-		model.addAttribute("pageNo", pageNo);
-//이거 jsp하나 더 만들고 넣어보기
-		return "board/showModal.action";
-	}
 
 }
 

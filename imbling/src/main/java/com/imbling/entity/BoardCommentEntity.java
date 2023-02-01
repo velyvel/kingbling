@@ -22,6 +22,9 @@ public class BoardCommentEntity {
     private int commentNo;
 
     @Column
+    private String writer;
+
+    @Column
     private String commentContent;
 
     @Builder.Default
@@ -37,8 +40,13 @@ public class BoardCommentEntity {
     @Column
     private Integer step;
 
+
     @ManyToOne
     @JoinColumn(name = "boardNo")
     private BoardEntity board;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private AccountDtoEntity account;
 
 }

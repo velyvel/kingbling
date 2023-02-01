@@ -94,12 +94,14 @@ public class AccountDtoEntity {
 	@Builder.Default
 	@Column(nullable = false)
 	private boolean userDocValid = true;
-	
-	
+
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "userId")
 	private Collection<AccountDocImgDtoEntity> attachments;
+
+	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Collection<BoardCommentEntity> boardComments;
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<CartEntity> carts;

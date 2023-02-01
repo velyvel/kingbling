@@ -65,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public List<CategoryDto> findAllCategories() {
-		List<CategoryEntity> categories = categoryRepository.findAll();
+		List<CategoryEntity> categories = categoryRepository.findAllByOrderByCategoryNo();
 		ArrayList<CategoryDto> categoryDtos = new ArrayList<>();
 		for (CategoryEntity category : categories) {
 			CategoryDto categoryDto = new CategoryDto();
@@ -80,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
 	// 상품리스트 ////////////////////////////////////////////////////////////
 	
 	@Override
-	public CategoryDto findProductList(int categoryNo) {
+	public CategoryDto findProductListByCategory(int categoryNo) {
 		
 		CategoryEntity categoryEntity = categoryRepository.findByCategoryNo(categoryNo);
 		CategoryDto category = categoryEntityToDto(categoryEntity);
@@ -99,6 +99,48 @@ public class ProductServiceImpl implements ProductService {
 		category.setProducts(products);
 		
 		return category;
+	}
+	
+	// 카테고리별 상품리스트 조회 
+	@Override
+	public List<ProductDto> findProductListByCategory2(int categoryNo) {
+		
+		CategoryEntity categoryEntity = categoryRepository.findByCategoryNo(categoryNo);
+		
+		ArrayList<ProductDto> products = new ArrayList<>();
+		for (ProductEntity productEntity : categoryEntity.getProducts()) {
+			ProductDto productDto = new ProductDto();
+			productDto.setProductNo(productEntity.getProductNo());
+			productDto.setProductName(productEntity.getProductName());
+			productDto.setProductImage(productEntity.getProductImage());
+			productDto.setProductPrice(productEntity.getProductPrice());
+			productDto.setProductRegdate(productEntity.getProductRegdate());
+			
+			products.add(productDto);
+		}
+		
+		return products;
+	}
+	
+	// 상품상세페이지 조회 
+	public ProductDto showProductDetail(int productNo) {
+		
+		ProductEntity productEntity = productRepository.findByProductNo(productNo);
+		ProductDto product = productEntityToDto(productEntity);
+		
+		ArrayList<PropertyDto> properties = new ArrayList<>();
+		for (PropertyEntity propertyEntity : productEntity.getProperties()) {
+			PropertyDto propertyDto = new PropertyDto();
+			propertyDto.setPropertyNo(propertyEntity.getPropertyNo());
+			propertyDto.setProductColor(propertyEntity.getProductColor());
+			propertyDto.setProductSize(propertyEntity.getProductSize());
+			propertyDto.setProductEA(propertyEntity.getProductEA());
+			
+			properties.add(propertyDto);
+		}
+		product.setProperties(properties);
+		
+		return product;
 	}
 
 }

@@ -9,7 +9,6 @@
     <!-- Css Styles ,font -->
     <jsp:include page="/WEB-INF/views/modules/common-css.jsp" />
     <jsp:include page="/WEB-INF/views/modules/admin/common-css.jsp" />
-
     <title>공지사항 홈</title>
 </head>
 
@@ -68,7 +67,7 @@
         <form method="get" name="noticeWrite">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="myTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
                         <th>이벤트기간</th>
@@ -102,6 +101,11 @@
 
 <jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 <script type="text/javascript">
+
+    $(document).ready( function () {
+        $('#myTable').DataTable();
+    } );
+
 </script>
 
 </body>
