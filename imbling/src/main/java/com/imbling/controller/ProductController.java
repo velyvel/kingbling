@@ -25,13 +25,11 @@ public class ProductController {
 	
 	// 상품리스트
 	@GetMapping(path = { "/list" })
-	public String productList(ProductDto productDto, Model model) {
+	public String productList(ProductDto productDto, @RequestParam(defaultValue = "-1") int categoryNo, Model model) {
 		
-		List<CategoryDto> categories = productService.findAllCategories();
+		List<CategoryDto> categories = productService.findAllCategories();;
 		model.addAttribute("categories", categories);
-
-		int productNo = productDto.getProductNo();
-		model.addAttribute("productNo", productNo);
+		model.addAttribute("categoryNo", categoryNo);
 		
 		return "product/list";
 	}
@@ -39,9 +37,17 @@ public class ProductController {
 	// 카테고리별 상품리스트 조회 
 	@GetMapping(path= {"/product-list"})
 	// @ResponseBody
-	public String showProductListByCategory(CategoryDto categoryDto, Model model) {
+	public String showProductListByCategory(CategoryDto categoryDto, @RequestParam(defaultValue = "productCount") String sort, Model model) {
 		
-		List<ProductDto> products = productService.findProductListByCategory2(categoryDto.getCategoryNo());
+		boolean asc = true;
+		if (sort.equals("productRegdate")) {
+			asc = true;
+		} else if (sort.equals("productPriceDesc")) {
+			asc = false;
+			sort = "productPriceDesc";
+		}
+		
+		List<ProductDto> products = productService.findProductListByCategory2(sort, asc, categoryDto.getCategoryNo());
 		model.addAttribute("products", products);
 		model.addAttribute("categoryNo", categoryDto.getCategoryNo());
 		

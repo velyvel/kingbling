@@ -103,12 +103,21 @@ public class ProductServiceImpl implements ProductService {
 	
 	// 카테고리별 상품리스트 조회 
 	@Override
-	public List<ProductDto> findProductListByCategory2(int categoryNo) {
+	public List<ProductDto> findProductListByCategory2(String sort, boolean asc, int categoryNo) {
 		
-		CategoryEntity categoryEntity = categoryRepository.findByCategoryNo(categoryNo);
+		List<ProductEntity> entities = null;
+		if (sort.equals("productRegdate") && asc == false) {
+			entities = productRepository.findByCategoryCategoryNoOrderByProductRegdateDesc(categoryNo);
+		} else if (sort.equals("productPriceDesc") && asc == false) {
+			entities = productRepository.findByCategoryCategoryNoOrderByProductPriceDesc(categoryNo);
+		} else if (sort.equals("productPriceAsc") && asc == true ) {
+			entities = productRepository.findByCategoryCategoryNoOrderByProductPrice(categoryNo);
+		} else {
+			entities = productRepository.findByCategoryCategoryNoOrderByProductCount(categoryNo);
+		}
 		
 		ArrayList<ProductDto> products = new ArrayList<>();
-		for (ProductEntity productEntity : categoryEntity.getProducts()) {
+		for (ProductEntity productEntity : entities) {
 			ProductDto productDto = new ProductDto();
 			productDto.setProductNo(productEntity.getProductNo());
 			productDto.setProductName(productEntity.getProductName());
@@ -118,9 +127,9 @@ public class ProductServiceImpl implements ProductService {
 			
 			products.add(productDto);
 		}
-		
 		return products;
 	}
+
 	
 	// 상품상세페이지 조회 
 	public ProductDto showProductDetail(int productNo) {
@@ -142,5 +151,7 @@ public class ProductServiceImpl implements ProductService {
 		
 		return product;
 	}
+	
+	 
 
 }

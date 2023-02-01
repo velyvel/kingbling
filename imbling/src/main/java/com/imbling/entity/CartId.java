@@ -7,14 +7,13 @@ import javax.persistence.Embeddable;
 
 import lombok.Data;
 
-@Embeddable
-@Data
+@Embeddable @Data
 public class CartId implements Serializable {
 	
-	@Column(name="userId",nullable = false)
+	@Column(name="userId")
 	private String userId;
 	
-	@Column(name="propertyNo",nullable = false)
-	private int prpertyNo;
-
+	@Column(name="propertyNo")
+	private int propertyNo;
+	
 }

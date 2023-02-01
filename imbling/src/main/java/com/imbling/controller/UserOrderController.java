@@ -1,8 +1,5 @@
 package com.imbling.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,15 +36,6 @@ public class UserOrderController {
 		return "/modules/jusoPopup";
 	}
 	
-	@GetMapping(path= {"/detail"})//////////////나중에 상품쪽으로 옮기고 지우장
-	public String showDetail(int productNo, Model model) {
-		
-		ProductDto product = userOrderService.getProductInfo(productNo);
-		
-		model.addAttribute("product", product);
-		return "/userOrder/productDetail";
-	}
-	
 	@PostMapping(path= {"/addToCart"}) @ResponseBody
 	public String addToCart(int productNo,int productPrice, PropertyDto property, HttpSession session) {
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
@@ -60,9 +48,17 @@ public class UserOrderController {
 		
 		userOrderService.addProductToCart(cart);
 		
-		return "success";
+		return "/mypage/cart";
 	}
 	
+	@GetMapping(path= {"/deleteFromCart"})
+	public String deleteFromCart(int propertyNo, HttpSession session) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		
+		userOrderService.deleteFromCart(loginUser.getUserId(), propertyNo);
+		
+		return "success";
+	}
 	
 	
 	

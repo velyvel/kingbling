@@ -48,11 +48,15 @@ public interface UserOrderService {
 	
 	public default CartEntity cartDtoToEntity(CartDto cartDto) {
 		
+		
 		AccountDtoEntity userEntity = AccountDtoEntity.builder().userId(cartDto.getUserId()).build();
 		PropertyEntity propertyEntity = PropertyEntity.builder().propertyNo(cartDto.getPropertyNo()).build();
 		
 		CartEntity cartEntity = CartEntity.builder().cartEA(cartDto.getCartEA()).cartTotalPrice(cartDto.getCartTotalPrice())
 								.user(userEntity).property(propertyEntity).build();
+		
+		
+		
 		return cartEntity;
 	}
 	
@@ -61,6 +65,8 @@ public interface UserOrderService {
 	int getPropertyNo(int productNo);
 
 	void addProductToCart(CartDto cart);
+
+	void deleteFromCart(String userId, int propertyNo);
 
 
 }

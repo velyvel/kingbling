@@ -12,12 +12,10 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -26,7 +24,8 @@ import lombok.Setter;
 public class CartEntity {
 	
 	@EmbeddedId
-	private CartId cartId;
+	@Builder.Default
+	private CartId cartId = new CartId();
 	
 	@Column(nullable = false)
 	private int cartEA;

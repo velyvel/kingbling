@@ -1,6 +1,7 @@
 package com.imbling.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -11,6 +12,8 @@ public class CartDto {
 	private int propertyNo;
 	private int cartEA;
 	private int cartTotalPrice;
-	private Date cartRegDate; 
+	private Date cartRegDate;
+	
+	private ProductDto product;
 	
 }

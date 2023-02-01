@@ -23,7 +23,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="product__details__breadcrumb">
-							<a href="/">홈</a><a href="/product/list?categoryNo=${categoryNo}">상품목록</a><span>${product.productName}</span>
+							<a href="/">홈</a><a class="back-list">${product.category.categoryName}</a><span>${product.productName}</span>
 						</div>
 					</div>
 				</div>
@@ -86,8 +86,8 @@
 										<input type="text" value="1">
 									</div>
 								</div>
-								<a href="#" class="primary-btn"><i class="fa-regular fa-credit-card"></i> 결제하기</a>
-								<a href="#" class="primary-btn"><i class="fa-solid fa-cart-plus"></i> 장바구니</a>
+								<button class="primary-btn"><i class="fa-regular fa-credit-card"></i> 결제하기</button>
+								<button id="addToCart" class="primary-btn"><i class="fa-solid fa-cart-plus"></i> 장바구니</button>
 								<input type="hidden" value="${productNo}" id="productNo" />
 								
 								<div class="product__details__option__size">
@@ -233,24 +233,32 @@
 
 <script type="text/javascript">
 $(function(){
-	var productNo=$('#productNo').val();
+	
 	$("#addToCart").on('click',function(event){
 		$.ajax({
 			url:"/userOrder/addToCart",
 		    type : 'post',
-		    dataType : 'JSON',       // 데이터 타입 (html, xml, json, text 등등)
-		    data : productNo,
+		    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
+		    data : {"productNo":${product.productNo},"productPrice":${product.productPrice},"productColor":"단일색상","productSize":"free","productEA":5},
 		    success : function(result) { // 결과 성공 콜백함수
-		        alert('장바구니에 상품 넣음.');
+		        alert('성공');
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('힝');
-		        console.log(error)
+		    	alert('에러');
+		        console.log(error);
 		    }
 		    });
-		
-		
 	});
+	
+	// 상품목록 클릭시 해당 카테고리 상품리스트 페이지로 이동
+	$(".back-list").on('click', function(event) {
+
+		var categoryNo = ${categoryNo};
+		
+		location.href = "/product/list?categoryNo=" + categoryNo;
+
+	});
+	
 	
 });
 </script>

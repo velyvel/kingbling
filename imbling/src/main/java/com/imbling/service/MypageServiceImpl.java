@@ -10,12 +10,18 @@ import org.springframework.stereotype.Service;
 
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
+import com.imbling.dto.CartDto;
+import com.imbling.dto.CategoryDto;
 import com.imbling.dto.ReviewDto;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.BoardEntity;
+import com.imbling.entity.CartEntity;
+import com.imbling.entity.CategoryEntity;
 import com.imbling.entity.ReviewEntity;
 import com.imbling.repository.AccountRepository;
 import com.imbling.repository.MypageRepository;
+import com.imbling.repository.ProductRepository;
+import com.imbling.repository.CartRepository;
 
 @Service("mypageService")
 public class MypageServiceImpl implements MypageService{
@@ -25,6 +31,12 @@ public class MypageServiceImpl implements MypageService{
 
 	@Autowired
 	private AccountRepository accountRepository;
+	
+	@Autowired
+	private CartRepository cartRepository;
+	
+	@Autowired
+	private ProductRepository productRepository;
 	
 	@Override
 	public List<BoardDto> findMyInquery(String userId){
@@ -77,6 +89,26 @@ public class MypageServiceImpl implements MypageService{
 		modifyAccount.setUserPhone(account.getUserPhone());
 		
 		accountRepository.save(modifyAccount);
+	}
+
+	@Override
+	public List<CartDto> getCartInfo(String userId) {
+		
+		List<CartEntity> carts = cartRepository.findAllByUserId(userId);
+		ArrayList<CartDto> cartDtos = new ArrayList<>();
+		for (CartEntity cart : carts) {
+			CartDto cartDto = new CartDto();
+			cartDto.setCartEA(cart.getCartEA());
+			cartDto.setCartRegDate(cart.getCartRegDate());
+			cartDto.setCartTotalPrice(cart.getCartTotalPrice());
+			cartDto.setPropertyNo(cart.getProperty().getPropertyNo());
+			cartDto.setUserId(userId);
+			cartDto.setProduct(productEntityToDto(productRepository.findByPropertyNo(cart.getProperty().getPropertyNo())));
+			
+			cartDtos.add(cartDto);
+		}
+		System.out.println(cartDtos);
+		return cartDtos;
 	}
 
 
