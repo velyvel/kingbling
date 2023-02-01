@@ -35,12 +35,17 @@
                 <div style="float: right;">
                     <a href="faqWrite" class="btn btn-dark" style="margin-bottom: 10px;">글쓰기</a></button>
                 </div>
+
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="#order" data-toggle="tab">주문/결제</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#delivery" data-toggle="tab">배송문의</a></li>
+
+                    <li class="nav-item"><a class="nav-link active" href="#order" data-toggle="tab" id="cart" value="${faq.faqCategory}">주문/결제</a></li>
+
+                    <%--          faqCategory == 2          --%>
+                    <li class="nav-item"><a class="nav-link" href="#delivery" data-toggle="tab" id="deliver">배송문의</a></li>
                     <li class="nav-item"><a class="nav-link" href="#registration" data-toggle="tab">회원가입, 로그인</a></li>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">1:1문의</button>
                 </ul>
+
             </div>
             <!-- ****************************** end of card header ************************** -->
             <!-- ****************************** accordion(자주 묻는 질문) ************************** -->
@@ -50,47 +55,25 @@
                     <div class="active tab-pane" id="order">
                         <div class="accordion" id="orderExample">
                             <div class="card">
+                                <c:forEach var="faq" items="${faqs}">
+
                                 <div class="card-header" id="orderHeadingOne">
                                     <h2 class="mb-0">
                                         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#orderCollapseOne" aria-expanded="true" aria-controls="orderCollapseOne">
-                                            Collapsible Group Item #1
+                                             공지사항 번호: #${faq.faqNo}, 제목:${faq.faqTitle}
                                         </button>
                                     </h2>
                                 </div>
 
-                                <div id="orderCollapseOne" class="collapse show" aria-labelledby="orderHeadingOne" data-parent="#orderExample">
+                                <div id="orderCollapseOne" class="collapse" aria-labelledby="orderHeadingOne" data-parent="#orderExample">
                                     <div class="card-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                        ${faq.faqContent}
+                                        <hr>
+                                        <a class="btn btn-success" href="faqEdit?faqNo=${faq.faqNo}&pageNo=${pageNo}&faqCategory=${faq.faqCategory}">글 수정</a>
+                                        <input type="button" id="faqDeleteBtn" value="글 삭제" class="btn btn-warning">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header" id="orderHeadingTwo">
-                                    <h2 class="mb-0">
-                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#orderCollapseTwo" aria-expanded="false" aria-controls="orderCollapseTwo">
-                                            Collapsible Group Item #2
-                                        </button>
-                                    </h2>
-                                </div>
-                                <div id="orderCollapseTwo" class="collapse" aria-labelledby="orderHeadingTwo" data-parent="#orderExample">
-                                    <div class="card-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header" id="orderHeadingThree">
-                                    <h2 class="mb-0">
-                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#orderCollapseThree" aria-expanded="false" aria-controls="orderCollapseThree">
-                                            주문 #3
-                                        </button>
-                                    </h2>
-                                </div>
-                                <div id="orderCollapseThree" class="collapse" aria-labelledby="orderHeadingThree" data-parent="#orderExample">
-                                    <div class="card-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                    </div>
-                                </div>
+                                </c:forEach>
                             </div>
                         </div>
                     </div>
@@ -320,7 +303,7 @@
                             <td><fmt:formatDate pattern="yy-MM-dd" value="${board2.boardRegDate}"/></td>
                             <td>${board2.boardTitle}</td>
                             <td>${board2.userId}</td>
-                            <td><a href="showModalDetail?boardNo=${board2.boardNo}&pageNo=${pageNo}&boardCategory=${board2.boardCategory}">상세보기</a>
+                            <td><a href="showModalDetail?boardNo=${board2.boardNo}&pageNo=${pageNo}&boardCategory=${board2.boardCategory}">상세보기</a></td>
                             <td><button type="button" class="btn btn-primary" id="btnShowAnswerModal">1:1문의</button></td>
                         </tr>
                     </c:forEach>
@@ -378,18 +361,34 @@
 <script type="text/javascript">
 
 
-
-    //
-
     $(function (){
 
         $('#exampleModal').on('show.bs.modal', function (event) {
-
         });
 
         $('#showModal').on('show.bs.modal', function (event) {
+        });
+
+        $('#faqEditBtn').on('click', function (event){
+            location.href='faqEdit?faqNo=${faqNo}&pageNo=${pageNo}&faqCategory=${faqCategory}';
+        });
+
+        $("#cart").click(function (){
+            const faqCategory = $()
+            $(this).tab('show');
 
         });
+
+
+            <%--$('#deleteBtn').on('click', function (event){--%>
+
+            <%--    const agree = confirm("${board.boardNo}글을 삭제 할까요?");--%>
+            <%--    if (!agree) return;--%>
+            <%--    location.href='${board.boardNo}/delete?pageNo=${pageNo}';--%>
+            <%--});--%>
+
+
+
         $('#btnShowAnswerModal').on('click',function (event){
 
             $('#modalDetail').modal('show');

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.imbling.common.Util;
 import com.imbling.dto.*;
 import com.imbling.entity.BoardEntity;
+import com.imbling.entity.BoardFaqEntity;
 import com.imbling.service.BoardService;
 import com.imbling.ui.BoardPager;
 import oracle.jdbc.proxy.annotation.Post;
@@ -87,6 +88,7 @@ public class BoardController {
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("boards2", boards2);
 		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("faqs", faqs);
 
 		return "board/notice";
 	}
@@ -249,6 +251,8 @@ public class BoardController {
 		return "success";
 	}
 
+	// faq
+
 	@GetMapping(path = {"/faqWrite"})
 		public String showWriteFaq(@RequestParam(defaultValue = "1") int faqCategory, Model model){
 			model.addAttribute("faqCategory", faqCategory);
@@ -259,10 +263,50 @@ public class BoardController {
 		public String writeFaq(BoardFaqDto faq){
 		int faqCategory = faq.getFaqCategory();
 		boardService.writeFaq(faq);
-			return "board/faqWrite";
+		 // 보드 카테고리에 대한 것은 jsp에서 수정하기(with 자바스크립트)
+			return "redirect:notice";
 	}
 
+	@GetMapping(path = {"/faqEdit"})
+	public String showEditFaq(@RequestParam(defaultValue = "-1") int faqNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int faqCategory, Model model){
+		BoardFaqDto faq = boardService.findFaqByFaqNo(faqNo, faqCategory);
+		model.addAttribute("faq",faq);
+		model.addAttribute("faqNo",faqNo);
+		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("faqCategory", faqCategory);
 
+		return "board/faqEdit";
+	}
+
+	@PostMapping(path = {"/faqEdit"})
+	public String faqEdit(@RequestParam(defaultValue = "-1") int pageNo,@RequestParam(defaultValue = "1") int faqCategory, BoardFaqDto faq){
+		boardService.modifiedFaq(faq);
+		//System.out.println(board);
+
+		return "redirect:notice";
+	}
+
+//	@GetMapping(path = {"/{boardNo}/delete"})
+//	public String deleteBoard(@PathVariable("boardNo") int boardNo, @RequestParam(defaultValue = "-1")int pageNo, BoardDto board){
+//		int boardCategory = board.getBoardCategory();
+//		boardService.deleteBoard(boardNo);
+//
+//		if(boardCategory == 1) {
+//			board.setBoardCategory(board.getBoardCategory());
+//			return "redirect:/board/event?pageNo=" + pageNo;
+//		}else if(boardCategory == 2) {
+//			board.setBoardCategory(board.getBoardCategory());
+//
+//		}
+//		return "redirect:/board/notice?pageNo=" + pageNo;
+//	}
+
+	@GetMapping(path = {"/{faqNo}/delete"})
+	public String deleteFaq(@PathVariable("faqNo") int faqNo, @RequestParam(defaultValue = "-1")int pageNo, BoardFaqDto faq){
+		int faqCategory = faq.getFaqCategory();
+		boardService.deleteFaq(faqNo);
+		return "redirect:/board/notice?pageNo="+pageNo;
+	}
 
 
 

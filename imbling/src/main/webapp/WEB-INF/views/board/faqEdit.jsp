@@ -24,7 +24,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <!--=============form start========================================-->
-            <form method="post" id="faqWrite" action="faqWrite">
+            <form method="post" id="faqEdit" action="faqEdit">
                 <input type="hidden" name="attach" value="">
                 <input type="hidden" name="savedFileName" value="">
                 <div style="float: right;">
@@ -34,12 +34,13 @@
                 <h5>게시글 작성</h5>
                 <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
         </div>
+
         <div class="card-body">
             <div class="col-sm-6" style="float: right;">
                 <div class="form-group">
                     <label for="faqCategory">게시판 종류</label>
                     <select class="form-control" id="faqCategory" name="faqCategory" required>
-                        <option selected>게시판 종류 선택️</option>
+                        <option selected>${faq.faqCategory}</option>
                         <option value="1">주문, 결제</option>
                         <option value="2">배송문의</option>
                         <option value="3">회원가입, 로그인</option>
@@ -56,8 +57,8 @@
             <div class="col-lg-12">
                 <div class="form-group">
                     <label for="faqTitle">제목</label>
-                    <input type="text" class="form-control" placeholder="자주묻는질문" name="faqTitle" id="faqTitle">
-                    <%--                        <input type="hidden" class="form-control" readonly name="boardNo" value="${board.boardNo}">--%>
+                    <input type="text" class="form-control" placeholder="자주묻는질문" name="faqTitle" id="faqTitle" value="${faq.faqTitle}">
+                    <input type="hidden" class="form-control" readonly name="faqNo" value="${faq.faqNo}">
                     <%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
                 </div>
             </div>
@@ -72,7 +73,7 @@
                     <tbody>
                     <tr>
                         <td>
-                            <textarea id="faqContent" name="faqContent"></textarea>
+                            <textarea id="faqContent" name="faqContent">${faq.faqContent}</textarea>
                         </td>
                     </tr>
                     </tbody>
@@ -124,8 +125,8 @@
             processData: false,
             success: function(data){
                 $(editor).summernote('insertImage', data.url)
-                $('#noticeWrite input[name=attach]').val(data.attach);
-                $('#noticeWrite input[name=savedFileName]').val(data.savedFileName);
+                $('#faqEdit input[name=attach]').val(data.attach);
+                $('#faqEdit input[name=savedFileName]').val(data.savedFileName);
 
             }
         });
@@ -137,8 +138,8 @@
 
         $('#submitBtn').on('click', function (event){
             event.preventDefault();
-            const faqTitle = $('input[name = faqTitle]').val();
-            const faqContent = $('textarea[name = faqContent]').val();
+            const faqTitle = $('input[name=faqTitle]').val();
+            const faqContent = $('textarea[name=faqContent]').val();
             const faqCategory = $('select[name=faqCategory]').val();
 
             if (faqTitle.length==0){
@@ -151,7 +152,7 @@
                 alert("아이고오 카테고리가 빠졌슈")
                 return;
             }else{
-                $('#faqWrite')[0].submit();
+                $('#faqEdit')[0].submit();
             }
         });
     });

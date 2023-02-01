@@ -9,6 +9,7 @@ import com.imbling.entity.BoardCommentEntity;
 import com.imbling.entity.BoardEntity;
 import com.imbling.entity.BoardFaqEntity;
 import com.imbling.repository.AccountRepository;
+import com.imbling.repository.BoardFaqRepository;
 import com.imbling.repository.CommentRepository;
 import com.imbling.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class BoardServiceImpl implements BoardService{
     private BoardRepository boardRepository;
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private BoardFaqRepository faqRepository;
 
     //이벤트 리스트 조회
     @Override
@@ -104,6 +107,7 @@ public class BoardServiceImpl implements BoardService{
         boardRepository.increaseBoardCount(boardNo);
     }
 //1:1 문의 모달창
+
     @Override
     public void writeBoardModal(BoardDto board2) {
         BoardEntity boardEntity = BoardEntity.builder()
@@ -157,23 +161,54 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public List<BoardFaqDto> findFaq() {
 
-//        List<BoardEntity> boardList = boardRepository.findNoticeByBoardCategoryDesc();
-//
-//        ArrayList<BoardDto> boards = new ArrayList<>();
-//        System.out.println(boardList);
-//        for (BoardEntity boardEntity: boardList){
-//            boards.add(boardEntityToDto(boardEntity));
-//        }
-//        return boards;
-//    }
-        List<BoardFaqEntity> faqList = boardRepository.findFaqByBoardFaqCategoryDesc();
-        return null;
+        List<BoardFaqEntity> faqList = faqRepository.findFaqByBoardFaqCategoryDesc();
+        ArrayList<BoardFaqDto> faqs  = new ArrayList<>();
+        for(BoardFaqEntity boardfaqEntity : faqList){
+            faqs.add(boardFaqEntityToDto(boardfaqEntity));
+        }
+
+        return faqs;
     }
 
     @Override
     public void writeFaq(BoardFaqDto faq) {
-
+        BoardFaqEntity boardFaqEntity = BoardFaqEntity.builder()
+                .faqNo(faq.getFaqNo())
+                .faqCategory(faq.getFaqCategory())
+                .faqContent(faq.getFaqContent())
+                .faqReply(faq.getFaqReply())
+                .faqTitle(faq.getFaqTitle())
+                .userId(faq.getUserId())
+                .build();
+        faqRepository.save(boardFaqEntity);
     }
+
+    @Override
+    public BoardFaqDto findFaqByFaqNo(int faqNo, int faqCategory) {
+
+        BoardFaqEntity boardFaqEntity = faqRepository.findByFaqNoAndFaqCategory(faqNo,faqCategory);
+        BoardFaqDto faq = boardFaqEntityToDto(boardFaqEntity);
+
+        return faq;
+    }
+
+    @Override
+    public void modifiedFaq(BoardFaqDto faq) {
+
+        BoardFaqEntity boardFaqEntity = faqRepository.findByFaqNo(faq.getFaqNo());
+        boardFaqEntity.setFaqTitle(faq.getFaqTitle());
+        boardFaqEntity.setFaqCategory(faq.getFaqCategory());
+        boardFaqEntity.setFaqContent(faq.getFaqContent());
+        faqRepository.save(boardFaqEntity);
+    }
+
+    @Override
+    public void deleteFaq(int faqNo) {
+
+        BoardFaqEntity boardFaqEntity = faqRepository.findByFaqNo(faqNo);
+        faqRepository.delete(boardFaqEntity);
+    }
+
 
 //    @Override
 //    public void updateGroupNo(int commentNo, int commentGroup) {
