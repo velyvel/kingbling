@@ -89,19 +89,7 @@
 $(function(){
 	$("i[id *= 'cartDelete']").on('click',function(){
 			var deleteNo = $(this).data("propertyno");
-			$.ajax({
-				url:"/userOrder/deleteFromCart",
-			    type : 'post',
-			    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
-			    data : {"propertyNo":deleteNo},
-			    success : function(result) { // 결과 성공 콜백함수
-			        alert('장바구니에서 아이템이 삭제 되었습니다.');
-			    },
-			    error : function(request, status, error) { // 결과 에러 콜백함수
-			    	alert('에러');
-			        console.log(error);
-			    }
-			});
+			location.href="/userOrder/deleteFromCart?propertyNo="+deleteNo;
 		});
 	
 	

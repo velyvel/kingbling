@@ -48,10 +48,10 @@ public class UserOrderController {
 		
 		userOrderService.addProductToCart(cart);
 		
-		return "success";
+		return "/mypage/cart";
 	}
 	
-	@PostMapping(path= {"/deleteFromCart"}) @ResponseBody
+	@GetMapping(path= {"/deleteFromCart"})
 	public String deleteFromCart(int propertyNo, HttpSession session) {
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
 		
