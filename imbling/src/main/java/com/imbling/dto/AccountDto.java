@@ -20,7 +20,7 @@ public class AccountDto {
 	private boolean userDocValid;	//사업자 사진 유효성 
 	private List<AccountDocImgDto> attachments ;	//사업자 사진 정보 
 	
-	
+	private List<CartDto> carts;
 	
 	
 }

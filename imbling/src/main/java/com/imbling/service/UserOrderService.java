@@ -1,8 +1,11 @@
 package com.imbling.service;
 
+import com.imbling.dto.CartDto;
 import com.imbling.dto.ProductDto;
-import com.imbling.dto.PropertyDto;
+import com.imbling.entity.AccountDtoEntity;
+import com.imbling.entity.CartEntity;
 import com.imbling.entity.ProductEntity;
+import com.imbling.entity.PropertyEntity;
 
 public interface UserOrderService {
 	
@@ -32,10 +35,32 @@ public interface UserOrderService {
 		
 		return productEntity;
 	}
-
+	
+	public default CartDto cartEntityToDto(CartEntity cartEntity) {
+		CartDto cartDto = new CartDto();
+		cartDto.setCartEA(cartEntity.getCartEA());
+		cartDto.setCartTotalPrice(cartEntity.getCartTotalPrice());
+		cartDto.setPropertyNo(cartEntity.getProperty().getPropertyNo());
+		cartDto.setUserId(cartEntity.getUser().getUserId());
+		
+		return cartDto;
+	}
+	
+	public default CartEntity cartDtoToEntity(CartDto cartDto) {
+		
+		AccountDtoEntity userEntity = AccountDtoEntity.builder().userId(cartDto.getUserId()).build();
+		PropertyEntity propertyEntity = PropertyEntity.builder().propertyNo(cartDto.getPropertyNo()).build();
+		
+		CartEntity cartEntity = CartEntity.builder().cartEA(cartDto.getCartEA()).cartTotalPrice(cartDto.getCartTotalPrice())
+								.user(userEntity).property(propertyEntity).build();
+		return cartEntity;
+	}
+	
 	ProductDto getProductInfo(int productNo);
 
 	int getPropertyNo(int productNo);
+
+	void addProductToCart(CartDto cart);
 
 
 }
