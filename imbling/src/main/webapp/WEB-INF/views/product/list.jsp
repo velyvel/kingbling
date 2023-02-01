@@ -75,12 +75,12 @@
 							<div class="col-lg-6 col-md-6 col-sm-6">
 								<div class="shop__product__option__right">
 									<p>Sort by</p>
-									<select>
-										<option value="">인기상품순</option>
+									<select id="sort-select">
+										<option value="productCount">인기상품순</option>
 										<option value="">리뷰많은순</option>
-										<option value="">신상품순</option>
-										<option value="">낮은가격순</option>
-										<option value="">높은가격순</option>
+										<option value="productRegdate">신상품순</option>
+										<option value="productPriceAsc">낮은가격순</option>
+										<option value="productPriceDesc">높은가격순</option>
 									</select>
 								</div>
 							</div>
@@ -119,7 +119,7 @@
 			$('#product-list').load("product-list?categoryNo="+ ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo });
 			
 			// 카테고리 클릭시 그 카테고리에 해당하는 상품리스트 조회 
-			$('.product-category').on('click', function(evnet) {
+			$('.product-category').on('click', function(event) {
 				var categoryNo = $(this).data('category-no');
 
 				$.ajax({
@@ -148,6 +148,17 @@
 				var categoryNo2 = $(this).data('category-no2');
 
 				location.href= "/product/detail?productNo=" + productNo2 + "&categoryNo=" + categoryNo2;
+			});
+			
+			// 정렬 옵션 클릭시 해당하는 기준으로 상품리스트 정렬 
+			$("#sort-select").on('change', function(event) {
+				option = $(this).find("option:selected");
+				const sort = option.attr('value');
+				
+				const categoryNo = ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo };
+
+				$('#product-list').load("product-list?categoryNo="+ categoryNo + "&sort=" + sort);
+				
 			});
 			
 		});
