@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
+import com.imbling.dto.CartDto;
 import com.imbling.dto.ReviewDto;
 import com.imbling.service.MypageService;
 
@@ -53,7 +54,12 @@ public class MyPageController {
 
 	///////////////////////// 장바구니////////////////////////////////////////
 	@GetMapping(path = { "/mypage/cart", })
-	public String showCart() {
+	public String showCart(HttpSession session,Model model) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		List<CartDto> carts = mypageService.getCartInfo(loginUser.getUserId());
+		
+		model.addAttribute("carts", carts);
+		
 		return "mypage/cart";
 	}
 

@@ -11,14 +11,14 @@ import com.imbling.entity.ProductEntity;
 import com.imbling.entity.PropertyEntity;
 import com.imbling.repository.AccountRepository;
 import com.imbling.repository.PropertyRepository;
-import com.imbling.repository.UserCartRepository;
+import com.imbling.repository.CartRepository;
 import com.imbling.repository.UserProductRepository;
 
 @Service("userOrderService")
 public class UserOrderServiceImpl implements UserOrderService{
 	
 	@Autowired
-	private UserCartRepository userCartRepository;
+	private CartRepository cartRepository;
 	
 	@Autowired
 	private UserProductRepository userProductRepository;
@@ -51,7 +51,7 @@ public class UserOrderServiceImpl implements UserOrderService{
 		CartEntity cartEntity = CartEntity.builder().cartEA(cart.getCartEA()).cartTotalPrice(cart.getCartTotalPrice())
 								.user(userEntity).property(propertyEntity).build();
 		
-		userCartRepository.save(cartEntity);
+		cartRepository.save(cartEntity);
 		
 	}
 
