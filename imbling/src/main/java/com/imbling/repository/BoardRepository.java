@@ -2,6 +2,7 @@ package com.imbling.repository;
 
 import com.imbling.dto.BoardDto;
 import com.imbling.entity.BoardEntity;
+import com.imbling.entity.BoardFaqEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -31,5 +32,6 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
     @Query(value = "SELECT * FROM imb_board WHERE boardCategory=3 ORDER BY boardRegDate DESC", nativeQuery = true)
     List<BoardEntity> findModalByBoardCategoryDesc();
 
-
+    @Query(value = "select * from imb_boardfaq order by faqRegdate desc", nativeQuery = true)
+    List<BoardFaqEntity> findFaqByBoardFaqCategoryDesc();
 }

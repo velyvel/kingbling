@@ -3,9 +3,11 @@ package com.imbling.service;
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardCommentDto;
 import com.imbling.dto.BoardDto;
+import com.imbling.dto.BoardFaqDto;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.BoardCommentEntity;
 import com.imbling.entity.BoardEntity;
+import com.imbling.entity.BoardFaqEntity;
 import com.imbling.repository.AccountRepository;
 import com.imbling.repository.CommentRepository;
 import com.imbling.repository.BoardRepository;
@@ -150,6 +152,27 @@ public class BoardServiceImpl implements BoardService{
                 .build();
 
         commentRepository.save(commentEntity);
+    }
+
+    @Override
+    public List<BoardFaqDto> findFaq() {
+
+//        List<BoardEntity> boardList = boardRepository.findNoticeByBoardCategoryDesc();
+//
+//        ArrayList<BoardDto> boards = new ArrayList<>();
+//        System.out.println(boardList);
+//        for (BoardEntity boardEntity: boardList){
+//            boards.add(boardEntityToDto(boardEntity));
+//        }
+//        return boards;
+//    }
+        List<BoardFaqEntity> faqList = boardRepository.findFaqByBoardFaqCategoryDesc();
+        return null;
+    }
+
+    @Override
+    public void writeFaq(BoardFaqDto faq) {
+
     }
 
 //    @Override

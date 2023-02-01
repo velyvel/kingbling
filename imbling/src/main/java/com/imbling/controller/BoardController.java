@@ -2,10 +2,7 @@ package com.imbling.controller;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.imbling.common.Util;
-import com.imbling.dto.AccountDto;
-import com.imbling.dto.BoardAttachDto;
-import com.imbling.dto.BoardCommentDto;
-import com.imbling.dto.BoardDto;
+import com.imbling.dto.*;
 import com.imbling.entity.BoardEntity;
 import com.imbling.service.BoardService;
 import com.imbling.ui.BoardPager;
@@ -79,11 +76,13 @@ public class BoardController {
 //============================ 공지사항 ============================
 //공지사항 페이지 보여주기
 	@GetMapping(path = { "/notice" })
-	public String showBoardNotice(@RequestParam (defaultValue = "1") int pageNo, BoardDto board, Model model) {
+	public String showBoardNotice(@RequestParam (defaultValue = "1") int pageNo, BoardDto board, BoardFaqDto faq, Model model) {
 
 		board.setBoardCategory(2);
+
 		List<BoardDto> boards = boardService.findNoticeBoard();
 		List<BoardDto> boards2 = boardService.findModalBoard();
+		List<BoardFaqDto> faqs = boardService.findFaq();
 		model.addAttribute("boards", boards);
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("boards2", boards2);
@@ -249,6 +248,22 @@ public class BoardController {
 		//boardService.updateGroupNo(comment.getCommentNo(), comment.getCommentGroup());
 		return "success";
 	}
+
+	@GetMapping(path = {"/faqWrite"})
+		public String showWriteFaq(@RequestParam(defaultValue = "1") int faqCategory, Model model){
+			model.addAttribute("faqCategory", faqCategory);
+		return "board/faqWrite";
+		}
+
+	@PostMapping(path = {"/faqWrite"})
+		public String writeFaq(BoardFaqDto faq){
+		int faqCategory = faq.getFaqCategory();
+		boardService.writeFaq(faq);
+			return "board/faqWrite";
+	}
+
+
+
 
 
 }

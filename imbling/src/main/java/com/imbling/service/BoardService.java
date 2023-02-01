@@ -1,12 +1,10 @@
 package com.imbling.service;
 
-import com.imbling.dto.AccountDto;
-import com.imbling.dto.BoardAttachDto;
-import com.imbling.dto.BoardCommentDto;
-import com.imbling.dto.BoardDto;
+import com.imbling.dto.*;
 import com.imbling.entity.BoardAttachEntity;
 import com.imbling.entity.BoardCommentEntity;
 import com.imbling.entity.BoardEntity;
+import com.imbling.entity.BoardFaqEntity;
 import jdk.jfr.Category;
 
 import java.util.List;
@@ -93,6 +91,36 @@ public interface BoardService {
         return commentEntity;
     }
 
+    //=========================== boardFaq ===========================
+    public default BoardFaqDto boardFaqEntityToDto(BoardFaqEntity faqEntity){
+        BoardFaqDto faqDto = new BoardFaqDto();
+        faqDto.setFaqNo(faqEntity.getFaqNo());
+        faqDto.setFaqCategory(faqEntity.getFaqCategory());
+        faqDto.setFaqContent(faqEntity.getFaqContent());
+        faqDto.setFaqTitle(faqEntity.getFaqTitle());
+        faqDto.setUserId(faqEntity.getUserId());
+        faqDto.setFaqRegDate(faqEntity.getFaqRegDate());
+        faqDto.setFaqDeleted(faqEntity.isFaqDeleted());
+
+        return faqDto;
+    }
+
+    public default BoardFaqEntity boardFaqDtoToEntity(BoardFaqDto faqDto){
+        BoardFaqEntity faqEntity = BoardFaqEntity.builder()
+                .faqNo(faqDto.getFaqNo())
+                .faqCategory(faqDto.getFaqCategory())
+                .faqContent(faqDto.getFaqContent())
+                .faqTitle(faqDto.getFaqTitle())
+                .userId(faqDto.getUserId())
+                .faqRegDate(faqDto.getFaqRegDate())
+                .faqDeleted(faqDto.isFaqDeleted())
+                .build();
+
+        return faqEntity;
+    }
+
+
+
 
     List<BoardDto> findEventBoard();
 
@@ -120,6 +148,10 @@ public interface BoardService {
     List<BoardCommentDto> findComments(int boardNo);
 
     void writeComment(BoardCommentDto comment, AccountDto account);
+
+    List<BoardFaqDto> findFaq();
+
+    void writeFaq(BoardFaqDto faq);
 
     //void updateGroupNo(int commentNo, int commentGroup);
 }
