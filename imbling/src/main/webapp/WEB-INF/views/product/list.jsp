@@ -116,7 +116,7 @@
 	<script type="text/javascript">
 		$(function() {
 			
-			$('#product-list').load("product-list?categoryNo="+ ${categories[0].categoryNo});
+			$('#product-list').load("product-list?categoryNo="+ ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo });
 			
 			// 카테고리 클릭시 그 카테고리에 해당하는 상품리스트 조회 
 			$('.product-category').on('click', function(evnet) {
@@ -141,6 +141,13 @@
 				var categoryNo = $(this).data('category-no');
 
 				location.href= "/product/detail?productNo=" + productNo + "&categoryNo=" + categoryNo;
+			});
+			
+			$('#product-list').on('click', 'div.product-image', function(event) {
+				var productNo2 = $(this).data('product-no2');
+				var categoryNo2 = $(this).data('category-no2');
+
+				location.href= "/product/detail?productNo=" + productNo2 + "&categoryNo=" + categoryNo2;
 			});
 			
 		});

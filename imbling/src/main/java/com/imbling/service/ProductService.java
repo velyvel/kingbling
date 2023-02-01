@@ -19,6 +19,10 @@ public interface ProductService {
 		productDto.setProductRegdate(productEntity.getProductRegdate());
 		productDto.setProductCount(productEntity.getProductCount());
 		
+		CategoryDto category = new CategoryDto();
+		category.setCategoryName(productEntity.getCategory().getCategoryName());
+		productDto.setCategory(category);;
+		
 		return productDto;
 	}
 	

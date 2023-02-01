@@ -25,13 +25,11 @@ public class ProductController {
 	
 	// 상품리스트
 	@GetMapping(path = { "/list" })
-	public String productList(ProductDto productDto, Model model) {
+	public String productList(ProductDto productDto, @RequestParam(defaultValue = "-1") int categoryNo, Model model) {
 		
-		List<CategoryDto> categories = productService.findAllCategories();
+		List<CategoryDto> categories = productService.findAllCategories();;
 		model.addAttribute("categories", categories);
-
-		int productNo = productDto.getProductNo();
-		model.addAttribute("productNo", productNo);
+		model.addAttribute("categoryNo", categoryNo);
 		
 		return "product/list";
 	}

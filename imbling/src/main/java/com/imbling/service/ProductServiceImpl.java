@@ -105,10 +105,23 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductDto> findProductListByCategory2(int categoryNo) {
 		
-		CategoryEntity categoryEntity = categoryRepository.findByCategoryNo(categoryNo);
+//		CategoryEntity categoryEntity = categoryRepository.findByCategoryNo(categoryNo);
+//		
+//		ArrayList<ProductDto> products = new ArrayList<>();
+//		for (ProductEntity productEntity : categoryEntity.getProducts()) {
+//			ProductDto productDto = new ProductDto();
+//			productDto.setProductNo(productEntity.getProductNo());
+//			productDto.setProductName(productEntity.getProductName());
+//			productDto.setProductImage(productEntity.getProductImage());
+//			productDto.setProductPrice(productEntity.getProductPrice());
+//			productDto.setProductRegdate(productEntity.getProductRegdate());
+//			
+//			products.add(productDto);
+//		}
 		
+		List<ProductEntity> entities = productRepository.findByCategoryCategoryNoOrderByProductPriceDesc(categoryNo);
 		ArrayList<ProductDto> products = new ArrayList<>();
-		for (ProductEntity productEntity : categoryEntity.getProducts()) {
+		for (ProductEntity productEntity : entities) {
 			ProductDto productDto = new ProductDto();
 			productDto.setProductNo(productEntity.getProductNo());
 			productDto.setProductName(productEntity.getProductName());
@@ -118,7 +131,6 @@ public class ProductServiceImpl implements ProductService {
 			
 			products.add(productDto);
 		}
-		
 		return products;
 	}
 	
@@ -142,5 +154,7 @@ public class ProductServiceImpl implements ProductService {
 		
 		return product;
 	}
+	
+	 
 
 }
