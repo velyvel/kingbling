@@ -33,7 +33,7 @@
                         </thead>
                         <tbody>
                         <c:forEach items="${carts}" var="cart">
-                           <tr id="cartRow${cart.propertyNo}" data-proNo="${cart.propertyNo}">
+                           <tr id="cartRow" >
                             <td class="product__cart__item">
                                 <div class="product__cart__item__pic">
                                     <img src="${cart.product.productImage}" alt="" style="height:120px; weight: 120px">
@@ -45,7 +45,7 @@
                             </td>
                             <td class="quantity__item">
                                 <div class="quantity">
-                                    <div class="pro-qty-2">
+                                    <div class="pro-qty-2" data-proNo="${cart.propertyNo}">
                                         <input id="cartEA${cart.propertyNo}" type="text" value="${cart.cartEA}">
                                     </div>
                                 </div>
@@ -92,13 +92,27 @@ $(function(){
 			location.href="/userOrder/deleteFromCart?propertyNo="+deleteNo;
 		});
 
-	$("tr[id *= 'cartRow']").on('click',function(event){
-		var proNo = $(this).data("prono");
-		$("#cartRow"+proNo).on("change",'input',function(event){
-			alert('11')
-			alert($("#cartEA"+proNo).val());
+		$(".pro-qty-2").on("click",function(event){
+			var proNo = $(this).data("prono");
+			$("#addToCart").on('click',function(event){
+				$.ajax({
+					url:"/userOrder/updateCartInfo",
+				    type : 'post',
+				    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
+				    data : {"propertyNo":proNo,"cartEA":$("#cartEA"+proNo).val()},
+				    success : function(result) { // 결과 성공 콜백함수
+				        alert('성공');
+				    },
+				    error : function(request, status, error) { // 결과 에러 콜백함수
+				    	alert('에러');
+				        console.log(error);
+				    }
+				    });
+			});
 		});
-	});
+
+	
+	
 	
 	
 });
