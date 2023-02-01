@@ -4,10 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.imbling.entity.OrderEntity;
 import com.imbling.entity.ProductEntity;
 
-public interface UserOrderRepository extends JpaRepository<ProductEntity, OrderEntity>{
+public interface UserProductRepository extends JpaRepository<ProductEntity, Integer>{
 
 	ProductEntity findByProductNo(int productNo);
 
