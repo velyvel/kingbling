@@ -1,6 +1,8 @@
 package com.imbling.entity;
 
 import java.util.Collection;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -100,5 +102,8 @@ public class AccountDtoEntity {
 
 	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Collection<BoardCommentEntity> boardComments;
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	private List<CartEntity> carts;
 	
 }

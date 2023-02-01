@@ -247,12 +247,10 @@ $(function(){
 		    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
 		    data : {"productNo":${product.productNo},"productPrice":${product.productPrice},"productColor":"단일색상","productSize":"free","productEA":5},
 		    success : function(result) { // 결과 성공 콜백함수
-		        alert('장바구니에 상품 넣음.');
+		        alert('성공');
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('힝');
-		        console.log(request);
-		        console.log(status);
+		    	alert('에러');
 		        console.log(error);
 		    }
 		    });
