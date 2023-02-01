@@ -19,6 +19,10 @@ public interface ProductService {
 		productDto.setProductRegdate(productEntity.getProductRegdate());
 		productDto.setProductCount(productEntity.getProductCount());
 		
+		CategoryDto category = new CategoryDto();
+		category.setCategoryName(productEntity.getCategory().getCategoryName());
+		productDto.setCategory(category);;
+		
 		return productDto;
 	}
 	
@@ -63,7 +67,7 @@ public interface ProductService {
 	
 	// 카테고리별 상품리스트 조회 
 	CategoryDto findProductListByCategory(int categoryNo);
-	List<ProductDto> findProductListByCategory2(int categoryNo);
+	List<ProductDto> findProductListByCategory2(String sort, boolean asc, int categoryNo);
 	
 	// 상품상세페이지 조회 
 	public ProductDto showProductDetail(int productNo);

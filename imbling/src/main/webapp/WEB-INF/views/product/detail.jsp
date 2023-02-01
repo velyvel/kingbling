@@ -23,7 +23,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="product__details__breadcrumb">
-							<a href="/">홈</a><a href="/product/list?categoryNo=${categoryNo}">상품목록</a><span>${product.productName}</span>
+							<a href="/">홈</a><a class="back-list">${product.category.categoryName}</a><span>${product.productName}</span>
 						</div>
 					</div>
 				</div>
@@ -251,6 +251,16 @@ $(function(){
 		
 		
 	});
+	
+	// 상품목록 클릭시 해당 카테고리 상품리스트 페이지로 이동
+	$(".back-list").on('click', function(event) {
+
+		var categoryNo = ${categoryNo};
+		
+		location.href = "/product/list?categoryNo=" + categoryNo;
+
+	});
+	
 	
 });
 </script>
