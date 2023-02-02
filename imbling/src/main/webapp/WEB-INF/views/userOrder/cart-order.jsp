@@ -134,6 +134,14 @@ $(function(){
 		location.href="/mypage/cart";
 	});
 	
+	$(".site-btn").on('click',function(event){
+		if($('#roadFullAddr').val()==null||$('#roadFullAddr').val()==""){
+			alert('주소를 입력하세요.');
+			return false;
+		}
+		return true;
+	});
+	
 	
 	$("#toggle").on('click',function(event){
 		

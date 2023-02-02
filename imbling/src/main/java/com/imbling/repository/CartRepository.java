@@ -24,7 +24,7 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer> {
 	CartEntity findByKeys(@Param("userId") String userId,@Param("propertyNo") int propertyNo);
 
 	@Modifying @Transactional
-	@Query(value = "delete from imb_cart where userId=:userId)", nativeQuery = true)
+	@Query(value = "delete from imb_cart where userId=:userId", nativeQuery = true)
 	void deleteAllById(@Param("userId") String userId);
 
 

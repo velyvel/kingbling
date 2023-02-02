@@ -1,6 +1,7 @@
 package com.imbling.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +84,7 @@ public class UserOrderServiceImpl implements UserOrderService{
 
 	@Override
 	public void insertCartOrderInfo(OrderDto order) {
-		
+
 		OrderEntity orderEntity = orderDtoToEntity(order);
 		
 		List<CartEntity> cartEntity = cartRepository.findAllByUserId(order.getUserId());
@@ -97,6 +98,8 @@ public class UserOrderServiceImpl implements UserOrderService{
 			orderDetail.setProperty(propertyEntity);
 			orderDetailEntity.add(orderDetail);
 		}
+		orderEntity.setOrderDate(new Date());
+		orderEntity.setOrderState("주문완료");
 		orderEntity.setOrderDetails(orderDetailEntity);
 		
 		for(OrderDetailEntity od : orderDetailEntity) {

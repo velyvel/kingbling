@@ -30,7 +30,8 @@ public class OrderEntity {
 	@Column(nullable = false)
 	private int orderNo;
 	
-	@Column(nullable = false) @Builder.Default
+	@Column(nullable = false) 
+	@Builder.Default
 	private String orderState ="주문완료";
 	
 	@Column(nullable = false) 
