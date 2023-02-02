@@ -155,6 +155,8 @@ public class MyPageController {
 		}
 
 		accountService.deleteMember(loginUser);
+		session.setAttribute("loginuser", null);
+
 		return "success"; 
 		}
 

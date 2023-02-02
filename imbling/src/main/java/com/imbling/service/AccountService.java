@@ -23,6 +23,7 @@ public interface AccountService {
 		accountDto.setUserId(accountEntity.getUserId());
 		accountDto.setUserPassword(accountEntity.getUserPassword());
 		accountDto.setUserActiveState(accountEntity.isUserActiveState());
+		accountDto.setUserDocValid(accountEntity.isUserDocValid());
 
 		accountDto.setUserCorpNo(accountEntity.getUserCorpNo());
 
@@ -40,6 +41,8 @@ public interface AccountService {
 				.userPassword(accountDto.getUserPassword())
 				.userActiveState(accountDto.isUserActiveState())
 				.userCorpNo(accountDto.getUserCorpNo())
+				.userDocValid(accountDto.isUserDocValid())
+
 				.build();
 		return accountEntity;
 	}
@@ -70,5 +73,7 @@ public interface AccountService {
 	AccountDto findByUserId(String userId);
 
 	void deleteMember(AccountDto loginUser);
+
+	List<AccountDto> findAll();
 
 }

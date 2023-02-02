@@ -100,7 +100,6 @@
                             <c:forEach items="${carts}" var="cart">
                             	<c:set var="i" value="${ i+1 }" />
                             	<li>0${i}. ${cart.product.productName} <span>${cart.cartEA}개 <fmt:formatNumber value="${cart.cartTotalPrice}" pattern="#,###원" /></span></li>
-                                
                             </c:forEach>
 
                             </ul>

@@ -121,6 +121,7 @@
 										id="submit" value="Register Account">
 								</div>
 								<input type="hidden" name="userType" value="basic">
+								<input type="hidden" name="userDocValid" value="false" id="userDocValid">
 
 							</form>
 							<hr>
@@ -204,6 +205,8 @@
 
 										} else {
 											$("#userCorpNo").val(rtn)
+											$("#userDocValid").val("true")
+
 										}
 									}
 

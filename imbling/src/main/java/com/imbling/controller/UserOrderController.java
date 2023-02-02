@@ -1,5 +1,6 @@
 package com.imbling.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -100,8 +101,11 @@ public class UserOrderController {
 	
 	@PostMapping(path= {"completeCartOrder"})
 	public String completeCartOrder(OrderDto order) {
-		
+		System.out.println("=completeCartOrder====================================");
+	
+		order.setOrderDate(new Date());
 		System.out.println(order);
+		userOrderService.insertCartOrderInfo(order);
 		
 		return "redirect:/mypage/orderList";
 	}
