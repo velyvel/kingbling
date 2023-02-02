@@ -59,8 +59,9 @@ public class MyPageController {
 
 	///////////////////////// 장바구니////////////////////////////////////////
 	@GetMapping(path = { "/mypage/cart", })
-	public String showCart() {
-
+	public String showCart(HttpSession session) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		mypageService.setCartInfoToUnChk(loginUser.getUserId());
 		return "mypage/cart";
 	}
 	

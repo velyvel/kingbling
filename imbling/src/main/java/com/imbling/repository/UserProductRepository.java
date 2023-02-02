@@ -10,7 +10,12 @@ public interface UserProductRepository extends JpaRepository<ProductEntity, Inte
 
 	ProductEntity findByProductNo(int productNo);
 
-	@Query(value = "SELECT * FROM imb_property WHERE productNo= :productNo", nativeQuery = true)
+	@Query(value = "SELECT propertyNo FROM imb_property WHERE productNo= :productNo", nativeQuery = true)
 	int findPropertyNo(@Param("productNo") int productNo);
+	
+	@Query(value = "SELECT productNo FROM imb_property WHERE propertyNo= :propertyNo", nativeQuery = true)
+	int findProductNo(@Param("propertyNo") int propertyNo);
+	
+
 
 }

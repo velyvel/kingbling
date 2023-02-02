@@ -1,6 +1,8 @@
 package com.imbling.entity;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -50,7 +53,7 @@ public class OrderEntity {
 	@Column(nullable = false)
 	private String orderAddr;
 	
-	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)	
-	private List<OrderDetailEntity> orderDetails;
+	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+	private Collection<OrderDetailEntity> orderDetails;
 
 }

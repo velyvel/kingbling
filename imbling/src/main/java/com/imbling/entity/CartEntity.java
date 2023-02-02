@@ -37,6 +37,10 @@ public class CartEntity {
 	@Builder.Default
 	private Date cartRegDate = new Date();
 	
+	@Column(nullable = false)
+	@Builder.Default
+	private boolean cartChk = false;
+	
 	@ManyToOne
 	@MapsId("userId")
 	@JoinColumn(name = "userId")

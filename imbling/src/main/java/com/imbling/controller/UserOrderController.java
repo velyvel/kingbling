@@ -1,6 +1,5 @@
 package com.imbling.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -62,6 +61,15 @@ public class UserOrderController {
 		return "success";
 	}
 	
+	@GetMapping(path= {"/deleteCheckedFromCart"}) @ResponseBody
+	public String deletecheckedFromCart(HttpSession session) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		
+		userOrderService.deleteCheckedFromCart(loginUser.getUserId());
+		
+		return "success";
+	}
+	
 	@PostMapping(path= {"/updateCartInfo"}) @ResponseBody
 	public String updateCartInfo(int propertyNo,int cartEA,int productPrice, HttpSession session) {
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
@@ -72,6 +80,18 @@ public class UserOrderController {
 		cart.setPropertyNo(propertyNo);
 		cart.setUserId(loginUser.getUserId());
 		userOrderService.updateCartInfo(cart);
+		
+		return "success";
+	}
+	
+	@PostMapping(path= {"/updateCartChk"}) @ResponseBody
+	public String updateCartChk(int propertyNo, HttpSession session) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		
+		CartDto cart = new CartDto();
+		cart.setPropertyNo(propertyNo);
+		cart.setUserId(loginUser.getUserId());
+		userOrderService.updateCartChk(cart);
 		
 		return "success";
 	}
@@ -99,7 +119,21 @@ public class UserOrderController {
 		return "/userOrder/cart-order";
 	}
 	
-	@PostMapping(path= {"completeCartOrder"})
+	@GetMapping(path= {"/doOrderCheckedCart"})
+	public String showCheckedCartPage(HttpSession session, Model model) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		List<CartDto> carts = userOrderService.getCheckedCartInfo(loginUser.getUserId());
+		int cartTotalPrice = 0;
+		for(int i=0;i<carts.size();i++) {
+			cartTotalPrice = cartTotalPrice + carts.get(i).getCartTotalPrice();
+		}
+		model.addAttribute("carts", carts);
+		model.addAttribute("cartTotalPrice", cartTotalPrice);
+		
+		return "userOrder/checked-order";
+	}
+	
+	@PostMapping(path= {"/completeCartOrder"})
 	public String completeCartOrder(OrderDto order) {
 	
 		userOrderService.insertCartOrderInfo(order);
@@ -107,7 +141,15 @@ public class UserOrderController {
 		return "redirect:/mypage/orderList";
 	}
 	
-	@PostMapping(path= {"completeOrder"})
+	@PostMapping(path= {"/completeCheckedCartOrder"})
+	public String completeCheckedCartOrder(OrderDto order) {
+	
+		userOrderService.insertcheckedCartOrderInfo(order);
+		
+		return "redirect:/mypage/orderList";
+	}
+	
+	@PostMapping(path= {"/completeOrder"})
 	public String completeOrder() {
 		
 		
