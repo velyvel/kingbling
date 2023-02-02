@@ -68,5 +68,7 @@ public interface UserOrderService {
 
 	void deleteFromCart(String userId, int propertyNo);
 
+	void updateCartInfo(CartDto cart);
+
 
 }

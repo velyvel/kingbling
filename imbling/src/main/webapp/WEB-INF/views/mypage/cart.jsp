@@ -18,11 +18,13 @@
 
 <!-- ****************************** cart ************************** -->
 <section class="shopping-cart spad">
+<h2 style="display: flex;align-content:center;padding-bottom:30px;">
+<i class="fa fa-shopping-basket" style="margin:auto">장바구니</i></h2>
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
+        <div class="row" id="cartList">
+<%--             <div class="col-lg-8">
                 <div class="shopping__cart__table">
-                    <table>
+                    <table >
                         <thead>
                         <tr>
                             <th>주문 제품</th>
@@ -45,7 +47,7 @@
                             </td>
                             <td class="quantity__item">
                                 <div class="quantity">
-                                    <div class="pro-qty-2" data-proNo="${cart.propertyNo}">
+                                    <div class="pro-qty-2" data-proNo="${cart.propertyNo}" data-singleprice="${cart.product.productPrice}">
                                         <input id="cartEA${cart.propertyNo}" type="text" value="${cart.cartEA}">
                                     </div>
                                 </div>
@@ -73,7 +75,7 @@
                     </ul>
                     <a href="#" class="primary-btn">주문하기</a>
                 </div>
-            </div>
+            </div> --%>
         </div>
     </div>
 </section>
@@ -87,29 +89,49 @@
 
 <script type="text/javascript">
 $(function(){
-	$("i[id *= 'cartDelete']").on('click',function(){
-			var deleteNo = $(this).data("propertyno");
-			location.href="/userOrder/deleteFromCart?propertyNo="+deleteNo;
-		});
-
-		$(".pro-qty-2").on("click",function(event){
-			var proNo = $(this).data("prono");
-			$("#addToCart").on('click',function(event){
-				$.ajax({
-					url:"/userOrder/updateCartInfo",
-				    type : 'post',
-				    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
-				    data : {"propertyNo":proNo,"cartEA":$("#cartEA"+proNo).val()},
-				    success : function(result) { // 결과 성공 콜백함수
-				        alert('성공');
-				    },
-				    error : function(request, status, error) { // 결과 에러 콜백함수
-				    	alert('에러');
-				        console.log(error);
-				    }
-				    });
-			});
-		});
+	
+	$('#cartList').load("cartlist");
+	
+	$('#cartList').on('click',"i[id *= 'cartDelete']",function(event){
+		var deleteNo = $(this).data("propertyno");
+		$.ajax({
+			url:"/userOrder/deleteFromCart",
+		    type : 'get',
+		    dataType : 'text',// 반환 데이터 타입 (html, xml, json, text 등등)
+		    data : {"propertyNo":deleteNo},
+		    success : function(result) { // 결과 성공 콜백함수
+		    	$('#cartList').load("cartlist");
+		    },
+		    error : function(request, status, error) { // 결과 에러 콜백함수
+		    	alert('에러');
+		        console.log(error);
+		    }
+	    });
+	});
+		
+	$('#cartList').on("click",".pro-qty-2 i",function(event){
+		var proNo = $(this).data("prono");
+		var cartEA = $("#cartEA"+proNo).val();
+		if($(this).hasClass("fa fa-arrow-up")){
+			cartEA = Number(cartEA) + 1;
+		}else if($(this).hasClass("fa fa-arrow-down")){
+			cartEA = Number(cartEA) - 1;
+		}
+		
+		$.ajax({
+			url:"/userOrder/updateCartInfo",
+		    type : 'post',
+		    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
+		    data : {"propertyNo":proNo,"cartEA":cartEA,"productPrice":$(this).data("singleprice")},
+		    success : function(result) { // 결과 성공 콜백함수
+		    	$('#cartList').load("cartlist");
+		    },
+		    error : function(request, status, error) { // 결과 에러 콜백함수
+		    	alert('에러');
+		        console.log(error);
+		    }
+	    });
+	});
 
 	
 	

@@ -60,8 +60,7 @@
 									class="fa fa-star-o"></i> <span> - 5 Reviews</span>
 							</div>
 							<h3>
-								<fmt:formatNumber value="${product.productPrice}"
-									pattern="₩#,###" />
+								<fmt:formatNumber value="${product.productPrice}" pattern="₩#,###" />
 							</h3>
 							<div class="product__details__option">
 								<div class="product__details__option__size">
@@ -84,7 +83,9 @@
 							<div class="product__details__cart__option">
 								<div class="quantity">
 									<div class="pro-qty">
-										<input type="text" value="1">
+										<span class="fa fa-angle-up dec qtybtn" aria-hidden="true" data-product-no="${product.productNo}"></span>
+										<input id="product-ea" type="text" value="5">
+										<span class="fa fa-angle-down inc qtybtn" aria-hidden="true" data-product-no="${product.productNo}"></span>
 									</div>
 								</div>
 								<button class="primary-btn"><i class="fa-regular fa-credit-card"></i> 결제하기</button>
@@ -235,12 +236,17 @@
 <script type="text/javascript">
 $(function(){
 	
-	$("#addToCart").on('click',function(event){
+	// 상품 수량 변경은 main.js에 있음. 수량 5개 이하로는 주문할 수 없음.
+	
+	$("#addToCart").on('click', function(event) {
+		var productEA = $('#product-ea').val();
+		alert(productEA);
+		
 		$.ajax({
 			url:"/userOrder/addToCart",
 		    type : 'post',
 		    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
-		    data : {"productNo":${product.productNo},"productPrice":${product.productPrice},"productColor":"단일색상","productSize":"free","productEA":5},
+		    data : {"productNo":${product.productNo},"productPrice":${product.productPrice},"productColor":"단일색상","productSize":"free","productEA":productEA},
 		    success : function(result) { // 결과 성공 콜백함수
 		        alert('성공');
 		    },

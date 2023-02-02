@@ -41,5 +41,8 @@ public class OrderEntity {
 	
 	@Column(nullable = false)
 	private String userId;
+	
+	@Column(nullable = false)
+	private String orderAddr;
 
 }

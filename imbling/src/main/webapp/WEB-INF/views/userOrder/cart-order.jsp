@@ -21,7 +21,7 @@
 <section class="checkout spad">
     <div class="container">
         <div class="checkout__form">
-            <form action="/userOrder/completeOrder" method="post">
+            <form action="/userOrder/completeCartOrder" method="post">
                 <div class="row">
                     <div class="col-lg-8 col-md-6">
                     
@@ -66,8 +66,8 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="checkout__input">
-                                    <p>이름<span>*</span></p>
-                                    <input type="text">
+                                    <p>이름<span></span></p>
+                                    <input type="text" value="${loginuser.userId}" style="color:black" name="userId" readonly>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>결제정보<span>*</span></p>
-                                    <input type="text" readonly>
+                                    <input type="text" name="orderPay" value="무통장입금">
                                 </div>
                             </div>
                         </div>
@@ -83,11 +83,11 @@
                             <p>배송주소<span>*</span>&nbsp&nbsp&nbsp
                             <button type="button" class="btn btn-secondary" id="goPopup"> 주소 찾기</button></p>
                             <input type="text" placeholder="주소 찾기 버튼을 눌러주세요" id="roadFullAddr" class="checkout__input__add"
-                            style="color:black" readonly >
+                            style="color:black" name="orderAddr" readonly >
                         </div>
                         <div class="checkout__input">
                             <p>배송요청사항<span></span></p>
-                            <input type="text" name=""
+                            <input type="text" name="orderDeliveryRequire" 
                                    placeholder="배송 기사님께 전달할 메세지를 입력해주세요.">
                         </div>
 

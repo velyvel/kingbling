@@ -38,5 +38,5 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 	// 장바구니에 넣을 상품 정보 조회
 	@Query(value = "select * from imb_product where productNo=( select productNo from imb_property where propertyNo=:propertyNo ) ", nativeQuery = true)
 	ProductEntity findByPropertyNo(@Param("propertyNo") int propertyNo);
-
+	
 }

@@ -60,10 +60,6 @@ public class ProductController {
 	@GetMapping(path = { "/detail" })
 	public String showDetail(int categoryNo, int productNo, Model model, HttpSession session) {
 		
-		ProductDto product = productService.showProductDetail(productNo);
-		model.addAttribute("product", product);
-		model.addAttribute("categoryNo", categoryNo);
-		
 		// 상품게시글 조회수 증가
 		ArrayList<Integer> productList = (ArrayList<Integer>) session.getAttribute("product-list");
 		if (productList == null) {	// 세션에 목록이 없으면 
@@ -74,7 +70,11 @@ public class ProductController {
 			productService.increaseProductReadCount(productNo);	// 상품게시글 조회수 증가 
 			productList.add(productNo);	// 읽은 상품 목록에 현재 상품번호 추가 
 		}
-
+		
+		ProductDto product = productService.showProductDetail(productNo);
+		model.addAttribute("product", product);
+		model.addAttribute("categoryNo", categoryNo);
+		
 		return "product/detail";
 	}
 	
