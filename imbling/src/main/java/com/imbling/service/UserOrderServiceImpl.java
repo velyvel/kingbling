@@ -10,8 +10,8 @@ import com.imbling.entity.CartEntity;
 import com.imbling.entity.ProductEntity;
 import com.imbling.entity.PropertyEntity;
 import com.imbling.repository.AccountRepository;
-import com.imbling.repository.PropertyRepository;
 import com.imbling.repository.CartRepository;
+import com.imbling.repository.PropertyRepository;
 import com.imbling.repository.UserProductRepository;
 
 @Service("userOrderService")
@@ -57,6 +57,17 @@ public class UserOrderServiceImpl implements UserOrderService{
 	@Override
 	public void deleteFromCart(String userId, int propertyNo) {
 		cartRepository.deleteById(userId,propertyNo);
+	}
+
+	@Override
+	public void updateCartInfo(CartDto cart) {
+		
+		CartEntity updatedCart=cartRepository.findByKeys(cart.getUserId(),cart.getPropertyNo());
+		updatedCart.setCartEA(cart.getCartEA());
+		updatedCart.setCartTotalPrice(cart.getCartTotalPrice());
+		
+		cartRepository.save(updatedCart);
+		
 	}
 
 		

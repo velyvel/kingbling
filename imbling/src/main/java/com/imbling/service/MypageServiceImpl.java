@@ -3,25 +3,21 @@ package com.imbling.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.dto.CartDto;
-import com.imbling.dto.CategoryDto;
 import com.imbling.dto.ReviewDto;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.BoardEntity;
 import com.imbling.entity.CartEntity;
-import com.imbling.entity.CategoryEntity;
 import com.imbling.entity.ReviewEntity;
 import com.imbling.repository.AccountRepository;
+import com.imbling.repository.CartRepository;
 import com.imbling.repository.MypageRepository;
 import com.imbling.repository.ProductRepository;
-import com.imbling.repository.CartRepository;
 
 @Service("mypageService")
 public class MypageServiceImpl implements MypageService{

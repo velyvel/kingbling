@@ -59,13 +59,25 @@ public class MyPageController {
 
 	///////////////////////// 장바구니////////////////////////////////////////
 	@GetMapping(path = { "/mypage/cart", })
-	public String showCart(HttpSession session,Model model) {
+	public String showCart() {
+
+		return "mypage/cart";
+	}
+	
+	
+	@GetMapping(path = { "/mypage/cartlist", })
+	public String showCartlist(HttpSession session,Model model) {
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
 		List<CartDto> carts = mypageService.getCartInfo(loginUser.getUserId());
+		int cartTotalPrice = 0;
+		for(int i=0;i<carts.size();i++) {
+			cartTotalPrice = cartTotalPrice + carts.get(i).getCartTotalPrice();
+		}
 		
 		model.addAttribute("carts", carts);
+		model.addAttribute("cartTotalPrice", cartTotalPrice);
 		
-		return "mypage/cart";
+		return "mypage/cartlist";
 	}
 
 	///////////////////////// 관심상품////////////////////////////////////////

@@ -14,6 +14,7 @@ public class OrderDto {
 	private String orderDeliveryRequire;
 	private String orderPay;
 	private String userId;
+	private String orderAddr;
 	
 	private List<OrderDetailDto> orders;
 
