@@ -84,6 +84,7 @@ public class AccountController {
 
 	@PostMapping(path = { "/member/register" })
 	public String registe(AccountDto account, MultipartHttpServletRequest req) {
+		 System.out.print("account"+account.isUserDocValid());
 
 		// 1. 요청 데이터 읽기 (전달인자로 대체)
 		MultipartFile attach = req.getFile("attach");
@@ -284,4 +285,17 @@ public class AccountController {
 		return conn;
 	}
 	
+	
+	
+	
+	///////////////admin
+	
+	
+	@GetMapping(path = { "/member/userlist" })
+	public String userlistForm(Model model) {
+		System.out.println("userlistForm==============");
+		List<AccountDto> allUser= accountService.findAll();
+		model.addAttribute("allUser",allUser);
+		return "admin/member/userlist";
+	}
 }

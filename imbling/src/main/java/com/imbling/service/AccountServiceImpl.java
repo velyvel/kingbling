@@ -1,6 +1,7 @@
 package com.imbling.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -93,6 +94,18 @@ public class AccountServiceImpl implements AccountService {
 		accountRepository.save(accountEntity); // 데이터베이스에 데이터 저장	
 		
 		
+	}
+
+
+	@Override
+	public List<AccountDto> findAll() {
+		List<AccountDto> returnDto =  new ArrayList<>();;
+		// TODO Auto-generated method stub
+		List<AccountDtoEntity> findAll= accountRepository.findAll();
+		for (AccountDtoEntity findEntity :  findAll) {
+			returnDto.add(accountEntityAccountDto(findEntity));
+ 		}
+		return returnDto;
 	}
 
 
