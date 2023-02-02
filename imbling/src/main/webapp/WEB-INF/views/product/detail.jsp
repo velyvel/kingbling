@@ -245,7 +245,7 @@ $(function(){
 		        alert('성공');
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('에러');
+		    	alert('로그인 후 가능한 서비스입니다.');
 		        console.log(error);
 		    }
 		    });
