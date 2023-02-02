@@ -43,7 +43,6 @@ public class UserOrderServiceImpl implements UserOrderService{
 	
 	@Override
 	public void addProductToCart(CartDto cart) {
-		System.out.println(cart);
 		
 		AccountDtoEntity userEntity = accountRepository.findByUserId(cart.getUserId());
 		PropertyEntity propertyEntity = propertyRepository.findById(cart.getPropertyNo()).orElse(null);		
@@ -53,6 +52,11 @@ public class UserOrderServiceImpl implements UserOrderService{
 		
 		cartRepository.save(cartEntity);
 		
+	}
+
+	@Override
+	public void deleteFromCart(String userId, int propertyNo) {
+		cartRepository.deleteById(userId,propertyNo);
 	}
 
 		

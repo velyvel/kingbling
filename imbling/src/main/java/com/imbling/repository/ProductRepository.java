@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.imbling.entity.CategoryEntity;
 import com.imbling.entity.ProductEntity;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {

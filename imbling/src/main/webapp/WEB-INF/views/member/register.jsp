@@ -135,6 +135,7 @@
 			</div>
 		</div>
 
+
 	</div>
 	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 	<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
@@ -260,6 +261,8 @@
 					}); */
 
 			});
+			
+			
 
 		});
 	</script>
