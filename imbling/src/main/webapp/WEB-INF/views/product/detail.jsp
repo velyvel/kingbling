@@ -53,6 +53,7 @@
 					<div class="col-lg-8">
 						<div class="product__details__text">
 							<h4>${product.productName}</h4>
+							<span><i class="fa-solid fa-person"></i> ${product.productCount}</span>
 							<div class="rating">
 								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 									class="fa fa-star"></i> <i class="fa fa-star"></i> <i

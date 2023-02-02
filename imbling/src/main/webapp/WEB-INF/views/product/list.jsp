@@ -76,11 +76,12 @@
 								<div class="shop__product__option__right">
 									<p>Sort by</p>
 									<select id="sort-select">
-										<option value="productCount">인기상품순</option>
-										<option value="">리뷰많은순</option>
-										<option value="productRegdate">신상품순</option>
-										<option value="productPriceAsc">낮은가격순</option>
-										<option value="productPriceDesc">높은가격순</option>
+										<option value="productCount">조회수</option>
+										<option value="">인기상품</option>
+										<option value="">상품리뷰</option>
+										<option value="productRegdate">신상품</option>
+										<option value="productPriceAsc">낮은가격</option>
+										<option value="productPriceDesc">높은가격</option>
 									</select>
 								</div>
 							</div>
