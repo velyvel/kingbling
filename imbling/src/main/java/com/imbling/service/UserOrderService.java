@@ -1,9 +1,11 @@
 package com.imbling.service;
 
 import com.imbling.dto.CartDto;
+import com.imbling.dto.OrderDto;
 import com.imbling.dto.ProductDto;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.CartEntity;
+import com.imbling.entity.OrderEntity;
 import com.imbling.entity.ProductEntity;
 import com.imbling.entity.PropertyEntity;
 
@@ -54,10 +56,30 @@ public interface UserOrderService {
 		
 		CartEntity cartEntity = CartEntity.builder().cartEA(cartDto.getCartEA()).cartTotalPrice(cartDto.getCartTotalPrice())
 								.user(userEntity).property(propertyEntity).build();
-		
-		
-		
 		return cartEntity;
+	}
+	
+	public default OrderDto orderEntityToDto(OrderEntity orderEntity) {
+		OrderDto orderDto = new OrderDto();
+		orderDto.setOrderNo(orderEntity.getOrderNo());
+		orderDto.setOrderState(orderEntity.getOrderState());
+		orderDto.setOrderDate(orderEntity.getOrderDate());
+		orderDto.setOrderDeliveryRequire(orderEntity.getOrderDeliveryRequire());
+		orderDto.setOrderPay(orderEntity.getOrderPay());
+		orderDto.setUserId(orderEntity.getUserId());
+		orderDto.setOrderAddr(orderEntity.getOrderAddr());
+		
+		return orderDto;
+	}
+	
+	public default OrderEntity orderDtoToEntity(OrderDto orderDto) {
+		
+		OrderEntity orderEntity = OrderEntity.builder().orderNo(orderDto.getOrderNo()).orderState(orderDto.getOrderState()).orderDate(orderDto.getOrderDate())
+								.orderDeliveryRequire(orderDto.getOrderDeliveryRequire()).orderPay(orderDto.getOrderPay())
+								.userId(orderDto.getUserId()).orderAddr(orderDto.getOrderAddr())
+								.build();
+		
+		return orderEntity;
 	}
 	
 	ProductDto getProductInfo(int productNo);
@@ -69,6 +91,8 @@ public interface UserOrderService {
 	void deleteFromCart(String userId, int propertyNo);
 
 	void updateCartInfo(CartDto cart);
+
+	void insertCartOrderInfo(OrderDto order);
 
 
 }

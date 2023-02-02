@@ -9,8 +9,8 @@ import lombok.Data;
 public class OrderDto {
 	
 	private int orderNo;
-	private String orderState;
-	private Date orderDate;
+	private String orderState = "주문완료";
+	private Date orderDate = new Date();
 	private String orderDeliveryRequire;
 	private String orderPay;
 	private String userId;

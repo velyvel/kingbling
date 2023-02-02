@@ -50,4 +50,7 @@ public class PropertyEntity {
 	@OneToMany(mappedBy = "property", fetch = FetchType.LAZY)	
 	private List<CartEntity> carts;
 	
+	@OneToMany(mappedBy = "property", fetch = FetchType.LAZY)	
+	private List<OrderDetailEntity> orderDetails;
+	
 }
