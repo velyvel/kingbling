@@ -1,5 +1,7 @@
 package com.imbling.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.CartDto;
-import com.imbling.dto.ProductDto;
+import com.imbling.dto.OrderDto;
 import com.imbling.dto.PropertyDto;
+import com.imbling.service.MypageService;
 import com.imbling.service.UserOrderService;
 
 @Controller @RequestMapping(path= {"/userOrder"})
@@ -24,11 +27,9 @@ public class UserOrderController {
 	@Qualifier("userOrderService")
 	private UserOrderService userOrderService;
 	
-	@GetMapping(path= {"/doOrder"})
-	public String ShowOrderPage() {
-		
-		return "/userOrder/order";
-	}
+	@Autowired
+	@Qualifier("mypageService")
+	private MypageService mypageService;
 	
 	@RequestMapping(path= {"/jusoPopup"})
 	public String showJusoPopup() {
@@ -48,10 +49,10 @@ public class UserOrderController {
 		
 		userOrderService.addProductToCart(cart);
 		
-		return "/mypage/cart";
+		return "success";
 	}
 	
-	@GetMapping(path= {"/deleteFromCart"})
+	@GetMapping(path= {"/deleteFromCart"}) @ResponseBody
 	public String deleteFromCart(int propertyNo, HttpSession session) {
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
 		
@@ -60,7 +61,100 @@ public class UserOrderController {
 		return "success";
 	}
 	
+	@GetMapping(path= {"/deleteCheckedFromCart"}) @ResponseBody
+	public String deletecheckedFromCart(HttpSession session) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		
+		userOrderService.deleteCheckedFromCart(loginUser.getUserId());
+		
+		return "success";
+	}
 	
+	@PostMapping(path= {"/updateCartInfo"}) @ResponseBody
+	public String updateCartInfo(int propertyNo,int cartEA,int productPrice, HttpSession session) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		
+		CartDto cart = new CartDto();
+		cart.setCartEA(cartEA);
+		cart.setCartTotalPrice(productPrice*cartEA);
+		cart.setPropertyNo(propertyNo);
+		cart.setUserId(loginUser.getUserId());
+		userOrderService.updateCartInfo(cart);
+		
+		return "success";
+	}
+	
+	@PostMapping(path= {"/updateCartChk"}) @ResponseBody
+	public String updateCartChk(int propertyNo, HttpSession session) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		
+		CartDto cart = new CartDto();
+		cart.setPropertyNo(propertyNo);
+		cart.setUserId(loginUser.getUserId());
+		userOrderService.updateCartChk(cart);
+		
+		return "success";
+	}
+	
+	@GetMapping(path= {"/doOrder"})
+	public String ShowOrderPage(HttpSession session, Model model) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		
+		return "/userOrder/order";
+	}
+	
+	@GetMapping(path= {"/doCartOrder"})
+	public String ShowCartOrderPage(HttpSession session, Model model) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		
+		List<CartDto> carts = mypageService.getCartInfo(loginUser.getUserId());
+		int cartTotalPrice = 0;
+		for(int i=0;i<carts.size();i++) {
+			cartTotalPrice = cartTotalPrice + carts.get(i).getCartTotalPrice();
+		}
+		
+		model.addAttribute("carts", carts);
+		model.addAttribute("cartTotalPrice", cartTotalPrice);
+		
+		return "/userOrder/cart-order";
+	}
+	
+	@GetMapping(path= {"/doOrderCheckedCart"})
+	public String showCheckedCartPage(HttpSession session, Model model) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		List<CartDto> carts = userOrderService.getCheckedCartInfo(loginUser.getUserId());
+		int cartTotalPrice = 0;
+		for(int i=0;i<carts.size();i++) {
+			cartTotalPrice = cartTotalPrice + carts.get(i).getCartTotalPrice();
+		}
+		model.addAttribute("carts", carts);
+		model.addAttribute("cartTotalPrice", cartTotalPrice);
+		
+		return "userOrder/checked-order";
+	}
+	
+	@PostMapping(path= {"/completeCartOrder"})
+	public String completeCartOrder(OrderDto order) {
+	
+		userOrderService.insertCartOrderInfo(order);
+		
+		return "redirect:/mypage/orderList";
+	}
+	
+	@PostMapping(path= {"/completeCheckedCartOrder"})
+	public String completeCheckedCartOrder(OrderDto order) {
+	
+		userOrderService.insertcheckedCartOrderInfo(order);
+		
+		return "redirect:/mypage/orderList";
+	}
+	
+	@PostMapping(path= {"/completeOrder"})
+	public String completeOrder() {
+		
+		
+		return "redirect:/mypage/orderList";
+	}
 	
 
 }

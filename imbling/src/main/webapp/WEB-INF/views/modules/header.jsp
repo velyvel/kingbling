@@ -23,7 +23,6 @@
                                 <li><a href="/mypage/heart">관심상품</a></li>
                                 <li><a href="/mypage/orderList">주문내역</a></li>
                                 <li><a href="/mypage/myboard">내가 쓴 게시글</a></li>
-                                <li><a href="/mypage/goodbye">회원 탈퇴</a></li>
                             </ul>
                         </li>
                         

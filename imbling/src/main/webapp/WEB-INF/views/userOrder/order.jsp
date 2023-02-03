@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +21,7 @@
 <section class="checkout spad">
     <div class="container">
         <div class="checkout__form">
-            <form action="/mypage/cartOrder" method="post">
+            <form action="/userOrder/completeOrder" method="post">
                 <div class="row">
                     <div class="col-lg-8 col-md-6">
                     
@@ -39,58 +41,22 @@
 	                        </tr>
 	                        </thead>
 	                        <tbody>
-	                        <tr>
+	                        <c:forEach items="${carts}" var="cart">
+	                        							<tr>
 	                            <td class="product__cart__item">
 	                                <div class="product__cart__item__pic">
-	                                    <img src="/resources/dist/img/shopping-cart/cart-1.jpg" alt="">
+	                                    <img style="height:130px;width:130px" src="${cart.product.productImage}" alt="">
 	                                </div>
 	                                <div class="product__cart__item__text">
-	                                    <h6>T-shirt Contrast Pocket</h6>
-	                                    <h5>300,000원</h5>
+	                                    <h6>${cart.product.productName}</h6>
+	                                    <h5><fmt:formatNumber value="${cart.product.productPrice}" pattern="₩#,###" /></h5>
 	                                </div>
 	                            </td>
-	                            <td class="cart__price">12</td>
-	                            <td class="cart__price">300,000원</td>
+	                            <td class="cart__price">${cart.cartEA}</td>
+	                            <td class="cart__price"><fmt:formatNumber value="${cart.cartTotalPrice}" pattern="₩#,###" /></td>
 	                        </tr>
-	                        <tr>
-	                            <td class="product__cart__item">
-	                                <div class="product__cart__item__pic">
-	                                    <img src="/resources/dist/img/shopping-cart/cart-2.jpg" alt="">
-	                                </div>
-	                                <div class="product__cart__item__text">
-	                                    <h6>Diagonal Textured Cap</h6>
-	                                    <h5>$98.49</h5>
-	                                </div>
-	                            </td>
-	                            <td class="cart__price">20</td>
-	                            <td class="cart__price">$ 32.50</td>
-	                        </tr>
-	                        <tr>
-	                            <td class="product__cart__item">
-	                                <div class="product__cart__item__pic">
-	                                    <img src="/resources/dist/img/shopping-cart/cart-3.jpg" alt="">
-	                                </div>
-	                                <div class="product__cart__item__text">
-	                                    <h6>Basic Flowing Scarf</h6>
-	                                    <h5>$98.49</h5>
-	                                </div>
-	                            </td>
-	                            <td class="cart__price">5</td>
-	                            <td class="cart__price">$ 47.00</td>
-	                        </tr>
-	                        <tr>
-	                            <td class="product__cart__item">
-	                                <div class="product__cart__item__pic">
-	                                    <img src="/resources/dist/img/shopping-cart/cart-4.jpg" alt="">
-	                                </div>
-	                                <div class="product__cart__item__text">
-	                                    <h6>Basic Flowing Scarf</h6>
-	                                    <h5>$98.49</h5>
-	                                </div>
-	                            </td>
-	                            <td class="cart__price">10</td>
-	                            <td class="cart__price">$ 30.00</td>
-	                        </tr>
+	                        </c:forEach>
+
 	                        </tbody>
 	                    </table>
 						</div>
@@ -121,7 +87,7 @@
                         </div>
                         <div class="checkout__input">
                             <p>배송요청사항<span></span></p>
-                            <input type="text" 
+                            <input type="text" name=""
                                    placeholder="배송 기사님께 전달할 메세지를 입력해주세요.">
                         </div>
 
@@ -131,15 +97,17 @@
                             <h4 class="order__title">주문상품</h4>
                             <div class="checkout__order__products">상품 <span>총 금액</span></div>
                             <ul class="checkout__total__products">
-                                <li>01. Vanilla salted caramel <span>15개 300원</span></li>
-                                <li>02. German chocolate <span>30개 170원</span></li>
-                                <li>03. Sweet autumn <span>5개 170원</span></li>
-                                <li>04. Cluten free mini dozen <span>7개 110원</span></li>
+                            <c:forEach items="${carts}" var="cart">
+                            	<c:set var="i" value="${ i+1 }" />
+                            	<li>0${i}. ${cart.product.productName} <span>${cart.cartEA}개 <fmt:formatNumber value="${cart.cartTotalPrice}" pattern="#,###원" /></span></li>
+                                
+                            </c:forEach>
+
                             </ul>
                             <ul class="checkout__total__all">
-                                <li>총 주문금액 <span>750원</span></li>
+                                <li>총 주문금액 <span><fmt:formatNumber value="${cartTotalPrice}" pattern="₩#,###" /></span></li>
                             </ul>
-                            <button type="submit" class="site-btn">주문 정보 수정</button>
+                            <button type="submit" class="site-btn">주문 하기</button>
                             <button type="button" class="cancel-btn">주문 취소</button>
                         </div>
                     </div>
@@ -162,6 +130,11 @@ $(function(){
 	$("#goPopup").on('click',function(event){
 		window.open("/userOrder/jusoPopup","pop","width=570,height=420, scrollbars=yes, resizable=yes");
 	});
+	
+	$(".cancel-btn").on('click',function(event){
+		location.href="/mypage/cart";
+	});
+	
 	
 	$("#toggle").on('click',function(event){
 		

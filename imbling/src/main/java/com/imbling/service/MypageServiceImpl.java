@@ -3,25 +3,22 @@ package com.imbling.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.dto.CartDto;
-import com.imbling.dto.CategoryDto;
 import com.imbling.dto.ReviewDto;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.BoardEntity;
 import com.imbling.entity.CartEntity;
-import com.imbling.entity.CategoryEntity;
 import com.imbling.entity.ReviewEntity;
 import com.imbling.repository.AccountRepository;
+import com.imbling.repository.CartRepository;
 import com.imbling.repository.MypageRepository;
 import com.imbling.repository.ProductRepository;
-import com.imbling.repository.CartRepository;
+import com.imbling.repository.PropertyRepository;
 
 @Service("mypageService")
 public class MypageServiceImpl implements MypageService{
@@ -37,6 +34,9 @@ public class MypageServiceImpl implements MypageService{
 	
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private PropertyRepository propertyRepository;
 	
 	@Override
 	public List<BoardDto> findMyInquery(String userId){
@@ -103,12 +103,21 @@ public class MypageServiceImpl implements MypageService{
 			cartDto.setCartTotalPrice(cart.getCartTotalPrice());
 			cartDto.setPropertyNo(cart.getProperty().getPropertyNo());
 			cartDto.setUserId(userId);
+			cartDto.setCartChk(cart.isCartChk());
 			cartDto.setProduct(productEntityToDto(productRepository.findByPropertyNo(cart.getProperty().getPropertyNo())));
-			
+			cartDto.setProperty(propertyEntityToDto(propertyRepository.findById(cartDto.getPropertyNo()).orElse(null)));
 			cartDtos.add(cartDto);
 		}
-		System.out.println(cartDtos);
 		return cartDtos;
+	}
+
+	@Override
+	public void setCartInfoToUnChk(String userId) {
+		List<CartEntity> carts = cartRepository.findAllByUserId(userId);
+		for(CartEntity cart : carts) {
+			cart.setCartChk(false);
+			cartRepository.save(cart);
+		}
 	}
 
 

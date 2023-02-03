@@ -121,6 +121,7 @@
 										id="submit" value="Register Account">
 								</div>
 								<input type="hidden" name="userType" value="basic">
+								<input type="hidden" name="userDocValid" value="false" id="userDocValid">
 
 							</form>
 							<hr>
@@ -134,6 +135,7 @@
 				</div>
 			</div>
 		</div>
+
 
 	</div>
 	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
@@ -203,6 +205,8 @@
 
 										} else {
 											$("#userCorpNo").val(rtn)
+											$("#userDocValid").val("true")
+
 										}
 									}
 
@@ -260,6 +264,8 @@
 					}); */
 
 			});
+			
+			
 
 		});
 	</script>

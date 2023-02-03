@@ -113,7 +113,7 @@ public class ProductServiceImpl implements ProductService {
 		} else if (sort.equals("productPriceAsc") && asc == true ) {
 			entities = productRepository.findByCategoryCategoryNoOrderByProductPrice(categoryNo);
 		} else {
-			entities = productRepository.findByCategoryCategoryNoOrderByProductCount(categoryNo);
+			entities = productRepository.findByCategoryCategoryNoOrderByProductCountDesc(categoryNo);
 		}
 		
 		ArrayList<ProductDto> products = new ArrayList<>();
@@ -152,6 +152,11 @@ public class ProductServiceImpl implements ProductService {
 		return product;
 	}
 	
+	// 상품번호 받아서 상품게시글 조회수 증가
+	@Override
+	public void increaseProductReadCount(int productNo) {
+		productRepository.updateProductCount(productNo);
+	}
 	 
 
 }

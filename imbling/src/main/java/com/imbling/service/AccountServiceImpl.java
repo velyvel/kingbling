@@ -1,6 +1,7 @@
 package com.imbling.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class AccountServiceImpl implements AccountService {
 		accountEntity= accountDtoToEntity(member);
 		
 		HashSet<AccountDocImgDtoEntity> attachments = new HashSet<>();
+		
  		for (AccountDocImgDto boardAttachDto : member.getAttachments()) {
  			attachments.add(accountDocImgDtoToEntity(boardAttachDto));
  		}
@@ -48,9 +50,17 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public AccountDto  findByUserIdAndUserPassword(String userId, String userPassword) {
 		userPassword = Util.getHashedString(userPassword, "SHA-256");
+
+
 		AccountDtoEntity loginuser=accountRepository.findByUserIdAndUserPassword(userId,userPassword);
-		AccountDto loginuserDto =accountEntityAccountDto(loginuser);
-		return loginuserDto;
+		if (loginuser!=null) {
+			AccountDto loginuserDto =accountEntityAccountDto(loginuser);
+			return loginuserDto;
+
+		}else {
+			return null;
+
+		}
 	}
 
 
@@ -64,6 +74,38 @@ public class AccountServiceImpl implements AccountService {
 			return returnId;	
 		}
 		
+	}
+
+
+	@Override
+	public void deleteMember(AccountDto member) {
+		
+		AccountDtoEntity accountEntity;
+		accountEntity= accountDtoToEntity(member);
+		
+//		HashSet<AccountDocImgDtoEntity> attachments = new HashSet<>();
+//		
+// 		for (AccountDocImgDto boardAttachDto : member.getAttachments()) {
+// 			attachments.add(accountDocImgDtoToEntity(boardAttachDto));
+// 		}
+// 		accountEntity.setAttachments(attachments);
+ 		
+		
+		accountRepository.save(accountEntity); // 데이터베이스에 데이터 저장	
+		
+		
+	}
+
+
+	@Override
+	public List<AccountDto> findAll() {
+		List<AccountDto> returnDto =  new ArrayList<>();;
+		// TODO Auto-generated method stub
+		List<AccountDtoEntity> findAll= accountRepository.findAll();
+		for (AccountDtoEntity findEntity :  findAll) {
+			returnDto.add(accountEntityAccountDto(findEntity));
+ 		}
+		return returnDto;
 	}
 
 

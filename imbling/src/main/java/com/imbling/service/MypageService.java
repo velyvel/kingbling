@@ -6,10 +6,13 @@ import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.dto.CartDto;
 import com.imbling.dto.ProductDto;
+import com.imbling.dto.PropertyDto;
 import com.imbling.dto.ReviewDto;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.BoardEntity;
+import com.imbling.entity.CartEntity;
 import com.imbling.entity.ProductEntity;
+import com.imbling.entity.PropertyEntity;
 import com.imbling.entity.ReviewEntity;
 
 public interface MypageService {
@@ -133,6 +136,49 @@ public interface MypageService {
 		return productEntity;
 	}
 	
+	public default PropertyDto propertyEntityToDto(PropertyEntity propertyEntity) {
+		PropertyDto propertyDto = new PropertyDto();
+		propertyDto.setProductColor(propertyEntity.getProductColor());
+		propertyDto.setProductEA(propertyEntity.getProductEA());
+		propertyDto.setProductSize(propertyEntity.getProductSize());
+		propertyDto.setPropertyNo(propertyEntity.getPropertyNo());
+		
+		return propertyDto;
+	}
+	
+	public default PropertyEntity propertyDtoToEntity(PropertyDto propertyDto) {
+		PropertyEntity propertyEntity = PropertyEntity.builder()
+												   .propertyNo(propertyDto.getPropertyNo())
+												   .productColor(propertyDto.getProductColor())
+												   .productEA(propertyDto.getProductEA())
+												   .productSize(propertyDto.getProductSize())
+												   .build();
+		
+		return propertyEntity;
+	}
+	
+	public default CartDto cartEntityToDto(CartEntity cartEntity) {
+		CartDto cartDto = new CartDto();
+		cartDto.setCartEA(cartEntity.getCartEA());
+		cartDto.setCartTotalPrice(cartEntity.getCartTotalPrice());
+		cartDto.setPropertyNo(cartEntity.getProperty().getPropertyNo());
+		cartDto.setUserId(cartEntity.getUser().getUserId());
+		cartDto.setCartChk(cartEntity.isCartChk());
+		
+		return cartDto;
+	}
+	
+	public default CartEntity cartDtoToEntity(CartDto cartDto) {
+		
+		
+		AccountDtoEntity userEntity = AccountDtoEntity.builder().userId(cartDto.getUserId()).build();
+		PropertyEntity propertyEntity = PropertyEntity.builder().propertyNo(cartDto.getPropertyNo()).build();
+		
+		CartEntity cartEntity = CartEntity.builder().cartEA(cartDto.getCartEA()).cartTotalPrice(cartDto.getCartTotalPrice())
+								.cartChk(cartDto.isCartChk()).user(userEntity).property(propertyEntity).build();
+		return cartEntity;
+	}
+	
 	List<BoardDto> findMyInquery(String userId);
 	
 	List<BoardDto> findMyAllInquery(String userId);
@@ -144,6 +190,8 @@ public interface MypageService {
 	void modifyAccount(AccountDto account);
 
 	List<CartDto> getCartInfo(String userId);
+
+	void setCartInfoToUnChk(String userId);
 
 	
 
