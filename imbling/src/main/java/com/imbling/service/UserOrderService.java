@@ -160,5 +160,7 @@ public interface UserOrderService {
 
 	PropertyDto getPropertyInfoByProductNo(int productNo,String productSize,String productColor);
 
+	void insertOrder(OrderDto order, OrderDetailDto orderDetail);
+
 
 }
