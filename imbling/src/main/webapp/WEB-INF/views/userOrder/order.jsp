@@ -41,21 +41,19 @@
 	                        </tr>
 	                        </thead>
 	                        <tbody>
-	                        <c:forEach items="${carts}" var="cart">
-	                        							<tr>
+	                        <tr>
 	                            <td class="product__cart__item">
 	                                <div class="product__cart__item__pic">
-	                                    <img style="height:130px;width:130px" src="${cart.product.productImage}" alt="">
+	                                    <img style="height:130px;width:130px" src="${product.productImage}" alt="">
 	                                </div>
 	                                <div class="product__cart__item__text">
-	                                    <h6>${cart.product.productName}</h6>
-	                                    <h5><fmt:formatNumber value="${cart.product.productPrice}" pattern="₩#,###" /></h5>
+	                                    <h6>${product.productName}</h6>
+	                                    <h5><fmt:formatNumber value="${product.productPrice}" pattern="₩#,###" /></h5>
 	                                </div>
 	                            </td>
-	                            <td class="cart__price">${cart.cartEA}</td>
-	                            <td class="cart__price"><fmt:formatNumber value="${cart.cartTotalPrice}" pattern="₩#,###" /></td>
+	                            <td class="cart__price">${productEA}</td>
+	                            <td class="cart__price"><fmt:formatNumber value="${productEA*product.productPrice}" pattern="₩#,###" /></td>
 	                        </tr>
-	                        </c:forEach>
 
 	                        </tbody>
 	                    </table>
@@ -67,7 +65,7 @@
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>이름<span>*</span></p>
-                                    <input type="text">
+                                    <input type="text" value="${userId}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +73,7 @@
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>결제정보<span>*</span></p>
-                                    <input type="text" readonly>
+                                    <input type="text" value="카카오페이" name="orderPay" readonly>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +81,7 @@
                             <p>배송주소<span>*</span>&nbsp&nbsp&nbsp
                             <button type="button" class="btn btn-secondary" id="goPopup"> 주소 찾기</button></p>
                             <input type="text" placeholder="주소 찾기 버튼을 눌러주세요" id="roadFullAddr" class="checkout__input__add"
-                            style="color:black" readonly >
+                            style="color:black" name="orderAddr" readonly >
                         </div>
                         <div class="checkout__input">
                             <p>배송요청사항<span></span></p>
@@ -97,15 +95,11 @@
                             <h4 class="order__title">주문상품</h4>
                             <div class="checkout__order__products">상품 <span>총 금액</span></div>
                             <ul class="checkout__total__products">
-                            <c:forEach items="${carts}" var="cart">
-                            	<c:set var="i" value="${ i+1 }" />
-                            	<li>0${i}. ${cart.product.productName} <span>${cart.cartEA}개 <fmt:formatNumber value="${cart.cartTotalPrice}" pattern="#,###원" /></span></li>
+                            	<li>01. ${product.productName} <span>${productEA}개 <fmt:formatNumber value="${productEA*product.productPrice}" pattern="#,###원" /></span></li>
                                 
-                            </c:forEach>
-
                             </ul>
                             <ul class="checkout__total__all">
-                                <li>총 주문금액 <span><fmt:formatNumber value="${cartTotalPrice}" pattern="₩#,###" /></span></li>
+                                <li>총 주문금액 <span><fmt:formatNumber value="${productEA*product.productPrice}" pattern="₩#,###" /></span></li>
                             </ul>
                             <button type="submit" class="site-btn">주문 하기</button>
                             <button type="button" class="cancel-btn">주문 취소</button>
@@ -132,7 +126,15 @@ $(function(){
 	});
 	
 	$(".cancel-btn").on('click',function(event){
-		location.href="/mypage/cart";
+		location.href="/product/list";
+	});
+	
+	$('.site-btn').on('click',function(event){
+		if($('#roadFullAddr').val==null||$('#roadFullAddr').val==""){
+			alert('주소를 입력하세요.');
+			return false;
+		}
+		return true;
 	});
 	
 	

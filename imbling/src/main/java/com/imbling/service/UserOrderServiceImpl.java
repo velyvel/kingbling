@@ -12,6 +12,7 @@ import com.imbling.dto.CartDto;
 import com.imbling.dto.OrderDetailDto;
 import com.imbling.dto.OrderDto;
 import com.imbling.dto.ProductDto;
+import com.imbling.dto.PropertyDto;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.CartEntity;
 import com.imbling.entity.OrderDetailEntity;
@@ -227,10 +228,35 @@ public class UserOrderServiceImpl implements UserOrderService{
 		OrderDto order = orderEntityToDto(orderentity);
 		List<OrderDetailDto> ods = new ArrayList<>(); 
 		for(OrderDetailEntity oe : orderentity.getOrderDetails()) {
-			 ods.add(orderDetailEntityToDto(oe));
+			OrderDetailDto odd = new OrderDetailDto();
+			odd = orderDetailEntityToDto(oe);
+			odd.setProductName(oe.getProperty().getProduct().getProductName());
+			ods.add(odd);
 		}
 		order.setOrders(ods);
+		
 		return order;
+	}
+
+	@Override
+	public void cancelOrder(int orderNo) {
+		OrderEntity order = orderRepository.findById(orderNo).orElse(null);
+		order.setOrderState("주문취소");
+		orderRepository.save(order);
+	}
+
+	@Override
+	public void updateOrderInfo(OrderDto order) {
+		OrderEntity orderEntity = orderRepository.findById(order.getOrderNo()).orElse(null);
+		orderEntity.setOrderAddr(order.getOrderAddr());
+		orderEntity.setOrderDeliveryRequire(order.getOrderDeliveryRequire());
+		orderRepository.save(orderEntity);
+		
+	}
+
+	public PropertyDto getPropertyInfoByProductNo(int productNo,String productSize,String productColor) {
+		PropertyEntity propertyEntity = propertyRepository.findPropertyByOptions(productNo,productSize,productColor);
+		return propertyEntityToDto(propertyEntity);
 	}
 	
 

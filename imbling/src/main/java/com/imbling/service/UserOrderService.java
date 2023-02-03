@@ -154,5 +154,11 @@ public interface UserOrderService {
 
 	OrderDto getOrderInfo(int orderNo);
 
+	void cancelOrder(int orderNo);
+
+	void updateOrderInfo(OrderDto order);
+
+	PropertyDto getPropertyInfoByProductNo(int productNo,String productSize,String productColor);
+
 
 }
