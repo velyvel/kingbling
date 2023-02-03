@@ -53,19 +53,21 @@
 					<div class="col-lg-8">
 						<div class="product__details__text">
 							<h4>${product.productName}</h4>
-							<span><i class="fa-solid fa-person"></i> ${product.productCount}</span>
+							<span><i class="fa-solid fa-person"></i>
+								${product.productCount}</span>
 							<div class="rating">
 								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 									class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 									class="fa fa-star-o"></i> <span> - 5 Reviews</span>
 							</div>
 							<h3>
-								<fmt:formatNumber value="${product.productPrice}" pattern="₩#,###" />
+								<fmt:formatNumber value="${product.productPrice}"
+									pattern="₩#,###" />
 							</h3>
 							<div class="product__details__option">
 								<div class="product__details__option__size">
 									<div>Size:</div>
-									<select>
+									<select id="product-size">
 										<c:forEach var="property" items="${product.properties}">
 											<option value="${property.productSize}">${property.productSize}</option>
 										</c:forEach>
@@ -73,7 +75,7 @@
 								</div>
 								<div class="product__details__option__color">
 									<div>Color:</div>
-									<select>
+									<select id= "product-color">
 										<c:forEach var="property" items="${product.properties}">
 											<option value="${property.productColor}">${property.productColor}</option>
 										</c:forEach>
@@ -83,18 +85,26 @@
 							<div class="product__details__cart__option">
 								<div class="quantity">
 									<div class="pro-qty">
-										<span class="fa fa-angle-up dec qtybtn" aria-hidden="true" data-product-no="${product.productNo}"></span>
-										<input id="product-ea" type="text" value="5">
-										<span class="fa fa-angle-down inc qtybtn" aria-hidden="true" data-product-no="${product.productNo}"></span>
+										<span class="fa fa-angle-up dec qtybtn" aria-hidden="true"
+											data-product-no="${product.productNo}"></span> <input
+											id="product-ea" type="text" value="5"> <span
+											class="fa fa-angle-down inc qtybtn" aria-hidden="true"
+											data-product-no="${product.productNo}"></span>
 									</div>
 								</div>
-								<button class="primary-btn"><i class="fa-regular fa-credit-card"></i> 결제하기</button>
-								<button id="addToCart" class="primary-btn"><i class="fa-solid fa-cart-plus"></i> 장바구니</button>
+								<button id="doOrder" class="primary-btn">
+									<i class="fa-regular fa-credit-card"></i> 결제하기
+								</button>
+								<button id="addToCart" class="primary-btn">
+									<i class="fa-solid fa-cart-plus"></i> 장바구니
+								</button>
 								<input type="hidden" value="${productNo}" id="productNo" />
-								
+
 								<div class="product__details__option__size">
-									<a href="#" class="primary-btn" style="border: 1px solid lightgray; background-color: white;">
-									<i class="fa fa-heart-o" style="color: black;"></i></a>
+									<a href="#" class="primary-btn"
+										style="border: 1px solid lightgray; background-color: white;">
+										<i class="fa fa-heart-o" style="color: black;"></i>
+									</a>
 								</div>
 							</div>
 							<div class="product__details__last__option">
@@ -233,28 +243,41 @@
 
 	<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
 
-<script type="text/javascript">
+	<script type="text/javascript">
 $(function(){
 	
 	// 상품 수량 변경은 main.js에 있음. 수량 5개 이하로는 주문할 수 없음.
 	
+	// 장바구니에 상품데이터 넣고 장바구니 페이지로 이동 
 	$("#addToCart").on('click', function(event) {
+		var productSize = $('#product-size option').val();
+		var productColor = $('#product-color option').val();
 		var productEA = $('#product-ea').val();
-		alert(productEA);
 		
 		$.ajax({
 			url:"/userOrder/addToCart",
 		    type : 'post',
 		    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
-		    data : {"productNo":${product.productNo},"productPrice":${product.productPrice},"productColor":"단일색상","productSize":"free","productEA":productEA},
+		    data : {"productNo":${product.productNo},"productPrice":${product.productPrice},"productColor":productColor,"productSize":productSize,"productEA":productEA},
 		    success : function(result) { // 결과 성공 콜백함수
-		        alert('성공');
+		    	location.href="/mypage/cart";
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
 		    	alert('로그인 후 가능한 서비스입니다.');
 		        console.log(error);
 		    }
 		    });
+	});
+	
+	// 바로 결제 
+ 	$("#doOrder").on('click', function(event) {
+		
+		var productSize = $('#product-size option').val();
+		var productColor = $('#product-color option').val();
+		var productEA = $('#product-ea').val();
+		
+		location.href="/userOrder/doOrder?productNo=" + ${product.productNo} + "&productSize=" + productSize + "&productColor=" + productColor + "&productEA=" + productEA;
+		
 	});
 	
 	// 상품목록 클릭시 해당 카테고리 상품리스트 페이지로 이동

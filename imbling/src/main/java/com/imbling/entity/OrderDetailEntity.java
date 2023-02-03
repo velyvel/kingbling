@@ -40,7 +40,5 @@ public class OrderDetailEntity {
 	@MapsId("propertyNo")
 	@JoinColumn(name = "propertyNo")
 	private PropertyEntity property;
-	
-	
 
 }
