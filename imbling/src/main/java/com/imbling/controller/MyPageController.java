@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.dto.CartDto;
+import com.imbling.dto.OrderDto;
 import com.imbling.dto.ReviewDto;
 import com.imbling.service.AccountService;
 import com.imbling.service.MypageService;
+import com.imbling.service.UserOrderService;
 
 @Controller
 public class MyPageController {
@@ -29,6 +31,10 @@ public class MyPageController {
 	@Autowired
 	@Qualifier("accountService")
 	private AccountService accountService;
+	
+	@Autowired
+	@Qualifier("userOrderService")
+	private UserOrderService userOrderService;
 	
 	@GetMapping(path = { "/mypage/myInfo", })
 	public String showMyInfo(HttpSession session) {
@@ -89,13 +95,25 @@ public class MyPageController {
 
 	////////////////////////// 내 주문 내역//////////////////////////////////
 	@GetMapping(path = { "/mypage/orderList", })
-	public String showOrderList() {
+	public String showOrderList(HttpSession session, Model model) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		List<OrderDto> orders = userOrderService.getUserOrderList(loginUser.getUserId());
+			
+		model.addAttribute("orders",orders);
 		return "mypage/orderList";
 	}
 
 	@GetMapping(path = { "/mypage/orderList-detail", })
-	public String showOrderListDetail() {
-		return "mypage/orderList-detail";
+	public String showOrderListDetail(int orderNo, Model model) {
+		OrderDto order = userOrderService.getOrderInfo(orderNo);
+		int orderTotalPrice = 0;
+		for(int i=0;i<order.getOrders().size();i++) {
+			orderTotalPrice = orderTotalPrice + order.getOrders().get(i).getOrderDetailTotalPrice();
+		}
+		
+		model.addAttribute("order", order);
+		model.addAttribute("orderTotalPrice", orderTotalPrice);
+		return "mypage/orderList-detail"; //+++++++++++++++@@@@@@@@@@@@$$$$$$$$$$상품이름필요해
 	}
 
 	////////////////////////// 내가 쓴 게시글////////////////////////////////////////////

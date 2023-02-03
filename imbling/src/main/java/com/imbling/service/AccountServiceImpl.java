@@ -109,6 +109,22 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 
+	@Override
+	public void modifyAccount(AccountDto account) {
+		AccountDtoEntity modifyAccount=accountRepository.findByUserId(account.getUserId());
+		modifyAccount.setUserEmail(account.getUserEmail());
+		modifyAccount.setUserAddress(account.getUserAddress());
+		modifyAccount.setUserName(account.getUserName());
+		modifyAccount.setUserPhone(account.getUserPhone());
+		modifyAccount.setUserType(account.getUserType());
+		modifyAccount.setUserActiveState(account.isUserActiveState());
+		modifyAccount.setUserCorpNo(account.getUserCorpNo());
+		modifyAccount.setUserDocValid(account.isUserDocValid());
+		
+		accountRepository.save(modifyAccount);		
+	}
+
+
 
 	
 

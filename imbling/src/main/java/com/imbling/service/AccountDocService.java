@@ -7,7 +7,7 @@ import com.imbling.dto.AccountDto;
 import com.imbling.entity.AccountDocImgDtoEntity;
 import com.imbling.entity.AccountDtoEntity;
 
-public interface AccountService {
+public interface AccountDocService {
 
 	public default AccountDto accountEntityAccountDto(AccountDtoEntity accountEntity) {
 		AccountDto accountDto = new AccountDto();
@@ -62,20 +62,12 @@ public interface AccountService {
 				.build();
 		return accountEntity;
 	}
+
+
+	public AccountDocImgDto findByUserId(String userId);
 	
-	void registerMember(AccountDto accountDto);
 
 	
 	
-
-	AccountDto findByUserIdAndUserPassword(String userId, String userPassword);
-
-	AccountDto findByUserId(String userId);
-
-	void deleteMember(AccountDto loginUser);
-
-	List<AccountDto> findAll();
-
-	void modifyAccount(AccountDto account);
 
 }

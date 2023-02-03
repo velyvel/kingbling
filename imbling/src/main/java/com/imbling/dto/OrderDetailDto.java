@@ -10,4 +10,6 @@ public class OrderDetailDto {
 	private int orderDetailEA;
 	private int orderDetailTotalPrice;
 	
+	private String productName;
+	
 }

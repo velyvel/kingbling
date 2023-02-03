@@ -3,11 +3,13 @@ package com.imbling.service;
 import java.util.List;
 
 import com.imbling.dto.CartDto;
+import com.imbling.dto.OrderDetailDto;
 import com.imbling.dto.OrderDto;
 import com.imbling.dto.ProductDto;
 import com.imbling.dto.PropertyDto;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.CartEntity;
+import com.imbling.entity.OrderDetailEntity;
 import com.imbling.entity.OrderEntity;
 import com.imbling.entity.ProductEntity;
 import com.imbling.entity.PropertyEntity;
@@ -108,6 +110,26 @@ public interface UserOrderService {
 		return orderEntity;
 	}
 	
+	public default OrderDetailDto orderDetailEntityToDto(OrderDetailEntity orderDetailEntity) {
+		OrderDetailDto orderDetailDto = new OrderDetailDto();
+		orderDetailDto.setOrderDetailEA(orderDetailEntity.getOrderDetailEA());
+		orderDetailDto.setOrderDetailTotalPrice(orderDetailEntity.getOrderDetailTotalPrice());
+		orderDetailDto.setOrderNo(orderDetailEntity.getOrder().getOrderNo());
+		orderDetailDto.setPropertyNo(orderDetailEntity.getProperty().getPropertyNo());
+		
+		return orderDetailDto;
+	}
+	
+	public default OrderDetailEntity orderDetailDtoToEntity(OrderDetailDto orderDetailDto) {
+		
+		OrderDetailEntity orderDetailEntity = OrderDetailEntity.builder().orderDetailEA(orderDetailDto.getOrderDetailEA())
+								.orderDetailTotalPrice(orderDetailDto.getOrderDetailTotalPrice())
+								.build();
+		
+		return orderDetailEntity;
+	}
+	
+	
 	ProductDto getProductInfo(int productNo);
 
 	int getPropertyNo(int productNo);
@@ -127,6 +149,16 @@ public interface UserOrderService {
 	void deleteCheckedFromCart(String userId);
 
 	void insertcheckedCartOrderInfo(OrderDto order);
+
+	List<OrderDto> getUserOrderList(String userId);
+
+	OrderDto getOrderInfo(int orderNo);
+
+	void cancelOrder(int orderNo);
+
+	void updateOrderInfo(OrderDto order);
+
+	PropertyDto getPropertyInfoByProductNo(int productNo,String productSize,String productColor);
 
 
 }
