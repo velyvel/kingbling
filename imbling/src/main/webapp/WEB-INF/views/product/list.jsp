@@ -136,19 +136,26 @@
 				})
 			});
 			
+
+			$('#product-list').on('click', 'a.heart-btn', function(event) {
+				var productNo3 = $(this).data('product-no3');
+				
+				location.href = "/mypage/heart?productNo=" + productNo3;
+			});
+			
 			// 상품명 또는 상품이미지 클릭시 상품상세페이지로 이동
 			$('#product-list').on('click', 'a.product-name', function(event) {
 				var productNo = $(this).data('product-no');
 				var categoryNo = $(this).data('category-no');
 
-				location.href= "/product/detail?productNo=" + productNo + "&categoryNo=" + categoryNo;
+				location.href = "/product/detail?productNo=" + productNo + "&categoryNo=" + categoryNo;
 			});
 			
 			$('#product-list').on('click', 'div.product-image', function(event) {
 				var productNo2 = $(this).data('product-no2');
 				var categoryNo2 = $(this).data('category-no2');
 
-				location.href= "/product/detail?productNo=" + productNo2 + "&categoryNo=" + categoryNo2;
+				location.href = "/product/detail?productNo=" + productNo2 + "&categoryNo=" + categoryNo2;
 			});
 			
 			// 정렬 옵션 클릭시 해당하는 기준으로 상품리스트 정렬 
@@ -161,6 +168,7 @@
 				$('#product-list').load("product-list?categoryNo="+ categoryNo + "&sort=" + sort);
 				
 			});
+			
 			
 		});
 	</script>

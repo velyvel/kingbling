@@ -157,6 +157,5 @@ public class ProductServiceImpl implements ProductService {
 	public void increaseProductReadCount(int productNo) {
 		productRepository.updateProductCount(productNo);
 	}
-	 
 
 }

@@ -31,6 +31,9 @@
 	                    </div>
 	                    
 						<div style="padding:10px 10px 15px 15px; display:none" id="productList">
+						<input type="hidden" name="propertyNo" value="${property.propertyNo}">
+						<input type="hidden" name="orderDetailEA" value="${productEA}">
+						<input type="hidden" name="orderDetailTotalPrice" value="${propertyEA*product.productPrice}">
 							<table>
 	                        <thead>
 	                        <tr>
@@ -65,7 +68,7 @@
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>이름<span>*</span></p>
-                                    <input type="text" value="${userId}" readonly>
+                                    <input type="text" name="userId" value="${userId}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +88,7 @@
                         </div>
                         <div class="checkout__input">
                             <p>배송요청사항<span></span></p>
-                            <input type="text" name=""
+                            <input type="text" name="orderDeliveryRequire"
                                    placeholder="배송 기사님께 전달할 메세지를 입력해주세요.">
                         </div>
 
@@ -130,7 +133,7 @@ $(function(){
 	});
 	
 	$('.site-btn').on('click',function(event){
-		if($('#roadFullAddr').val==null||$('#roadFullAddr').val==""){
+		if($('#roadFullAddr').val()==null||$('#roadFullAddr').val()==""){
 			alert('주소를 입력하세요.');
 			return false;
 		}

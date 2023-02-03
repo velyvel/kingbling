@@ -10,11 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.dto.CartDto;
+import com.imbling.dto.CategoryDto;
+import com.imbling.dto.HeartDto;
 import com.imbling.dto.OrderDto;
 import com.imbling.dto.ReviewDto;
 import com.imbling.service.AccountService;
@@ -70,27 +73,20 @@ public class MyPageController {
 		mypageService.setCartInfoToUnChk(loginUser.getUserId());
 		return "mypage/cart";
 	}
-	
-	
+
 	@GetMapping(path = { "/mypage/cartlist", })
-	public String showCartlist(HttpSession session,Model model) {
+	public String showCartlist(HttpSession session, Model model) {
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
 		List<CartDto> carts = mypageService.getCartInfo(loginUser.getUserId());
 		int cartTotalPrice = 0;
-		for(int i=0;i<carts.size();i++) {
+		for (int i = 0; i < carts.size(); i++) {
 			cartTotalPrice = cartTotalPrice + carts.get(i).getCartTotalPrice();
 		}
-		
+
 		model.addAttribute("carts", carts);
 		model.addAttribute("cartTotalPrice", cartTotalPrice);
-		
-		return "mypage/cartlist";
-	}
 
-	///////////////////////// 관심상품////////////////////////////////////////
-	@GetMapping(path = { "/mypage/heart", })
-	public String showHeart() {
-		return "mypage/heart";
+		return "mypage/cartlist";
 	}
 
 	////////////////////////// 내 주문 내역//////////////////////////////////
@@ -127,48 +123,49 @@ public class MyPageController {
 
 		return "mypage/myboard";
 	}
-	
-	  @GetMapping(path = { "/mypage/myboardInquery"}) 
-	  public String showByboardInquery(String userId, Model model) {
-	  System.out.println(userId);
-	  List<BoardDto> boards = mypageService.findMyAllInquery(userId);
-	  model.addAttribute("boards", boards);
-	  model.addAttribute("sort", "inquery");
-	  
-	  return "mypage/myboard-see-more";
-	  }
-	  
-	  @GetMapping(path = { "/mypage/myboardReview"}) 
-	  public String showByboardReview(String userId, Model model) {
-	  System.out.println(userId);
-	  List<ReviewDto> reviews = mypageService.findMyAllReview(userId);
-	  model.addAttribute("reviews", reviews);
-	  model.addAttribute("sort", "review");
-	  
-	  return "mypage/myboard-see-more";
-	  }
-	  
-	  ///////////////////////////////////////////////////////////////////
-	  @PostMapping(path = { "/mypage/deleteIdModal" })
-	  @ResponseBody
 
-	  public String deleteIdModal(String userId, String userPassword,HttpSession session) {
+	@GetMapping(path = { "/mypage/myboardInquery" })
+	public String showByboardInquery(String userId, Model model) {
+		System.out.println(userId);
+		List<BoardDto> boards = mypageService.findMyAllInquery(userId);
+		model.addAttribute("boards", boards);
+		model.addAttribute("sort", "inquery");
 
-		  AccountDto loginUser = accountService.findByUserIdAndUserPassword(userId, userPassword);
+		return "mypage/myboard-see-more";
+	}
 
-		  if(loginUser !=null) {
-			
-			//ArrayList<AccountDocImgDto> attachments = new ArrayList<>(); // 첨부파일 정보를 저장하는 DTO 객체
+	@GetMapping(path = { "/mypage/myboardReview" })
+	public String showByboardReview(String userId, Model model) {
+		System.out.println(userId);
+		List<ReviewDto> reviews = mypageService.findMyAllReview(userId);
+		model.addAttribute("reviews", reviews);
+		model.addAttribute("sort", "review");
+
+		return "mypage/myboard-see-more";
+	}
+
+	///////////////////////////////////////////////////////////////////
+	@PostMapping(path = { "/mypage/deleteIdModal" })
+	@ResponseBody
+
+	public String deleteIdModal(String userId, String userPassword, HttpSession session) {
+
+		AccountDto loginUser = accountService.findByUserIdAndUserPassword(userId, userPassword);
+
+		if (loginUser != null) {
+
+			// ArrayList<AccountDocImgDto> attachments = new ArrayList<>(); // 첨부파일 정보를 저장하는
+			// DTO 객체
 //			AccountDocImgDto attachment = new AccountDocImgDto();
 //			attachment.setDocName("deleteUser");
 //			attachments.add(attachment);
 			loginUser.setUserActiveState(true);
 //			loginUser.setAttachments(attachments);
-			  System.out.println(loginUser);
+			System.out.println(loginUser);
 
 			session.setAttribute("loginuser", null);
 
-		}else {
+		} else {
 			return "wrongIdOrPw"; // return "redirect:/home.action";
 
 		}
@@ -176,7 +173,40 @@ public class MyPageController {
 		accountService.deleteMember(loginUser);
 		session.setAttribute("loginuser", null);
 
-		return "success"; 
-		}
+		return "success";
+	}
 
+	// 관심상품 /////////////////////////////////////////////////////////////
+	// 관심상품 리스트 조회 
+	@GetMapping(path = { "/mypage/heart" })
+	public String showHeartList() {
+		
+		return "/mypage/heart";
+	}
+	
+	@GetMapping(path = { "/mypage/heart-list" })
+	public String showHeartList(HttpSession session, Model model, CategoryDto category) {
+		AccountDto loginuser = (AccountDto) session.getAttribute("loginuser");
+		List<HeartDto> hearts = mypageService.getHeartInfo(loginuser.getUserId());
+		
+		model.addAttribute("hearts", hearts);
+
+		return "/mypage/heart-list";
+	}
+	
+	// 관심상품 추가
+	@PostMapping(path= {"/add-to-heart"})
+	@ResponseBody
+	public String addToHeart(HttpSession session, int productNo, CategoryDto categoryDto) {
+		AccountDto loginuser = (AccountDto) session.getAttribute("loginuser");
+		
+		HeartDto heart = new HeartDto();
+		heart.setUserId(loginuser.getUserId());
+		heart.setProductNo(productNo);
+		heart.setCategoryNo(categoryDto.getCategoryNo());
+		
+		mypageService.addProductToHeart(heart);
+		
+		return "success";
+	}
 }

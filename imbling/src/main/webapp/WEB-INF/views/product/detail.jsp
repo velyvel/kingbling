@@ -53,8 +53,7 @@
 					<div class="col-lg-8">
 						<div class="product__details__text">
 							<h4>${product.productName}</h4>
-							<span><i class="fa-solid fa-person"></i>
-								${product.productCount}</span>
+							<span><i class="fa-solid fa-person"></i>${product.productCount}</span>
 							<div class="rating">
 								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 									class="fa fa-star"></i> <i class="fa fa-star"></i> <i
@@ -101,8 +100,7 @@
 								<input type="hidden" value="${productNo}" id="productNo" />
 
 								<div class="product__details__option__size">
-									<a href="#" class="primary-btn"
-										style="border: 1px solid lightgray; background-color: white;">
+									<a id="add-to-heart" class="primary-btn" style="border: 1px solid lightgray; background-color: white;">
 										<i class="fa fa-heart-o" style="color: black;"></i>
 									</a>
 								</div>
@@ -289,6 +287,24 @@ $(function(){
 
 	});
 	
+	// 관심상품 상품데이터 넣고 관심상품 페이지로 이동
+	$("#add-to-heart").on('click', function(event) {
+
+		var categoryNo = ${categoryNo};
+		 $.ajax({
+			url : '/add-to-heart',
+		    type : 'post',
+		    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
+		    data : {"productNo":${product.productNo},"categoryNo":categoryNo,"productName":"${product.productName}","productImage":"${product.productImage}","productPrice":${product.productPrice}},
+		    success : function(result) { // 결과 성공 콜백함수
+		    	
+		    	alert('관심상품으로 등록되었습니다.');
+		    },
+		    error : function(request, status, error) { // 결과 에러 콜백함수
+		    	alert('로그인 후 가능한 서비스입니다.');
+		    }
+		});
+	});
 	
 });
 </script>

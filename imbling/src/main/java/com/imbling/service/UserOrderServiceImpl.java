@@ -243,6 +243,11 @@ public class UserOrderServiceImpl implements UserOrderService{
 		OrderEntity order = orderRepository.findById(orderNo).orElse(null);
 		order.setOrderState("주문취소");
 		orderRepository.save(order);
+		for(OrderDetailEntity ode : order.getOrderDetails()) {
+			PropertyEntity property = propertyRepository.findById(ode.getProperty().getPropertyNo()).orElse(null);
+			property.setProductEA(property.getProductEA()+ode.getOrderDetailEA());
+			propertyRepository.save(property);
+		}
 	}
 
 	@Override
@@ -257,6 +262,23 @@ public class UserOrderServiceImpl implements UserOrderService{
 	public PropertyDto getPropertyInfoByProductNo(int productNo,String productSize,String productColor) {
 		PropertyEntity propertyEntity = propertyRepository.findPropertyByOptions(productNo,productSize,productColor);
 		return propertyEntityToDto(propertyEntity);
+	}
+
+	@Override
+	public void insertOrder(OrderDto order, OrderDetailDto orderDetail) {
+		
+		List<OrderDetailEntity> ode = new ArrayList<>();
+		ode.add(orderDetailDtoToEntity(orderDetail));
+		
+		OrderEntity orderEntity = orderDtoToEntity(order);
+		orderEntity.setOrderDetails(ode);
+		orderEntity.setOrderDate(new Date());
+		orderEntity.setOrderState("주문완료");
+		orderRepository.save(orderEntity);
+		
+		PropertyEntity property = propertyRepository.findById(orderDetail.getPropertyNo()).orElse(null); 
+		property.setProductEA(property.getProductEA()-orderDetail.getOrderDetailEA());
+		propertyRepository.save(property);
 	}
 	
 
