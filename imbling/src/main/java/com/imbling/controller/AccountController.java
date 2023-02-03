@@ -35,6 +35,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.imbling.common.Util;
 import com.imbling.dto.AccountDocImgDto;
 import com.imbling.dto.AccountDto;
+import com.imbling.service.AccountDocService;
 import com.imbling.service.AccountService;
 
 @Controller
@@ -44,6 +45,11 @@ public class AccountController {
 	@Qualifier("accountService")
 	private AccountService accountService;
 
+	@Autowired
+	@Qualifier("accountDocService")
+	private AccountDocService accountDocService;
+	
+	
 	@GetMapping(path = { "/member/login" })
 	public String showLoginForm() {
 
@@ -302,7 +308,16 @@ public class AccountController {
 	@ResponseBody
 	@PostMapping(path = { "/member/detailUserInfo" })
 	public AccountDto detailUserInfo(String userId) {
-			return accountService.findByUserId(userId);
+		AccountDto detailUserInfo=accountService.findByUserId(userId);
+		 
+		 ArrayList<AccountDocImgDto> attachments = new ArrayList<>();
+		 attachments.add(accountDocService.findByUserId(userId));
+		 detailUserInfo.setAttachments(attachments);
+			System.out.println("detailUserInfo==============");
+
+		 System.out.println(detailUserInfo);
+
+			return detailUserInfo;
 	}
 	
 	@PostMapping(path = { "/member/edit", })

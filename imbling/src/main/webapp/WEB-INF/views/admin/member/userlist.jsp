@@ -54,7 +54,7 @@
 											<th>사용자 타입</th>
 											<th>사업자 등록번호</th>
 											<th>사업자 등록증 사진</th>
-											<th>사업자 등록증 유효성</th>
+											<th>사업자 등록증 식별 여부 </th>
 
 											<th>수정 버튼</th>
 										</tr>
@@ -146,22 +146,22 @@
 				<form  action="/member/edit" method="post">
 				<div class="modal-body">
 				
-					<div class="form-group">userId <input  name="userId" id="userId" type="text"></div>
-					<div class="form-group"> userName  <input name="userName" id="userName" type="text"> </div>
-					<div class="form-group">userPhone  <input name="userPhone" id="userPhone" type="text"></div>
-					<div class="form-group">userEmail  <input name="userEmail" id="userEmail" type="text"></div>
-					<div class="form-group">userType 
+					<div class="form-group">사용자 아이디  <input  name="userId" id="userId" type="text"></div>
+					<div class="form-group">사용자 명   <input name="userName" id="userName" type="text"> </div>
+					<div class="form-group">휴대폰 번호   <input name="userPhone" id="userPhone" type="text"></div>
+					<div class="form-group">이메일   <input name="userEmail" id="userEmail" type="text"></div>
+					<div class="form-group">사용자 유형  
 						<select name="userType">
 							<option value="basic" >일반 사용자 </option> 
 							<option value="admin" >관리자 </option> 
 						</select>
 					</div>
-					<div class="form-group">userAddress  <input name="userAddress" id="userAddress" type="text"></div>
+					<div class="form-group">사용자 주소   <input name="userAddress" id="userAddress" type="text"></div>
 					
-					<div class="form-group">userActiveState  <a id="userActiveState">데이터 식별 전  </a></div>
-					<div class="form-group">userCorpNo  <input name="userCorpNo" id="userCorpNo" type="text"></div>
-					<div class="form-group">attachments  <input  id="attachments" type="text"></div>
-					<div class="form-group">userDocValid  <a id="userDocValid" class="modalUserDocValid">데이터 식별 전  </a></div>
+					<div class="form-group">사용자 활동 상태   <a id="userActiveState">데이터 식별 전  </a></div>
+					<div class="form-group">사업자 등록증 등록번호   <input name="userCorpNo" id="userCorpNo" type="text"></div>
+					<div class="form-group">사업자 등록증  <img id= "attach" style="    width: 100%;"></div>
+					<div class="form-group">사업자 등록증 식별 여부   <a id="userDocValid" class="modalUserDocValid">데이터 식별 전  </a></div>
 					<input type ="hidden" name="userActiveState" id ="hiddenUserActiveState">
 					<input type ="hidden" name="userDocValid" id ="hiddenUserDocValid">
 					
@@ -206,6 +206,7 @@
 						
 						$('#hiddenUserDocValid').val(data.userDocValid)
 						$('#hiddenUserActiveState').val(data.userActiveState)
+						$('#attach').attr("src","/ocr/venv/account-attachments/"+data.attachments[0].docName)
 
 						if(data.userActiveState){
 							$('#userActiveState').html("활동 중지 ")
