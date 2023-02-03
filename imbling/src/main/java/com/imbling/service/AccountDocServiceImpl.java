@@ -13,20 +13,14 @@ public class AccountDocServiceImpl implements AccountDocService {
 	@Autowired
 	private AccountDocRepository accountDocRepository;
 
-	
-
 	@Override
 	public AccountDocImgDto findByUserId(String userId) {
-		AccountDocImgDto findByUserId =AccountDocImgDtoEntitytoDto(accountDocRepository.findByUserId(userId));
-		return findByUserId;
+		if (accountDocRepository.findByUserId(userId) == null) {
+			return null;
+		} else {
+			AccountDocImgDto findByUserId = AccountDocImgDtoEntitytoDto(accountDocRepository.findByUserId(userId));
+			return findByUserId;
+		}
 	}
-
-	
-	
-
-
-
-	
-
 
 }

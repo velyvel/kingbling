@@ -77,7 +77,7 @@
 												<td>${ user.userName }</td>
 												<td>${ user.userType }</td>
 												<td>${ user.userCorpNo }</td>
-												<td><a>${ user.userName }</a></td>
+												<td><a><img style="width: 100px" src="/ocr/venv/account-attachments/${ user.attachments[0].docName }"></a></td>
 												<td><c:choose>
 														<c:when test="${  user.userDocValid  }">
 															<a style="width: 100px"
@@ -88,7 +88,7 @@
 																class="btn btn-danger btn-icon-split">식별 필요 </a>
 														</c:otherwise>
 													</c:choose></td>
-												<td><a style="width: 100%"
+												<td class="submit"><a style="width: 100%"
 													data-user-id=${ user.userId }
 													class="btn btn-primary btn-icon-split editUserInfo ">수정
 												</a></td>
@@ -169,7 +169,7 @@
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">취소하기</button>
 						<input id="submitBtn" type="submit" class="btn btn-primary"
-							value="계정 수정  ">
+							value=" 수정  ">
 							
 					</div>
 					
@@ -184,7 +184,16 @@
 
 	<script type="text/javascript">
 	$(function(){
-		$('.editUserInfo').on('click', function(event){
+		$(document).ready( function () {
+		    $('#dataTable').DataTable();
+		} );
+		
+		
+		
+		$('#dataTable').on('click', 'td.submit', function (e) {
+		    // your code to do something
+		    //alert("sss")
+		    $('.editUserInfo').on('click', function(event){
 			var userid=$(this).data('user-id');
 			$('#detailModal').modal('show')
 			$.ajax({
@@ -238,11 +247,7 @@
 						
 					}
 				})
-			//alert(userid);
-			
-		})
-		
-		$('#userDocValid').on('click', function(event){
+				$('#userDocValid').on('click', function(event){
 			//alert($('#hiddenUserDocValid').val())
 			
 			if( $('#hiddenUserDocValid').val() === "false" ){
@@ -258,7 +263,6 @@
 			}
 		})
 		$('#userActiveState').on('click', function(event){
-			//alert($('#hiddenUserActiveState').val())
 			
 			if( $('#hiddenUserActiveState').val() === "true" ){
 				$('#userActiveState').html("활동 중  ")
@@ -272,7 +276,12 @@
 
 			}
 		})
+			//alert(userid);
+			
+		})
+		});
 
+		
 		 		
 	})
 </script>
