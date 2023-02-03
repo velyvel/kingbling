@@ -11,8 +11,15 @@
     <jsp:include page="/WEB-INF/views/modules/admin/common-css.jsp" />
     <meta charset="UTF-8">
     <title>임블리 사이트</title>
+<style type="text/css">
+#dataTable tbody tr:hover { background-color: lightgray; 
+color: white;
+}
+</style>
+
 </head>
 <body>
+​
 <jsp:include page="/WEB-INF/views/modules/common-offcanvas.jsp" />
 <jsp:include page="/WEB-INF/views/modules/header.jsp" />
 

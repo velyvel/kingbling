@@ -50,6 +50,7 @@ public class UserOrderServiceImpl implements UserOrderService{
 	public ProductDto getProductInfo(int productNo) {
 		
 		ProductEntity product = userProductRepository.findByProductNo(productNo);
+		System.out.println(productEntityToDto(product));
 		return productEntityToDto(product);
 	}
 

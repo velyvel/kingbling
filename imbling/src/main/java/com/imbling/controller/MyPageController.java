@@ -113,7 +113,7 @@ public class MyPageController {
 		
 		model.addAttribute("order", order);
 		model.addAttribute("orderTotalPrice", orderTotalPrice);
-		return "mypage/orderList-detail";
+		return "mypage/orderList-detail"; //+++++++++++++++@@@@@@@@@@@@$$$$$$$$$$상품이름필요해
 	}
 
 	////////////////////////// 내가 쓴 게시글////////////////////////////////////////////

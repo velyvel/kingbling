@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.CartDto;
 import com.imbling.dto.OrderDto;
+import com.imbling.dto.ProductDto;
 import com.imbling.dto.PropertyDto;
 import com.imbling.service.MypageService;
 import com.imbling.service.UserOrderService;
@@ -97,9 +98,13 @@ public class UserOrderController {
 	}
 	
 	@GetMapping(path= {"/doOrder"})
-	public String ShowOrderPage(HttpSession session, Model model) {
+	public String ShowOrderPage(HttpSession session, Model model, 
+			int productNo, String productSize, String productColor, int productEA ) {
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
 		
+		ProductDto product = userOrderService.getProductInfo(productNo);
+		model.addAttribute("product",product);
+		model.addAttribute("userId",loginUser.getUserId());
 		return "/userOrder/order";
 	}
 	
