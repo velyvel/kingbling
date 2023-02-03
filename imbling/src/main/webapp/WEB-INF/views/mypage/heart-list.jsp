@@ -6,7 +6,7 @@
 <c:forEach var="heart" items="${hearts}">
 	<div class="col-lg-4 col-md-6 col-sm-6">
 		<div class="product__item">
-			<div class="product__item__pic set-bg product-image" data-product-no2="${heart.productNo}" data-category-no2="${ categoryNo }"
+			<div class="product__item__pic set-bg product-image" data-product-no2="${heart.productNo}" data-category-no2="${heart.categoryNo}"
 			style="background-image:url('${heart.products.productImage}')">
 				<ul class="product__hover">
 					<li><a href="#"><img src="/resources/dist/img/icon/heart.png" alt=""></a></li>
@@ -14,7 +14,7 @@
 			</div>
 			<div class="product__item__text">
 				<h6>${heart.products.productName}</h6>
-				<a class="add-cart product-name" data-product-no="${heart.productNo}">+ 상세페이지 보기</a>
+				<a class="add-cart product-name" data-product-no="${heart.productNo}" data-category-no="${heart.categoryNo}">+ 상세페이지 보기</a>
 				<h5>
 					<fmt:formatNumber value="${heart.products.productPrice}" pattern="₩#,###" />
 				</h5>

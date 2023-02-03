@@ -35,6 +35,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.imbling.common.Util;
 import com.imbling.dto.AccountDocImgDto;
 import com.imbling.dto.AccountDto;
+import com.imbling.service.AccountDocService;
 import com.imbling.service.AccountService;
 
 @Controller
@@ -44,6 +45,10 @@ public class AccountController {
 	@Qualifier("accountService")
 	private AccountService accountService;
 
+	@Autowired
+	@Qualifier("accountDocService")
+	private AccountDocService accountDocService;
+
 	@GetMapping(path = { "/member/login" })
 	public String showLoginForm() {
 
@@ -51,12 +56,11 @@ public class AccountController {
 	}
 
 	@PostMapping(path = { "/member/login" })
-	public String Login(String userId, String userPassword, HttpSession session,Model model,RedirectAttributes rttr) {
-
+	public String Login(String userId, String userPassword, HttpSession session, Model model, RedirectAttributes rttr) {
 
 		if (userId == "" || userPassword == "") {
 
-			rttr.addFlashAttribute("errM","아이디 또는 페스워드가 없습니다 ");
+			rttr.addFlashAttribute("errM", "아이디 또는 페스워드가 없습니다 ");
 			return "redirect:login";
 
 		} else {
@@ -64,11 +68,14 @@ public class AccountController {
 			AccountDto loginUser = accountService.findByUserIdAndUserPassword(userId, userPassword);
 			if (loginUser == null) {
 
-				rttr.addFlashAttribute("errM","일치하는 아이디가 없습니다 ");
+				rttr.addFlashAttribute("errM", "일치하는 아이디가 없습니다 ");
 				return "redirect:login";
 
+			}else if(loginUser.isUserActiveState()) {
+				rttr.addFlashAttribute("errM", "탈퇴한 회원입니다  ");
+				return "redirect:login";
 			}
-			
+
 			session.setAttribute("loginuser", loginUser);
 
 		}
@@ -84,7 +91,7 @@ public class AccountController {
 
 	@PostMapping(path = { "/member/register" })
 	public String registe(AccountDto account, MultipartHttpServletRequest req) {
-		 System.out.print("account"+account.isUserDocValid());
+		System.out.print("account" + account.isUserDocValid());
 
 		// 1. 요청 데이터 읽기 (전달인자로 대체)
 		MultipartFile attach = req.getFile("attach");
@@ -158,7 +165,7 @@ public class AccountController {
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52");
 
 			// 1. 연결 설정
-			HttpURLConnection conn = makeFileUploadConnection("http://127.0.0.1:5000/ocr", boundary, properties);
+			HttpURLConnection conn = makeFileUploadConnection("http://192.168.200.173:5001/ocr", boundary, properties);
 
 			// 2. 전송 준비
 			OutputStream os = conn.getOutputStream();
@@ -198,18 +205,19 @@ public class AccountController {
 		return null;
 
 	}
-	
+
 	@GetMapping(path = { "/member/searchByCorpNo" })
 	@ResponseBody
-	public String searchByCorpNo( String docNo) {
+	public String searchByCorpNo(String docNo) {
 
 		System.out.println("searchByCorpNo==============");
 
 		try {
-			String path = "http://127.0.0.1:5000/searchByCorpNo" + ( docNo != null ? "?docNo=" + URLEncoder.encode(docNo, "utf-8") : "");
+			String path = "http://192.168.200.173:5001/searchByCorpNo"
+					+ (docNo != null ? "?docNo=" + URLEncoder.encode(docNo, "utf-8") : "");
 			URL url = new URL(path);
-			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-			
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
 			int respCode = conn.getResponseCode();
 			if (respCode == HttpURLConnection.HTTP_OK) {
 				InputStream is = conn.getInputStream();
@@ -223,8 +231,8 @@ public class AccountController {
 					}
 					message += line;
 				}
-		
-				return  message;
+
+				return message;
 			} else {
 				return "fail to receive data 1";
 			}
@@ -233,8 +241,6 @@ public class AccountController {
 		}
 
 	}
-	
-	
 
 	private void writeFileData(MultipartFile file, String boundary, OutputStream os, PrintWriter writer)
 			throws IOException {
@@ -284,18 +290,55 @@ public class AccountController {
 		}
 		return conn;
 	}
-	
-	
-	
-	
-	///////////////admin
-	
-	
+
+	/////////////// admin
+
 	@GetMapping(path = { "/member/userlist" })
 	public String userlistForm(Model model) {
 		System.out.println("userlistForm==============");
-		List<AccountDto> allUser= accountService.findAll();
-		model.addAttribute("allUser",allUser);
+		List<AccountDto> allUser = accountService.findAll();
+///이미지
+
+		for (AccountDto User : allUser) {
+			ArrayList<AccountDocImgDto> attachments = new ArrayList<>();
+			if (accountDocService.findByUserId(User.getUserId()) == null) {
+				continue;
+			} else {
+				attachments.add(accountDocService.findByUserId(User.getUserId()));
+				User.setAttachments(attachments);
+
+			}
+			;
+			
+		}
+
+		model.addAttribute("allUser", allUser);
 		return "admin/member/userlist";
+	}
+
+	@ResponseBody
+	@PostMapping(path = { "/member/detailUserInfo" })
+	public AccountDto detailUserInfo(String userId) {
+		AccountDto detailUserInfo = accountService.findByUserId(userId);
+
+		ArrayList<AccountDocImgDto> attachments = new ArrayList<>();
+		attachments.add(accountDocService.findByUserId(userId));
+		detailUserInfo.setAttachments(attachments);
+		System.out.println("detailUserInfo==============");
+
+		System.out.println(detailUserInfo);
+
+		return detailUserInfo;
+	}
+
+	@PostMapping(path = { "/member/edit", })
+	public String editUserInfo(AccountDto account) {
+
+		System.out.println("editUserInfo==============");
+		System.out.println(account);
+
+		accountService.modifyAccount(account);
+
+		return "redirect:/member/userlist";
 	}
 }

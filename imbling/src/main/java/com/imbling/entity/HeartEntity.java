@@ -31,6 +31,9 @@ public class HeartEntity {
 	@Builder.Default
 	private Date heartRegdate = new Date();
 	
+	@Column(nullable = false)
+	private int categoryNo;
+	
 	@ManyToOne
 	@MapsId("userId")
 	@JoinColumn(name = "userId")

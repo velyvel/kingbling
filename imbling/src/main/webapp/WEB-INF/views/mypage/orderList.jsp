@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,8 +11,15 @@
     <jsp:include page="/WEB-INF/views/modules/admin/common-css.jsp" />
     <meta charset="UTF-8">
     <title>임블리 사이트</title>
+<style type="text/css">
+#dataTable tbody tr:hover { background-color: lightgray; 
+color: white;
+}
+</style>
+
 </head>
 <body>
+​
 <jsp:include page="/WEB-INF/views/modules/common-offcanvas.jsp" />
 <jsp:include page="/WEB-INF/views/modules/header.jsp" />
 
@@ -42,28 +50,20 @@
                     <th>주문번호</th>
                     <th>주문자</th>
                     <th>주문일자</th>
-                    <th>주문총액</th>
                     <th>주문상태</th>
                     <th>결제정보</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td><a href="/mypage/orderList-detail">12313</a></td>
-                    <td>aaa</td>
-                    <td>2011/08/14</td>
-                    <td>$163,000</td>
-                    <td>주문완료</td>
-                    <td>신용카드</td>
+                <c:forEach items="${orders}" var="order">
+                <tr id="orderRow${order.orderNo}" data-orderno="${order.orderNo}" style="cursor: pointer;">
+                    <td>${order.orderNo}</td>
+                    <td>${order.userId}</td>
+                    <td>${order.orderDate}</td>
+                    <td>${order.orderState}</td>
+                    <td>${order.orderPay}</td>
                 </tr>
-                <tr>
-                    <td><a href="/mypage/orderList-detail">23224</a></td>
-                    <td>bbb</td>
-                    <td>2011/03/21</td>
-                    <td>$95,400</td>
-                    <td>배송완료</td>
-                    <td>카카오페이</td>
-                </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>
@@ -77,7 +77,18 @@
 
 <jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
 <jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
-
+<script type="text/javascript">
+$(function(){
+	
+	$("tr[id *= 'orderRow']").on('click',function(event){// 상품 하나 카트에서 삭제하기
+		var orderNo = $(this).data("orderno");
+		location.href="/mypage/orderList-detail?orderNo="+orderNo;
+	});
+	
+	
+	
+});
+</script>
 
 
 </body>

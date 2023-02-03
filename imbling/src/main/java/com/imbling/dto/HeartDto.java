@@ -10,6 +10,7 @@ public class HeartDto {
 	private String userId;
 	private int productNo;
 	private Date heartRegdate;
+	private int categoryNo;
 
 	private ProductDto products;
 }

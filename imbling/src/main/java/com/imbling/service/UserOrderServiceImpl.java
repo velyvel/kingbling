@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.imbling.dto.CartDto;
+import com.imbling.dto.OrderDetailDto;
 import com.imbling.dto.OrderDto;
 import com.imbling.dto.ProductDto;
+import com.imbling.dto.PropertyDto;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.CartEntity;
 import com.imbling.entity.OrderDetailEntity;
@@ -49,6 +51,7 @@ public class UserOrderServiceImpl implements UserOrderService{
 	public ProductDto getProductInfo(int productNo) {
 		
 		ProductEntity product = userProductRepository.findByProductNo(productNo);
+		System.out.println(productEntityToDto(product));
 		return productEntityToDto(product);
 	}
 
@@ -191,34 +194,72 @@ public class UserOrderServiceImpl implements UserOrderService{
 		cartRepository.deleteCheckedById(order.getUserId());
 		
 	}
-	
-//	@Override
-//	public void insertCartOrderInfo(OrderDto order) {
-//
-//		OrderEntity orderEntity = orderDtoToEntity(order);
-//		OrderDetailEntity orderDetail = new OrderDetailEntity();
-//		List<CartEntity> cartEntity = cartRepository.findAllByUserId(order.getUserId());
-//		for(CartEntity cart : cartEntity ) {
-//			PropertyEntity propertyEntity = propertyRepository.findById(cart.getProperty().getPropertyNo()).orElse(null);
-//			orderDetail.setOrderDetailEA(cart.getCartEA());
-//			orderDetail.setOrderDetailTotalPrice(cart.getCartTotalPrice());
-//			orderDetail.setOrder(orderEntity);
-//			orderDetail.setProperty(propertyEntity);
-//			orderEntity.getOrderDetails().add(orderDetail);//null????
-//			
-//		}
-//		orderEntity.setOrderDate(new Date());
-//		orderEntity.setOrderState("주문완료");
-//		
-//		for(OrderDetailEntity od : orderEntity.getOrderDetails()) {
-//			PropertyEntity property = propertyRepository.findById(od.getProperty().getPropertyNo()).orElse(null);
-//			property.setProductEA(property.getProductEA()-od.getOrderDetailEA());
-//			propertyRepository.save(property);
-//		}
-//		orderRepository.save(orderEntity);
-//		cartRepository.deleteAllById(order.getUserId());
-//	}
+
+	@Override
+	public List<OrderDto> getUserOrderList(String userId) {
 		
+		List<OrderEntity> orderEntities = orderRepository.findAllByUserId(userId);
+		//오더리스트+오더 디테일들 조회함
+		//오더 한건 마다 
+		List<OrderDto> orders = new ArrayList<>();
+		List<OrderDetailDto> orderDetails = new ArrayList<>();
+		for(OrderEntity orderEntity : orderEntities) {
+			OrderDto orderDto = new OrderDto();
+			orderDto = orderEntityToDto(orderEntity);
+			for(OrderDetailEntity od : orderEntity.getOrderDetails()) {
+				OrderDetailDto odd = new OrderDetailDto();
+				odd.setOrderDetailEA(od.getOrderDetailEA());
+				odd.setOrderDetailTotalPrice(od.getOrderDetailTotalPrice());
+				odd.setOrderNo(od.getOrder().getOrderNo());
+				odd.setPropertyNo(od.getProperty().getPropertyNo());
+				orderDetails.add(odd);
+				orderDto.setOrders(orderDetails);
+			}
+			orders.add(orderDto);
+			
+		}
+		System.out.println(orders);
+		return orders;
+	}
+
+	@Override
+	public OrderDto getOrderInfo(int orderNo) {
+		OrderEntity orderentity = orderRepository.findById(orderNo).orElse(null);
+		OrderDto order = orderEntityToDto(orderentity);
+		List<OrderDetailDto> ods = new ArrayList<>(); 
+		for(OrderDetailEntity oe : orderentity.getOrderDetails()) {
+			OrderDetailDto odd = new OrderDetailDto();
+			odd = orderDetailEntityToDto(oe);
+			odd.setProductName(oe.getProperty().getProduct().getProductName());
+			ods.add(odd);
+		}
+		order.setOrders(ods);
+		
+		return order;
+	}
+
+	@Override
+	public void cancelOrder(int orderNo) {
+		OrderEntity order = orderRepository.findById(orderNo).orElse(null);
+		order.setOrderState("주문취소");
+		orderRepository.save(order);
+	}
+
+	@Override
+	public void updateOrderInfo(OrderDto order) {
+		OrderEntity orderEntity = orderRepository.findById(order.getOrderNo()).orElse(null);
+		orderEntity.setOrderAddr(order.getOrderAddr());
+		orderEntity.setOrderDeliveryRequire(order.getOrderDeliveryRequire());
+		orderRepository.save(orderEntity);
+		
+	}
+
+	public PropertyDto getPropertyInfoByProductNo(int productNo,String productSize,String productColor) {
+		PropertyEntity propertyEntity = propertyRepository.findPropertyByOptions(productNo,productSize,productColor);
+		return propertyEntityToDto(propertyEntity);
+	}
+	
+
 	
 	
 	

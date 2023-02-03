@@ -10,15 +10,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.dto.CartDto;
+import com.imbling.dto.CategoryDto;
 import com.imbling.dto.HeartDto;
+import com.imbling.dto.OrderDto;
 import com.imbling.dto.ReviewDto;
 import com.imbling.service.AccountService;
 import com.imbling.service.MypageService;
+import com.imbling.service.UserOrderService;
 
 @Controller
 public class MyPageController {
@@ -30,7 +34,11 @@ public class MyPageController {
 	@Autowired
 	@Qualifier("accountService")
 	private AccountService accountService;
-
+	
+	@Autowired
+	@Qualifier("userOrderService")
+	private UserOrderService userOrderService;
+	
 	@GetMapping(path = { "/mypage/myInfo", })
 	public String showMyInfo(HttpSession session) {
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
@@ -83,13 +91,25 @@ public class MyPageController {
 
 	////////////////////////// 내 주문 내역//////////////////////////////////
 	@GetMapping(path = { "/mypage/orderList", })
-	public String showOrderList() {
+	public String showOrderList(HttpSession session, Model model) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		List<OrderDto> orders = userOrderService.getUserOrderList(loginUser.getUserId());
+			
+		model.addAttribute("orders",orders);
 		return "mypage/orderList";
 	}
 
 	@GetMapping(path = { "/mypage/orderList-detail", })
-	public String showOrderListDetail() {
-		return "mypage/orderList-detail";
+	public String showOrderListDetail(int orderNo, Model model) {
+		OrderDto order = userOrderService.getOrderInfo(orderNo);
+		int orderTotalPrice = 0;
+		for(int i=0;i<order.getOrders().size();i++) {
+			orderTotalPrice = orderTotalPrice + order.getOrders().get(i).getOrderDetailTotalPrice();
+		}
+		
+		model.addAttribute("order", order);
+		model.addAttribute("orderTotalPrice", orderTotalPrice);
+		return "mypage/orderList-detail"; //+++++++++++++++@@@@@@@@@@@@$$$$$$$$$$상품이름필요해
 	}
 
 	////////////////////////// 내가 쓴 게시글////////////////////////////////////////////
@@ -160,12 +180,12 @@ public class MyPageController {
 	// 관심상품 리스트 조회 
 	@GetMapping(path = { "/mypage/heart" })
 	public String showHeartList() {
-
+		
 		return "/mypage/heart";
 	}
 	
 	@GetMapping(path = { "/mypage/heart-list" })
-	public String showHeartList(HttpSession session, Model model) {
+	public String showHeartList(HttpSession session, Model model, CategoryDto category) {
 		AccountDto loginuser = (AccountDto) session.getAttribute("loginuser");
 		List<HeartDto> hearts = mypageService.getHeartInfo(loginuser.getUserId());
 		
@@ -177,12 +197,13 @@ public class MyPageController {
 	// 관심상품 추가
 	@PostMapping(path= {"/add-to-heart"})
 	@ResponseBody
-	public String addToHeart(HttpSession session, int productNo) {
+	public String addToHeart(HttpSession session, int productNo, CategoryDto categoryDto) {
 		AccountDto loginuser = (AccountDto) session.getAttribute("loginuser");
 		
 		HeartDto heart = new HeartDto();
 		heart.setUserId(loginuser.getUserId());
 		heart.setProductNo(productNo);
+		heart.setCategoryNo(categoryDto.getCategoryNo());
 		
 		mypageService.addProductToHeart(heart);
 		

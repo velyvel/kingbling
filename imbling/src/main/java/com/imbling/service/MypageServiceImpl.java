@@ -141,6 +141,7 @@ public class MypageServiceImpl implements MypageService{
 		
 		HeartEntity heartEntity = HeartEntity.builder()
 											 .heartRegdate(new Date())
+											 .categoryNo(heart.getCategoryNo())
 											 .user(userEntity)
 											 .products(productEntity)
 											 .build();
@@ -161,6 +162,7 @@ public class MypageServiceImpl implements MypageService{
 			heartDto.setUserId(userId);
 			heartDto.setProductNo(heart.getProducts().getProductNo());
 			heartDto.setHeartRegdate(heart.getHeartRegdate());
+			heartDto.setCategoryNo(heart.getCategoryNo());
 			heartDto.setProducts(productEntityToDto(productRepository.findByProductNo(heart.getProducts().getProductNo())));
 			
 			heartDtos.add(heartDto);

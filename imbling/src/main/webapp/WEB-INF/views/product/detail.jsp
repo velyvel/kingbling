@@ -289,13 +289,15 @@ $(function(){
 	
 	// 관심상품 상품데이터 넣고 관심상품 페이지로 이동
 	$("#add-to-heart").on('click', function(event) {
-		
-		$.ajax({
+
+		var categoryNo = ${categoryNo};
+		 $.ajax({
 			url : '/add-to-heart',
 		    type : 'post',
 		    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
-		    data : {"productNo":${product.productNo},"productName":"${product.productName}","productImage":"${product.productImage}","productPrice":${product.productPrice}},
+		    data : {"productNo":${product.productNo},"categoryNo":categoryNo,"productName":"${product.productName}","productImage":"${product.productImage}","productPrice":${product.productPrice}},
 		    success : function(result) { // 결과 성공 콜백함수
+		    	
 		    	alert('관심상품으로 등록되었습니다.');
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
