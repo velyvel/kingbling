@@ -23,7 +23,7 @@ public interface MypageService {
 		boardDto.setBoardCategory(boardEntity.getBoardCategory());
 		boardDto.setBoardTitle(boardEntity.getBoardTitle());
 		boardDto.setBoardContent(boardEntity.getBoardContent());
-		boardDto.setBoardRegDate(boardEntity.getBoardRegDate());
+		boardDto.setBoardRegDate1(boardEntity.getBoardRegDate1());
 		boardDto.setBoardCount(boardEntity.getBoardCount());
 		boardDto.setUserId(boardEntity.getUserId());
 		boardDto.setBoardDeleted(boardEntity.isBoardDeleted());
@@ -37,7 +37,7 @@ public interface MypageService {
 											 .boardCategory(boardDto.getBoardCategory())
 											 .boardTitle(boardDto.getBoardTitle())
 											 .boardContent(boardDto.getBoardContent())
-											 .boardRegDate(boardDto.getBoardRegDate())
+											 .boardRegDate1(boardDto.getBoardRegDate1())
 											 .boardCount(boardDto.getBoardCount())
 											 .userId(boardDto.getUserId())
 											 .boardDeleted(boardDto.isBoardDeleted())

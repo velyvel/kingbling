@@ -58,7 +58,7 @@
                         <div class="form-group">
                             <label for="userId">작성자</label>
                             <input type="text" class="form-control" id="userId" name="userId" value="${board.userId}" readonly>
-                            <input type="hidden" class="form-control" id="boardRegDate" value="boardRegDate">
+                            <input type="hidden" class="form-control" id="boardRegDate1" value="boardRegDate1">
                         </div>
                     </div>
                 </div>
@@ -149,11 +149,12 @@
             if (!agree) return;
             location.href='${board.boardNo}/delete?pageNo=${pageNo}';
         });
+
         $('#commentList').load("commentList?boardNo=${board.boardNo}");
         $('#writeComment').on('click',function (event){
             const formData = $('#commentForm').serialize();
             $.ajax({
-                "url":"commentForm",
+                "url":"/board/commentForm",
                 "method":"post",
                 "data":formData,
                 "success":function(data, status, xhr){

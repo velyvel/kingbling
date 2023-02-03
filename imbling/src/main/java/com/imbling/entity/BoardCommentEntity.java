@@ -28,7 +28,7 @@ public class BoardCommentEntity {
     private String commentContent;
 
     @Builder.Default
-    @Column(nullable = false)
+    @Column
     private Date commentRegDate = new Date();
 
     @Column

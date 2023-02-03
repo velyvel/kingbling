@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -38,16 +40,25 @@
                     <div class="form-group">
                         <label for="boardCategory">게시판 종류</label>
                         <select class="form-control" id="boardCategory" name="boardCategory">
-                        <option selected>게시판 종류 선택️</option>
-                            <option name="boardCategory" value="1">이벤트</option>
+                        <c:choose>
+                        <c:when test="${board.boardCategory==1}">
+                            <option name="boardCategory" value="1" selected>이벤트</option>
                             <option name="boardCategory" value="2">공지사항</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option name="boardCategory" value="2" selected>공지사항</option>
+                            <option name="boardCategory" value="1">이벤트</option>
+                        </c:otherwise>
+                        </c:choose>
                         </select>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>작성날짜</label>
-                        <input type="date" class="form-control">
+                        <label for="userId">작성자</label>
+                        <input type="text" class="form-control" id="userId" name="userId" value="${loginuser.userId}" readonly>
+                        <input type="date" class="form-control" id="boardRegDate1" name="boardRegDate1" value="">
+                        <input type="date" class="form-control" id="boardRegDate2" name="boardRegDate2" value="">
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -55,7 +66,6 @@
                         <label>제목</label>
                         <input type="text" class="form-control" placeholder="공지사항제목" name="boardTitle" value="${board.boardTitle}">
                         <input type="hidden" class="form-control" readonly name="boardNo" value="${board.boardNo}">
-<%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
                     </div>
                 </div>
                 <div class="table-responsive">

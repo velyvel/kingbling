@@ -62,6 +62,8 @@ public class BoardServiceImpl implements BoardService{
                 .boardCategory(board.getBoardCategory())
                 .boardContent(board.getBoardContent())
                 .userId(board.getUserId())
+                .boardRegDate1(board.getBoardRegDate1())
+                .boardRegDate2(board.getBoardRegDate2())
                 .build();
 
         // 여기에 첨부파일 작업 추가해야함
@@ -93,6 +95,8 @@ public class BoardServiceImpl implements BoardService{
         boardEntity.setBoardTitle(board.getBoardTitle());
         boardEntity.setBoardCategory(board.getBoardCategory());
         boardEntity.setBoardContent(board.getBoardContent());
+        boardEntity.setBoardRegDate1(board.getBoardRegDate1());
+        boardEntity.setBoardRegDate2(board.getBoardRegDate2());
         boardRepository.save(boardEntity);
     }
 
@@ -152,7 +156,6 @@ public class BoardServiceImpl implements BoardService{
                 .commentContent(comment.getCommentContent())
                 .commentGroup(comment.getCommentGroup())
                 .writer(comment.getWriter())
-                //.commentRegDate(comment.getCommentRegDate())
                 .board(board)
                 .build();
 
