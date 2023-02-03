@@ -70,22 +70,18 @@
 <%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
                     </div>
                 </div>
+                <div class="col-lg-12">
                 <div class="table-responsive">
+                    <label for="boardContent"> 글 내용</label>
                     <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                         <thead hidden>
                         <tr>
-                            <th></th>
-                            <th></th>
+                            <th>글 내용</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td style="align-content: center;">
-                               <p>글 내용</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="align-content: center;">
+                            <td style="align-content: center;" id="boardContent">
                                 ${board.boardContent}
                             </td>
                         </tr>
