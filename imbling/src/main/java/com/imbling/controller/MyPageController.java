@@ -82,7 +82,6 @@ public class MyPageController {
 		for (int i = 0; i < carts.size(); i++) {
 			cartTotalPrice = cartTotalPrice + carts.get(i).getCartTotalPrice();
 		}
-
 		model.addAttribute("carts", carts);
 		model.addAttribute("cartTotalPrice", cartTotalPrice);
 
