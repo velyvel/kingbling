@@ -298,4 +298,22 @@ public class AccountController {
 		model.addAttribute("allUser",allUser);
 		return "admin/member/userlist";
 	}
+	
+	@ResponseBody
+	@PostMapping(path = { "/member/detailUserInfo" })
+	public AccountDto detailUserInfo(String userId) {
+			return accountService.findByUserId(userId);
+	}
+	
+	@PostMapping(path = { "/member/edit", })
+	public String editUserInfo(AccountDto account) {
+		
+		System.out.println("editUserInfo==============");
+		System.out.println(account);
+
+		accountService.modifyAccount(account);
+
+
+		return "redirect:/member/userlist";
+	}
 }

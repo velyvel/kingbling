@@ -76,4 +76,6 @@ public interface AccountService {
 
 	List<AccountDto> findAll();
 
+	void modifyAccount(AccountDto account);
+
 }
