@@ -190,10 +190,11 @@
 		
 		
 		
-		$('#dataTable').on('click', 'td.submit', function (e) {
-		    // your code to do something
-		    //alert("sss")
-		    $('.editUserInfo').on('click', function(event){
+		$('#dataTable').on('click', function (e) {
+
+			//alert("sss")
+		    
+			$('.editUserInfo').on('click', function(event){
 			var userid=$(this).data('user-id');
 			$('#detailModal').modal('show')
 			$.ajax({

@@ -71,6 +71,9 @@ public class AccountController {
 				rttr.addFlashAttribute("errM", "일치하는 아이디가 없습니다 ");
 				return "redirect:login";
 
+			}else if(loginUser.isUserActiveState()) {
+				rttr.addFlashAttribute("errM", "탈퇴한 회원입니다  ");
+				return "redirect:login";
 			}
 
 			session.setAttribute("loginuser", loginUser);
