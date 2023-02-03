@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.imbling.common.Util;
 import com.imbling.dto.*;
 import com.imbling.entity.BoardEntity;
-import com.imbling.entity.BoardFaqEntity;
 import com.imbling.service.BoardService;
 import com.imbling.ui.BoardPager;
 import oracle.jdbc.proxy.annotation.Post;
@@ -35,7 +34,7 @@ public class BoardController {
 	@Qualifier("boardService")
 	private BoardService boardService;
 
-//이벤트(메인)페이지 보여주기
+	//이벤트(메인)페이지 보여주기
 	@GetMapping(path = {"/event"})
 	public String showBoardHome(@RequestParam(defaultValue = "1") int pageNo, BoardDto board, Model model){
 
@@ -50,6 +49,7 @@ public class BoardController {
 	//============================ 1:1 문의 ============================
 
 	@PostMapping(path = {"/boardModal"})
+	@ResponseBody
 	public String writeModal(BoardDto board2){
 		int boardCategory = board2.getBoardCategory();
 		boardService.writeBoardModal(board2);
@@ -57,11 +57,10 @@ public class BoardController {
 
 		if(boardCategory == 3) {
 			board2.setBoardCategory(board2.getBoardCategory());
-			return "redirect:notice";
+			return "success";
 		}else{
 			return "/";
 		}
-
 	}
 
 	@GetMapping(path = {"/showModalDetail"})
@@ -74,7 +73,7 @@ public class BoardController {
 	}
 
 
-//============================ 공지사항 ============================
+	//============================ 공지사항 ============================
 //공지사항 페이지 보여주기
 	@GetMapping(path = { "/notice" })
 	public String showBoardNotice(@RequestParam (defaultValue = "1") int pageNo, BoardDto board, BoardFaqDto faq, Model model) {
@@ -84,15 +83,20 @@ public class BoardController {
 		List<BoardDto> boards = boardService.findNoticeBoard();
 		List<BoardDto> boards2 = boardService.findModalBoard();
 		List<BoardFaqDto> faqs = boardService.findFaq();
+		List<BoardFaqDto> faq2s = boardService.findFaq2();
+		List<BoardFaqDto> faq3s = boardService.findFaq3();
+
 		model.addAttribute("boards", boards);
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("boards2", boards2);
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("faqs", faqs);
+		model.addAttribute("faq2s", faq2s);
+		model.addAttribute("faq3s", faq3s);
 
 		return "board/notice";
 	}
-//공지사항 작성 페이지 보여주기
+	//공지사항 작성 페이지 보여주기
 	@GetMapping(path = {"/noticeWrite"})
 	public String showWriteNotice(@RequestParam(defaultValue = "1") int boardCategory, Model model){
 
@@ -130,7 +134,7 @@ public class BoardController {
 		return response;
 
 	}
-//공지사항 작성(카테고리별로 나눔)//
+	//공지사항 작성(카테고리별로 나눔)//
 	@PostMapping(path = {"/noticeWrite"})
 	public String writeNotice(BoardDto board){
 
@@ -162,7 +166,7 @@ public class BoardController {
 		return "board/noticeDetail";
 	}
 
-// 공지사항 수정화면 보여주기
+	// 공지사항 수정화면 보여주기
 	@GetMapping(path = {"/noticeEdit"})
 	public String showNoticeEdit(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int boardCategory, Model model){
 		BoardDto board = boardService.findBoardByBoardNo(boardNo, boardCategory);
@@ -173,7 +177,7 @@ public class BoardController {
 
 		return "board/noticeEdit";
 	}
-// 공지사항 서머노트로 편집(첨부파일도 같이 편집)
+	// 공지사항 서머노트로 편집(첨부파일도 같이 편집)
 	@PostMapping(path = {"/editNoticeImageFile"})
 	@ResponseBody
 	public HashMap<String, Object> editNoticeImage(MultipartHttpServletRequest req){
@@ -206,7 +210,7 @@ public class BoardController {
 	}
 
 
- //공지사항 수정(기능)
+	//공지사항 수정(기능)
 	@PostMapping(path = {"/noticeEdit"})
 	public String noticeEdit(@RequestParam(defaultValue = "-1") int pageNo,@RequestParam(defaultValue = "1") int boardCategory, BoardDto board){
 
@@ -216,7 +220,7 @@ public class BoardController {
 		return "redirect:noticeDetail?boardNo=" + board.getBoardNo() + "&pageNo=" + pageNo + "&boardCategory=" + board.getBoardCategory() ;
 	}
 
-//게시글삭제
+	//게시글삭제
 	@GetMapping(path = {"/{boardNo}/delete"})
 	public String deleteBoard(@PathVariable("boardNo") int boardNo, @RequestParam(defaultValue = "-1")int pageNo, BoardDto board){
 		int boardCategory = board.getBoardCategory();
@@ -231,7 +235,7 @@ public class BoardController {
 		}
 		return "redirect:/board/notice?pageNo=" + pageNo;
 	}
-//============================ 댓글 ============================
+	//============================ 댓글 ============================
 	//댓글 리스트 조회
 	@GetMapping(path = "/commentList")
 	public String showCommentList(int boardNo, Model model){
@@ -245,70 +249,23 @@ public class BoardController {
 	// 댓글 쓰기
 	@PostMapping(path = {"/commentForm"})
 	@ResponseBody
-	public String writeComment(BoardCommentDto comment, AccountDto account){
+	public String writeComment(BoardCommentDto comment, BoardFaqDto faq, AccountDto account){
 		boardService.writeComment(comment, account);
 		//boardService.updateGroupNo(comment.getCommentNo(), comment.getCommentGroup());
 		return "success";
 	}
-
-	// faq
-
+	//자주묻는질문
 	@GetMapping(path = {"/faqWrite"})
-		public String showWriteFaq(@RequestParam(defaultValue = "1") int faqCategory, Model model){
-			model.addAttribute("faqCategory", faqCategory);
+	public String showWriteFaq(@RequestParam(defaultValue = "1") int faqCategory, Model model){
+		model.addAttribute("faqCategory", faqCategory);
 		return "board/faqWrite";
-		}
+	}
 
 	@PostMapping(path = {"/faqWrite"})
-		public String writeFaq(BoardFaqDto faq){
+	public String writeFaq(BoardFaqDto faq){
 		int faqCategory = faq.getFaqCategory();
 		boardService.writeFaq(faq);
-		 // 보드 카테고리에 대한 것은 jsp에서 수정하기(with 자바스크립트)
-			return "redirect:notice";
+		return "board/faqWrite";
 	}
-
-	@GetMapping(path = {"/faqEdit"})
-	public String showEditFaq(@RequestParam(defaultValue = "-1") int faqNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int faqCategory, Model model){
-		BoardFaqDto faq = boardService.findFaqByFaqNo(faqNo, faqCategory);
-		model.addAttribute("faq",faq);
-		model.addAttribute("faqNo",faqNo);
-		model.addAttribute("pageNo", pageNo);
-		model.addAttribute("faqCategory", faqCategory);
-
-		return "board/faqEdit";
-	}
-
-	@PostMapping(path = {"/faqEdit"})
-	public String faqEdit(@RequestParam(defaultValue = "-1") int pageNo,@RequestParam(defaultValue = "1") int faqCategory, BoardFaqDto faq){
-		boardService.modifiedFaq(faq);
-		//System.out.println(board);
-
-		return "redirect:notice";
-	}
-
-//	@GetMapping(path = {"/{boardNo}/delete"})
-//	public String deleteBoard(@PathVariable("boardNo") int boardNo, @RequestParam(defaultValue = "-1")int pageNo, BoardDto board){
-//		int boardCategory = board.getBoardCategory();
-//		boardService.deleteBoard(boardNo);
-//
-//		if(boardCategory == 1) {
-//			board.setBoardCategory(board.getBoardCategory());
-//			return "redirect:/board/event?pageNo=" + pageNo;
-//		}else if(boardCategory == 2) {
-//			board.setBoardCategory(board.getBoardCategory());
-//
-//		}
-//		return "redirect:/board/notice?pageNo=" + pageNo;
-//	}
-
-	@GetMapping(path = {"/{faqNo}/delete"})
-	public String deleteFaq(@PathVariable("faqNo") int faqNo, @RequestParam(defaultValue = "-1")int pageNo, BoardFaqDto faq){
-		int faqCategory = faq.getFaqCategory();
-		boardService.deleteFaq(faqNo);
-		return "redirect:/board/notice?pageNo="+pageNo;
-	}
-
-
 
 }
-

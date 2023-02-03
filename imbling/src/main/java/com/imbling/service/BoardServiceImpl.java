@@ -114,6 +114,7 @@ public class BoardServiceImpl implements BoardService{
                 .boardTitle(board2.getBoardTitle())
                 .boardCategory(board2.getBoardCategory())
                 .boardContent(board2.getBoardContent())
+                .boardNo(board2.getBoardNo())
                 .userId(board2.getUserId())
                 .build();
         boardRepository.save(boardEntity);
@@ -207,6 +208,28 @@ public class BoardServiceImpl implements BoardService{
 
         BoardFaqEntity boardFaqEntity = faqRepository.findByFaqNo(faqNo);
         faqRepository.delete(boardFaqEntity);
+    }
+
+    @Override
+    public List<BoardFaqDto> findFaq2() {
+        List<BoardFaqEntity> faqList2 = faqRepository.findFaq2ByBoardFaqCategoryDesc();
+        ArrayList<BoardFaqDto> faqs  = new ArrayList<>();
+        for(BoardFaqEntity boardfaqEntity : faqList2){
+            faqs.add(boardFaqEntityToDto(boardfaqEntity));
+        }
+
+        return faqs;
+    }
+
+    @Override
+    public List<BoardFaqDto> findFaq3() {
+        List<BoardFaqEntity> faqList3 = faqRepository.findFaq3ByBoardFaqCategoryDesc();
+        ArrayList<BoardFaqDto> faqs = new ArrayList<>();
+        for(BoardFaqEntity boardFaqEntity : faqList3){
+            faqs.add(boardFaqEntityToDto(boardFaqEntity));
+        }
+
+        return faqs;
     }
 
 

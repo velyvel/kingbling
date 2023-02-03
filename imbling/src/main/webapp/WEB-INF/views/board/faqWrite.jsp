@@ -57,8 +57,8 @@
                 <div class="form-group">
                     <label for="faqTitle">제목</label>
                     <input type="text" class="form-control" placeholder="자주묻는질문" name="faqTitle" id="faqTitle">
-                    <%--                        <input type="hidden" class="form-control" readonly name="boardNo" value="${board.boardNo}">--%>
-                    <%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
+<%--                                            <input type="hidden" class="form-control" readonly name="faqNo" value="faqNo">--%>
+<%--                                            <input type="hidden" class="form-control" readonly value="userNo">--%>
                 </div>
             </div>
             <div class="table-responsive">

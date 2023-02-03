@@ -14,4 +14,3 @@
 <link rel="stylesheet" href="/resources/dist/css/owl.carousel.min.css" type="text/css">
 <link rel="stylesheet" href="/resources/dist/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="/resources/dist/css/style.css" type="text/css">
-<link rel="stylesheet" href="cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js" type="text/css">

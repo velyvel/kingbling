@@ -31,8 +31,14 @@ public interface BoardFaqRepository extends JpaRepository<BoardFaqEntity, Intege
 //    @Query(value = "SELECT * FROM imb_board WHERE boardCategory=3 ORDER BY boardRegDate DESC", nativeQuery = true)
 //    List<BoardEntity> findModalByBoardCategoryDesc();
 
-    @Query(value = "select * from imb_boardfaq order by faqRegdate desc", nativeQuery = true)
+    @Query(value = "select * from imb_boardfaq where faqCategory=1 order by faqRegdate desc", nativeQuery = true)
     List<BoardFaqEntity> findFaqByBoardFaqCategoryDesc();
+
+    @Query(value = "select * from imb_boardfaq where faqCategory=2 order by faqRegdate desc", nativeQuery = true)
+    List<BoardFaqEntity> findFaq2ByBoardFaqCategoryDesc();
+
+    @Query(value = "select * from imb_boardfaq where faqCategory=3 order by faqRegdate desc", nativeQuery = true)
+    List<BoardFaqEntity> findFaq3ByBoardFaqCategoryDesc();
 
     BoardFaqEntity findByFaqNoAndFaqCategory(int faqNo, int faqCategory);
 
