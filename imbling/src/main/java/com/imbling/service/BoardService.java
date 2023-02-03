@@ -120,8 +120,6 @@ public interface BoardService {
     }
 
 
-
-
     List<BoardDto> findEventBoard();
 
     List<BoardDto> findNoticeBoard();
@@ -149,9 +147,20 @@ public interface BoardService {
 
     void writeComment(BoardCommentDto comment, AccountDto account);
 
+    //faq게시판
     List<BoardFaqDto> findFaq();
 
     void writeFaq(BoardFaqDto faq);
+
+    BoardFaqDto findFaqByFaqNo(int faqNo, int faqCategory);
+
+    void modifiedFaq(BoardFaqDto faq);
+
+    void deleteFaq(int faqNo);
+
+    List<BoardFaqDto> findFaq2();
+
+    List<BoardFaqDto> findFaq3();
 
     //void updateGroupNo(int commentNo, int commentGroup);
 }

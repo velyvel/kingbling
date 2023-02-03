@@ -13,7 +13,9 @@ public class CartDto {
 	private int cartEA;
 	private int cartTotalPrice;
 	private Date cartRegDate;
+	private boolean cartChk;
 	
 	private ProductDto product;
+	private PropertyDto property;
 	
 }

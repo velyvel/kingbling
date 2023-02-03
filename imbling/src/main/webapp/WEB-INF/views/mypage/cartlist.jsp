@@ -8,6 +8,7 @@
                     <table>
                         <thead>
                         <tr>
+                        	<th></th>
                             <th>주문 제품</th>
                             <th>주문 수량</th>
                             <th>주문 금액</th>
@@ -16,7 +17,14 @@
                         </thead>
                         <tbody>
                         <c:forEach items="${carts}" var="cart">
+                        <input type="hidden" id="maxEA${cart.propertyNo}" value="${cart.property.productEA}" />
                            <tr id="cartRow" >
+                           	<td class="chk">
+                           	<c:choose>
+                           	<c:when test="${cart.cartChk}"><i class="fa fa-check-square-o" data-proNo="${cart.propertyNo}"></i></c:when>
+                           	<c:otherwise><i class="fa fa-square-o" data-proNo="${cart.propertyNo}"></i></c:otherwise>
+                           	</c:choose>
+                           	</td>
                             <td class="product__cart__item">
                                 <div class="product__cart__item__pic">
                                     <img src="${cart.product.productImage}" alt="" style="height:120px; weight: 120px">
@@ -30,7 +38,8 @@
                                 <div class="quantity">
                                     <div class="pro-qty-2">
                                         <i class="fa fa-arrow-down" style="float:left;border:solid 1px lightgray;border-radius:50px" data-proNo="${cart.propertyNo}" data-singleprice="${cart.product.productPrice}"></i>
-                                        <input id="cartEA${cart.propertyNo}" type="text" value="${cart.cartEA}">
+                                        <input id="cartEA${cart.propertyNo}" type="text" value="${cart.cartEA}" style="border:solid 1px lightgray;border-radius:50px"
+                                        data-proNo="${cart.propertyNo}" data-singleprice="${cart.product.productPrice}">
                                         <i class="fa fa-arrow-up" style="float:right;border:solid 1px lightgray;border-radius:50px" data-proNo="${cart.propertyNo}" data-singleprice="${cart.product.productPrice}"></i>
                                     </div>
                                 </div>
@@ -45,7 +54,9 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="continue__btn">
-                            <a href="/product/list">쇼핑 계속 하기</a>
+                        	<a href="/product/list">쇼핑 계속 하기</a>
+                        	<button style="width:50%" id="chk-order">선택 상품 주문</button>
+                            <button style="width:50%" id="chk-delete">선택 상품 삭제</button>
                         </div>
                     </div>
                 </div>
@@ -56,7 +67,7 @@
                     <ul>
                         <li>주문 총액 <span id="cartTotalPriceResult"><fmt:formatNumber value="${cartTotalPrice}" pattern="₩#,###" /></span></li>
                     </ul>
-                    <a href="/userOrder/doCartOrder" class="primary-btn">주문하기</a>
+                    <a href="/userOrder/doCartOrder" class="primary-btn">전체 상품 주문하기</a>
                 </div>
             </div>
         
