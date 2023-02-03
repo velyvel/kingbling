@@ -5,6 +5,7 @@ import java.util.List;
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.dto.CartDto;
+import com.imbling.dto.HeartDto;
 import com.imbling.dto.ProductDto;
 import com.imbling.dto.PropertyDto;
 import com.imbling.dto.ReviewDto;
@@ -192,7 +193,11 @@ public interface MypageService {
 	List<CartDto> getCartInfo(String userId);
 
 	void setCartInfoToUnChk(String userId);
-
 	
+	// 관심상품 
+	List<HeartDto> getHeartInfo(String userId);
+
+	void addProductToHeart(HeartDto heart);
+
 
 }

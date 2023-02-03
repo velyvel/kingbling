@@ -12,7 +12,9 @@ import com.imbling.dto.PropertyDto;
 import com.imbling.entity.CategoryEntity;
 import com.imbling.entity.ProductEntity;
 import com.imbling.entity.PropertyEntity;
+import com.imbling.repository.AccountRepository;
 import com.imbling.repository.CategoryRepository;
+import com.imbling.repository.HeartRepository;
 import com.imbling.repository.ProductRepository;
 import com.imbling.repository.PropertyRepository;
 
@@ -27,6 +29,12 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private PropertyRepository propertyRepository;
+	
+	@Autowired
+	private AccountRepository accountRepository;
+	
+	@Autowired
+	private HeartRepository heartRepository;
 	
 	// 네이버 쇼핑 API 데이터 저장
 	@Override
@@ -157,6 +165,5 @@ public class ProductServiceImpl implements ProductService {
 	public void increaseProductReadCount(int productNo) {
 		productRepository.updateProductCount(productNo);
 	}
-	 
 
 }
