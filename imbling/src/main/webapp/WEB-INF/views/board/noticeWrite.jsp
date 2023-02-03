@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -49,7 +51,8 @@
                     <div class="form-group">
                         <label for="userId">작성자</label>
                         <input type="text" class="form-control" id="userId" name="userId" value="${loginuser.userId}" readonly>
-                        <input type="hidden" class="form-control" id="boardRegDate" value="boardRegDate">
+                        <input type="date" class="form-control" id="boardRegDate1" name="boardRegDate1" value="">
+                        <input type="date" class="form-control" id="boardRegDate2" name="boardRegDate2" value="">
                     </div>
                 </div>
                 <div class="col-lg-12">

@@ -37,7 +37,9 @@
         <div class="card">
             <div class="card-header py-3">
                 <div style="float: right;">
+                    <c:if test="${loginuser.userId=='admin'}">
                     <a href="faqWrite" class="btn btn-dark" style="margin-bottom: 10px;">글쓰기</a></button>
+                    </c:if>
                 </div>
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#order" data-toggle="tab">주문/결제</a></li>
@@ -55,93 +57,112 @@
                     <!-- ****************************** 주문, 결제 ************************** -->
                     <div class="active tab-pane" id="order">
                         <c:forEach var="faq" items="${faqs}">
-                        <div class="accordion" id="orderExample${faq.faqNo}">
-                            <div class="card">
-                                    <div class="card-header" id="orderHeadingOne${faq.faqNo}">
+                            <c:set var="i" value="${i+1}"/>
+                            <div class="accordion" id="orderExample${i}">
+                                <div class="card">
+                                    <div class="card-header" id="orderHeadingOne${i}">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link" type="button" data-toggle="collapse"
-                                                    data-target="#orderCollapseOne${faq.faqNo}" aria-expanded="true"
-                                                    aria-controls="orderCollapseOne${faq.faqNo}">
+                                                    data-target="#orderCollapseOne${i}" aria-expanded="true"
+                                                    aria-controls="orderCollapseOne${i}">
                                                 공지사항 번호: #${faq.faqNo}, 제목:${faq.faqTitle}
                                             </button>
                                         </h2>
                                     </div>
-
-                                    <div id="orderCollapseOne${faq.faqNo}" class="collapse" aria-labelledby="orderHeadingOne${faq.faqNo}"
-                                         data-parent="#orderExample${faq.faqNo}">
+                                    <div id="orderCollapseOne${i}" class="collapse"
+                                         aria-labelledby="orderHeadingOne${i}"
+                                         data-parent="#orderExample${i}">
                                         <div class="card-body">
                                                 ${faq.faqContent}
-                                            <hr>
-                                            <a class="btn btn-success"
-                                               href="faqEdit?faqNo=${faq.faqNo}&pageNo=${pageNo}&faqCategory=${faq.faqCategory}">글
-                                                수정</a>
-                                            <input type="button" id="faqDeleteBtn" value="글 삭제" class="btn btn-warning">
-                                        </div>
+                                            <c:choose>
+                                                <c:when test="${loginuser.userId=='admin'}">
+                                                    <a class="btn btn-success"
+                                                       href="faqEdit?faqNo=${faq.faqNo}&pageNo=${pageNo}&faqCategory=${faq.faqCategory}">글
+                                                        수정</a>
+                                                    <input type="button" id="faqDeleteBtn" value="글 삭제" class="btn btn-warning">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ❤️
+                                                </c:otherwise>
+                                            </c:choose>
 
+                                        </div>
                                     </div>
-                                </c:forEach>
+                                </div>
                             </div>
-                        </div>
+                        </c:forEach>
                     </div>
                     <!-- ****************************** end of 주문, 결제 ************************** -->
                     <!-- ****************************** 배송문의 ************************** -->
                     <div class="tab-pane" id="delivery">
                         <c:forEach var="faq2" items="${faq2s}">
-                        <div class="accordion" id="accordionExample${faq2.faqNo}">
+                            <c:set var="k" value="${k+1}"></c:set>
+                        <div class="accordion" id="accordionExample${k}">
                             <div class="card">
-                                    <div class="card-header" id="headingOne${faq2.faqNo}">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link" type="button" data-toggle="collapse"
-                                                    data-target="#collapseOne${faq2.faqNo}" aria-expanded="true"
-                                                    aria-controls="collapseOne${faq2.faqNo}">
-                                                공지사항 번호: #${faq2.faqNo}, 제목:${faq2.faqTitle}
-                                            </button>
-                                        </h2>
-                                    </div>
+                                <div class="card-header" id="headingOne${k}">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse"
+                                                data-target="#collapseOne${k}" aria-expanded="true"
+                                                aria-controls="collapseOne${k}">
+                                            공지사항 번호: #${faq2.faqNo}, 제목:${faq2.faqTitle}
+                                        </button>
+                                    </h2>
+                                </div>
 
-                                    <div id="collapseOne${faq2.faqNo}" class="collapse" aria-labelledby="headingOne${faq2.faqNo}"
-                                         data-parent="#accordionExample${faq2.faqNo}">
-                                        <div class="card-body">
-                                                ${faq2.faqContent}
-                                            <hr>
-                                            <a class="btn btn-success"
-                                               href="faqEdit?faqNo=${faq2.faqNo}&pageNo=${pageNo}&faqCategory=${faq2.faqCategory}">글
-                                                수정</a>
-                                            <input type="button" id="faqDeleteBtn2" value="글 삭제"
-                                                   class="btn btn-warning">
-                                        </div>
+                                <div id="collapseOne${k}" class="collapse" aria-labelledby="headingOne${k}"
+                                     data-parent="#accordionExample${k}">
+                                    <div class="card-body">
+                                            ${faq2.faqContent}
+                                                <c:choose>
+                                                    <c:when test="${loginuser.userId=='admin'}">
+                                                        <a class="btn btn-success"
+                                                           href="faqEdit?faqNo=${faq.faqNo}&pageNo=${pageNo}&faqCategory=${faq.faqCategory}">글
+                                                            수정</a>
+                                                        <input type="button" id="faqDeleteBtn" value="글 삭제" class="btn btn-warning">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        🧡
+                                                    </c:otherwise>
+                                                </c:choose>
                                     </div>
-                                </c:forEach>
+                                </div>
                             </div>
                         </div>
+                        </c:forEach>
                     </div>
                     <!-- ****************************** end of 회원가입, 로그인 ************************** -->
                     <div class="tab-pane" id="registration">
                         <c:forEach var="faq3" items="${faq3s}">
-                        <div class="accordion" id="registExample${faq3.faqNo}">
+                        <c:set var="j" value="${j+1}"></c:set>
+                        <div class="accordion" id="registExample${j}">
                             <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse"
+                                                data-target="#collapseOne${j}" aria-expanded="true"
+                                                aria-controls="collapseOne${j}">
+                                            공지사항 번호: #${faq3.faqNo}, 제목:${faq3.faqTitle}
+                                        </button>
+                                    </h2>
+                                </div>
 
-                                    <div class="card-header" id="headingOne${faq3.faqNo}">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link" type="button" data-toggle="collapse${faq3.faqNo}"
-                                                    data-target="#collapseOne${faq3.faqNo}" aria-expanded="true"
-                                                    aria-controls="collapseOne${faq3.faqNo}">
-                                                공지사항 번호: #${faq3.faqNo}, 제목:${faq3.faqTitle}
-                                            </button>
-                                        </h2>
+                                <div id="collapseOne${j}" class="collapse" aria-labelledby="headingOne${j}"
+                                     data-parent="#registExample${j}">
+                                    <div class="card-body">
+                                            ${faq3.faqContent}
+                                                <c:choose>
+                                                    <c:when test="${loginuser.userId=='admin'}">
+                                                        <a class="btn btn-success"
+                                                           href="faqEdit?faqNo=${faq.faqNo}&pageNo=${pageNo}&faqCategory=${faq.faqCategory}">글
+                                                            수정</a>
+                                                        <input type="button" id="faqDeleteBtn" value="글 삭제" class="btn btn-warning">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        💛
+                                                    </c:otherwise>
+                                                </c:choose>
                                     </div>
-
-                                    <div id="collapseOne${faq3.faqNo}" class="collapse" aria-labelledby="headingOne${faq3.faqNo}"
-                                         data-parent="#accordionExample${faq3.faqNo}">
-                                        <div class="card-body">
-                                                ${faq3.faqContent}
-                                            <a class="btn btn-success"
-                                               href="faqEdit?faqNo=${faq3.faqNo}&pageNo=${pageNo}&faqCategory=${faq3.faqCategory}">글
-                                                수정</a>
-                                            <input type="button" id="faqDeleteBtn3" value="글 삭제"
-                                                   class="btn btn-warning">
-                                        </div>
-                                    </div>
+                                </div>
                                 </c:forEach>
                             </div>
                         </div>
@@ -150,6 +171,7 @@
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                          aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
+                            <form name="boardModal" method="post" action="boardModal" id="boardModal">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">1:1문의</h5>
@@ -159,7 +181,6 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form name="boardModal" method="post" action="boardModal" id="boardModal">
                                         <div class="form-group">
                                             <label for="recipient-name" class="col-form-label">제목:</label>
                                             <input type="text" class="form-control" id="recipient-name"
@@ -207,7 +228,9 @@
             </form>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
             <div style="float: right;">
+                <c:if test="${loginuser.userId=='admin'}">
                 <a href="noticeWrite" class="btn btn-dark" style="margin-bottom: 10px;">글쓰기</a></button>
+                </c:if>
             </div>
         </div>
         <form method="get" name="noticeWrite">
@@ -234,7 +257,7 @@
                                 <td>
                                     <a href="noticeDetail?boardNo=${board.boardNo}&pageNo=${pageNo}&boardCategory=${board.boardCategory}">${board.boardTitle}</a>
                                 </td>
-                                <td><fmt:formatDate pattern="yy-MM-dd" value="${board.boardRegDate}"/></td>
+                                <td><fmt:formatDate pattern="yy-MM-dd" value="${board.boardRegDate1}"/></td>
                                 <td>${board.boardCount}</td>
                             </tr>
                         </c:forEach>
@@ -255,7 +278,9 @@
             <span>1:1 문의사항 리스트</span>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
             <div style="float: right;">
+                <c:if test="${loginuser.userId=='admin'}">
                 <button type="button" class="btn btn-dark" style="margin-bottom: 10px;">편집하기</button>
+                </c:if>
             </div>
         </div>
         <form method="get" name=showModal action="showModal" id="showModal">
@@ -269,20 +294,17 @@
                             <th>제목</th>
                             <th>작성자</th>
                             <th>답변</th>
-                            <th>답변2</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach var="board2" items="${boards2}">
                             <tr>
                                 <td>${board2.boardNo}</td>
-                                <td><fmt:formatDate pattern="yy-MM-dd" value="${board2.boardRegDate}"/></td>
+                                <td><fmt:formatDate pattern="yy-MM-dd" value="${board2.boardRegDate1}"/></td>
                                 <td>${board2.boardTitle}</td>
                                 <td>${board2.userId}</td>
                                 <td>
-                                    <a href="showModalDetail?boardNo=${board2.boardNo}&pageNo=${pageNo}&boardCategory=${board2.boardCategory}">상세보기</a>
-                                <td>
-                                    <button type="button" class="btn btn-primary" id="btnShowAnswerModal">1:1문의</button>
+                                    <button type="button" class="btn btn-primary btnShowAnswerModal" data-boardno="${board2.boardNo}">1:1문의</button>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -292,72 +314,64 @@
             </div>
         </form>
         <%-- =======================================모달창 상세보기==========================================       --%>
-
-
-        <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel"
+        <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog"
              aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalDetailLabel">1:1문의</h5>
-                        <div> 작성자: ${board.userId} </div>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <c:forEach var="board2" items="${boards2}">
-                            <form method="get" id="modalDetail">
-                                <input type="text" class="form-control" value="${board2.boardNo}">
-                                <div class="form-group">
-                                    <label for="detailName" class="col-form-label">제목:</label>
-                                    <input type="text" class="form-control" id="detailName"
-                                           value="${board2.boardTitle}">
-                                    <input type="hidden" class="form-control" name="boardCategory"
-                                           value="${board2.boardCategory}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="detailText" class="col-form-label">내용:</label>
-                                    <textarea class="form-control" id="detailText"
-                                              name="boardContent">${board2.boardContent}</textarea>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                                </div>
-                            </form>
-                        </c:forEach>
-                    </div>
+            <div class="modal-dialog" role="document"style="background-color: white">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDetailLabel">1:1문의</h5>
+                    <div> &nbsp;&nbsp;작성자: <span id="boardDetailUserId" style="color:#393E46"></span></div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+                <div class="modal-body">
+                    <form method="get">
+                        <div class="form-group">
+                            <label for="boardDetailTitle" class="col-form-label">제목:</label>
+                            <input type="text" class="form-control" name="boardTitle" id="boardDetailTitle"
+                                   value="" style="color:#393E46">
+                            <input type="hidden" class="form-control" name="boardCategory" id="boardDetailCategory"
+                                   value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="boardDetailContent" class="col-form-label">내용:</label>
+                            <textarea class="form-control" id="boardDetailContent"
+                                      name="boardContent" style="color: #393E46"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
         </div>
-
-
     </div>
 </div>
+
 <jsp:include page="/WEB-INF/views/modules/footer.jsp"/>
 
 <jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp"/>
 <script type="text/javascript">
     //
 
-    $("document").ready(function (){
+    $("document").ready(function () {
         const accordion = $(".btn-link");
-        let  i;
+        let i;
 
-        for(i=0; i<accordion.length; i++){
-            accordion.click(function (){
+        for (i = 0; i < accordion.length; i++) {
+            accordion.click(function () {
 
                 accordion.removeClass("active");
-                accordion.next().css("display","none");
+                accordion.next().css("display", "none");
                 $(this).toggleClass("active");
                 $(this).next().toggle();
             })
         }
     });
+
     $(function () {
         $('#exampleModal').on('show.bs.modal', function (event) {
-        });
-        $('#showModal').on('show.bs.modal', function (event) {
         });
 
 
@@ -368,24 +382,43 @@
             location.href = '${faq3.faqNo}/delete?pageNo=${pageNo}';
         });
 
-        $('#btnShowAnswerModal').on('click', function (event) {
-            $('#modalDetail').modal('show');
-
-            const modalData = $('#boardModal')[0].serialize();
+        $('.btnShowAnswerModal').on('click', function (event) {
+            // 데이터 조
             $.ajax({
-                "url": "modalDetail",
+                "url": "showModalDetail",
+                "method": "get",
+                "data": { "boardNo" : $(this).data("boardno"), "categoryNo" : 3 },
+                "success": function (data, status, xhr) {
+                    $('#modalDetail #boardDetailUserId').text(data.userId);
+                    $('#modalDetail #boardDetailTitle').val(data.boardTitle);
+                    $('#modalDetail #boardDetailContent').val(data.boardContent);
+                    $('#modalDetail').modal('show');
+                },
+                "error": function (xhr, status, err) {
+                    alert('데이터 조회 오류');
+                }
+            });
+
+        });
+
+        $('#submitBtn').on('click', function(event) {
+            event.preventDefault();
+
+            const modalData = $('#boardModal').serialize();
+            $.ajax({
+                "url": "qnaBoardModal",
                 "method": "post",
                 "data": modalData,
                 "success": function (data, status, xhr) {
                     if (data == "success") {
-                        $('#boardModal').modal('hide');
+                        $('#exampleModal').modal('hide');
                     }
                 },
                 "error": function (xhr, status, err) {
 
                 }
             });
-        });
+        })
 
     });
 

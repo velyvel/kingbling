@@ -34,7 +34,10 @@ public class BoardEntity {
 
 	@Builder.Default
 	@Column(nullable = false)
-	private Date boardRegDate = new Date();
+	private Date boardRegDate1 = new Date();
+
+	@Column
+	private Date boardRegDate2;
 
 	@Builder.Default
 	@Column(nullable = false)

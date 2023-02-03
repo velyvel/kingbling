@@ -49,27 +49,37 @@ public class BoardController {
 	//============================ 1:1 문의 ============================
 
 	@PostMapping(path = {"/boardModal"})
-	@ResponseBody
 	public String writeModal(BoardDto board2){
 		int boardCategory = board2.getBoardCategory();
 		boardService.writeBoardModal(board2);
 		System.out.println(board2);
 
-		if(boardCategory == 3) {
-			board2.setBoardCategory(board2.getBoardCategory());
-			return "success";
-		}else{
-			return "/";
-		}
+
+		return "/";
+
 	}
 
-	@GetMapping(path = {"/showModalDetail"})
-	public String showModalDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int boardCategory, Model model){
-		BoardDto board = boardService.findBoardByBoardNo(boardNo, boardCategory);
-		model.addAttribute("board", board);
-		model.addAttribute("pageNo", pageNo);
+	@PostMapping(path = {"/qnaBoardModal"})
+	@ResponseBody
+	public String writeQnaBoardModal(BoardDto board2){
+		int boardCategory = board2.getBoardCategory();
+		boardService.writeBoardModal(board2);
+		System.out.println(board2);
 
-		return "board/showModalDetail";
+
+			return "success";
+		}
+
+
+	@GetMapping(path = {"/showModalDetail"})
+	@ResponseBody
+	public BoardDto showModalDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "3") int boardCategory, Model model){
+		BoardDto board = boardService.findBoardByBoardNo(boardNo, boardCategory);
+//		model.addAttribute("board", board);
+//		model.addAttribute("pageNo", pageNo);
+//		return "board/showModalDetail";
+
+		return board;
 	}
 
 
@@ -254,6 +264,7 @@ public class BoardController {
 		//boardService.updateGroupNo(comment.getCommentNo(), comment.getCommentGroup());
 		return "success";
 	}
+
 	//자주묻는질문
 	@GetMapping(path = {"/faqWrite"})
 	public String showWriteFaq(@RequestParam(defaultValue = "1") int faqCategory, Model model){
@@ -265,7 +276,34 @@ public class BoardController {
 	public String writeFaq(BoardFaqDto faq){
 		int faqCategory = faq.getFaqCategory();
 		boardService.writeFaq(faq);
-		return "board/faqWrite";
+		return "redirect:notice";
+	}
+
+	@GetMapping(path = {"/faqEdit"})
+	public String showEditFaq(@RequestParam(defaultValue = "-1") int faqNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int faqCategory, Model model){
+		BoardFaqDto faq = boardService.findFaqByFaqNo(faqNo, faqCategory);
+		model.addAttribute("faq",faq);
+		model.addAttribute("faqNo",faqNo);
+		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("faqCategory", faqCategory);
+
+		return "board/faqEdit";
+	}
+
+	@PostMapping(path = {"/faqEdit"})
+	public String faqEdit(@RequestParam(defaultValue = "-1") int pageNo,@RequestParam(defaultValue = "1") int faqCategory, BoardFaqDto faq){
+		boardService.modifiedFaq(faq);
+		//System.out.println(board);
+
+		return "redirect:notice";
+	}
+
+
+	@GetMapping(path = {"/{faqNo}/delete"})
+	public String deleteFaq(@PathVariable("faqNo") int faqNo, @RequestParam(defaultValue = "-1")int pageNo, BoardFaqDto faq){
+		int faqCategory = faq.getFaqCategory();
+		boardService.deleteFaq(faqNo);
+		return "redirect:notice";
 	}
 
 }
