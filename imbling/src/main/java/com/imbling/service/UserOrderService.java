@@ -13,6 +13,7 @@ import com.imbling.entity.OrderDetailEntity;
 import com.imbling.entity.OrderEntity;
 import com.imbling.entity.ProductEntity;
 import com.imbling.entity.PropertyEntity;
+import com.imbling.entity.SalesChartData;
 
 public interface UserOrderService {
 	
@@ -77,8 +78,6 @@ public interface UserOrderService {
 	}
 	
 	public default CartEntity cartDtoToEntity(CartDto cartDto) {
-		
-		
 		AccountDtoEntity userEntity = AccountDtoEntity.builder().userId(cartDto.getUserId()).build();
 		PropertyEntity propertyEntity = PropertyEntity.builder().propertyNo(cartDto.getPropertyNo()).build();
 		
@@ -121,9 +120,11 @@ public interface UserOrderService {
 	}
 	
 	public default OrderDetailEntity orderDetailDtoToEntity(OrderDetailDto orderDetailDto) {
+		OrderEntity orderEntity = OrderEntity.builder().orderNo(orderDetailDto.getOrderNo()).build();
+		PropertyEntity propertyEntity = PropertyEntity.builder().propertyNo(orderDetailDto.getPropertyNo()).build();
 		
 		OrderDetailEntity orderDetailEntity = OrderDetailEntity.builder().orderDetailEA(orderDetailDto.getOrderDetailEA())
-								.orderDetailTotalPrice(orderDetailDto.getOrderDetailTotalPrice())
+								.order(orderEntity).property(propertyEntity).orderDetailTotalPrice(orderDetailDto.getOrderDetailTotalPrice())
 								.build();
 		
 		return orderDetailEntity;
@@ -161,6 +162,8 @@ public interface UserOrderService {
 	PropertyDto getPropertyInfoByProductNo(int productNo,String productSize,String productColor);
 
 	void insertOrder(OrderDto order, OrderDetailDto orderDetail);
+
+
 
 
 }

@@ -125,7 +125,6 @@ public class MyPageController {
 
 	@GetMapping(path = { "/mypage/myboardInquery" })
 	public String showByboardInquery(String userId, Model model) {
-		System.out.println(userId);
 		List<BoardDto> boards = mypageService.findMyAllInquery(userId);
 		model.addAttribute("boards", boards);
 		model.addAttribute("sort", "inquery");
@@ -135,7 +134,6 @@ public class MyPageController {
 
 	@GetMapping(path = { "/mypage/myboardReview" })
 	public String showByboardReview(String userId, Model model) {
-		System.out.println(userId);
 		List<ReviewDto> reviews = mypageService.findMyAllReview(userId);
 		model.addAttribute("reviews", reviews);
 		model.addAttribute("sort", "review");
