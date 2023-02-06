@@ -2,6 +2,7 @@ package com.imbling.service;
 
 import java.util.List;
 
+import com.imbling.dto.AccountDocImgDto;
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.dto.CartDto;
@@ -9,6 +10,7 @@ import com.imbling.dto.HeartDto;
 import com.imbling.dto.ProductDto;
 import com.imbling.dto.PropertyDto;
 import com.imbling.dto.ReviewDto;
+import com.imbling.entity.AccountDocImgDtoEntity;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.BoardEntity;
 import com.imbling.entity.CartEntity;
@@ -179,6 +181,23 @@ public interface MypageService {
 				.cartChk(cartDto.isCartChk()).user(userEntity).property(propertyEntity).build();
 		return cartEntity;
 	}
+	
+	public default AccountDocImgDto AccountDocImgDtoEntitytoDto(AccountDocImgDtoEntity accountDocImgDtoEntity) {
+		AccountDocImgDto accountDocImgDto = new AccountDocImgDto();
+		accountDocImgDto.setDocName(accountDocImgDtoEntity.getDocName());
+		accountDocImgDto.setDocNo(accountDocImgDtoEntity.getDocNo());
+
+		return accountDocImgDto;		
+	}
+	
+	public default AccountDocImgDtoEntity accountDocImgDtoToEntity(AccountDocImgDto accountDocImgDto) {
+		AccountDocImgDtoEntity accountEntity = AccountDocImgDtoEntity.builder()
+				.docName(accountDocImgDto.getDocName())
+				.docNo(accountDocImgDto.getDocNo())
+				.build();
+		return accountEntity;
+	}
+	
 
 	List<BoardDto> findMyInquery(String userId);
 

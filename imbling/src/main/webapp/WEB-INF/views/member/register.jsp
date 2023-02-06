@@ -95,8 +95,7 @@
 										<input type="text" class="form-control form-control-user"
 											id="userName" placeholder="Name" name="userName">
 									</div>
-									<input id="btn-checkDocValid" type="button" value="정보 확인   "
-										style="height: 40px" />
+									
 								</div>
 
 
@@ -120,7 +119,7 @@
 									<input type="submit" class="btn btn-primary btn-user btn-block"
 										id="submit" value="Register Account">
 								</div>
-								<input type="hidden" name="userType" value="basic">
+								<input type="hidden" name="userType" value="needCheck" id="userType">
 								<input type="hidden" name="userDocValid" value="false" id="userDocValid">
 
 							</form>
@@ -200,10 +199,12 @@
 											$("#userCorpNo").attr(
 													"placeholder",
 													"인식 실패. 직접 입력해 주세요. ")
+													$("#userType").val("needCheck")
 
 										} else {
 											$("#userCorpNo").val(rtn)
 											$("#userDocValid").val("true")
+											$("#userType").val("basic")
 
 										}
 									}
@@ -241,27 +242,6 @@
 
 			});
 
-			$('#btn-checkDocValid').on('click', function(event) {
-				/* var data = {
-					    "b_no": $("#userCorpNo").val(rtn) // 사업자번호 "xxxxxxx" 로 조회 시,
-					   }; 
-					   
-					$.ajax({
-					  url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=xxxxxx",  // serviceKey 값을 xxxxxx에 입력
-					  type: "POST",
-					  data: JSON.stringify(data), // json 을 string으로 변환하여 전송
-					  dataType: "JSON",
-					  contentType: "application/json",
-					  accept: "application/json",
-					  success: function(result) {
-					      console.log(result);
-					  },
-					  error: function(result) {
-					      console.log(result.responseText); //responseText의 에러메세지 확인
-					  }
-					}); */
-
-			});
 			
 			
 
