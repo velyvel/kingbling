@@ -1,7 +1,10 @@
 package com.imbling.controller;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.imbling.common.Util;
+import com.imbling.dto.AccountDocImgDto;
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
 import com.imbling.dto.CartDto;
@@ -20,6 +27,7 @@ import com.imbling.dto.CategoryDto;
 import com.imbling.dto.HeartDto;
 import com.imbling.dto.OrderDto;
 import com.imbling.dto.ReviewDto;
+import com.imbling.service.AccountDocService;
 import com.imbling.service.AccountService;
 import com.imbling.service.MypageService;
 import com.imbling.service.UserOrderService;
@@ -35,32 +43,84 @@ public class MyPageController {
 	@Qualifier("accountService")
 	private AccountService accountService;
 	
+
+	@Autowired
+	@Qualifier("accountDocService")
+	private AccountDocService accountDocService;
+
+	
 	@Autowired
 	@Qualifier("userOrderService")
 	private UserOrderService userOrderService;
 	
 	@GetMapping(path = { "/mypage/myInfo", })
-	public String showMyInfo(HttpSession session) {
+	public String showMyInfo(HttpSession session,String errM ,Model model) {
+		if(errM!=null) {
+
+			if (errM.contains("1")) {
+				System.out.println("=showMyInfo============");
+
+				model.addAttribute("errM","서류의 식별이 필요한 유저입니다. 새로운 사진을 업로드 하거나 관리자의 승인을 기달려 주세요.");
+
+			} 
+	
+		}		
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		
+		
 		System.out.print(loginUser);
+		
 		if (loginUser == null) {
 			return "/member/login";
 
 		}
-
+		ArrayList<AccountDocImgDto> attachments = new ArrayList<>();
+		attachments.add(accountDocService.findByUserId(loginUser.getUserId()));
+		
+		model.addAttribute("attachments",attachments);
 		return "mypage/myInfo";
 	}
 
 	@PostMapping(path = { "/mypage/edit", })
-	public String editMyInfo(HttpSession session, AccountDto account) {
+	public String editMyInfo(HttpSession session, AccountDto account,MultipartHttpServletRequest req) {
+		MultipartFile attach = req.getFile("attach");
+
+		if (attach != null) { // 내용이 있는 경우
+			// 2. 데이터 처리
+			ServletContext application = req.getServletContext();
+			String path = application.getRealPath("/ocr/venv/account-attachments");
+			String fileName = attach.getOriginalFilename(); // 파일 이름 가져오기
+			if (fileName != null && fileName.length() > 0) {
+				String uniqueFileName = Util.makeUniqueFileName(fileName);
+
+				try {
+					attach.transferTo(new File(path, uniqueFileName));// 파일 저장
+
+					// 첨부파일 정보를 객체에 저장
+					ArrayList<AccountDocImgDto> attachments = new ArrayList<>(); // 첨부파일 정보를 저장하는 DTO 객체
+
+					AccountDocImgDto attachment = new AccountDocImgDto();
+					attachment.setDocName(uniqueFileName);
+
+					attachments.add(attachment);
+
+					account.setAttachments(attachments);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		mypageService.modifyAccount(account);
 
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		
 		loginUser.setUserName(account.getUserName());
 		loginUser.setUserAddress(account.getUserAddress());
 		loginUser.setUserEmail(account.getUserEmail());
 		loginUser.setUserPhone(account.getUserPhone());
-
+		loginUser.setUserDocValid(account.isUserDocValid());
 		session.setAttribute("loginuser", loginUser);
 
 		return "redirect:myInfo";

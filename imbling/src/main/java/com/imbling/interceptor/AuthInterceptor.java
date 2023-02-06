@@ -19,15 +19,26 @@ public class AuthInterceptor implements HandlerInterceptor {
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
 
 		if (loginUser == null) {
-			if (uri.contains("/mypage") || uri.contains("/product") || uri.contains("/admin")
+			if (uri.contains("/mypage") || uri.contains("/product") || uri.contains("/admin")||uri.contains("/userlist")
 					|| uri.contains("/board")) {
 
 				resp.sendRedirect("/member/login?errM=1");
 				return false;
 			}
-		} else if (!loginUser.getUserType().contains("admin")) {
+		} else if (loginUser.getUserType().contains("needCheck")) {
 
-			if (uri.contains("/admin")) {
+			if (uri.contains("/mypage/cart")||uri.contains("/mypage/heart")||uri.contains("/mypage/orderList")||uri.contains("/mypage/myboard") || uri.contains("/product") || uri.contains("/admin")||uri.contains("/userlist")
+					|| uri.contains("/board")) {
+				resp.sendRedirect("/mypage/myInfo?errM=1");//서류 인식x
+				//System.out.println("check needCheck");
+
+				return false;
+			}
+		
+		}else if (!loginUser.getUserType().contains("admin")) {
+
+			if (uri.contains("/admin")||uri.contains("/userlist")
+					) {
 				resp.sendRedirect("/member/login?errM=2");
 				System.out.println("check admin");
 
@@ -35,7 +46,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 			}
 
 		}
-
 		return true;
 	}
 
