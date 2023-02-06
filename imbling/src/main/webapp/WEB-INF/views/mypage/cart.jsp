@@ -141,10 +141,17 @@ $(function(){
 	});
 	
 	$("#cartList").on('click',"#chk-order",function(event){//선택상품 주문
+		if (!$('.chk i').hasClass('fa-check-square-o')){
+			return false;
+		}
+		
 		location.href="/userOrder/doOrderCheckedCart";
 	});
 	
 	$("#cartList").on('click',"#chk-delete",function(event){//선택상품 삭제
+		if (!$('.chk i').hasClass('fa-check-square-o')){
+			return false;
+		}
 		$.ajax({
 			url:"/userOrder/deleteCheckedFromCart",
 		    type : 'get',
