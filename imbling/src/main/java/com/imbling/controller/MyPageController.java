@@ -206,4 +206,14 @@ public class MyPageController {
 		
 		return "success";
 	}
+	
+	// 관심상품 삭제 
+	@GetMapping(path= {"/delete-heart"})
+	@ResponseBody
+	public String deleteFromHeart(int productNo, HttpSession session) {
+		AccountDto loginuser = (AccountDto) session.getAttribute("loginuser");
+		mypageService.deleteFromHeart(loginuser.getUserId(), productNo);
+		
+		return "success";
+	}
 }

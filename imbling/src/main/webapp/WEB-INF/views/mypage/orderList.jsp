@@ -51,6 +51,7 @@ color: white;
                     <th>주문자</th>
                     <th>주문일자</th>
                     <th>주문상태</th>
+                    <th>리뷰쓰기</th>
                     <th>결제정보</th>
                 </tr>
                 </thead>
@@ -60,7 +61,17 @@ color: white;
                     <td>${order.orderNo}</td>
                     <td>${order.userId}</td>
                     <td>${order.orderDate}</td>
-                    <td>${order.orderState}</td>
+                    <td>${order.orderState} &nbsp;</td>
+                    <c:choose>
+                        <c:when test="${order.orderState == '주문완료'}">
+                            <td> <a class="btn btn-outline-primary" href="/board/writeReview?orderNo=${order.orderNo}">리뷰쓰기</a>
+
+                            </td>
+                        </c:when>
+                        <c:otherwise>
+                            <td>배송 완료 후 리뷰쓰기</td>
+                        </c:otherwise>
+                    </c:choose>
                     <td>${order.orderPay}</td>
                 </tr>
                 </c:forEach>
@@ -83,10 +94,12 @@ $(function(){
 	$("tr[id *= 'orderRow']").on('click',function(event){// 상품 하나 카트에서 삭제하기
 		var orderNo = $(this).data("orderno");
 		location.href="/mypage/orderList-detail?orderNo="+orderNo;
+
 	});
-	
-	
-	
+
+    var orders = $(this).data("orders")
+    console.log('orders', orders);
+
 });
 </script>
 

@@ -50,7 +50,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="userId">작성자</label>
-                        <input type="text" class="form-control" id="userId" name="userId" value="${loginuser.userId}" readonly>
+                        <input type="text" class="form-control" id="userId" name="userId" value="${loginuser.userName}" readonly>
                         <input type="date" class="form-control" id="boardRegDate1" name="boardRegDate1" value="">
                         <input type="date" class="form-control" id="boardRegDate2" name="boardRegDate2" value="">
                     </div>

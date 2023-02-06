@@ -170,7 +170,7 @@
 						</div>
 
 						<div class="form-group">
-							사용자 활동 상태 <a id="userActiveState">데이터 식별 전 </a>
+							사용자 활동 상태 <a id="userActiveState" class="modalUserActiveState">데이터 식별 전 </a>
 						</div>
 						<div class="form-group">
 							사업자 등록증 등록번호 <input name="userCorpNo" id="userCorpNo" type="text">
@@ -269,7 +269,7 @@
 			})
 		 
 		
-		 $('#dataTable').on('click','.modalUserDocValid', function(event){
+		 $('.modalUserDocValid').on('click', function(event){
 				
 					
 					if( $('#hiddenUserDocValid').val() === "false" ){
@@ -284,17 +284,17 @@
 
 					}
 				})
-		 $('#dataTable').on('click','.modalUserDocValid', function(event){
+		 $('.modalUserActiveState').on('click', function(event){
 
 					
 				if( $('#hiddenUserActiveState').val() === "true" ){
 					$('#userActiveState').html("활동 중  ")
-					$('#userActiveState').attr("class","btn btn-success btn-icon-split modalUserDocValid")
+					$('#userActiveState').attr("class","btn btn-success btn-icon-split modalUserActiveState")
 					$('#hiddenUserActiveState').val("false")
 	
 				}else{
 					$('#userActiveState').html("활동 중지 ")
-					$('#userActiveState').attr("class","btn btn-danger btn-icon-split modalUserDocValid")
+					$('#userActiveState').attr("class","btn btn-danger btn-icon-split modalUserActiveState")
 					$('#hiddenUserActiveState').val("true")
 	
 				}

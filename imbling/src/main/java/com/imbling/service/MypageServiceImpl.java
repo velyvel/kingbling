@@ -170,4 +170,9 @@ public class MypageServiceImpl implements MypageService{
 		return heartDtos;
 	}
 	
+	@Override
+	public void deleteFromHeart(String userId, int productNo) {
+		heartRepository.deleteById(userId, productNo);
+	}
+	
 }

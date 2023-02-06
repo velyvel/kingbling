@@ -22,38 +22,44 @@
     <jsp:include page="/WEB-INF/views/modules/header.jsp" />
     <div class="card shadow mb-4">
         <div class="card-header py-3">
+            <form method="post" id="writeReview" action="writeReview">
             <div style="float: right;">
-                <a href="write"class="btn btn-danger"><i class="fas fa-close"></i> 취소하기</a>
-                <button class="btn btn-success" type="submit"><i class="fas fa-pencil-alt"></i>  작성완료!</button>
+                <a href="/mypage/orderList"class="btn btn-danger"><i class="fas fa-close"></i> 취소하기</a>
+                <input id="submitBtn" type="submit" class="btn btn-success" value="작성완료">
             </div>
             <h5>소중한 리뷰</h5>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
         </div>
-        <form method="post">
         <div class="card-body">
             <div class="col-sm-6" style="float: right;">
                 <div class="form-group">
                     <label>별점</label>
-                    <select class="form-control">
-                        <option selected>⭐️⭐️⭐️⭐️⭐️</option>
-                        <option>⭐️⭐️⭐️⭐️️</option>
-                        <option>⭐️⭐️⭐️️</option>
-                        <option>⭐️⭐️️</option>
-                        <option>⭐️️</option>
+                    <select class="form-control" id="reviewStar" name="reviewStar">
+                        <option selected>별점을 선택해주세요️</option>
+                        <option value="5">⭐️⭐️⭐️⭐⭐️️️️</option>
+                        <option value="4">⭐️⭐️⭐️⭐️️</option>
+                        <option value="3">⭐️⭐️⭐️️</option>
+                        <option value="2">⭐️⭐️️</option>
+                        <option value="1">⭐️️</option>
                     </select>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label>상품명</label>
-                    <input type="text" class="form-control" placeholder="자동으로 상품명" readonly name="#">
+                    <label>주문명</label>
+                    <input type="text" class="form-control" value="${orderNo}" readonly>
                 </div>
+                <div class="form-group">
+                    <label>상품명</label>
+                    <input type="text" class="form-control" value="${productName[0].productName}" readonly>
+                </div>
+
             </div>
             <div class="col-lg-12">
                 <div class="form-group">
                     <label>제목</label>
-                    <input type="text" class="form-control" placeholder="후기제목" name="">
-                    <input type="hidden" class="form-control" readonly value="#">
+                    <input type="text" class="form-control" placeholder="후기제목" id="reviewTitle" name="reviewTitle" value="">
+                    <input type="text" class="form-control" id="userId" name="userId" value="${loginuser.userId}" readonly>
                 </div>
             </div>
             <div class="table-responsive">
@@ -67,18 +73,11 @@
                     <tbody>
                     <tr>
                         <td>
-                            <div id="summernote"></div>
+                            <textarea id="reviewContent" name="reviewContent"></textarea>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-<%--                <div class="form-group">--%>
-<%--                    <div class="btn btn-default btn-file">--%>
-<%--                        <i class="fas fa-paperclip"></i> Attachment--%>
-<%--                        <input type="file" name="attachment">--%>
-<%--                    </div>--%>
-<%--                    <p class="help-block">첨부파일 최대: 32MB</p>--%>
-<%--                </div>--%>
             </div>
         </div>
         </form>
@@ -90,11 +89,20 @@
 <jsp:include page="/WEB-INF/views/modules/footer.jsp" />
 
 <script type="text/javascript">
-    $('#summernote').summernote({
-        placeholder: '포토리뷰 작성 시 포인트 적립❤️',
+    $('#reviewContent').summernote({
+        placeholder: '리뷰 작성은 사랑입니다❤️',
         tabsize: 2,
         height: 500
     });
+    $(function (){
+
+        $('#submitBtn').on('click', function (event){
+            event.preventDefault();
+            $('#writeReview')[0].submit();
+        });
+
+    });
+
 </script>
 <jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
 <jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />

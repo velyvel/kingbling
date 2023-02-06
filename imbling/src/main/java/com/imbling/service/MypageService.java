@@ -17,7 +17,7 @@ import com.imbling.entity.PropertyEntity;
 import com.imbling.entity.ReviewEntity;
 
 public interface MypageService {
-	
+
 	public default BoardDto boardEntityToDto(BoardEntity boardEntity) {
 		BoardDto boardDto = new BoardDto();
 		boardDto.setBoardNo(boardEntity.getBoardNo());
@@ -31,21 +31,21 @@ public interface MypageService {
 
 		return boardDto;
 	}
-	
+
 	public default BoardEntity boardDtoToEntity(BoardDto boardDto) {
 		BoardEntity boardEntity = BoardEntity.builder()
-											 .boardNo(boardDto.getBoardNo())
-											 .boardCategory(boardDto.getBoardCategory())
-											 .boardTitle(boardDto.getBoardTitle())
-											 .boardContent(boardDto.getBoardContent())
-											 .boardRegDate1(boardDto.getBoardRegDate1())
-											 .boardCount(boardDto.getBoardCount())
-											 .userId(boardDto.getUserId())
-											 .boardDeleted(boardDto.isBoardDeleted())
-											 .build();		
+				.boardNo(boardDto.getBoardNo())
+				.boardCategory(boardDto.getBoardCategory())
+				.boardTitle(boardDto.getBoardTitle())
+				.boardContent(boardDto.getBoardContent())
+				.boardRegDate1(boardDto.getBoardRegDate1())
+				.boardCount(boardDto.getBoardCount())
+				.userId(boardDto.getUserId())
+				.boardDeleted(boardDto.isBoardDeleted())
+				.build();
 		return boardEntity;
 	}
-	
+
 	public default ReviewDto reviewEntityToDto(ReviewEntity ReviewEntity) {
 		ReviewDto reviewDto = new ReviewDto();
 		reviewDto.setReviewNo(ReviewEntity.getReviewNo());
@@ -61,23 +61,23 @@ public interface MypageService {
 
 		return reviewDto;
 	}
-	
+
 	public default ReviewEntity reviewDtoToEntity(ReviewDto reviewDto) {
 		ReviewEntity reviewEntity = ReviewEntity.builder()
-											 .reviewNo(reviewDto.getReviewNo())
-											 .orderNo(reviewDto.getOrderNo())
-											 .productNo(reviewDto.getProductNo())
-											 .userId(reviewDto.getUserId())
-											 .reviewTitle(reviewDto.getReviewTitle())
-											 .reviewContent(reviewDto.getReviewContent())
-											 .reviewRegDate(reviewDto.getReviewRegDate())
-											 .reviewStar(reviewDto.getReviewStar())
-											 .reviewCount(reviewDto.getReviewCount())
-											 .reviewDeleted(reviewDto.isReviewDeleted())
-											 .build();		
+				.reviewNo(reviewDto.getReviewNo())
+				.orderNo(reviewDto.getOrderNo())
+				.productNo(reviewDto.getProductNo())
+				.userId(reviewDto.getUserId())
+				.reviewTitle(reviewDto.getReviewTitle())
+				.reviewContent(reviewDto.getReviewContent())
+				.reviewRegDate(reviewDto.getReviewRegDate())
+				.reviewStar(reviewDto.getReviewStar())
+				.reviewCount(reviewDto.getReviewCount())
+				.reviewDeleted(reviewDto.isReviewDeleted())
+				.build();
 		return reviewEntity;
 	}
-	
+
 	public default AccountDto accountEntityAccountDto(AccountDtoEntity accountEntity) {
 		AccountDto accountDto = new AccountDto();
 		accountDto.setUserName(accountEntity.getUserName());
@@ -92,9 +92,9 @@ public interface MypageService {
 
 		accountDto.setUserCorpNo(accountEntity.getUserCorpNo());
 
-		return accountDto;		
+		return accountDto;
 	}
-	
+
 	public default AccountDtoEntity accountDtoToEntity(AccountDto accountDto) {
 		AccountDtoEntity accountEntity = AccountDtoEntity.builder()
 				.userName(accountDto.getUserName())
@@ -109,7 +109,7 @@ public interface MypageService {
 				.build();
 		return accountEntity;
 	}
-	
+
 	public default ProductDto productEntityToDto(ProductEntity productEntity) {
 		ProductDto productDto = new ProductDto();
 		productDto.setProductNo(productEntity.getProductNo());
@@ -119,45 +119,45 @@ public interface MypageService {
 		productDto.setProductPrice(productEntity.getProductPrice());
 		productDto.setProductRegdate(productEntity.getProductRegdate());
 		productDto.setProductCount(productEntity.getProductCount());
-		
+
 		return productDto;
 	}
-	
+
 	public default ProductEntity productDtoToEntity(ProductDto productDto) {
 		ProductEntity productEntity = ProductEntity.builder()
-												   .productNo(productDto.getProductNo())
-												   .productName(productDto.getProductName())
-												   .productContent(productDto.getProductContent())
-												   .productImage(productDto.getProductImage())
-												   .productPrice(productDto.getProductPrice())
-												   .productRegdate(productDto.getProductRegdate())
-												   .productCount(productDto.getProductCount())
-												   .build();
-		
+				.productNo(productDto.getProductNo())
+				.productName(productDto.getProductName())
+				.productContent(productDto.getProductContent())
+				.productImage(productDto.getProductImage())
+				.productPrice(productDto.getProductPrice())
+				.productRegdate(productDto.getProductRegdate())
+				.productCount(productDto.getProductCount())
+				.build();
+
 		return productEntity;
 	}
-	
+
 	public default PropertyDto propertyEntityToDto(PropertyEntity propertyEntity) {
 		PropertyDto propertyDto = new PropertyDto();
 		propertyDto.setProductColor(propertyEntity.getProductColor());
 		propertyDto.setProductEA(propertyEntity.getProductEA());
 		propertyDto.setProductSize(propertyEntity.getProductSize());
 		propertyDto.setPropertyNo(propertyEntity.getPropertyNo());
-		
+
 		return propertyDto;
 	}
-	
+
 	public default PropertyEntity propertyDtoToEntity(PropertyDto propertyDto) {
 		PropertyEntity propertyEntity = PropertyEntity.builder()
-												   .propertyNo(propertyDto.getPropertyNo())
-												   .productColor(propertyDto.getProductColor())
-												   .productEA(propertyDto.getProductEA())
-												   .productSize(propertyDto.getProductSize())
-												   .build();
-		
+				.propertyNo(propertyDto.getPropertyNo())
+				.productColor(propertyDto.getProductColor())
+				.productEA(propertyDto.getProductEA())
+				.productSize(propertyDto.getProductSize())
+				.build();
+
 		return propertyEntity;
 	}
-	
+
 	public default CartDto cartEntityToDto(CartEntity cartEntity) {
 		CartDto cartDto = new CartDto();
 		cartDto.setCartEA(cartEntity.getCartEA());
@@ -165,27 +165,27 @@ public interface MypageService {
 		cartDto.setPropertyNo(cartEntity.getProperty().getPropertyNo());
 		cartDto.setUserId(cartEntity.getUser().getUserId());
 		cartDto.setCartChk(cartEntity.isCartChk());
-		
+
 		return cartDto;
 	}
-	
+
 	public default CartEntity cartDtoToEntity(CartDto cartDto) {
-		
-		
+
+
 		AccountDtoEntity userEntity = AccountDtoEntity.builder().userId(cartDto.getUserId()).build();
 		PropertyEntity propertyEntity = PropertyEntity.builder().propertyNo(cartDto.getPropertyNo()).build();
-		
+
 		CartEntity cartEntity = CartEntity.builder().cartEA(cartDto.getCartEA()).cartTotalPrice(cartDto.getCartTotalPrice())
-								.cartChk(cartDto.isCartChk()).user(userEntity).property(propertyEntity).build();
+				.cartChk(cartDto.isCartChk()).user(userEntity).property(propertyEntity).build();
 		return cartEntity;
 	}
-	
+
 	List<BoardDto> findMyInquery(String userId);
-	
+
 	List<BoardDto> findMyAllInquery(String userId);
-	
+
 	List<ReviewDto> findMyreview(String userId);
-	
+
 	List<ReviewDto> findMyAllReview(String userId);
 
 	void modifyAccount(AccountDto account);
@@ -193,11 +193,13 @@ public interface MypageService {
 	List<CartDto> getCartInfo(String userId);
 
 	void setCartInfoToUnChk(String userId);
-	
-	// 관심상품 
+
+	// 관심상품
 	List<HeartDto> getHeartInfo(String userId);
 
 	void addProductToHeart(HeartDto heart);
+
+	void deleteFromHeart(String userId, int productNo);
 
 
 }

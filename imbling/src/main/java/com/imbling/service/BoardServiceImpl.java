@@ -33,9 +33,12 @@ public class BoardServiceImpl implements BoardService{
     public List<BoardDto> findEventBoard() {
         List<BoardEntity> boardList = boardRepository.findEventByBoardCategoryDesc();
         ArrayList<BoardDto> boards = new ArrayList<>();
-        for (BoardEntity boardEntity: boardList){
+
+        //ProductDto product = productEntityToDto(productEntity);
+        for (BoardEntity boardEntity: boardList) {
             boards.add(boardEntityToDto(boardEntity));
         }
+
         return boards;
     }
 
