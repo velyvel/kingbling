@@ -100,10 +100,7 @@ public class AccountDtoEntity {
 	@JoinColumn(name = "userId")
 	private Collection<AccountDocImgDtoEntity> attachments;
 
-	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Collection<BoardCommentEntity> boardComments;
-	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<CartEntity> carts;
-	
+
 }

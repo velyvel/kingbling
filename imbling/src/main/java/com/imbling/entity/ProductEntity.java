@@ -1,5 +1,6 @@
 package com.imbling.entity;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -59,5 +60,6 @@ public class ProductEntity {
 	
 	@OneToMany(mappedBy="product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PropertyEntity> properties;
+
 	
 }

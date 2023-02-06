@@ -36,12 +36,13 @@ public class BoardController {
 
 	//이벤트(메인)페이지 보여주기
 	@GetMapping(path = {"/event"})
-	public String showBoardHome(@RequestParam(defaultValue = "1") int pageNo, BoardDto board, Model model){
+	public String showBoardHome(@RequestParam(defaultValue = "1") int pageNo, BoardDto board, AccountDto account, Model model){
 
 		board.setBoardCategory(1);
 		List<BoardDto> boards = boardService.findEventBoard();
 		model.addAttribute("boards", boards);
 		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("userName", account.getUserName());
 
 		return "board/event";
 	}

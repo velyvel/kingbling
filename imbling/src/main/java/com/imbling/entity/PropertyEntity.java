@@ -54,5 +54,6 @@ public class PropertyEntity {
 	
 	@OneToMany(mappedBy = "property", fetch = FetchType.LAZY)	
 	private Collection<OrderDetailEntity> orderDetails;
+
 	
 }
