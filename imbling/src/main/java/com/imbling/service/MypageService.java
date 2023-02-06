@@ -199,5 +199,7 @@ public interface MypageService {
 
 	void addProductToHeart(HeartDto heart);
 
+	void deleteFromHeart(String userId, int productNo);
+
 
 }

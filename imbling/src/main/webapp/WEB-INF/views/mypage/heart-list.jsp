@@ -6,11 +6,11 @@
 <c:forEach var="heart" items="${hearts}">
 	<div class="col-lg-4 col-md-6 col-sm-6">
 		<div class="product__item">
+			<ul class="product__hover">
+				<li><img src="/resources/dist/img/icon/heart.png" class="delete-heart" data-product-no3="${heart.productNo}" alt=""></li>
+			</ul>
 			<div class="product__item__pic set-bg product-image" data-product-no2="${heart.productNo}" data-category-no2="${heart.categoryNo}"
 			style="background-image:url('${heart.products.productImage}')">
-				<ul class="product__hover">
-					<li><a href="#"><img src="/resources/dist/img/icon/heart.png" alt=""></a></li>
-				</ul>
 			</div>
 			<div class="product__item__text">
 				<h6>${heart.products.productName}</h6>
