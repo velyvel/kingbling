@@ -50,14 +50,28 @@ public class AccountController {
 	private AccountDocService accountDocService;
 
 	@GetMapping(path = { "/member/login" })
-	public String showLoginForm() {
+	public String showLoginForm(@RequestParam(defaultValue = "-9")String errM,Model model) {
+		if (errM.contains("1")) {
+			System.out.println("=Login============");
 
+			model.addAttribute("errM","로그인이 필요한 서비스입니다.");
+
+		} 
+		else if (errM.contains("2")) {
+			System.out.println("=Login============");
+
+			model.addAttribute("errM","권한이 없습니다.");
+
+		} 
 		return "member/login";
 	}
 
 	@PostMapping(path = { "/member/login" })
 	public String Login(String userId, String userPassword, HttpSession session, Model model, RedirectAttributes rttr) {
 
+
+		
+		
 		if (userId == "" || userPassword == "") {
 
 			rttr.addFlashAttribute("errM", "아이디 또는 페스워드가 없습니다 ");
@@ -80,6 +94,8 @@ public class AccountController {
 
 		}
 
+		
+		
 		return "redirect:/home"; // return "redirect:/home.action";
 	}
 
