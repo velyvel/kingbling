@@ -91,14 +91,12 @@ color: white;
 <script type="text/javascript">
 $(function(){
 	
-	$("tr[id *= 'orderRow']").on('click',function(event){// 상품 하나 카트에서 삭제하기
+	$("#dataTable").on('click',"tr[id *= 'orderRow']",function(event){// 상품 하나 카트에서 삭제하기
 		var orderNo = $(this).data("orderno");
 		location.href="/mypage/orderList-detail?orderNo="+orderNo;
 
 	});
 
-    var orders = $(this).data("orders")
-    console.log('orders', orders);
 
 });
 </script>

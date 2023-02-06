@@ -118,7 +118,26 @@
     </div>
 </section>
 <!-- Checkout Section End -->
-
+<!-- 모달 시작 -->	
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5" id="exampleModalLabel">알림</h5>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display:none"> 
+</button>
+<!-- 모달 끝 -->
 
 <!-- ****************************** footer ************************** -->
 <jsp:include page="/WEB-INF/views/modules/footer.jsp" />
@@ -173,13 +192,18 @@ $(function(){
         }).open();
 	});
 	
+	$('.modal-footer').on('click','button',function(event){
+		$("#myModal").modal('hide');
+	});
+	
 	$(".cancel-btn").on('click',function(event){
 		location.href="/mypage/cart";
 	});
 	
 	$(".site-btn").on('click',function(event){
 		if($('#roadFullAddr').val()==null||$('#roadFullAddr').val()==""){
-			alert('주소를 입력하세요.');
+			$("#myModal").modal();
+			$('.modal-body').html("<p>주소를 입력해주세요.</p>");
 			return false;
 		}
 		$('#roadFullAddr').val($("#roadFullAddr").val()+" "+$("#detailAddr").val());
