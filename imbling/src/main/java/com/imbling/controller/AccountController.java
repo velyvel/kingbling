@@ -71,7 +71,7 @@ public class AccountController {
 				rttr.addFlashAttribute("errM", "일치하는 아이디가 없습니다 ");
 				return "redirect:login";
 
-			}else if(loginUser.isUserActiveState()) {
+			} else if (loginUser.isUserActiveState()) {
 				rttr.addFlashAttribute("errM", "탈퇴한 회원입니다  ");
 				return "redirect:login";
 			}
@@ -81,6 +81,11 @@ public class AccountController {
 		}
 
 		return "redirect:/home"; // return "redirect:/home.action";
+	}
+
+	public void needLogin(RedirectAttributes rttr) {
+
+		rttr.addFlashAttribute("errM", "로그인이 필요한 서비스입니다. ");
 	}
 
 	@GetMapping(path = { "/member/register" })
@@ -309,7 +314,7 @@ public class AccountController {
 
 			}
 			;
-			
+
 		}
 
 		model.addAttribute("allUser", allUser);
