@@ -135,7 +135,7 @@
 							</button>
 						</div>
 						<div class="modal-body">
-						
+
 							<div class="form-group">
 								<label for="recipient-name" class="col-form-label">1.
 									회원탈퇴 전, 유의사항을 확인해 주시기 바랍니다.</label>
@@ -146,20 +146,20 @@
 									만료일까지 보관되며, 탈퇴 후에도 유효기간 내 사용하실 수 있습니다.<br> - 유효기간 내 사용하지
 									못한 미사용 쿠폰은 구매금액의 70%를 임블캐시로 적립해 드리나, 탈퇴시 적립 받을 수 없습니다.<br>
 									- 회원탈퇴 후 쿠팡 서비스에 입력하신 상품문의 및 후기, 댓글은 삭제되지 않으며, 회원정보 삭제로 인해 작성자
-									본인을 확인할 수 없어 편집 및 삭제처리가 원천적으로 불가능 합니다.<br> - 상품문의 및 후기,
-									댓글 삭제를 원하시는 경우에는 먼저 해당 게시물을 삭제하신 후 탈퇴를 신청하시기 바랍니다.<br> -
-									이미 결제가 완료된 건은 탈퇴로 취소되지 않습니다.<br>
+									본인을 확인할 수 없어 편집 및 삭제처리가 원천적으로 불가능 합니다.<br> - 상품문의 및 후기, 댓글
+									삭제를 원하시는 경우에는 먼저 해당 게시물을 삭제하신 후 탈퇴를 신청하시기 바랍니다.<br> - 이미
+									결제가 완료된 건은 탈퇴로 취소되지 않습니다.<br>
 
 
 								</p>
-								<input type="checkbox" id="agreeDelete"  value="agreeDelete ">동의합니다 
+								<input type="checkbox" id="agreeDelete" value="agreeDelete ">동의합니다
 							</div>
 							<div class="form-group">
-								<label for="message-text" class="col-form-label">탈퇴를 위한 계정의 비밀번호를 작성해 주세요 :</label>
-								<input type="hidden" name="userId" value=${loginuser.userId} id="userId">
-								
-								<input type="password" name="userPassword" id="userPassword">
-								
+								<label for="message-text" class="col-form-label">탈퇴를 위한
+									계정의 비밀번호를 작성해 주세요 :</label> <input type="hidden" name="userId"
+									value=${loginuser.userId } id="userId"> <input
+									type="password" name="userPassword" id="userPassword">
+
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"
@@ -211,16 +211,21 @@
 			$('#submitBtn').on('click', function(event) {
 				
 				$.ajax({
-					//type : "POST",
 					url : "/mypage/deleteIdModal",
 					"method" : "post",
 					"data" : 'userId=' + $("#userId").val()+'&userPassword='+ $("#userPassword").val() ,
 					"success" : function(data, status, xhr) {
 //						console.log("message: ", data)
-						        location.href = '/home';
+						if(data=="success"){
+							alert('계정이 삭제되었습니다.')
+							location.href = '/home';
+
+						}else if(data="wrongIdOrPw"){
+							alert('비밀번호가 틀렸습니다.')
+
+						}
 					},
 					"error" : function(xhr, status, err) {
-						alert('삭제실패 1')
 					}
 				})
 
