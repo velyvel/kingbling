@@ -51,10 +51,21 @@
                     <div class="form-group">
                         <label for="userId">작성자</label>
                         <input type="text" class="form-control" id="userId" name="userId" value="${loginuser.userName}" readonly>
-                        <input type="date" class="form-control" id="boardRegDate1" name="boardRegDate1" value="">
+                    </div>
+                </div>
+                <div class="col-sm-6"style="float: right;">
+                    <div class="form-group">
+                        <label for="boardRegDate2">이벤트 마감날짜</label>
                         <input type="date" class="form-control" id="boardRegDate2" name="boardRegDate2" value="">
                     </div>
                 </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="boardRegDate1">이벤트 시작날짜</label>
+                        <input type="date" class="form-control" id="boardRegDate1" name="boardRegDate1" value="">
+                    </div>
+                </div>
+
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label for="boardTitle">제목</label>
@@ -134,36 +145,7 @@
 
     }
 
-         $(function (){
-        //     $('#boardContent').summernote({
-        //         dialogsInBody: true,
-        //         placeholder:'공지사항 작성합니다',
-        //         tabsize: 2,
-        //         height: 400,
-        //         onImageUpload: function(files, editor, welEditable) {
-        //             // 서버로 이미지 전송
-        //             uploadSummernoteImageFile(files[0], editor, welEditable);
-        //         }
-        //     });
-        //
-        //     function uploadSummernoteImageFile(file, editor, welEditable){
-        //         formData = new FormData();
-        //         formData.append("file", file);
-        //         $.ajax({
-        //             data : formData,
-        //             type : "post",
-        //             url : "/imbling/board/upload-image-file",
-        //             cache : false,
-        //             contentType : false,
-        //             processData : false,
-        //             success : function(url) {
-        //                 editor.insertImage(welEditable, url);
-        //             },
-        //             error : function(err) {
-        //                 alert(err + '이미지 파일 업로드에 실패했습니다.');
-        //             }
-        //         });
-        //     }
+     $(function (){
 
         $('#submitBtn').on('click', function (event){
             event.preventDefault();

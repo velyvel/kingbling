@@ -19,8 +19,8 @@ public class ReviewEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int reviewNo;
 
-//    @Column
-//    private int orderNo;
+    @Column
+    private int orderNo;
 
     @Column
     private int productNo;
@@ -50,5 +50,5 @@ public class ReviewEntity {
     @Column
     private boolean reviewDeleted = false;
 
-//Many to one
+
 }
