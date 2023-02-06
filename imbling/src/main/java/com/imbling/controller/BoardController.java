@@ -242,7 +242,6 @@ public class BoardController {
 			return "redirect:/board/event?pageNo=" + pageNo;
 		}else if(boardCategory == 2) {
 			board.setBoardCategory(board.getBoardCategory());
-
 		}
 		return "redirect:/board/notice?pageNo=" + pageNo;
 	}
@@ -306,5 +305,4 @@ public class BoardController {
 		boardService.deleteFaq(faqNo);
 		return "redirect:notice";
 	}
-
 }

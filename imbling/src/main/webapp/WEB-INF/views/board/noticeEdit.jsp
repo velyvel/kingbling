@@ -57,10 +57,22 @@
                     <div class="form-group">
                         <label for="userId">작성자</label>
                         <input type="text" class="form-control" id="userId" name="userId" value="${loginuser.userId}" readonly>
-                        <input type="date" class="form-control" id="boardRegDate1" name="boardRegDate1" value="">
-                        <input type="date" class="form-control" id="boardRegDate2" name="boardRegDate2" value="">
+
                     </div>
                 </div>
+                <div class="col-sm-6"style="float: right;">
+                    <div class="form-group">
+                        <label for="boardRegDate2">이벤트 마감날짜</label>
+                        <input type="text" class="form-control" id="boardRegDate2" name="boardRegDate1" value="${board.boardRegDate2}">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="boardRegDate1">이벤트 시작날짜</label>
+                        <input type="text" class="form-control" id="boardRegDate1" name="boardRegDate1" value="${board.boardRegDate1}">
+                    </div>
+                </div>
+
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label>제목</label>

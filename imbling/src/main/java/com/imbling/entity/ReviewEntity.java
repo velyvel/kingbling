@@ -50,5 +50,5 @@ public class ReviewEntity {
     @Column
     private boolean reviewDeleted = false;
 
-//Many to one
+
 }
