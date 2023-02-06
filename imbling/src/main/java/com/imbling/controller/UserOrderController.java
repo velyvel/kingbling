@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.CartDto;
+import com.imbling.dto.OrderDetailDto;
 import com.imbling.dto.OrderDto;
 import com.imbling.dto.ProductDto;
 import com.imbling.dto.PropertyDto;
@@ -158,8 +159,9 @@ public class UserOrderController {
 	}
 	
 	@PostMapping(path= {"/completeOrder"})
-	public String completeOrder() {
-		
+	public String completeOrder(OrderDto order, OrderDetailDto orderDetail) {
+
+		userOrderService.insertOrder(order,orderDetail);
 		
 		return "redirect:/mypage/orderList";
 	}

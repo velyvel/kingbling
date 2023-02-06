@@ -55,7 +55,7 @@ $(function(){
 		    }
 	    });
 	});
-		
+
 	$('#cartList').on("click",".pro-qty-2 i",function(event){//상품 갯수 수정+전체 금액 수정(화살표 클릭)
 		var proNo = $(this).data("prono");
 		var cartEA = Number($("#cartEA"+proNo).val());
@@ -92,12 +92,14 @@ $(function(){
 		var proNo = $(this).data("prono");
 		var cartEA = Number($("#cartEA"+proNo).val());
 		var maxEA = Number($("#maxEA"+proNo).val());
-		if(cartEA<=5){
+		if(cartEA<5){
 			alert('최소 주문수량은 5개입니다.');
-			return false;
+			$("#cartEA"+proNo).val(5);
+			cartEA=5;
 		}else if(cartEA>maxEA){
 			alert('재고가 '+maxEA+'개 남은 상품 입니다.');
-			return false;
+			$("#cartEA"+proNo).val(maxEA);
+			cartEA =$("#cartEA"+proNo).val();
 		}
 		$.ajax({
 			url:"/userOrder/updateCartInfo",

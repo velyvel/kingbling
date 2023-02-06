@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix ="c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix ="fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +12,11 @@
     <jsp:include page="/WEB-INF/views/modules/admin/common-css.jsp" />
     <meta charset="UTF-8">
     <title>임블리 사이트</title>
+<style type="text/css">
+#dataTable tbody tr:hover { background-color: lightgray; 
+color: white;
+}
+</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/modules/common-offcanvas.jsp" />
@@ -41,22 +47,22 @@
                 <c:choose>
                 <c:when test="${sort=='inquery'}">
                 <c:forEach items="${boards}" var="board"> 
-               	<tr>
+               	<tr id="boardRow${board.boardNo}" data-boardno="${board.boardNo}" style="cursor: pointer;">
                		<td>${board.boardNo}</td>
                     <td>${board.boardTitle}</td>
                     <td>${board.userId}</td>
-                    <td>${board.boardRegDate}</td>
+                    <td><fmt:formatDate value="${board.boardRegDate1}" type="both" dateStyle="full" timeStyle="short" /></td>
                     <td>${board.boardCount}</td>
                 </tr>
                	</c:forEach>
                 </c:when>
                 <c:otherwise>
                 <c:forEach items="${reviews}" var="review"> 
-               	<tr>
+               	<tr id="boardRow${board.boardNo}" data-boardno="${board.boardNo}" style="cursor: pointer;">
                		<td>${review.reviewNo}</td>
                     <td>${review.reviewTitle}</td>
                     <td>${review.userId}</td>
-                    <td>${review.reviewRegDate}</td>
+                    <td><fmt:formatDate value="${board.boardRegDate1}" type="both" dateStyle="full" timeStyle="short" /></td>
                     <td>${review.reviewCount}</td>
                 </tr>
                	</c:forEach>
@@ -76,8 +82,9 @@
 <jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 <script type="text/javascript">
 $(function(){
+	
+	
 });
-
 </script>
 </body>
 </html>

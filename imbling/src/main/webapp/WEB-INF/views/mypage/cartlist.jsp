@@ -31,7 +31,9 @@
                                 </div>
                                 <div class="product__cart__item__text">
                                     <h6>${cart.product.productName}</h6>
+                                    <a>${cart.property.productSize}/${cart.property.productColor}</a>
                                     <h5><fmt:formatNumber value="${cart.product.productPrice}" pattern="₩#,###" /></h5>
+                                    
                                 </div>
                             </td>
                             <td class="quantity__item">

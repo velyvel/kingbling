@@ -82,7 +82,6 @@ public class MyPageController {
 		for (int i = 0; i < carts.size(); i++) {
 			cartTotalPrice = cartTotalPrice + carts.get(i).getCartTotalPrice();
 		}
-
 		model.addAttribute("carts", carts);
 		model.addAttribute("cartTotalPrice", cartTotalPrice);
 
@@ -126,7 +125,6 @@ public class MyPageController {
 
 	@GetMapping(path = { "/mypage/myboardInquery" })
 	public String showByboardInquery(String userId, Model model) {
-		System.out.println(userId);
 		List<BoardDto> boards = mypageService.findMyAllInquery(userId);
 		model.addAttribute("boards", boards);
 		model.addAttribute("sort", "inquery");
@@ -136,7 +134,6 @@ public class MyPageController {
 
 	@GetMapping(path = { "/mypage/myboardReview" })
 	public String showByboardReview(String userId, Model model) {
-		System.out.println(userId);
 		List<ReviewDto> reviews = mypageService.findMyAllReview(userId);
 		model.addAttribute("reviews", reviews);
 		model.addAttribute("sort", "review");
