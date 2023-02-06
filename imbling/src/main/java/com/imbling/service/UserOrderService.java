@@ -95,6 +95,7 @@ public interface UserOrderService {
 		orderDto.setOrderPay(orderEntity.getOrderPay());
 		orderDto.setUserId(orderEntity.getUserId());
 		orderDto.setOrderAddr(orderEntity.getOrderAddr());
+		orderDto.setOrderAddr2(orderEntity.getOrderAddr2());
 		
 		return orderDto;
 	}
@@ -103,7 +104,7 @@ public interface UserOrderService {
 		
 		OrderEntity orderEntity = OrderEntity.builder().orderNo(orderDto.getOrderNo()).orderState(orderDto.getOrderState()).orderDate(orderDto.getOrderDate())
 								.orderDeliveryRequire(orderDto.getOrderDeliveryRequire()).orderPay(orderDto.getOrderPay())
-								.userId(orderDto.getUserId()).orderAddr(orderDto.getOrderAddr())
+								.userId(orderDto.getUserId()).orderAddr(orderDto.getOrderAddr()).orderAddr2(orderDto.getOrderAddr2())
 								.build();
 		
 		return orderEntity;

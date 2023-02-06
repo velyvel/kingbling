@@ -73,6 +73,7 @@ public class HomeServiceImpl implements HomeService {
 		od.add(Integer.parseInt(order.getOrderDate()));
 		od.add(order.getOrderPrice());
 		od.add(Integer.parseInt(order.getOrderDate())-order.getOrderPrice());
+		System.out.println(od);
 		return od;
 	}
 

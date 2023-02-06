@@ -51,9 +51,9 @@
                             <p>배송주소<span></span>&nbsp&nbsp&nbsp
                             <button type="button" class="btn btn-secondary" id="goPopup"> 주소 찾기</button></p>
                             <input type="text" placeholder="주소 찾기 버튼을 눌러주세요" id="roadFullAddr" class="checkout__input__add"
-                            style="color:black" name="orderAddr"  value="${order.orderAddr}" readonly >
+                            style="color:black" name="orderAddr" value="${order.orderAddr}" readonly >
                             <input type="text" placeholder="상세주소를 입력해 주세요" id="detailAddr" class="checkout__input__add"
-                            style="color:black" >
+                            style="color:black" name="orderAddr2" value="${order.orderAddr2}">
                         </div>
                         <div class="checkout__input">
                             <p>배송요청사항<span></span></p>
@@ -161,7 +161,6 @@ $(function(){
 		if (!ok){
 		return false;
 		}
-		$('#roadFullAddr').val($("#roadFullAddr").val()+" "+$("#detailAddr").val());
 		return true;
 	});
 	

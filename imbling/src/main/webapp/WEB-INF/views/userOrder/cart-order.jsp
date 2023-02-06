@@ -84,7 +84,7 @@
                             <button type="button" class="btn btn-secondary" id="goPopup"> 주소 찾기</button></p>
                             <input type="text" placeholder="주소 찾기 버튼을 눌러주세요" id="roadFullAddr" class="checkout__input__add"
                             style="color:black" name="orderAddr" readonly >
-                            <input type="text" placeholder="상세주소를 입력해 주세요" id="detailAddr" class="checkout__input__add"
+                            <input type="text" name="orderAddr2" placeholder="상세주소를 입력해 주세요" id="detailAddr" class="checkout__input__add"
                             style="color:black" >
                         </div>
                         <div class="checkout__input">
@@ -206,7 +206,6 @@ $(function(){
 			$('.modal-body').html("<p>주소를 입력해주세요.</p>");
 			return false;
 		}
-		$('#roadFullAddr').val($("#roadFullAddr").val()+" "+$("#detailAddr").val());
 		return true;
 	});
 	
