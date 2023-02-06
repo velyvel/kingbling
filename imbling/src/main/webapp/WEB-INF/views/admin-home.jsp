@@ -407,7 +407,6 @@ function barChart(){
         }
 	})
 };
-
 //바 차트 끝
 
 //도넛 차트 시작
@@ -451,6 +450,7 @@ function pieChart(){
 	})
 }
 //도넛 차트 끝
+
 //파이 차트 시작
 var circleDataset = [];
 

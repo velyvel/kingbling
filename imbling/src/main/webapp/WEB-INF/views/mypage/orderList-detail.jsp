@@ -84,7 +84,7 @@
 	                            <button type="button" class="cancel-btn">주문 취소</button>
 	                            </c:when>
 	                            <c:otherwise>
-	                            <a> 주문 정보 수정/취소 가능 시기가 아닙니다. </a>
+	                            <a> 주문 정보 수정/취소 가능 상태가 아닙니다. </a>
 	                            </c:otherwise>
                             	</c:choose>
                             </c:otherwise>
