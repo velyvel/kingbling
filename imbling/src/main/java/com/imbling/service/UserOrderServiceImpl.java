@@ -19,6 +19,7 @@ import com.imbling.entity.OrderDetailEntity;
 import com.imbling.entity.OrderEntity;
 import com.imbling.entity.ProductEntity;
 import com.imbling.entity.PropertyEntity;
+import com.imbling.entity.SalesChartData;
 import com.imbling.repository.AccountRepository;
 import com.imbling.repository.CartRepository;
 import com.imbling.repository.OrderDetailRepository;
@@ -51,7 +52,6 @@ public class UserOrderServiceImpl implements UserOrderService{
 	public ProductDto getProductInfo(int productNo) {
 		
 		ProductEntity product = userProductRepository.findByProductNo(productNo);
-		System.out.println(productEntityToDto(product));
 		return productEntityToDto(product);
 	}
 
@@ -188,11 +188,9 @@ public class UserOrderServiceImpl implements UserOrderService{
 		int orderNo = orderRepository.findRecentOrderNo();
 		for(OrderDetailEntity o : orderEntity.getOrderDetails()) {
 			o.getOrder().setOrderNo(orderNo);
-			orderDetailRepository.save(o);////////////ㅇㅅㅠ222
+			orderDetailRepository.save(o);
 		}
-		
 		cartRepository.deleteCheckedById(order.getUserId());
-		
 	}
 
 	@Override
@@ -218,7 +216,6 @@ public class UserOrderServiceImpl implements UserOrderService{
 			orders.add(orderDto);
 			
 		}
-		System.out.println(orders);
 		return orders;
 	}
 
@@ -269,17 +266,23 @@ public class UserOrderServiceImpl implements UserOrderService{
 		
 		List<OrderDetailEntity> ode = new ArrayList<>();
 		ode.add(orderDetailDtoToEntity(orderDetail));
-		
 		OrderEntity orderEntity = orderDtoToEntity(order);
 		orderEntity.setOrderDetails(ode);
 		orderEntity.setOrderDate(new Date());
 		orderEntity.setOrderState("주문완료");
 		orderRepository.save(orderEntity);
+		int orderNo = orderRepository.findRecentOrderNo();
+		for(OrderDetailEntity o : ode) {
+			o.getOrder().setOrderNo(orderNo);
+			orderDetailRepository.save(o);
+		}
 		
 		PropertyEntity property = propertyRepository.findById(orderDetail.getPropertyNo()).orElse(null); 
 		property.setProductEA(property.getProductEA()-orderDetail.getOrderDetailEA());
 		propertyRepository.save(property);
 	}
+
+
 	
 
 	

@@ -163,9 +163,7 @@
 
 			});
 
-			$('#btn-checkDoc').on(
-					'click',
-					function(event) {
+			$('#btn-checkDoc').on( 'click', function(event) {
 						const imageInput = $("#inputed_doc")[0];
 
 						if (imageInput.files.length === 0) {

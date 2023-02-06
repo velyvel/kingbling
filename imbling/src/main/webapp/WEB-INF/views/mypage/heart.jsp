@@ -60,6 +60,22 @@
 				location.href= "/product/detail?productNo=" + productNo2 + "&categoryNo=" + categoryNo2;
 			});
 			
+			$('#heart-list').on('click', 'img.delete-heart', function(event) {
+				var productNo = $(this).data('product-no3');
+				
+				$.ajax({
+					url : '/delete-heart',
+					type : 'get',
+					data : 'productNo=' + productNo,
+					success : function(result) {
+						alert("해당 상품을 관심상품 목록에서 삭제했습니다.");
+						$('#heart-list').load("heart-list");
+					},
+					error : function(request, status, error) {
+						alert("관심상품 삭제 실패");
+					}
+ 				})
+			});
 			
 		});
 	</script>

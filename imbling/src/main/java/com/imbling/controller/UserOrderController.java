@@ -160,7 +160,7 @@ public class UserOrderController {
 	
 	@PostMapping(path= {"/completeOrder"})
 	public String completeOrder(OrderDto order, OrderDetailDto orderDetail) {
-		System.out.println(orderDetail);
+
 		userOrderService.insertOrder(order,orderDetail);
 		
 		return "redirect:/mypage/orderList";

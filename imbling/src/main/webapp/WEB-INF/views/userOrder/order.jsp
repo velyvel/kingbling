@@ -33,7 +33,7 @@
 						<div style="padding:10px 10px 15px 15px; display:none" id="productList">
 						<input type="hidden" name="propertyNo" value="${property.propertyNo}">
 						<input type="hidden" name="orderDetailEA" value="${productEA}">
-						<input type="hidden" name="orderDetailTotalPrice" value="${propertyEA*product.productPrice}">
+						<input type="hidden" name="orderDetailTotalPrice" value="${productEA*product.productPrice}">
 							<table>
 	                        <thead>
 	                        <tr>
