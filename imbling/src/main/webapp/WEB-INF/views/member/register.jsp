@@ -49,7 +49,8 @@
 								<div class="row">
 									<div class="form-group  col-lg-6">
 										<input type="text" class="form-control form-control-user"
-											id="userId" placeholder="아이디 " name="userId" value="${regiInfo.userId}">
+											id="userId" placeholder="아이디 " name="userId"
+											value="${regiInfo.userId}">
 									</div>
 
 									<div class="form-group   col-lg-6">
@@ -86,7 +87,8 @@
 								<div class="form-group col-lg-12">
 									<div class="row">
 										<input type="text" class="form-control form-control-user"
-											id="userCorpNo" placeholder="사업자 등록번호 " name="userCorpNo" value="${regiInfo.userCorpNo}">
+											id="userCorpNo" placeholder="사업자 등록번호 " name="userCorpNo"
+											value="${regiInfo.userCorpNo}">
 									</div>
 									<input id="btn-checkInfoByDocNo" type="button" value="정보 조회  "
 										style="height: 40px" />
@@ -95,24 +97,34 @@
 								<div class="form-group  col-lg-12">
 									<div class="row">
 										<input type="text" class="form-control form-control-user"
-											id="userName" placeholder="이름 " name="userName" value="${regiInfo.userName}">
+											id="userName" placeholder="이름 " name="userName"
+											value="${regiInfo.userName}">
 									</div>
 
 								</div>
 
 
 								<div class="form-group">
-									<input type="text" class="form-control form-control-user"
-										id="exampleInputEmail" placeholder="주소" name="userAddress" value="${regiInfo.userAddress}">
+									<input type="text" placeholder="주소 찾기 버튼을 눌러주세요"
+										id="roadFullAddr" class="form-control form-control-user"
+										style="color: black" name="orderAddr" readonly value="${regiInfo.userAddress}">
+									
+									<button type="button" class="btn btn-secondary" id="goPopup">
+										주소 찾기</button>
+									</p>
+									
 								</div>
+
+
 								<div class="form-group">
 									<input type="text" class="form-control form-control-user"
-										id="exampleInputEmail" placeholder="전화번호 " name="userPhone" value="${regiInfo.userPhone}">
+										id="exampleInputEmail" placeholder="전화번호 " name="userPhone"
+										value="${regiInfo.userPhone}">
 								</div>
 								<div class="form-group">
 									<input type="email" class="form-control form-control-user"
-										id="exampleInputEmail" placeholder="이메일 주소 "
-										name="userEmail" value="${regiInfo.userEmail}">
+										id="exampleInputEmail" placeholder="이메일 주소 " name="userEmail"
+										value="${regiInfo.userEmail}">
 								</div>
 
 
@@ -139,15 +151,38 @@
 
 
 	</div>
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title fs-5" id="exampleModalLabel">알림</h5>
+				</div>
+				<div class="modal-body">...</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+		data-bs-target="#exampleModal" style="display: none"></button>
+	<!-- 모달 끝 -->
+	<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
+
+
 	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 	<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 	<script type="text/javascript">
-	
 		$(function() {
 			<c:if test ="${not empty errM}">
 			alert("${errM}")
-			
-			</c:if>	
+
+			</c:if>
 			console.log("${errM}")
 			$('#btn-checkId').on('click', function(event) {
 				$.ajax({
@@ -170,7 +205,9 @@
 
 			});
 
-			$('#btn-checkDoc').on( 'click', function(event) {
+			$('#btn-checkDoc').on(
+					'click',
+					function(event) {
 						const imageInput = $("#inputed_doc")[0];
 
 						if (imageInput.files.length === 0) {
@@ -207,7 +244,7 @@
 											$("#userCorpNo").attr(
 													"placeholder",
 													"인식 실패. 직접 입력해 주세요. ")
-													$("#userType").val("needCheck")
+											$("#userType").val("needCheck")
 
 										} else {
 											$("#userCorpNo").val(rtn)
@@ -250,8 +287,56 @@
 
 			});
 
-			
-			
+			$("#goPopup").on(
+					'click',
+					function(event) {
+						new daum.Postcode({
+							oncomplete : function(data) {
+								// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+								// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+								// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+								var addr = ''; // 주소 변수
+								var extraAddr = ''; // 참고항목 변수
+
+								//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+								if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+									addr = data.roadAddress;
+								} else { // 사용자가 지번 주소를 선택했을 경우(J)
+									addr = data.jibunAddress;
+								}
+
+								// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+								if (data.userSelectedType === 'R') {
+									// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+									// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+									if (data.bname !== ''
+											&& /[동|로|가]$/g.test(data.bname)) {
+										extraAddr += data.bname;
+									}
+									// 건물명이 있고, 공동주택일 경우 추가한다.
+									if (data.buildingName !== ''
+											&& data.apartment === 'Y') {
+										extraAddr += (extraAddr !== '' ? ', '
+												+ data.buildingName
+												: data.buildingName);
+									}
+									// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+									if (extraAddr !== '') {
+										extraAddr = ' (' + extraAddr + ')';
+									}
+									// 조합된 참고항목을 해당 필드에 넣는다.
+									$('#roadFullAddr').val(extraAddr);
+
+								} else {
+									$('#roadFullAddr').val('');
+								}
+
+								// 주소 정보를 해당 필드에 넣는다.
+								$('#roadFullAddr').val(addr);
+							}
+						}).open();
+					});
 
 		});
 	</script>
