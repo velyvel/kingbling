@@ -83,6 +83,11 @@ color: white;
 <script type="text/javascript">
 $(function(){
 	
+	$("#dataTable").on('click',"tr[id *= 'boardRow']",function(event){// 상품 하나 카트에서 삭제하기
+		var boardNo = $(this).data("boardno");
+		location.href="/board/board-detail?boardNo="+boardNo;
+
+	});
 	
 });
 </script>

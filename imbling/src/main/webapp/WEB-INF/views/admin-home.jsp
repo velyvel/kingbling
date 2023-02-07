@@ -40,7 +40,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                현재 활동 중인 회원 수</div>
+                                                현재까지 가입한 회원 수</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">${joinedUser}명</div>
                                         </div>
                                         <div class="col-auto">
@@ -53,7 +53,7 @@
 
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2" onClick="location.href ='/admin/product-list'" style="cursor:pointer;">
+                            <div class="card border-left-success shadow h-100 py-2" onClick="location.href ='/admin/list'" style="cursor:pointer;">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
@@ -387,7 +387,7 @@ function barChart(){
 	new Chart(bpc, {
 		type: 'bar',
 	    data: {
-	    	labels: ['전체회원', '구매내역 있음','구매내역 없음'],
+	    	labels: ['전체회원(승인회원)', '구매내역 있음','구매내역 없음'],
 	        datasets: [{
 	          data: barDataset,
 	          backgroundColor: [
@@ -400,10 +400,17 @@ function barChart(){
 	        }
 	      ]
 	    },
-	    options:{ 
+	    options:{
                 legend: {
                     display: false
                 },
+        	    scales: {
+        			yAxes: [{
+        				ticks: {
+        					min: 0
+        				}
+        			}]
+        		}
         }
 	})
 };
@@ -477,8 +484,8 @@ function circleChart(){
 	        datasets: [{
 	          data: circleDataset,
 	          backgroundColor: [
-	            'pink',
-	            '#F2F3F6'
+	            'lightyellow',
+	            'pink'
 	          ],
 	          borderWidth: 0,
 	          scaleBeginAtZero: true,

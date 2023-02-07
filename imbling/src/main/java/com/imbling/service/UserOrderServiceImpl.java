@@ -251,6 +251,7 @@ public class UserOrderServiceImpl implements UserOrderService{
 	public void updateOrderInfo(OrderDto order) {
 		OrderEntity orderEntity = orderRepository.findById(order.getOrderNo()).orElse(null);
 		orderEntity.setOrderAddr(order.getOrderAddr());
+		orderEntity.setOrderAddr2(order.getOrderAddr2());
 		orderEntity.setOrderDeliveryRequire(order.getOrderDeliveryRequire());
 		orderRepository.save(orderEntity);
 		

@@ -6,59 +6,57 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.imbling.controller.AccountController;
 import com.imbling.dto.AccountDto;
 
 public class AuthInterceptor implements HandlerInterceptor {
 
-	// 컨트롤러를 호출하기 전에 호출되는 메서드
 	@Override
-	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler)
-			throws Exception {
-		 System.out.println("PreHandler");
-		
-		String uri = req.getRequestURI(); // 현재 요청 경로 (웹경로 : http://.../.../*.action)
+	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
+
+		String uri = req.getRequestURI();
 
 		HttpSession session = req.getSession();
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
-		
-		if (loginUser == null) {	// 로그인 하지 않은 사용자
-			if ( 
-				uri.contains("/mypage")||
-				uri.contains("/product")||
-				uri.contains("/board")||
-				uri.contains("/admin")||
-				uri.contains("/mypage")
-				) { // 로그인한 사용자만 볼 수 있는 요청
-				
-//				RedirectAttributes s=new RedirectAttributes();
-//				AccountController as=new AccountController();
-//				as.needLogin(s);
-				resp.sendRedirect("/member/login");
-				return false; // 예정된 컨트롤러 호출을 취소				
+
+		if (loginUser == null) {
+			if (uri.contains("/mypage") || uri.contains("/product") || uri.contains("/admin-home")||uri.contains("/userlist")
+					|| uri.contains("/board")) {
+
+				resp.sendRedirect("/member/login?errM=1");
+				return false;
 			}
+		} else if (loginUser.getUserType().contains("needCheck")||loginUser.getUserType().contains("deniedDoc")) {
+
+			if (uri.contains("/mypage/cart")||uri.contains("/mypage/heart")||uri.contains("/mypage/orderList")||uri.contains("/mypage/myboard") || uri.contains("/product") || uri.contains("/admin")||uri.contains("/userlist")
+					|| uri.contains("/board")) {
+				resp.sendRedirect("/mypage/myInfo?errM=1");//서류 인식x
+				//System.out.println("check needCheck");
+
+				return false;
+			}
+		
+		}else if (!loginUser.getUserType().contains("admin")) {
+
+			if (uri.contains("/admin-home")||uri.contains("/userlist")
+					) {
+				resp.sendRedirect("/member/login?errM=2");
+				System.out.println("check admin");
+
+				return false;
+			}
+
 		}
-		
-		
-		
-		
-		
-		return true; // 예정대로 컨트롤러 호출을 수행
-	}	
-	
-	// 컨트롤러 처리가 끝난 후에 호출되는 메서드
+		return true;
+	}
+
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		// System.out.println("PostHandle");
-	}	
-	// View 처리까지 끝난 후에 호출되는 메서드
+	}
+
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		// System.out.println("AfterCompletion");
 	}
-	
+
 }

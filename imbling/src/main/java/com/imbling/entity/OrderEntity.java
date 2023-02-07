@@ -45,6 +45,8 @@ public class OrderEntity {
 	@Column(nullable = false)
 	private String orderAddr;
 	
+	private String orderAddr2;
+	
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
 	private Collection<OrderDetailEntity> orderDetails;
 

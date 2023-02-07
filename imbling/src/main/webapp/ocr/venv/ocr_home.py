@@ -5,6 +5,9 @@ from flask import request
 from PIL import Image
 from urllib.request import urlopen
 
+import pandas as pd
+import numpy as np 
+
 import json
 
     
@@ -59,3 +62,5 @@ def searchByCorpNo():
     # ㅇ이름
     print(data_json['items'][0]['company'])
     return data_json['items'][0]['company']
+
+

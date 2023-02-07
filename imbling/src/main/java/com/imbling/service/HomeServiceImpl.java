@@ -80,8 +80,8 @@ public class HomeServiceImpl implements HomeService {
 	public List<Integer> findOrderData() {
 		SalesChartData order = mypageRepository.findOrderData();
 		List<Integer> od = new ArrayList<>();
-		od.add(Integer.parseInt(order.getOrderDate())-order.getOrderPrice());
 		od.add(order.getOrderPrice());
+		od.add(Integer.parseInt(order.getOrderDate())-order.getOrderPrice());
 		return od;
 	}
 

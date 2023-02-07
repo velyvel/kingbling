@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,19 +42,19 @@
 					<div class="col-lg-7">
 						<div class="p-5">
 							<div class="text-center">
-								<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+								<h1 class="h4 text-gray-900 mb-4">회원가입 화면입니다!</h1>
 							</div>
 							<form class="user" action="/member/register" method="post"
 								enctype="multipart/form-data">
 								<div class="row">
 									<div class="form-group  col-lg-6">
 										<input type="text" class="form-control form-control-user"
-											id="userId" placeholder="ID" name="userId">
+											id="userId" placeholder="아이디 " name="userId" value="${regiInfo.userId}">
 									</div>
 
 									<div class="form-group   col-lg-6">
 										<input type="password" class="form-control form-control-user"
-											id="exampleInputPassword" placeholder="Password"
+											id="exampleInputPassword" placeholder="비밀번호 "
 											name="userPassword">
 									</div>
 
@@ -84,7 +86,7 @@
 								<div class="form-group col-lg-12">
 									<div class="row">
 										<input type="text" class="form-control form-control-user"
-											id="userCorpNo" placeholder="사업자 등록번호 " name="userCorpNo">
+											id="userCorpNo" placeholder="사업자 등록번호 " name="userCorpNo" value="${regiInfo.userCorpNo}">
 									</div>
 									<input id="btn-checkInfoByDocNo" type="button" value="정보 조회  "
 										style="height: 40px" />
@@ -93,42 +95,41 @@
 								<div class="form-group  col-lg-12">
 									<div class="row">
 										<input type="text" class="form-control form-control-user"
-											id="userName" placeholder="Name" name="userName">
+											id="userName" placeholder="이름 " name="userName" value="${regiInfo.userName}">
 									</div>
-									<input id="btn-checkDocValid" type="button" value="정보 확인   "
-										style="height: 40px" />
+
 								</div>
 
 
 								<div class="form-group">
 									<input type="text" class="form-control form-control-user"
-										id="exampleInputEmail" placeholder="주소" name="userAddress">
+										id="exampleInputEmail" placeholder="주소" name="userAddress" value="${regiInfo.userAddress}">
 								</div>
 								<div class="form-group">
 									<input type="text" class="form-control form-control-user"
-										id="exampleInputEmail" placeholder="전화번호 " name="userPhone">
+										id="exampleInputEmail" placeholder="전화번호 " name="userPhone" value="${regiInfo.userPhone}">
 								</div>
 								<div class="form-group">
 									<input type="email" class="form-control form-control-user"
-										id="exampleInputEmail" placeholder="Email Address"
-										name="userEmail">
+										id="exampleInputEmail" placeholder="이메일 주소 "
+										name="userEmail" value="${regiInfo.userEmail}">
 								</div>
 
 
 
 								<div class="form-group ">
 									<input type="submit" class="btn btn-primary btn-user btn-block"
-										id="submit" value="Register Account">
+										id="submit" value="회원가입하기!">
 								</div>
-								<input type="hidden" name="userType" value="basic">
-								<input type="hidden" name="userDocValid" value="false" id="userDocValid">
+								<input type="hidden" name="userType" value="needCheck"
+									id="userType"> <input type="hidden" name="userDocValid"
+									value="false" id="userDocValid">
 
 							</form>
 							<hr>
 
 							<div class="text-center">
-								<a class="small" href="/member/login">Already have an
-									account? Login!</a>
+								<a class="small" href="/member/login">로그인하러 가기!</a>
 							</div>
 						</div>
 					</div>
@@ -141,7 +142,13 @@
 	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 	<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 	<script type="text/javascript">
+	
 		$(function() {
+			<c:if test ="${not empty errM}">
+			alert("${errM}")
+			
+			</c:if>	
+			console.log("${errM}")
 			$('#btn-checkId').on('click', function(event) {
 				$.ajax({
 					"url" : '/member/checkId',//해당 컨트롤러에서 리턴값으로success를 받
@@ -200,10 +207,12 @@
 											$("#userCorpNo").attr(
 													"placeholder",
 													"인식 실패. 직접 입력해 주세요. ")
+													$("#userType").val("needCheck")
 
 										} else {
 											$("#userCorpNo").val(rtn)
 											$("#userDocValid").val("true")
+											$("#userType").val("basic")
 
 										}
 									}
@@ -241,27 +250,6 @@
 
 			});
 
-			$('#btn-checkDocValid').on('click', function(event) {
-				/* var data = {
-					    "b_no": $("#userCorpNo").val(rtn) // 사업자번호 "xxxxxxx" 로 조회 시,
-					   }; 
-					   
-					$.ajax({
-					  url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=xxxxxx",  // serviceKey 값을 xxxxxx에 입력
-					  type: "POST",
-					  data: JSON.stringify(data), // json 을 string으로 변환하여 전송
-					  dataType: "JSON",
-					  contentType: "application/json",
-					  accept: "application/json",
-					  success: function(result) {
-					      console.log(result);
-					  },
-					  error: function(result) {
-					      console.log(result.responseText); //responseText의 에러메세지 확인
-					  }
-					}); */
-
-			});
 			
 			
 
