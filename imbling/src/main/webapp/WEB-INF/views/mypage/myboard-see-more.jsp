@@ -33,6 +33,7 @@ color: white;
     </div>
     <div class="card-body">
         <div class="table-responsive">
+        <input type="hidden" value="${loginuser.userId}" id="userId" />
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
@@ -61,11 +62,16 @@ color: white;
                 <c:when test="${sort=='inquery'}">
                 <c:forEach items="${boards}" var="board"> 
                	<tr id="boardRow${board.boardNo}" data-boardno="${board.boardNo}" style="cursor: pointer;">
-               		<td>${board.boardNo}</td>
-                    <td>${board.boardTitle}</td>
+               		<td>${board.boardNo}
+               		<input type="hidden" id="category${board.boardNo}" data-category="1:1문의"  >
+               		</td>
+                    <td id="title${board.boardNo}" data-title="${board.boardTitle}" >${board.boardTitle}
+                    <input type="hidden" id="content${board.boardNo}" data-content="${board.boardContent}"  >
+                    </td>
                     <td>${board.userId}</td>
-                    <td><fmt:formatDate value="${board.boardRegDate1}" type="both" dateStyle="full" timeStyle="short" /></td>
-                    <td>${board.boardCount}</td>
+                    <td id="regDate${board.boardNo}" data-regdate="${board.boardRegDate1}" >
+                    <fmt:formatDate value="${board.boardRegDate1}" type="both" dateStyle="full" timeStyle="short" /></td>
+                    <td id="boardCount${board.boardNo}" data-boardcount="${board.boardCount}" >${board.boardCount}</td>
                 </tr>
                	</c:forEach>
                 </c:when>
@@ -87,39 +93,35 @@ color: white;
         </div>
     </div>
 </div>
-        <%-- =======================================모달창 상세보기==========================================       --%>
-        <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document"style="background-color: white">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalDetailLabel">1:1문의</h5>
-                    <div> &nbsp;&nbsp;작성자: <span id="boardDetailUserId" style="color:#393E46"></span></div>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="get">
-                        <div class="form-group">
-                            <label for="boardDetailTitle" class="col-form-label">제목:</label>
-                            <input type="text" class="form-control" name="boardTitle" id="boardDetailTitle"
-                                   value="" style="color:#393E46">
-                            <input type="hidden" class="form-control" name="boardCategory" id="boardDetailCategory"
-                                   value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="boardDetailContent" class="col-form-label">내용:</label>
-                            <textarea class="form-control" id="boardDetailContent"
-                                      name="boardContent" style="color: #393E46"></textarea>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+ <!-- 모달 시작 -->	
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title fs-5" id="exampleModalLabel"></span>
+      </div>
+        <form method="get">
+        <div class="form-group" style="padding:5px">
+            <label for="boardDetailTitle" class="col-form-label">제목:</label>
+            <input type="text" class="form-control" name="boardTitle" id="boardDetailTitle"
+                   value="" style="color:#393E46" readonly />
         </div>
- <%-- =======================================모달창 상세보기==========================================       --%>
+        <div class="form-group"  style="padding:5px">
+            <label for="boardDetailContent" class="col-form-label">내용:</label>
+            <textarea class="form-control" id="boardDetailContent" readonly
+                      name="boardContent" style="color: #393E46"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        </div>
+    </form>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display:none"> 
+</button>
+<!-- 모달 끝 -->
 
 <!-- ****************************** footer ************************** -->
 <jsp:include page="/WEB-INF/views/modules/footer.jsp" />
@@ -130,15 +132,19 @@ color: white;
 <script type="text/javascript">
 $(function(){
 	
-	/* 	$('.modal-footer').on('click','button',function(event){
-	$("#modalDetail").modal('hide');
-	}); */
-
-	$("#dataTable").on('click',"tr[id *= 'boardRow']",function(event){// 상품 하나 카트에서 삭제하기
+	const userId = $('#userId').val();
+	
+ 	$('.modal-footer').on('click','button',function(event){
+		$("#myModal").modal('hide');
+	}); 
+	
+	$("table[id*='dataTable']").on('click',"tr[id *= 'boardRow']",function(event){
 		var boardNo = $(this).data("boardno");
-		$("#modalDetail").modal();
-		$('#modalDetailLabel').html("<p>재고가 ??개 남은 상품 입니다.</p>");
-		$('.modal-body').html("<p>재고가 ??개 남은 상품 입니다.</p>");
+		$("#myModal").modal();
+		$('#exampleModalLabel').html("<h5>"+$("#category"+boardNo).data("category")+"</h5>");
+		$('#exampleModalLabel').append("<h7>작성자 : "+userId+"</h7>");
+		$('#boardDetailTitle').val($("#title"+boardNo).data("title"));
+		$('#boardDetailContent').text($("#content"+boardNo).data("content"));
 	});
 	
 });

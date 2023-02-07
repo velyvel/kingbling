@@ -92,20 +92,20 @@ color: white;
 <script type="text/javascript">
 $(function(){
 	var selectedDefault = $('#selectedDefault').val();
+	
 	$(".current").html(selectedDefault);
 	
-	$('#orderList').load("/mypage/orderList-inner?selectedValue="+selectedDefault);
-	
+	$('.card-body .option').on("click",function(event){
+		var selectedValue = $(this).data("value");
+		location.href="/mypage/orderList?selectedValue="+selectedValue;
+	});
+
 	$("#orderList").on('click',"tr[id *= 'orderRow']",function(event){
 		var orderNo = $(this).data("orderno");
 		location.href="/mypage/orderList-detail?orderNo="+orderNo;
 	});
 	
-	$('.card-body .option').on("click",function(event){
-		var selectedValue = $(this).data("value");
-		location.href="/mypage/orderList?selectedValue="+selectedValue;
 
-	});
 });
 </script>
 
