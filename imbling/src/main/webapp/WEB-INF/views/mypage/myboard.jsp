@@ -78,7 +78,7 @@ color: white;
                		<td>${review.reviewNo}</td>
                     <td>${review.reviewTitle}</td>
                     <td>${review.userId}</td>
-                    <td>${review.reviewRegDate}</td>
+                    <td><fmt:formatDate value="${review.reviewRegDate}" type="both" dateStyle="full" timeStyle="short" /></td>
                     <td>${review.reviewCount}</td>
                 </tr>
                	</c:if>

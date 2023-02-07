@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,7 +61,7 @@ color: white;
                 <tr id="orderRow${order.orderNo}" data-orderno="${order.orderNo}" style="cursor: pointer;">
                     <td>${order.orderNo}</td>
                     <td>${order.userId}</td>
-                    <td>${order.orderDate}</td>
+                    <td><fmt:formatDate value="${order.orderDate}" type="both" dateStyle="full" timeStyle="short" /></td>
                     <td>${order.orderState} &nbsp;</td>
                     <c:choose>
                         <c:when test="${order.orderState == '주문완료'}">

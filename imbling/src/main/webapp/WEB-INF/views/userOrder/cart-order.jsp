@@ -144,7 +144,6 @@
 <!-- ****************************** end footer ************************** -->
 
 <jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
 $(function(){
 	$("#goPopup").on('click',function(event){

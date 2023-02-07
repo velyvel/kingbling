@@ -387,7 +387,7 @@ function barChart(){
 	new Chart(bpc, {
 		type: 'bar',
 	    data: {
-	    	labels: ['전체회원', '구매내역 있음','구매내역 없음'],
+	    	labels: ['전체회원(승인회원)', '구매내역 있음','구매내역 없음'],
 	        datasets: [{
 	          data: barDataset,
 	          backgroundColor: [
@@ -400,10 +400,17 @@ function barChart(){
 	        }
 	      ]
 	    },
-	    options:{ 
+	    options:{
                 legend: {
                     display: false
                 },
+        	    scales: {
+        			yAxes: [{
+        				ticks: {
+        					min: 0
+        				}
+        			}]
+        		}
         }
 	})
 };
@@ -477,8 +484,8 @@ function circleChart(){
 	        datasets: [{
 	          data: circleDataset,
 	          backgroundColor: [
-	            'pink',
-	            '#F2F3F6'
+	            'lightyellow',
+	            'pink'
 	          ],
 	          borderWidth: 0,
 	          scaleBeginAtZero: true,

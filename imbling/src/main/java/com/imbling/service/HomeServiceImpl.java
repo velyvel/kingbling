@@ -73,7 +73,6 @@ public class HomeServiceImpl implements HomeService {
 		od.add(Integer.parseInt(order.getOrderDate()));
 		od.add(order.getOrderPrice());
 		od.add(Integer.parseInt(order.getOrderDate())-order.getOrderPrice());
-		System.out.println(od);
 		return od;
 	}
 
@@ -81,8 +80,8 @@ public class HomeServiceImpl implements HomeService {
 	public List<Integer> findOrderData() {
 		SalesChartData order = mypageRepository.findOrderData();
 		List<Integer> od = new ArrayList<>();
-		od.add(Integer.parseInt(order.getOrderDate())-order.getOrderPrice());
 		od.add(order.getOrderPrice());
+		od.add(Integer.parseInt(order.getOrderDate())-order.getOrderPrice());
 		return od;
 	}
 
