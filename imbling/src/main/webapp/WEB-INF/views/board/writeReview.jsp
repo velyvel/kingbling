@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <html lang="en">
@@ -47,19 +48,43 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>주문명</label>
-                    <input type="text" class="form-control" value="${orderNo}" readonly>
+                    <input type="text" class="form-control" id="orderNo" value="${orderNo}" name="orderNo" readonly>
                 </div>
+            </div>
+
+            <div class="col-sm-6" style="float: right;">
                 <div class="form-group">
                     <label>상품명</label>
-                    <input type="text" class="form-control" value="${productName[0].productName}" readonly>
+                    <select class="form-control" id="propertyNo" name="propertyNo">
+                        <option selected>상품을 선택해 주세요</option>
+                        <c:forEach var="order" items="${orders}">
+                            <option value="${order.propertyNo}">${order.productName}</option>
+                        </c:forEach>
+                    </select>
                 </div>
-
             </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>작성자</label>
+                    <input type="text" class="form-control" value="${loginuser.userName}" readonly>
+                    <input type="hidden" class="form-control" value="${loginuser.userId}" name="userId" readonly>
+                </div>
+            </div>
+
+<%--            <div class="col-sm-6">--%>
+<%--                <div class="form-group">--%>
+<%--                    <label>상품명</label>--%>
+<%--                    &lt;%&ndash;                    <input type="text" class="form-control" value="${productName[0].productName}" readonly>&ndash;%&gt;--%>
+<%--                    <select class="form-control">--%>
+<%--                        <option value="product">${productList[0].productName}</option>--%>
+<%--                        <option value="product">${productList[1].productName}</option>--%>
+<%--                    </select>--%>
+<%--                </div>--%>
+<%--            </div>--%>
             <div class="col-lg-12">
                 <div class="form-group">
                     <label>제목</label>
                     <input type="text" class="form-control" placeholder="후기제목" id="reviewTitle" name="reviewTitle" value="">
-                    <input type="text" class="form-control" id="userId" name="userId" value="${loginuser.userId}" readonly>
                 </div>
             </div>
             <div class="table-responsive">

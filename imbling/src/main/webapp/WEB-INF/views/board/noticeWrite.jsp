@@ -39,8 +39,8 @@
             <div class="card-body">
                 <div class="col-sm-6" style="float: right;">
                     <div class="form-group">
-                        <label for="boardCategory">게시판 종류</label>
-                        <select class="form-control" id="boardCategory" name="boardCategory" required>
+                        <label for="selectedBoardCategory">게시판 종류</label>
+                        <select class="form-control" id="selectedBoardCategory" name="boardCategory" required>
                             <option selected>게시판 종류 선택️</option>
                             <option value="1">이벤트</option>
                             <option value="2">공지사항️️</option>
@@ -146,6 +146,19 @@
     }
 
      $(function (){
+
+        $('#selectedBoardCategory').on('change', function (event){
+            var boardCategory = $('select[name=boardCategory] option:selected').val();
+            if(boardCategory == 1){
+                $('#boardRegDate1').css("display","");
+                $('#boardRegDate2').css("display", "");
+            }else if(boardCategory == 2){
+                $('#boardRegDate1').css("display","none");
+                $('#boardRegDate1').val("${now}")
+                $('#boardRegDate2').css("display", "none");
+                $('#boardRegDate2').val("${now}")
+            }
+        });
 
         $('#submitBtn').on('click', function (event){
             event.preventDefault();

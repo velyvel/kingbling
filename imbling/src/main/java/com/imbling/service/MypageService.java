@@ -49,8 +49,8 @@ public interface MypageService {
 	public default ReviewDto reviewEntityToDto(ReviewEntity ReviewEntity) {
 		ReviewDto reviewDto = new ReviewDto();
 		reviewDto.setReviewNo(ReviewEntity.getReviewNo());
-		reviewDto.setOrderNo(ReviewEntity.getOrderNo());
-		reviewDto.setProductNo(ReviewEntity.getProductNo());
+//		reviewDto.setOrderNo(ReviewEntity.getOrderNo());
+//		reviewDto.setProductNo(ReviewEntity.getProductNo());
 		reviewDto.setUserId(ReviewEntity.getUserId());
 		reviewDto.setReviewTitle(ReviewEntity.getReviewTitle());
 		reviewDto.setReviewContent(ReviewEntity.getReviewContent());
@@ -65,8 +65,8 @@ public interface MypageService {
 	public default ReviewEntity reviewDtoToEntity(ReviewDto reviewDto) {
 		ReviewEntity reviewEntity = ReviewEntity.builder()
 				.reviewNo(reviewDto.getReviewNo())
-				.orderNo(reviewDto.getOrderNo())
-				.productNo(reviewDto.getProductNo())
+				//.orderNo(reviewDto.getOrderNo())
+				//.productNo(reviewDto.getProductNo())
 				.userId(reviewDto.getUserId())
 				.reviewTitle(reviewDto.getReviewTitle())
 				.reviewContent(reviewDto.getReviewContent())

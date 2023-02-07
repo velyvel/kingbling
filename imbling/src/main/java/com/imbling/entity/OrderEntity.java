@@ -48,4 +48,7 @@ public class OrderEntity {
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
 	private Collection<OrderDetailEntity> orderDetails;
 
+	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+	private Collection<ReviewEntity> reviews;
+
 }

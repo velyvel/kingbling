@@ -19,11 +19,11 @@ public class ReviewEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int reviewNo;
 
-    @Column
-    private int orderNo;
-
-    @Column
-    private int productNo;
+//    @Column
+//    private int orderNo;
+//
+//    @Column
+//    private int productNo;
 
 	@Column
 	private String userId;
@@ -50,5 +50,12 @@ public class ReviewEntity {
     @Column
     private boolean reviewDeleted = false;
 
+    @ManyToOne
+    @JoinColumn(name = "orderNo")
+    private OrderEntity order;
+
+    @ManyToOne
+    @JoinColumn(name = "propertyNo")
+    private PropertyEntity property;
 
 }

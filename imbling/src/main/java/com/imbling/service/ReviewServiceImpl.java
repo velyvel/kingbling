@@ -1,19 +1,17 @@
 package com.imbling.service;
 
-import com.imbling.dto.OrderDetailDto;
-import com.imbling.dto.OrderDto;
-import com.imbling.dto.ProductDto;
-import com.imbling.dto.ReviewDto;
-import com.imbling.entity.BoardEntity;
-import com.imbling.entity.OrderDetailEntity;
-import com.imbling.entity.OrderEntity;
-import com.imbling.entity.ReviewEntity;
+import com.imbling.dto.*;
+import com.imbling.entity.*;
 import com.imbling.repository.OrderDetailRepository;
 import com.imbling.repository.OrderRepository;
 import com.imbling.repository.PropertyRepository;
 import com.imbling.repository.ReviewRepository;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("reviewService")
 public class ReviewServiceImpl implements ReviewService{
@@ -34,13 +32,34 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public void writeReview(ReviewDto review) {
         ReviewEntity reviewEntity = ReviewEntity.builder()
-//                .orderNo(review.getOrderNo())
                 .reviewTitle(review.getReviewTitle())
                 .reviewStar(review.getReviewStar())
                 .reviewContent(review.getReviewContent())
                 .userId(review.getUserId())
                 .build();
 
+
+        PropertyEntity propertyEntity = propertyRepository.findById(review.getPropertyNo()).orElse((null));
+        OrderEntity orderEntity = orderRepository.findById(review.getOrderNo()).orElse(null);
+        reviewEntity.setOrder(orderEntity);
+        reviewEntity.setProperty(propertyEntity);
+
         reviewRepository.save(reviewEntity);
+
+    }
+
+
+    @Override
+    public List<ReviewDto> findAllReview(ReviewDto review) {
+        List<ReviewEntity> reviewList = reviewRepository.findAllByReviewNo();
+        ArrayList<ReviewDto> reviews = new ArrayList<>();
+
+        for(ReviewEntity reviewEntity : reviewList){
+            reviews.add(reviewEntityToDto(reviewEntity));
+            reviewEntity.getOrder();
+            reviewEntity.getProperty();
+        }
+
+        return reviews;
     }
 }
