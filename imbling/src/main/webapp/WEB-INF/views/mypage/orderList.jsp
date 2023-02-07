@@ -35,12 +35,12 @@ color: white;
 			<select id="selectedValue" class="custom-select" size="3">
 			  <option value="전체보기" >전체보기</option>
 			  <option value="주문완료">주문완료</option>
-  			  <option value="상품준비중">상품준비중</option>
+  			  <!-- <option value="상품준비중">상품준비중</option> -->
 			  <option value="배송중">배송중</option>
 			  <option value="배송완료">배송완료</option>
   			  <option value="구매확정">구매확정</option>
   			  <option value="주문취소">주문취소</option>
-  			  <option value="반품교환신청">반품/교환신청</option>
+  			  <!-- <option value="반품교환신청">반품/교환신청</option> -->
 			</select>
 		</div>
         <div class="table-responsive" id="orderList">

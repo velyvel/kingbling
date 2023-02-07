@@ -81,7 +81,7 @@ color: white;
                     <td>${review.reviewTitle}</td>
                     <td>${review.userId}</td>
                     <td><fmt:formatDate value="${review.reviewRegDate}" type="both" dateStyle="full" timeStyle="short" /></td>
-                    <td><c:forEach items="${review.reviewStar}">⭐️</c:forEach></td>
+                    <td><c:forEach begin="1" end="${review.reviewStar}">⭐️</c:forEach></td>
                     <td>${review.reviewCount}</td>
                 </tr>
                	</c:if>
@@ -93,7 +93,39 @@ color: white;
         </div>
     </div>
 </div>
-
+        <%-- =======================================모달창 상세보기==========================================       --%>
+        <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document"style="background-color: white">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDetailLabel">1:1문의</h5>
+                    <div> &nbsp;&nbsp;작성자: <span id="boardDetailUserId" style="color:#393E46"></span></div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="get">
+                        <div class="form-group">
+                            <label for="boardDetailTitle" class="col-form-label">제목:</label>
+                            <input type="text" class="form-control" name="boardTitle" id="boardDetailTitle"
+                                   value="" style="color:#393E46">
+                            <input type="hidden" class="form-control" name="boardCategory" id="boardDetailCategory"
+                                   value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="boardDetailContent" class="col-form-label">내용:</label>
+                            <textarea class="form-control" id="boardDetailContent"
+                                      name="boardContent" style="color: #393E46"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+ <%-- =======================================모달창 상세보기==========================================       --%>
 <!-- ****************************** footer ************************** -->
 <jsp:include page="/WEB-INF/views/modules/footer.jsp" />
 <!-- ****************************** end footer ************************** -->
@@ -115,6 +147,16 @@ $(function(){
 	});
 	$(".table-responsive").on('click','#seeMoreReview',function(event){
 		location.href = "/mypage/myboardReview?userId="+userId;
+	});
+	
+/* 	$('.modal-footer').on('click','button',function(event){
+		$("#modalDetail").modal('hide');
+	}); */
+	
+	$("table[id*='dataTable']").on('click',"tr[id *= 'boardRow']",function(event){// 상품 하나 카트에서 삭제하기
+		var boardNo = $(this).data("boardno");
+		$("#modalDetail").modal();
+		$('.modal-body').html("<p>재고가 ??개 남은 상품 입니다.</p>");
 	});
 	
 });
