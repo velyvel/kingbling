@@ -22,7 +22,8 @@
 	<section class="checkout spad">
 		<div class="container">
 			<div class="checkout__form">
-				<form action="/mypage/edit" method="post" enctype="multipart/form-data">
+				<form action="/mypage/edit" method="post"
+					enctype="multipart/form-data">
 					<div class="row">
 						<div class="col-lg-12 col-md-6">
 
@@ -43,17 +44,38 @@
 							</div>
 							<div class="checkout__input">
 								<p>
-									이름 <span>*</span>
+									사용자 타입  <span>*</span>
 								</p>
-								<input type="text" value="${loginuser.userName}" name="userName">
+								${loginuser.userType}
+							</div>
+							<div class="checkout__input">
+								<p>
+									제출 서류 <span>*</span>
+								</p>
+								<input type="file" id="inputed_doc" name="attach"
+									onchange="readURL(this);"> <input id="btn-checkDoc"
+									type="button" value="등록" style="height: 40px" /> <img
+									src="/ocr/venv/account-attachments/${attachments[0].docName }"
+									id="preview" style="width: 600px">
 							</div>
 							<div class="checkout__input">
 							<p>
-									제출 서류  <span>*</span>
+									사업자 등록번호 <span>*</span>
 								</p>
-								<input type="file" id="inputed_doc" name="attach" onchange="readURL(this);">
-								<img src="/ocr/venv/account-attachments/${attachments[0].docName }" id="preview" style="width:600px">
+									<input type="text" class="form-control form-control-user"  value="${loginuser.userCorpNo}"
+										id="userCorpNo" placeholder="사업자 등록번호 " name="userCorpNo">
+								<input id="btn-checkInfoByDocNo" type="button" value="정보 조회  "
+									style="height: 40px" />
 							</div>
+							<div class="checkout__input">
+								<p>
+									이름 <span>*</span>
+								</p>
+								<input type="text" value="${loginuser.userName}" name="userName" class="form-control form-control-user"
+									id="userName">
+							</div>
+							
+							
 							<div class="checkout__input">
 								<p>
 									주소 <span>*</span>
@@ -79,8 +101,12 @@
 
 						</div>
 						<input type="hidden" id="userId" value="${loginuser.userId}"
-							name="userId"> <input type="hidden" id="userId"
+							name="userId"> 
+							<input type="hidden" id="userType" value="${loginuser.userType}"
+							name="userType"> 
+							<input type="hidden" id="userDocValid"
 							value="false" name="userDocValid">
+							
 
 					</div>
 				</form>
@@ -157,8 +183,6 @@
 	<!-- <script src="https://code.jquery.com/jquery-3.6.1.js"></script> 인쿨루드에 있음  -->
 	<script type="text/javascript">
 		$(function() {
-			
-			
 			<c:if test ="${not empty errM}">
 			alert("${errM}")
 			//console.log("${errM}")
@@ -208,9 +232,93 @@
 						})
 
 					});
+			
+			
+			$('#btn-checkDoc').on( 'click', function(event) {
+				const imageInput = $("#inputed_doc")[0];
+				
+				if (imageInput.files.length === 0) {
+					
+					alert("파일은 선택해주세요");
+					return;
+				}
+
+				const formData = new FormData();
+				formData.append("attach", imageInput.files[0]);// hashmap 형식 
+
+				var extensionLocation = $("#inputed_doc").val()
+						.lastIndexOf(".")
+
+				var extension = $("#inputed_doc").val().substr(
+						extensionLocation + 1);
+
+				if (extension == "jpeg" || extension == "jfif"
+						|| extension == "gif" || extension == "jpg"
+						|| extension == "png" || extension == "ppm") {
+
+					$.ajax({
+						type : "POST",
+						url : "/member/identifyCorpNo",
+						processData : false,
+						contentType : false,
+						data : formData,
+						success : function(rtn) {
+
+							console.log("message: ", rtn)
+							//$("#resultUploadPath").text(message.uploadFilePath)
+							if (rtn != "fail 1") {
+
+								if (rtn === "cropNo") {
+									$("#userCorpNo").attr(
+											"placeholder",
+											"인식 실패. 직접 입력해 주세요. ")
+											$("#userType").val("needCheck")
+
+								} else {
+									$("#userCorpNo").val(rtn)
+									$("#userDocValid").val("true")
+									$("#userType").val("basic")
+
+								}
+							}
+
+						},
+						err : function(err) {
+							console.log("err:", err)
+						}
+					})
+					alert("사용 가능한 파일입니다 ")
+
+				} else {
+					alert("사용 불가능한 파일입니다 ")
+					$("#inputed_doc").val("")
+
+				}
+
+			});
+
+	$('#btn-checkInfoByDocNo').on('click', function(event) {
+
+		$.ajax({
+			type : "POST",
+			url : "/member/searchByCorpNo",
+			"method" : "get",
+			"data" : 'docNo=' + $("#userCorpNo").val(),
+			"success" : function(data, status, xhr) {
+				console.log("message: ", data)
+				$("#userName").val(data)
+			},
+			"error" : function(xhr, status, err) {
+				alert('삭제실패 1')
+			}
+		})
+
+	});
 
 		});
 		function readURL(input) {
+			$("#userType").val("needCheck");
+
 			  if (input.files && input.files[0]) {
 			    var reader = new FileReader();
 			    reader.onload = function(e) {

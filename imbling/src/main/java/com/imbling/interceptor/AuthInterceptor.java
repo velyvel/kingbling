@@ -25,7 +25,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 				resp.sendRedirect("/member/login?errM=1");
 				return false;
 			}
-		} else if (loginUser.getUserType().contains("needCheck")) {
+		} else if (loginUser.getUserType().contains("needCheck")||loginUser.getUserType().contains("deniedDoc")) {
 
 			if (uri.contains("/mypage/cart")||uri.contains("/mypage/heart")||uri.contains("/mypage/orderList")||uri.contains("/mypage/myboard") || uri.contains("/product") || uri.contains("/admin")||uri.contains("/userlist")
 					|| uri.contains("/board")) {

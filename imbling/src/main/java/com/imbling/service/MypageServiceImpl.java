@@ -95,17 +95,20 @@ public class MypageServiceImpl implements MypageService {
 
 		AccountDtoEntity modifyAccount = accountRepository.findByUserId(account.getUserId());
 		modifyAccount.setUserEmail(account.getUserEmail());
+		modifyAccount.setUserType(account.getUserType());
+
 		modifyAccount.setUserAddress(account.getUserAddress());
 		modifyAccount.setUserName(account.getUserName());
 		modifyAccount.setUserPhone(account.getUserPhone());
 
-		HashSet<AccountDocImgDtoEntity> attachments = new HashSet<>();
+		if (account.getAttachments() != null) {
+			HashSet<AccountDocImgDtoEntity> attachments = new HashSet<>();
 
-		for (AccountDocImgDto boardAttachDto : account.getAttachments()) {
-			attachments.add(accountDocImgDtoToEntity(boardAttachDto));
+			for (AccountDocImgDto boardAttachDto : account.getAttachments()) {
+				attachments.add(accountDocImgDtoToEntity(boardAttachDto));
+			}
+			modifyAccount.setAttachments(attachments);
 		}
-		modifyAccount.setAttachments(attachments);
-
 		accountRepository.save(modifyAccount);
 	}
 
