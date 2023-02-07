@@ -19,7 +19,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
 
 		if (loginUser == null) {
-			if (uri.contains("/mypage") || uri.contains("/product") || uri.contains("/admin")||uri.contains("/userlist")
+			if (uri.contains("/mypage") || uri.contains("/product") || uri.contains("/admin-home")||uri.contains("/userlist")
 					|| uri.contains("/board")) {
 
 				resp.sendRedirect("/member/login?errM=1");
@@ -37,7 +37,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 		
 		}else if (!loginUser.getUserType().contains("admin")) {
 
-			if (uri.contains("/admin")||uri.contains("/userlist")
+			if (uri.contains("/admin-home")||uri.contains("/userlist")
 					) {
 				resp.sendRedirect("/member/login?errM=2");
 				System.out.println("check admin");
