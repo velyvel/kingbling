@@ -16,6 +16,9 @@
 #dataTable tbody tr:hover { background-color: lightgray; 
 color: white;
 }
+#dataTable2 tbody tr:hover { background-color: lightgray; 
+color: white;
+}
 </style>
 </head>
 <body>
@@ -41,8 +44,8 @@ color: white;
                     <th data-orderable="false">조회수</th>
                 </tr>
                 </thead>
-                <tbody>
-               	<c:forEach items="${boards}" var="board"> 
+                <tbody>                
+                <c:forEach items="${boards}" var="board"> 
                	<c:if test="${!board.boardDeleted}">
                	<tr id="boardRow${board.boardNo}" data-boardno="${board.boardNo}" style="cursor: pointer;">
                		<td>${board.boardNo}</td>
@@ -59,37 +62,30 @@ color: white;
             <br>
             <h5>내가 쓴 글 - 상품 후기</h5>
             
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
                 <thead>
                 <tr>
                     <th>글 번호</th>
                     <th>글 제목</th>
                     <th>작성자</th>
                     <th>작성일</th>
+                    <th>별점</th>
                     <th>조회수</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:choose>
-                <c:when test="${not empty reviews}">
                 <c:forEach items="${reviews}" var="review"> 
                	<c:if test="${!review.reviewDeleted}">
-               	<tr id="boardRow${board.boardNo}" data-boardno="${board.boardNo}" style="cursor: pointer;">
+               	<tr id="boardRow${review.reviewNo}" data-boardno="${review.reviewNo}" style="cursor: pointer;">
                		<td>${review.reviewNo}</td>
                     <td>${review.reviewTitle}</td>
                     <td>${review.userId}</td>
                     <td><fmt:formatDate value="${review.reviewRegDate}" type="both" dateStyle="full" timeStyle="short" /></td>
+                    <td><c:forEach items="${review.reviewStar}">⭐️</c:forEach></td>
                     <td>${review.reviewCount}</td>
                 </tr>
                	</c:if>
                	</c:forEach>
-                </c:when>
-                <c:otherwise>
-                <tr class="odd">
-                	<td valign="top" style="text-align:center" colspan="5" class="dataTables_empty">데이터가 없습니다.</td>
-                </tr>
-                </c:otherwise>
-                </c:choose>
                 </tbody>
             </table>
             <button type="button" class="btn btn-secondary" style="float:right" id="seeMoreReview">더보기</button>

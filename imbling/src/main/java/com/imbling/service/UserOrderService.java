@@ -152,7 +152,7 @@ public interface UserOrderService {
 
 	void insertcheckedCartOrderInfo(OrderDto order);
 
-	List<OrderDto> getUserOrderList(String userId);
+	List<OrderDto> getUserOrderList(String userId,String selectedValue);
 
 	OrderDto getOrderInfo(int orderNo);
 

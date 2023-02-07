@@ -36,11 +36,24 @@ color: white;
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                    <th>글 번호</th>
+                <c:choose>
+                <c:when test="${sort=='inquery'}">
+                	<th>글 번호</th>
                     <th>글 제목</th>
                     <th>작성자</th>
                     <th>작성일</th>
                     <th>조회수</th>
+                </c:when>
+                <c:otherwise>
+                	<th>글 번호</th>
+                    <th>글 제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>별점</th>
+                    <th>조회수</th>
+                </c:otherwise>
+                </c:choose>
+                    
                 </tr>
                 </thead>
                 <tbody>
@@ -58,11 +71,12 @@ color: white;
                 </c:when>
                 <c:otherwise>
                 <c:forEach items="${reviews}" var="review"> 
-               	<tr id="boardRow${board.boardNo}" data-boardno="${board.boardNo}" style="cursor: pointer;">
+               	<tr id="boardRow${review.reviewNo}" data-boardno="${review.reviewNo}" style="cursor: pointer;">
                		<td>${review.reviewNo}</td>
                     <td>${review.reviewTitle}</td>
                     <td>${review.userId}</td>
-                    <td><fmt:formatDate value="${board.boardRegDate1}" type="both" dateStyle="full" timeStyle="short" /></td>
+                    <td><fmt:formatDate value="${review.reviewRegDate}" type="both" dateStyle="full" timeStyle="short" /></td>
+                    <td><c:forEach items="${review.reviewStar}">⭐️</c:forEach></td>
                     <td>${review.reviewCount}</td>
                 </tr>
                	</c:forEach>
