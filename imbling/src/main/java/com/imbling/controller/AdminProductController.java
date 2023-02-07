@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.imbling.dto.CategoryDto;
 import com.imbling.dto.AdminProductDto;
@@ -22,17 +23,22 @@ public class AdminProductController {
 	
 	// 상품리스트
 	@GetMapping(path= {"list"})
-	public String showAdminProductList(AdminProductDto adminProductDto, Model model) {
+	public String showAdminProductList(AdminProductDto adminProductDto ,@RequestParam(defaultValue = "1641") int categoryNo, Model model) {
 			
+		
 			List<CategoryDto> categories = adminProductService.findAllCategories();
 			model.addAttribute("categories", categories);
-	
+			
+			
 			int productNo = adminProductDto.getAdminProductNo();
 			
-			List<AdminProductDto> products = adminProductService.findAdminProductListByCategory2(1643);
-			System.out.println(products);
+			List<AdminProductDto> products = adminProductService.findAdminProductListByCategory2(categoryNo);
+//			System.out.println(products);
 			model.addAttribute("products", products);
+//			System.out.println("products");
+
 			model.addAttribute("productNo", productNo);
+//			System.out.println("productNo");
 		return "admin/product/list";
 	}
 	

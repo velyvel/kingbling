@@ -18,25 +18,23 @@ import com.imbling.repository.PropertyRepository;
 
 @Service("adminProductService")
 public class AdminProductServiceImpl implements AdminProductService {
-	
+
 	@Autowired
 	private ProductRepository productRepository;
-	
-	@Autowired 
+
+	@Autowired
 	private CategoryRepository categoryRepository;
 
 	@Autowired
 	private PropertyRepository propertyRepository;
-	
+
 	@Override
 	public void saveCategoryInfo(CategoryDto category) {
-		CategoryEntity categoryEntity = CategoryEntity.builder()
-													  .categoryName(category.getCategoryName())
-													  .build();
-		
+		CategoryEntity categoryEntity = CategoryEntity.builder().categoryName(category.getCategoryName()).build();
+
 		categoryRepository.save(categoryEntity);
 	}
-	
+
 	@Override
 	public List<CategoryDto> findAllCategories() {
 		List<CategoryEntity> categories = categoryRepository.findAllByOrderByCategoryNo();
@@ -47,18 +45,18 @@ public class AdminProductServiceImpl implements AdminProductService {
 			categoryDto.setCategoryName(category.getCategoryName());
 			categoryDtos.add(categoryDto);
 		}
-		
+
 		return categoryDtos;
 	}
 
 	// 상품리스트 ////////////////////////////////////////////////////////////
-	
+
 	@Override
 	public CategoryDto findAdminProductListByCategory(int categoryNo) {
-		
+
 		CategoryEntity categoryEntity = categoryRepository.findByCategoryNo(categoryNo);
 		CategoryDto category = categoryEntityToDto(categoryEntity);
-		
+
 		ArrayList<AdminProductDto> products = new ArrayList<>();
 		for (ProductEntity productEntity : categoryEntity.getProducts()) {
 			AdminProductDto productDto = new AdminProductDto();
@@ -67,41 +65,71 @@ public class AdminProductServiceImpl implements AdminProductService {
 			productDto.setAdminProductImage(productEntity.getProductImage());
 			productDto.setAdminProductPrice(productEntity.getProductPrice());
 			productDto.setAdminProductRegdate(productEntity.getProductRegdate());
-			
+
 			products.add(productDto);
 		}
 //		category.setProducts(products);
-		
+
 		return category;
 	}
-	
-	// 카테고리별 상품리스트 조회 
+
+	// 카테고리별 상품리스트 조회
 	@Override
 	public List<AdminProductDto> findAdminProductListByCategory2(int categoryNo) {
-		
-		CategoryEntity categoryEntity = categoryRepository.findByCategoryNo(categoryNo);
-		
-		ArrayList<AdminProductDto> products = new ArrayList<>();
-		for (ProductEntity productEntity : categoryEntity.getProducts()) {
-			AdminProductDto productDto = new AdminProductDto();
-			productDto.setAdminProductNo(productEntity.getProductNo());
-			productDto.setAdminProductName(productEntity.getProductName());
-			productDto.setAdminProductImage(productEntity.getProductImage());
-			productDto.setAdminProductPrice(productEntity.getProductPrice());
-			productDto.setAdminProductRegdate(productEntity.getProductRegdate());
-			
-			products.add(productDto);
+
+//		CategoryEntity categoryEntity = categoryRepository.findByCategoryNo(categoryNo);
+
+//		CategoryDto category = categoryEntityToDto(categoryEntity);
+
+		List<CategoryEntity> categoryEntity = categoryRepository.findAll();
+
+		List<CategoryDto> category = new ArrayList<>();
+
+		for (CategoryEntity cate : categoryEntity) {
+			category.add(categoryEntityToDto(cate));
+
 		}
-		
+
+		// List<ProductEntity> productEntity1 = productRepository.findAll();
+
+		ArrayList<AdminProductDto> products = new ArrayList<>();
+
+		for (CategoryDto catego : category) {
+			for (CategoryEntity categoEntity : categoryEntity) {
+				for (ProductEntity productEntity : categoEntity.getProducts()) {
+					AdminProductDto productDto = new AdminProductDto();
+					productDto.setAdminProductNo(productEntity.getProductNo());
+					productDto.setAdminProductName(productEntity.getProductName());
+					productDto.setAdminProductImage(productEntity.getProductImage());
+					productDto.setAdminProductPrice(productEntity.getProductPrice());
+					productDto.setAdminProductRegdate(productEntity.getProductRegdate());
+					productDto.setCategory(catego);
+
+					ArrayList<PropertyDto> properties = new ArrayList<>();
+					for (PropertyEntity propertyEntity : productEntity.getProperties()) {
+						PropertyDto propertyDto = new PropertyDto();
+						propertyDto.setPropertyNo(propertyEntity.getPropertyNo());
+						propertyDto.setProductColor(propertyEntity.getProductColor());
+						propertyDto.setProductSize(propertyEntity.getProductSize());
+						propertyDto.setProductEA(propertyEntity.getProductEA());
+
+						properties.add(propertyDto);
+					}
+					productDto.setProperties(properties);
+					products.add(productDto);
+				}
+			}
+		}
+
 		return products;
 	}
-	
-	// 상품상세페이지 조회 
+
+	// 상품상세페이지 조회
 	public AdminProductDto showAdminProductDetail(int productNo) {
-		
+
 		ProductEntity productEntity = productRepository.findByProductNo(productNo);
 		AdminProductDto product = AdminProductEntityToDto(productEntity);
-		
+
 		ArrayList<PropertyDto> properties = new ArrayList<>();
 		for (PropertyEntity propertyEntity : productEntity.getProperties()) {
 			PropertyDto propertyDto = new PropertyDto();
@@ -109,24 +137,18 @@ public class AdminProductServiceImpl implements AdminProductService {
 			propertyDto.setProductColor(propertyEntity.getProductColor());
 			propertyDto.setProductSize(propertyEntity.getProductSize());
 			propertyDto.setProductEA(propertyEntity.getProductEA());
-			
+
 			properties.add(propertyDto);
 		}
 		product.setProperties(properties);
-		
+
 		return product;
 	}
 
 	@Override
 	public void saveAdminProductInfo(AdminProductDto AdminProduct) {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
-
-
-
-
 
 }
