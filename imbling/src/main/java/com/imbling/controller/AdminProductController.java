@@ -55,7 +55,7 @@ public class AdminProductController {
 	public String showWriteNotice(@RequestParam(defaultValue = "1") int boardCategory, Model model){
 
 		model.addAttribute("boardCategory", boardCategory);
-		return "admin/product/detail";
+		return "admin/product/addProduct";
 	}
 
 //	@PostMapping(path = {"/uploadNoticeImageFile"})

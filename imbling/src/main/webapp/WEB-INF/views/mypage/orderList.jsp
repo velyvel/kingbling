@@ -64,13 +64,19 @@ color: white;
                     <td><fmt:formatDate value="${order.orderDate}" type="both" dateStyle="full" timeStyle="short" /></td>
                     <td>${order.orderState} &nbsp;</td>
                     <c:choose>
-                        <c:when test="${order.orderState == '주문완료'}">
+                        <c:when test="${order.orderState == '배송완료'}">
                             <td> <a class="btn btn-outline-primary" href="/board/writeReview?orderNo=${order.orderNo}">리뷰쓰기</a>
-
                             </td>
                         </c:when>
                         <c:otherwise>
-                            <td>배송 완료 후 리뷰쓰기</td>
+                        	<c:choose>
+		                        <c:when test="${order.orderState == '구매확정'}">
+		                            <td>내가 쓴 리뷰 보기</td>
+		                        </c:when>
+		                        <c:otherwise>
+		                            <td>배송 완료 후 리뷰쓰기</td>
+		                        </c:otherwise>
+		                    </c:choose>
                         </c:otherwise>
                     </c:choose>
                     <td>${order.orderPay}</td>
