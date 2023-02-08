@@ -30,9 +30,6 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-
-
-
         <div class="card o-hidden border-0 shadow-lg my-5">
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
@@ -44,38 +41,49 @@
                             </div>
                             <form class="user" action="/admin/productRegister" method="post" enctype="multipart/form-data">
                                 <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="분류" name="categoryNo">
-                                    </div>
+                                		     <div class="dropdown no-arrow mb-4" style="width:50%;padding:0 1rem">
+		                                        <button class="btn btn-white dropdown-toggle" type="button"
+		                                        style="border:solid 1px lightgray;border-radius:10rem;width:100%;height:50px"
+		                                            id="categoryNo" name="categoryNo" data-toggle="dropdown" aria-haspopup="true"
+		                                            aria-expanded="false">
+		                                              상품 분류 선택 <i class="fa fa-arrow-down"></i>
+		                                        </button>
+		                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		                                            <button type="button" data-cateno="1641" class="dropdown-item">귀걸이</button>
+		                                            <button type="button" data-cateno="1642" class="dropdown-item">목걸이</button>
+		                                            <button type="button" data-cateno="1643" class="dropdown-item">반지</button>
+		                                            <button type="button" data-cateno="1644" class="dropdown-item">팔찌</button>
+		                                            <button type="button" data-cateno="1645" class="dropdown-item">발찌</button>
+		                                        </div>
+		                                    </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="상품명" name="productName">
+                                        <input type="text" class="form-control form-control-user" id="productName"
+                                            placeholder="상품명 입력" name="productName">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="상품 설명" name="productContent">
+                                    <input type="text" class="form-control form-control-user" id="productContent"
+                                        placeholder="상품 설명 입력" name="productContent">
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="productSize" placeholder="상품 사이즈">
+                                        <input type="text" class="form-control form-control-user" name="productSize"
+                                            id="productSize" placeholder="상품 사이즈 입력">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="productColor" placeholder="상품 색상">
+                                        <input type="text" class="form-control form-control-user" name="productColor"
+                                            id="productColor" placeholder="상품 색상 입력">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="상품 가격" name="productPrice">
+                                    <input type="number" class="form-control form-control-user" id="productPrice"
+                                        placeholder="상품 가격 입력" name="productPrice">
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="상품 이미지" name="productImage">
+                                    <input type="file" class="form-control form-control-user" id="productAttach"
+                                        placeholder="상품 이미지 업로드" name="productAttach">
                                 </div>
-                                <button class="btn btn-primary btn-user btn-block">
+                                <button class="btn btn-primary btn-user btn-block" id="addNewProduct" type="button">
                                     상품 등록
                                 </button>
 
@@ -90,9 +98,6 @@
                 </div>
             </div>
         </div>
-        
-        
-        
                 </div>
                 <!-- /.container-fluid -->
 
@@ -118,5 +123,60 @@
 	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 
 </body>
+<script type="text/javascript">
+$(function(){
+	var categoryNo = "";
+	$('.dropdown-menu').on('click','.dropdown-item',function(event){
+		categoryNo = $(this).data("cateno");
+		$('#categoryNo').text($(this).text());
+		$('#categoryNo').val(categoryNo);
+	});
+	
+	$("#productAttach").on('change',function(event) {
+				const productImage = $("#productAttach");
+				const formData = new FormData();
+				formData.append("attach", productImage.file);// hashmap 형식 
+				var extensionLocation = $("#productAttach").val()
+						.lastIndexOf(".")
+				var extension = $("#productAttach").val().substr(
+						extensionLocation + 1);
+					console.log();
+				if (extension == "jpeg" || extension == "jfif"
+						|| extension == "gif" || extension == "jpg"
+						|| extension == "png" || extension == "ppm") {
+				} else {
+					alert("이미지 파일을 업로드하세요.")
+					$("#productAttach").val("")
+				}
+			});
+	
+	$('#addNewProduct').on('click',function(event){
+		if(categoryNo==""||categoryNo==null){
+			alert('상품 분류를 선택하세요.');
+			return false;
+		}else if($("#productName").val()==""||$("#productName").value==null){
+			alert('상품 이름을 입력하세요.');
+			return false;
+		}else if($("#productContent").val()==""||$("#productContent").value==null){
+			alert('상품 설명을 입력하세요.');
+			return false;
+		}else if($("#productSize").val()==""||$("#productSize").value==null){
+			alert('상품 사이즈를 입력하세요.');
+			return false;
+		}else if($("#productColor").val()==""||$("#productColor").value==null){
+			alert('상품 색상을 입력하세요.');
+			return false;
+		}else if($("#productPrice").val()==""||$("#productPrice").value==null){
+			alert('상품 가격을 입력하세요.');
+			return false;
+		}else if($("#productAttach").val()==""||$("#productAttach").value==null){
+			alert('상품 이미지를 등록하세요.');
+			return false;
+		}
+		location.href="/admin/productRegister";
+	});
+    
+});
+</script>
 
 </html>

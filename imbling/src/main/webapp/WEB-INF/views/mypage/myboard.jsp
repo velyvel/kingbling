@@ -166,7 +166,7 @@ $(function(){
 			$('#boardDetailTitle').val($("#title"+boardNo).data("title"));
 			$('#boardDetailContent').text($("#content"+boardNo).data("content"));
 		}else{
-			location.href="/mypage/myboard";
+			location.href="/board/reviewDetail?reviewNo="+boardNo;
 		}
 	});
 	
