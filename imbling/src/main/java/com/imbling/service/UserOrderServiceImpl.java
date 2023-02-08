@@ -194,9 +194,14 @@ public class UserOrderServiceImpl implements UserOrderService{
 	}
 
 	@Override
-	public List<OrderDto> getUserOrderList(String userId) {
+	public List<OrderDto> getUserOrderList(String userId, String selectedValue) {
+		List<OrderEntity> orderEntities = new ArrayList<>();
+		if(selectedValue.equals("전체보기")) {
+			orderEntities = orderRepository.findAllByUserId(userId);
+		}else {
+			orderEntities = orderRepository.findAllByUserIdAndCondition(userId,selectedValue);
+		}
 		
-		List<OrderEntity> orderEntities = orderRepository.findAllByUserId(userId);
 		//오더리스트+오더 디테일들 조회함
 		//오더 한건 마다 
 		List<OrderDto> orders = new ArrayList<>();
@@ -251,6 +256,7 @@ public class UserOrderServiceImpl implements UserOrderService{
 	public void updateOrderInfo(OrderDto order) {
 		OrderEntity orderEntity = orderRepository.findById(order.getOrderNo()).orElse(null);
 		orderEntity.setOrderAddr(order.getOrderAddr());
+		orderEntity.setOrderAddr2(order.getOrderAddr2());
 		orderEntity.setOrderDeliveryRequire(order.getOrderDeliveryRequire());
 		orderRepository.save(orderEntity);
 		

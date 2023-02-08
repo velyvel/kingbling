@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.imbling.entity.OrderEntity;
 import com.imbling.entity.SalesChartData;
@@ -17,6 +18,9 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer	>{
 
 	@Query(value="select x.* from (select to_char(l.orderDate,'yyyy-mm-dd') orderDate, sum(d.orderDetailTotalPrice) orderPrice from imb_order l Inner Join imb_orderDetail d on l.orderNo = d.orderNo group by to_char(l.orderDate,'yyyy-mm-dd') order By orderDate) x where rownum<8", nativeQuery = true)
 	List<SalesChartData> findSalesData();
+
+	@Query(value="select * from imb_order where (orderState=:selectedValue and userId=:userId)", nativeQuery = true)
+	List<OrderEntity> findAllByUserIdAndCondition(@Param("userId") String userId,@Param("selectedValue") String selectedValue);
 
 
 }

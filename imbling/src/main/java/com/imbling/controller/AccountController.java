@@ -50,8 +50,16 @@ public class AccountController {
 	private AccountDocService accountDocService;
 
 	@GetMapping(path = { "/member/login" })
-	public String showLoginForm() {
+	public String showLoginForm(@RequestParam(defaultValue = "-9") String errM, Model model) {
+		if (errM.contains("1")) {
 
+			model.addAttribute("errM", "로그인이 필요한 서비스입니다.");
+
+		} else if (errM.contains("2")) {
+
+			model.addAttribute("errM", "권한이 없습니다.");
+
+		}
 		return "member/login";
 	}
 
@@ -80,40 +88,45 @@ public class AccountController {
 
 		}
 
-		return "redirect:/home"; // return "redirect:/home.action";
+		return "redirect:/home"; 
 	}
 
-	public void needLogin(RedirectAttributes rttr) {
 
-		rttr.addFlashAttribute("errM", "로그인이 필요한 서비스입니다. ");
-	}
 
 	@GetMapping(path = { "/member/register" })
 	public String showRegisterForm() {
-
+		
 		return "member/register";
 	}
 
 	@PostMapping(path = { "/member/register" })
-	public String registe(AccountDto account, MultipartHttpServletRequest req) {
+	public String registe(AccountDto account, MultipartHttpServletRequest req,RedirectAttributes rttr) {
 		System.out.print("account" + account.isUserDocValid());
 
-		// 1. 요청 데이터 읽기 (전달인자로 대체)
+		if (account.getUserId() == "" || account.getUserPassword() == "" || account.getAttachments() == null
+				|| account.getUserCorpNo() == "" || account.getUserName() == "" || account.getUserAddress() == ""
+				|| account.getUserPhone() == "" || account.getUserEmail() == "") {
+			rttr.addFlashAttribute("errM", "모든 정보를 입력해주세요. ");
+			System.out.print("모든 정보를 입력해주세요." );
+			rttr.addFlashAttribute("regiInfo", account);
+
+			return "redirect:register";
+
+		}
+
 		MultipartFile attach = req.getFile("attach");
 
-		if (attach != null) { // 내용이 있는 경우
-			// 2. 데이터 처리
+		if (attach != null) { 
 			ServletContext application = req.getServletContext();
 			String path = application.getRealPath("/ocr/venv/account-attachments");
-			String fileName = attach.getOriginalFilename(); // 파일 이름 가져오기
+			String fileName = attach.getOriginalFilename();
 			if (fileName != null && fileName.length() > 0) {
 				String uniqueFileName = Util.makeUniqueFileName(fileName);
 
 				try {
-					attach.transferTo(new File(path, uniqueFileName));// 파일 저장
+					attach.transferTo(new File(path, uniqueFileName));
 
-					// 첨부파일 정보를 객체에 저장
-					ArrayList<AccountDocImgDto> attachments = new ArrayList<>(); // 첨부파일 정보를 저장하는 DTO 객체
+					ArrayList<AccountDocImgDto> attachments = new ArrayList<>(); 
 
 					AccountDocImgDto attachment = new AccountDocImgDto();
 					attachment.setDocName(uniqueFileName);
@@ -129,18 +142,12 @@ public class AccountController {
 		}
 
 		accountService.registerMember(account);
-		// 3. View에서 읽을 수 있도록 데이터 저장
-		// 4. View 또는 Controller로 이동
-
 		return "redirect:login";
 	}
 
 	@ResponseBody
 	@GetMapping(path = { "/member/checkId" })
 	public String checkId(String userId) {
-
-		// AccountDto checkedMember=;
-		// System.out.print("checkedMember"+checkedMember);
 		if (accountService.findByUserId(userId) == null) {
 			return "success";
 
@@ -169,24 +176,18 @@ public class AccountController {
 			properties.put("User-Agent",
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52");
 
-			// 1. 연결 설정
 			HttpURLConnection conn = makeFileUploadConnection("http://192.168.200.173:5001/ocr", boundary, properties);
 
-			// 2. 전송 준비
 			OutputStream os = conn.getOutputStream();
 			PrintWriter writer = new PrintWriter(os, true, Charset.forName("utf-8"));
 
-			// 3-1. 전송
 			writeFileData(attach, boundary, os, writer);
 
-			// 4. 전송 종료
 			writer.append("--").append(boundary).append("--").append("\r\n"); // --boundary-- : 전송 끝
 			writer.close();
 			System.out.println("getResponseCode==============");
 
-			// 5. 응답 수신
 			if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-				// do nothing
 				InputStream is = conn.getInputStream();
 				InputStreamReader isr = new InputStreamReader(is, "utf-8");
 				BufferedReader br = new BufferedReader(isr);
@@ -341,7 +342,7 @@ public class AccountController {
 
 		System.out.println("editUserInfo==============");
 		System.out.println(account);
-
+		account.setUserDocValid(true);
 		accountService.modifyAccount(account);
 
 		return "redirect:/member/userlist";

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -102,62 +103,30 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
                             <th>상품명</th>
-                            <th>내용</th>
+                            <th>제목</th>
                             <th>카테고리</th>
                             <th>작성날짜</th>
                             <th>별점</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>위드하트링5set</td>
-                            <td>다양한 디자인&사이즈 구성으로 활용도 UP! 기본 아이템으로 착용하기 좋은 반지 SET♡</td>
-                            <td>반지</td>
-                            <td>2023/01/18</td>
-                            <td>⭐️⭐️⭐️⭐️⭐️</td>
-                        </tr>
-                        <tr>
-                            <td>위드하트링5set</td>
-                            <td>다양한 디자인&사이즈 구성으로 활용도 UP! 기본 아이템으로 착용하기 좋은 반지 SET♡</td>
-                            <td>반지</td>
-                            <td>2023/01/18</td>
-                            <td>⭐️⭐️⭐️⭐️⭐️</td>
-                        </tr>
-                        <tr>
-                            <td>위드하트링5set</td>
-                            <td>다양한 디자인&사이즈 구성으로 활용도 UP! 기본 아이템으로 착용하기 좋은 반지 SET♡</td>
-                            <td>반지</td>
-                            <td>2023/01/18</td>
-                            <td>⭐️⭐️⭐️⭐️⭐️</td>
-                        </tr>
-                        <tr>
-                            <td>위드하트링5set</td>
-                            <td>다양한 디자인&사이즈 구성으로 활용도 UP! 기본 아이템으로 착용하기 좋은 반지 SET♡</td>
-                            <td>반지</td>
-                            <td>2023/01/18</td>
-                            <td>⭐️⭐️⭐️⭐️⭐️</td>
-                        </tr>
+                        <c:forEach var="review" items="${reviews}">
+                            <tr>
+                                <td>
+                                ${review.propertyNo}
+                                </td>
+                                <td>${review.reviewTitle}</td>
+                                <td>반지</td>
+                                <td>2023/01/18</td>
+                                <td>${review.reviewStar}</td>
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
-                    <nav aria-label="...">
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active" aria-current="page">
-                                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>

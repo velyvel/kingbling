@@ -7,15 +7,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.imbling.interceptor.AuthInterceptor;
 
 @Configuration
-public class DemoWebMvcConfig implements WebMvcConfigurer { // web mvc 설정 클래스
+public class DemoWebMvcConfig implements WebMvcConfigurer { 
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		
-		registry.addInterceptor(new AuthInterceptor())
-				.addPathPatterns("/**");
+		registry.addInterceptor(new AuthInterceptor()).excludePathPatterns("/member/login");
 		
 	}
 	
 }
-//.excludePathPatterns("/mypage/myInfo")
+//

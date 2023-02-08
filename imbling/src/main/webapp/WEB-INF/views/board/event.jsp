@@ -140,14 +140,11 @@
     <!-- ****************************** end of 이벤트리스트 ************************** -->
 
 </div>
-<jsp:include page="/WEB-INF/views/modules/footer.jsp"/>
 
+<jsp:include page="/WEB-INF/views/modules/footer.jsp"/>
 <jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp"/>
 <script type="text/javascript">
 
-    $(document).ready(function () {
-        $('#myTable').DataTable();
-    });
 
 </script>
 

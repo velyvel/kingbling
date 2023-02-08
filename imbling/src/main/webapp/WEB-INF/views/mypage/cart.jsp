@@ -25,6 +25,27 @@
 
         </div>
     </div>
+    
+<!-- 모달 시작 -->	
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5" id="exampleModalLabel">알림</h5>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display:none"> 
+</button>
+<!-- 모달 끝 -->
 </section>
 <!-- Shopping Cart Section End -->
 
@@ -55,6 +76,10 @@ $(function(){
 		    }
 	    });
 	});
+	
+	$('.modal-footer').on('click','button',function(event){
+		$("#myModal").modal('hide');
+	});
 
 	$('#cartList').on("click",".pro-qty-2 i",function(event){//상품 갯수 수정+전체 금액 수정(화살표 클릭)
 		var proNo = $(this).data("prono");
@@ -62,13 +87,15 @@ $(function(){
 		var maxEA = Number($("#maxEA"+proNo).val());
 		if($(this).hasClass("fa fa-arrow-up")){
 			if(cartEA>=maxEA){
-				alert('재고가 '+maxEA+'개 남은 상품 입니다.');
+				$("#myModal").modal();
+				$('.modal-body').html("<p>재고가 "+maxEA+"개 남은 상품 입니다.</p>");
 				return false;
 			}
 			cartEA = cartEA + 1;
 		}else if($(this).hasClass("fa fa-arrow-down")){
 			if(cartEA<=5){
-				alert('최소 주문수량은 5개입니다.');
+				$("#myModal").modal();
+				$('.modal-body').html("<p>최소 주문수량은 5개입니다.</p>");
 				return false;
 			}
 			cartEA = cartEA - 1;
@@ -93,11 +120,13 @@ $(function(){
 		var cartEA = Number($("#cartEA"+proNo).val());
 		var maxEA = Number($("#maxEA"+proNo).val());
 		if(cartEA<5){
-			alert('최소 주문수량은 5개입니다.');
+			$("#myModal").modal();
+			$('.modal-body').html("<p>최소 주문수량은 5개입니다.</p>");
 			$("#cartEA"+proNo).val(5);
 			cartEA=5;
 		}else if(cartEA>maxEA){
-			alert('재고가 '+maxEA+'개 남은 상품 입니다.');
+			$("#myModal").modal();
+			$('.modal-body').html("<p>재고가 "+maxEA+"개 남은 상품 입니다.</p>");
 			$("#cartEA"+proNo).val(maxEA);
 			cartEA =$("#cartEA"+proNo).val();
 		}
@@ -141,10 +170,16 @@ $(function(){
 	});
 	
 	$("#cartList").on('click',"#chk-order",function(event){//선택상품 주문
+		if (!$('.chk i').hasClass('fa-check-square-o')){
+			return false;
+		}
 		location.href="/userOrder/doOrderCheckedCart";
 	});
 	
 	$("#cartList").on('click',"#chk-delete",function(event){//선택상품 삭제
+		if (!$('.chk i').hasClass('fa-check-square-o')){
+			return false;
+		}
 		$.ajax({
 			url:"/userOrder/deleteCheckedFromCart",
 		    type : 'get',

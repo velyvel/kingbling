@@ -17,6 +17,7 @@
 		<input type="hidden" id="resultType" name="resultType" value=""/>
 	</form>
 <script type="text/javascript">
+document.domain = "http://192.168.200.213:8081";
 function init(){
 	var url = location.href;
 	var confmKey = "devU01TX0FVVEgyMDIzMDEyOTE1NDIwMTExMzQ1Nzk=";

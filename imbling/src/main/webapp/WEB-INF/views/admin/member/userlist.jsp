@@ -65,12 +65,20 @@
 												<td>${ user.userId }</td>
 												<td><c:choose>
 														<c:when test="${  user.userActiveState  }">
-															<a style="width: 100px"
-																class="btn btn-danger btn-icon-split">활동 중지 </a>
+ 															<a href="#" class="btn btn-danger btn-icon-split" style="width: 130px"> 
+																<span class="icon text-white-50"> 
+																	<i class="fas fa-trash"></i>
+																</span> 
+																<span class="text">활동 중지</span>
+															</a>
 														</c:when>
 														<c:otherwise>
-															<a style="width: 100px"
-																class="btn btn-success btn-icon-split">활동 중 </a>
+															<a href="#" class="btn btn-success btn-icon-split" style="width: 130px"> 
+															<span class="icon text-white-50"> 
+																<i class="fas fa-check"></i>
+															</span> 
+															<span class="text">활동 중 </span>
+															</a>
 														</c:otherwise>
 													</c:choose></td>
 
@@ -81,12 +89,21 @@
 														src="/ocr/venv/account-attachments/${ user.attachments[0].docName }"></a></td>
 												<td><c:choose>
 														<c:when test="${  user.userDocValid  }">
-															<a style="width: 100px"
-																class="btn btn-success btn-icon-split">식별 완료 </a>
+															<a href="#" class="btn btn-success btn-icon-split" style="width: 130px"> 
+															<span class="icon text-white-50"> 
+																<i class="fas fa-check"></i>
+															</span> 
+															<span class="text">식별 완료</span>
+															</a>
 														</c:when>
 														<c:otherwise>
-															<a style="width: 100px"
-																class="btn btn-danger btn-icon-split">식별 필요 </a>
+															<a href="#" class="btn btn-danger btn-icon-split" style="width: 130px"> 
+																<span class="icon text-white-50"> 
+																	<i class="fas fa-exclamation-triangle"></i>
+																</span> 
+																<span class="text">식별 필요</span>
+															</a>
+
 														</c:otherwise>
 													</c:choose></td>
 												<td class="submit"><a style="width: 100%"
@@ -137,7 +154,10 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">계정 수정</h5>
+					<h5 class="modal-title" id="exampleModalLabel">
+						계정 수정 
+						<a id="userDocValid" class="modalUserDocValid">데이터 식별 전 </a>
+					</h5>
 
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
@@ -162,6 +182,9 @@
 						<div class="form-group">
 							사용자 유형 <select name="userType">
 								<option value="basic">일반 사용자</option>
+								<option value="deniedDoc">문서 미 승인</option>
+								<option value="needCheck">문서 승인 대기</option>
+
 								<option value="admin">관리자</option>
 							</select>
 						</div>
@@ -170,7 +193,11 @@
 						</div>
 
 						<div class="form-group">
-							사용자 활동 상태 <a id="userActiveState" class="modalUserActiveState">데이터 식별 전 </a>
+							사용자 활동 상태
+							 	<a id="userActiveState" class="modalUserActiveState">데이터 식별 전 
+								</a>
+								
+								
 						</div>
 						<div class="form-group">
 							사업자 등록증 등록번호 <input name="userCorpNo" id="userCorpNo" type="text">
@@ -178,10 +205,9 @@
 						<div class="form-group">
 							사업자 등록증 <img id="attach" style="width: 100%;">
 						</div>
-						<div class="form-group">
-							사업자 등록증 식별 여부 <a id="userDocValid" class="modalUserDocValid">데이터
-								식별 전 </a>
-						</div>
+						<!-- <div class="form-group">
+							사업자 등록증 식별 여부 
+						</div> -->
 						<input type="hidden" name="userActiveState"
 							id="hiddenUserActiveState"> <input type="hidden"
 							name="userDocValid" id="hiddenUserDocValid">
@@ -269,7 +295,7 @@
 			})
 		 
 		
-		 $('.modalUserDocValid').on('click', function(event){
+		/*  $('.modalUserDocValid').on('click', function(event){
 				
 					
 					if( $('#hiddenUserDocValid').val() === "false" ){
@@ -283,7 +309,7 @@
 						$('#hiddenUserDocValid').val("false")
 
 					}
-				})
+				}) */
 		 $('.modalUserActiveState').on('click', function(event){
 
 					
