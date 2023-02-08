@@ -42,11 +42,13 @@ public class ReviewServiceImpl implements ReviewService{
 
         PropertyEntity propertyEntity = propertyRepository.findById(review.getPropertyNo()).orElse((null));
         OrderEntity orderEntity = orderRepository.findById(review.getOrderNo()).orElse(null);
+        OrderDetailEntity orderDetailEntity = orderDetailRepository.findByIds(review.getOrderNo(), review.getPropertyNo());
         reviewEntity.setOrder(orderEntity);
         reviewEntity.setProperty(propertyEntity);
+        orderDetailEntity.setReviewState(true);
 
         reviewRepository.save(reviewEntity);
-
+        orderDetailRepository.save(orderDetailEntity);
     }
 
     @Override
@@ -55,10 +57,6 @@ public class ReviewServiceImpl implements ReviewService{
         ArrayList<ReviewDto> reviews = new ArrayList<>();
 
         for(ReviewEntity reviewEntity : reviewList){
-//            PropertyEntity propertyEntity = propertyRepository.findById(review.getPropertyNo()).orElse((null));
-//            OrderEntity orderEntity = orderRepository.findById(review.getOrderNo()).orElse(null);
-//            reviewEntity.setOrder(orderEntity);
-//            reviewEntity.setProperty(propertyEntity);
 
             ReviewDto reviewDto = reviewEntityToDto(reviewEntity);
             reviewDto.setOrderDto(orderEntityToDto(reviewEntity.getOrder()));
@@ -74,8 +72,12 @@ public class ReviewServiceImpl implements ReviewService{
     public ReviewDto findReviewByReviewNo(int reviewNo) {
 
         ReviewEntity reviewEntity = reviewRepository.findByReviewNo(reviewNo);
-        ReviewDto review = reviewEntityToDto(reviewEntity);
-        return review;
+        ReviewDto reviewDto = reviewEntityToDto(reviewEntity);
+        reviewDto.setOrderDto(orderEntityToDto(reviewEntity.getOrder()));
+        reviewDto.setPropertyDto(propertyEntityToDto(reviewEntity.getProperty()));
+        reviewDto.setProductDto(productEntityToDto(reviewEntity.getProperty().getProduct()));
+
+        return reviewDto;
     }
 
     //=============================================================================

@@ -119,7 +119,7 @@
                                 <td>
                                     ${review.productDto.productName}
                                 </td>
-                                <td><a href="reviewDetail?reviewNo=${review.reviewNo}&pageNo=${pageNo}">${review.reviewTitle}</a></td>
+                                <td><a href="reviewDetail?reviewNo=${review.reviewNo}">${review.reviewTitle}</a></td>
                                     <c:choose>
                                         <c:when test="${review.reviewStar == 5}">
                                             <td>⭐️⭐️⭐️⭐️⭐️</td>

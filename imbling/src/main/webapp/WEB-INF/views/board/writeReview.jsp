@@ -56,12 +56,7 @@
             <div class="col-sm-6" style="float: right;">
                 <div class="form-group">
                     <label>상품명</label>
-                    <select class="form-control" id="propertyNo" name="propertyNo">
-                        <option selected>상품을 선택해 주세요</option>
-                        <c:forEach var="order" items="${orders}">
-                            <option value="${order.propertyNo}">${order.productName}</option>
-                        </c:forEach>
-                    </select>
+                    <input type="text" class="form-control" id="propertyNo" value="${property.productName}" readonly>
                 </div>
             </div>
             <div class="col-sm-6">

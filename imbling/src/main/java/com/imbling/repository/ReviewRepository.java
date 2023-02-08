@@ -12,6 +12,7 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
 
+    @Query(value = "select * from imb_review order By reviewregDate desc", nativeQuery = true)
     List<ReviewEntity> findAll();
 
     ReviewEntity findByReviewNo(int reviewNo);

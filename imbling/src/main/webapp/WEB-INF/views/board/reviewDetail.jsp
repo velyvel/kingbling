@@ -37,30 +37,43 @@
                 <div class="form-group">
                     <label>별점</label>
                     <select class="form-control" id="reviewStar" name="reviewStar">
-                        <option selected>${review.reviewStar}️</option>
+                            <c:choose>
+                                <c:when test="${review.reviewStar == 5}">
+                                    <option selected>⭐️⭐️⭐️⭐️⭐️</option>
+                                </c:when>
+                                <c:when test="${review.reviewStar == 4}">
+                                    <option selected>⭐️⭐️⭐️⭐️️</option>
+                                </c:when>
+                                <c:when test="${review.reviewStar == 3}">
+                                    <option selected>⭐️⭐️⭐️️</option>
+                                </c:when>
+                                <c:when test="${review.reviewStar == 2}">
+                                    <option selected>⭐️⭐️</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option selected>⭐️</option>
+                                </c:otherwise>
+                            </c:choose>
                     </select>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>주문명</label>
-                    <input type="text" class="form-control" id="orderNo" value="${review.orderNo}" name="orderNo" readonly>
+                    <input type="text" class="form-control" id="orderNo" value="${review.orderDto.orderNo}" name="orderNo" readonly>
                 </div>
             </div>
 
             <div class="col-sm-6" style="float: right;">
                 <div class="form-group">
                     <label>상품명</label>
-                    <select class="form-control" id="propertyNo" name="propertyNo">
-                        <option selected>${review.propertyNo}</option>
-                    </select>
+                    <input type="text" class="form-control" id="propertyNo" value="${review.productDto.productName}" name="orderNo" readonly>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>작성자</label>
-                    <input type="text" class="form-control" value="${loginuser.userName}" readonly>
-                    <input type="hidden" class="form-control" value="${loginuser.userId}" name="userId" readonly>
+                    <input type="text" class="form-control" value="${review.userId}" readonly>
                 </div>
             </div>
             <div class="col-lg-12">

@@ -5,14 +5,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import com.imbling.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.imbling.dto.CartDto;
-import com.imbling.dto.OrderDetailDto;
-import com.imbling.dto.OrderDto;
-import com.imbling.dto.ProductDto;
-import com.imbling.dto.PropertyDto;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.CartEntity;
 import com.imbling.entity.OrderDetailEntity;
@@ -215,8 +211,12 @@ public class UserOrderServiceImpl implements UserOrderService{
 				odd.setOrderDetailTotalPrice(od.getOrderDetailTotalPrice());
 				odd.setOrderNo(od.getOrder().getOrderNo());
 				odd.setPropertyNo(od.getProperty().getPropertyNo());
+				odd.setReviewState(od.isReviewState());
 				orderDetails.add(odd);
 				orderDto.setOrders(orderDetails);
+//=================리뷰 정보 불러오기 추가 여기 페이지는 리뷰 불러오기 전이라 헷갈림============================
+
+				orderDto.setReviewNo(orderEntity.getOrderNo());
 			}
 			orders.add(orderDto);
 			

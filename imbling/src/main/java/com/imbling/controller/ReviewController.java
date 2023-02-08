@@ -40,18 +40,24 @@ public class ReviewController {
     public String showBoardReview(@RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "1") int reviewNo,ReviewDto review, OrderDto orders, PropertyDto properties, Model model ) {
 
         List<ReviewDto> reviews = reviewService.findAllReview(review);
-
         model.addAttribute("reviews", reviews);
 
         return "board/review";
     }
 
     @GetMapping(path = { "/writeReview" })
-    public String showBoardWrite(@RequestParam(defaultValue = "-1") int orderNo, Model model) {
+    public String showBoardWrite(@RequestParam(defaultValue = "-1") int orderNo, int propertyNo, Model model) {
 
         OrderDto order = userOrderService.getOrderInfo(orderNo);
         model.addAttribute("orderNo", orderNo);
         model.addAttribute("orders", order.getOrders());
+
+        for(int i=0; i<order.getOrders().size(); i ++){
+            if(order.getOrders().get(i).getPropertyNo()==propertyNo){
+                model.addAttribute("property", order.getOrders().get(i));
+            }
+        }
+
         return "board/writeReview";
     }
 
@@ -86,26 +92,28 @@ public class ReviewController {
     }
 
 
-//    //entity 전체 받기, detail조회와 insert를 동시에 해야 함
     @PostMapping(path={ "/writeReview" })
-    public String reviewWrite(ReviewDto review, @RequestParam(defaultValue = "-1") int orderNo, Model model){
+    public String reviewWrite(ReviewDto review, @RequestParam(defaultValue = "-1") int orderNo, String productName, Model model){
 
         reviewService.writeReview(review);
         OrderDto order = userOrderService.getOrderInfo(orderNo);
         model.addAttribute("orderNo", orderNo);
         model.addAttribute("orders", order.getOrders());
+        model.addAttribute("productName", productName);
 
         return "redirect:review";
     }
 
     //상세리뷰 조회
     @GetMapping(path = {"/reviewDetail"})
-    public String showReviewDetail(@RequestParam(defaultValue = "-1") int reviewNo, @RequestParam(defaultValue = "-1") int pageNo, Model model){
+    public String showReviewDetail(@RequestParam(defaultValue = "-1") int reviewNo,@RequestParam(defaultValue = "-1") int orderNo, @RequestParam(defaultValue = "-1") int pageNo,String propertyName, Model model){
 
         reviewService.increaseReviewCount(reviewNo);
         ReviewDto review = reviewService.findReviewByReviewNo(reviewNo);
         model.addAttribute("review", review);
         model.addAttribute("pageNo", pageNo);
+        model.addAttribute("orderNo",review.getOrderNo());
+        //model.addAttribute("orders", review.getOrderDto().getOrders());
         return "board/reviewDetail";
     }
 

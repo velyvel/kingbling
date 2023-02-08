@@ -9,6 +9,8 @@ public class OrderDetailDto {
 	private int propertyNo;
 	private int orderDetailEA;
 	private int orderDetailTotalPrice;
+	private boolean reviewState;
+
 	
 	private String productName;
 	

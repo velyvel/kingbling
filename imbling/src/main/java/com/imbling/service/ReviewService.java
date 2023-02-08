@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ReviewService {
 
+
+
     public default ReviewDto reviewEntityToDto(ReviewEntity reviewEntity){
         ReviewDto reviewDto = new ReviewDto();
         reviewDto.setReviewNo(reviewEntity.getReviewNo());
@@ -71,6 +73,7 @@ public interface ReviewService {
         orderDetailDto.setOrderDetailTotalPrice(orderDetailEntity.getOrderDetailTotalPrice());
         orderDetailDto.setOrderNo(orderDetailEntity.getOrder().getOrderNo());
         orderDetailDto.setPropertyNo(orderDetailEntity.getProperty().getPropertyNo());
+        orderDetailDto.setReviewState(orderDetailEntity.isReviewState());
 
         return orderDetailDto;
     }
@@ -80,7 +83,7 @@ public interface ReviewService {
         PropertyEntity propertyEntity = PropertyEntity.builder().propertyNo(orderDetailDto.getPropertyNo()).build();
 
         OrderDetailEntity orderDetailEntity = OrderDetailEntity.builder().orderDetailEA(orderDetailDto.getOrderDetailEA())
-                .order(orderEntity).property(propertyEntity).orderDetailTotalPrice(orderDetailDto.getOrderDetailTotalPrice())
+                .order(orderEntity).property(propertyEntity).orderDetailTotalPrice(orderDetailDto.getOrderDetailTotalPrice()).reviewState(orderDetailDto.isReviewState())
                 .build();
 
         return orderDetailEntity;
