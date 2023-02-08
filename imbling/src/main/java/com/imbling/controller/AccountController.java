@@ -103,11 +103,13 @@ public class AccountController {
 	public String registe(AccountDto account, MultipartHttpServletRequest req,RedirectAttributes rttr) {
 		System.out.print("account" + account.isUserDocValid());
 
-		if (account.getUserId() == "" || account.getUserPassword() == "" || account.getAttachments() == null
+		if (account.getUserId() == "" || account.getUserPassword() == "" || req.getFile("attach")== null
 				|| account.getUserCorpNo() == "" || account.getUserName() == "" || account.getUserAddress() == ""
 				|| account.getUserPhone() == "" || account.getUserEmail() == "") {
 			rttr.addFlashAttribute("errM", "모든 정보를 입력해주세요. ");
-			System.out.print("모든 정보를 입력해주세요." );
+			System.out.println("모든 정보를 입력해주세요." );
+			System.out.println(account);
+
 			rttr.addFlashAttribute("regiInfo", account);
 
 			return "redirect:register";
