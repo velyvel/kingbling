@@ -102,32 +102,93 @@
 											<th>상품가격</th>
 											<th>재고</th>
 											<th>구분</th>
-											<th>기능(수정, 삭제, 복사)</th>
+											<th>색상</th>
+											<th>사이즈</th>
+											<th>등록일자</th>
+											<th>기능(수정, 삭제, 품절)</th>
 										</tr>
 									</thead>
 									<tbody id="product-list">
+
 										<c:forEach var="product" items="${products}">
+											<c:forEach var="property" items="${product.properties}">
+
+												<tr>
+													<!-- 체크박스 --><td></td>
+													<!-- 상품코드 --><td class="product__item"><h6>${product.adminProductNo}</h6></td>
+													<td
+														style="background-size: cover; word-break: break-all; table-layout: fixed;"
+														width=50px height=50px><img
+														src="${product.adminProductImage}"
+														alt="${product.adminProductImage}"
+														style="width: 150px; height: 150px"></td>
+													<td class="product__item__text" style="padding: 20px">
+														<h6>${product.adminProductName}</h6> <%-- <a class="add-cart product-name"
+			data-product-no="${product.productNo}"
+			data-category-no="${ categoryNo }">+ 상세페이지 보기</a> --%>
+													</td>
+													<td><fmt:formatNumber
+															value="${product.adminProductPrice}" pattern="₩#,###" /></td>
+
+
+													<!-- 재고 -->
+													<td><h6>${property.productEA}</h6></td>
+													<!-- 구분 -->
+													<td><h6>${product.category.categoryName}</h6></td>
+													<!-- 색상 -->
+													<td><h6>${property.productColor}</h6></td>
+													<!-- 사이즈 -->
+													<td><h6>${property.productSize}</h6></td>
+													<!-- 등록일자 -->
+													<td><h6>${ product.adminProductRegdate }</h6></td>
+													<!-- 기능 -->
+													<td><button>수정</button><button>품절</button><button>삭제</button></td>
+
+												</tr>
+
+
+											</c:forEach>
+										</c:forEach>
+
+
+
+
+										<%-- <c:forEach var="product" items="${products}">
 											<tr>
 												<td></td>
 												<td class="product__item">
-												<td style= "background-size:cover;
-															word-break:break-all;
-															table-layout:fixed;"
-															width=50px height=50px>
-												<img src="${product.adminProductImage}" alt="${product.adminProductImage}" style="width:150px; height:150px"></td>
+													<!--  -->
+												<td
+													style="background-size: cover; word-break: break-all; table-layout: fixed;"
+													width=50px height=50px><img
+													src="${product.adminProductImage}"
+													alt="${product.adminProductImage}"
+													style="width: 150px; height: 150px"></td>
 												<td class="product__item__text" style="padding: 20px">
-													<h6>${product.adminProductName}</h6> <%-- <a class="add-cart product-name"
+													<h6>${product.adminProductName}</h6> <a class="add-cart product-name"
 			data-product-no="${product.productNo}"
-			data-category-no="${ categoryNo }">+ 상세페이지 보기</a> --%>
+			data-category-no="${ categoryNo }">+ 상세페이지 보기</a>
 												</td>
-												<td><fmt:formatNumber value="${product.adminProductPrice}"
-														pattern="₩#,###" /></td>
-												<td></td>
-												<td></td>
+												<td><fmt:formatNumber
+														value="${product.adminProductPrice}" pattern="₩#,###" /></td>
+
+
+												<!-- 재고 -->
+												<td><h6>${product.properties[0].productEA}</h6></td>
+												<!-- 구분 -->
+												<td><h6>${product.category.categoryName}</h6></td>
+												<!-- 색상 -->
+												<td><h6>${product.properties[0].productColor}</h6></td>
+												<!-- 사이즈 -->
+												<td><h6>${product.properties[0].productSize}</h6></td>
+												<!-- 등록일자 -->
+												<td><h6>${ product.adminProductRegdate }</h6></td>
+												<!-- 기능 -->
 												<td></td>
 
 											</tr>
-										</c:forEach>
+										</c:forEach> --%>
+
 									</tbody>
 								</table>
 							</div>
@@ -200,37 +261,38 @@
 
 	<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
 	<script type="text/javascript">
-/* 		$(function() {
-			
-			$('#product-list').load("product-list?categoryNo="+ ${categories[0].categoryNo});
-			
-			// 카테고리 클릭시 그 카테고리에 해당하는 상품리스트 조회 
-			$('.product-category').on('click', function(event) {
-				var categoryNo = $(this).data('category-no');
+		/* 		$(function() {
+		
+		 $('#product-list').load("product-list?categoryNo="+ ${categories[0].categoryNo});
+		
+		 // 카테고리 클릭시 그 카테고리에 해당하는 상품리스트 조회 
+		 $('.product-category').on('click', function(event) {
+		 var categoryNo = $(this).data('category-no');
 
-				$.ajax({
-					"url" : "product-list",
-					"method" : "get",
-					"data" : "categoryNo=" + categoryNo,
-					"success" : function(data, status, xhr) {
-						$('#product-list').load("product-list?categoryNo="+ categoryNo);
-					},
-					"error" : function(data, status, err) {
-						alert('error');
-					}
-				})
-			});
-			
-			// 상품명 또는 상품이미지 클릭시 상품상세페이지로 이동
-			$('#product-list').on('click', 'a.product-name', function(event) {
-				var productNo = $(this).data('product-no');
-				var categoryNo = $(this).data('category-no');
+		 $.ajax({
+		 "url" : "product-list",
+		 "method" : "get",
+		 "data" : "categoryNo=" + categoryNo,
+		 "success" : function(data, status, xhr) {
+		 $('#product-list').load("product-list?categoryNo="+ categoryNo);
+		 },
+		 "error" : function(data, status, err) {
+		 alert('error');
+		 }
+		 })
+		 });
+		
+		 // 상품명 또는 상품이미지 클릭시 상품상세페이지로 이동
+		 $('#product-list').on('click', 'a.product-name', function(event) {
+		 var productNo = $(this).data('product-no');
+		 var categoryNo = $(this).data('category-no');
 
-				location.href= "/product/detail?productNo=" + productNo + "&categoryNo=" + categoryNo;
-			}); 
-			
-		});
- */	</script>
+		 location.href= "/product/detail?productNo=" + productNo + "&categoryNo=" + categoryNo;
+		 }); 
+		
+		 });
+		 */
+	</script>
 	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 </body>
 </html>

@@ -83,7 +83,8 @@
                             	<c:choose>
                             	<c:when test="${order.orderState=='주문완료'}">
 	                            <button type="submit" class="site-btn">주문 정보 수정</button>
-	                            <button type="button" class="cancel-btn">주문 취소</button>
+	                            <button type="button" class="cancel-btn" id="cancel-btn">주문 취소</button>
+	                            <button type="button" class="cancel-btn" id="refund-btn">교환/반품</button>
 	                            </c:when>
 	                            <c:otherwise>
 	                            <a> 주문 정보 수정/취소 가능 상태가 아닙니다. </a>
@@ -91,9 +92,6 @@
                             	</c:choose>
                             </c:otherwise>
                             </c:choose>
-                            
-                            
-                            
                         </div>
                     </div>
                 </div>
@@ -163,13 +161,14 @@ $(function(){
 		return true;
 	});
 	
-	$('.cancel-btn').on('click',function(event){
+	$('#cancel-btn').on('click',function(event){
 		const ok = confirm("주문을 취소하시겠습니까?");
 		if (!ok){
 		return false;
 		}
 		location.href="/userOrder/cancelOrder?orderNo="+${order.orderNo};
 	});
+	
 
 });
 

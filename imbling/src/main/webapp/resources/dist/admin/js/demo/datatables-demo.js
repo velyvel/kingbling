@@ -29,3 +29,9 @@ $(document).ready(function() {
 	  order: [ [ 0, "desc" ] ]
   });
 });
+$(document).ready(function() {
+    $('#dataTable2').DataTable({
+	  language : lang_kor,
+	  order: [ [ 0, "desc" ] ]
+  });
+});

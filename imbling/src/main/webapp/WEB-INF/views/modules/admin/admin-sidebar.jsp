@@ -37,7 +37,7 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#">
+                <a class="nav-link collapsed" href="/admin/detail">
                     <i class="fas fa-plus"></i>
                     <span>상품 등록</span>
                 </a>

@@ -27,6 +27,7 @@ import com.imbling.repository.HeartRepository;
 import com.imbling.repository.MypageRepository;
 import com.imbling.repository.ProductRepository;
 import com.imbling.repository.PropertyRepository;
+import com.imbling.repository.ReviewRepository;
 
 @Service("mypageService")
 public class MypageServiceImpl implements MypageService {
@@ -48,6 +49,9 @@ public class MypageServiceImpl implements MypageService {
 
 	@Autowired
 	private HeartRepository heartRepository;
+	
+	@Autowired
+	private ReviewRepository reviewRepository;
 
 	@Override
 	public List<BoardDto> findMyInquery(String userId) {
@@ -61,7 +65,7 @@ public class MypageServiceImpl implements MypageService {
 
 	@Override
 	public List<ReviewDto> findMyreview(String userId) {
-		List<ReviewEntity> reviewList = mypageRepository.findSomeById(userId);
+		List<ReviewEntity> reviewList = reviewRepository.findSomeById(userId);
 		ArrayList<ReviewDto> reviews = new ArrayList<>();
 		for (ReviewEntity reviewEntity : reviewList) {
 			reviews.add(reviewEntityToDto(reviewEntity));
@@ -71,10 +75,11 @@ public class MypageServiceImpl implements MypageService {
 
 	@Override
 	public List<ReviewDto> findMyAllReview(String userId) {
-		List<ReviewEntity> reviewList = mypageRepository.findAllById(userId);
+		List<ReviewEntity> reviewList = reviewRepository.findAllById(userId);
 		ArrayList<ReviewDto> reviews = new ArrayList<>();
 		for (ReviewEntity reviewEntity : reviewList) {
 			reviews.add(reviewEntityToDto(reviewEntity));
+			System.out.println(reviewEntityToDto(reviewEntity));
 		}
 		return reviews;
 	}

@@ -1,6 +1,7 @@
 package com.imbling.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.imbling.dto.AccountDto;
 import com.imbling.dto.CategoryDto;
+import com.imbling.dto.HeartDto;
 import com.imbling.dto.ProductDto;
+import com.imbling.service.MypageService;
 import com.imbling.service.ProductService;
 
 @Controller
@@ -25,6 +29,10 @@ public class ProductController {
 	@Autowired
 	@Qualifier("productService")
 	private ProductService productService;
+	
+	@Autowired
+	@Qualifier("mypageService")
+	private MypageService mypageService;
 	
 	// 상품리스트
 	@GetMapping(path = { "/list" })
@@ -39,7 +47,9 @@ public class ProductController {
 	
 	// 카테고리별 상품리스트 조회 
 	@GetMapping(path= {"/product-list"})
-	public String showProductListByCategory(CategoryDto categoryDto, @RequestParam(defaultValue = "productCount") String sort, Model model) {
+	public String showProductListByCategory(CategoryDto categoryDto,
+											@RequestParam(defaultValue = "productCount") String sort,
+											Model model, HttpSession session) {
 		
 		boolean asc = true;
 		if (sort.equals("productRegdate")) {
@@ -52,6 +62,15 @@ public class ProductController {
 		List<ProductDto> products = productService.findProductListByCategory2(sort, asc, categoryDto.getCategoryNo());
 		model.addAttribute("products", products);
 		model.addAttribute("categoryNo", categoryDto.getCategoryNo());
+		
+		// 관심상품 내에 있는 상품번호 목록
+		AccountDto loginuser = (AccountDto) session.getAttribute("loginuser");
+		List<HeartDto> hearts = mypageService.getHeartInfo(loginuser.getUserId());
+		List<Integer> heart = new ArrayList<>();
+		for (HeartDto h : hearts) {
+			heart.add(h.getProductNo());
+		}
+		model.addAttribute("hearts", heart);
 		
 		return "product/product-list";
 	}
@@ -78,6 +97,16 @@ public class ProductController {
 		return "product/detail";
 	}
 	
-
+	// 검색
+	@GetMapping("/search")
+	@ResponseBody
+	public List<ProductDto> showSearchList(String keyword, CategoryDto categoryDto, Model model) {
+		List<ProductDto> productList = productService.searchProduct(keyword);
+		model.addAttribute("productList", productList);
+		model.addAttribute("categoryNo", categoryDto.getCategoryNo());
+		
+		return productList;
+	}
+	
 }
 

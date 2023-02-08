@@ -1,6 +1,7 @@
 <%@ page language="java"
          contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
          
 <!DOCTYPE html>
 <html lang="ko">
@@ -44,31 +45,35 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>주문 번호 </th>
+                                            <th>주문 상태 </th>
+                                            <th>주문 날짜 </th>
+                                            <th>주문 요청 사항 </th>
+                                            <th>주문 결제 방법 </th>
+                                            <th>주문 사용자 </th>
+                                            <th>주문 주소  </th>
+                                            <th>주문 정보 수정 </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>63</td>
-                                            <td>2011/07/25</td>
-                                            <td>$170,750</td>
-                                        </tr>
+                                    
+ 										<c:forEach var="order" items="${ orders }">
+                                    
+	                                        <tr>
+	                                            <th>${ order.orderNo } </th>
+	                                            <th>${ order.orderState } </th>
+	                                            <th> ${ order.orderDate }</th>
+	                                            <th>${ order.orderDeliveryRequire } </th>
+	                                            <th> ${ order.orderPay }</th>
+	                                            <th> ${ order.userId }</th>
+	                                            <th> ${ order.orderAddr } ${ order.orderAddr2 } </th>
+   	                                            <th> <a style="width: 100%"
+													data-user-id=${ order.userId }
+													class="btn btn-primary btn-icon-split editUserInfo ">수정
+												</a></th>
+	                                        </tr>
+                                        </c:forEach>
+                                        
                                     </tbody>
                                 </table>
                             </div>

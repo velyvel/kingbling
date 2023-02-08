@@ -74,5 +74,8 @@ public interface ProductService {
 
 	// 상품번호 받아서 상품게시글 조회수 증가 
 	void increaseProductReadCount(int productNo);
+	
+	// 검색 
+	public List<ProductDto> searchProduct(String keyword);
 
 }

@@ -152,7 +152,7 @@ public interface UserOrderService {
 
 	void insertcheckedCartOrderInfo(OrderDto order);
 
-	List<OrderDto> getUserOrderList(String userId);
+	List<OrderDto> getUserOrderList(String userId,String selectedValue);
 
 	OrderDto getOrderInfo(int orderNo);
 
@@ -163,6 +163,8 @@ public interface UserOrderService {
 	PropertyDto getPropertyInfoByProductNo(int productNo,String productSize,String productColor);
 
 	void insertOrder(OrderDto order, OrderDetailDto orderDetail);
+
+	List<OrderDto> findAll();
 
 
 

@@ -156,16 +156,18 @@ public class MyPageController {
 	}
 
 	////////////////////////// 내 주문 내역//////////////////////////////////
-	@GetMapping(path = { "/mypage/orderList", })
-	public String showOrderList(HttpSession session, Model model) {
-		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
-		List<OrderDto> orders = userOrderService.getUserOrderList(loginUser.getUserId());
 
+	@GetMapping(path = { "/mypage/orderList", })
+	public String showOrder(HttpSession session,@RequestParam(defaultValue="전체보기")String selectedValue,Model model) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		mypageService.setCartInfoToUnChk(loginUser.getUserId());
+		List<OrderDto> orders = userOrderService.getUserOrderList(loginUser.getUserId(),selectedValue);
+		model.addAttribute("selectedValue", selectedValue);
 		model.addAttribute("orders", orders);
 		return "mypage/orderList";
 	}
 
-	@GetMapping(path = { "/mypage/orderList-detail", })
+	@GetMapping(path = { "/mypage/orderList-detail" })
 	public String showOrderListDetail(int orderNo, Model model) {
 		OrderDto order = userOrderService.getOrderInfo(orderNo);
 		int orderTotalPrice = 0;

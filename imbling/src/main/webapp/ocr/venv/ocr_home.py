@@ -5,8 +5,8 @@ from flask import request
 from PIL import Image
 from urllib.request import urlopen
 
-import pandas as pd
-import numpy as np 
+
+
 
 import json
 

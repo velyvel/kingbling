@@ -10,19 +10,13 @@ import com.imbling.entity.BoardEntity;
 import com.imbling.entity.ReviewEntity;
 import com.imbling.entity.SalesChartData;
 
-public interface MypageRepository extends JpaRepository<BoardEntity, ReviewEntity> {
+public interface MypageRepository extends JpaRepository<BoardEntity, String> {
 	
 	@Query(value = "SELECT * FROM imb_board WHERE (boardCategory=3 AND userId= :userId AND ROWNUM<6 ) ORDER BY boardRegDate DESC", nativeQuery = true)
 	List<BoardEntity> findSomeByIdAndCategory(@Param("userId") String userId);
 
 	@Query(value = "SELECT * FROM imb_board WHERE (boardCategory=3 AND userId= :userId) ORDER BY boardRegDate DESC", nativeQuery = true)
 	List<BoardEntity> findAllByIdAndCategory(@Param("userId") String userId);
-
-	@Query(value = "SELECT * FROM imb_review WHERE (userId= :userId AND ROWNUM<6 ) ORDER BY reviewRegDate DESC", nativeQuery = true)
-	List<ReviewEntity> findSomeById(@Param("userId") String userId);
-
-	@Query(value = "SELECT * FROM imb_review WHERE userId= :userId ORDER BY reviewRegDate DESC", nativeQuery = true)
-	List<ReviewEntity> findAllById(@Param("userId") String userId);
 
 	@Query(value = "select COUNT(*) from imb_user where usertype!='admin' ", nativeQuery = true)
 	int findUserAmount();
