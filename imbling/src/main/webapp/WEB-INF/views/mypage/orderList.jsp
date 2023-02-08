@@ -52,7 +52,6 @@ color: white;
                     <th>주문자</th>
                     <th>주문일자</th>
                     <th>주문상태</th>
-                    <th>리뷰쓰기</th>
                     <th>결제정보</th>
                 </tr>
                 </thead>
@@ -62,15 +61,16 @@ color: white;
                     <td>${order.orderNo}</td>
                     <td>${order.userId}</td>
                     <td><fmt:formatDate value="${order.orderDate}" type="both" dateStyle="full" timeStyle="short" /></td>
-                    <td>${order.orderState} &nbsp;</td>
+<%--        주문완료, 배송완료, 주문취소            --%>
                     <c:choose>
                         <c:when test="${order.orderState == '주문완료'}">
-                            <td> <a class="btn btn-outline-primary" href="/board/writeReview?orderNo=${order.orderNo}">리뷰쓰기</a>
-
-                            </td>
+                            <td style="text-align: center;"><button type="button" class="btn btn-success">주문완료</button> </td>
+                        </c:when>
+                        <c:when test="${order.orderState == '주문취소'}">
+                            <td style="text-align: center;"><button type="button" class="btn btn-danger">주문취소</button> </td>
                         </c:when>
                         <c:otherwise>
-                            <td>배송 완료 후 리뷰쓰기</td>
+                            <td style="text-align: center;"> 🚚${order.orderState}🚚</td>
                         </c:otherwise>
                     </c:choose>
                     <td>${order.orderPay}</td>

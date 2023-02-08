@@ -13,4 +13,6 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity, 
 	@Query(value="select * from imb_orderDetail where orderNo=:orderNo", nativeQuery = true)
 	List<OrderDetailEntity> findByOrderNo(@Param("orderNo") int orderNo);
 
+	@Query(value = "SELECT * FROM imb_orderDetail WHERE orderNo=:orderNo AND propertyNo=:propertyNo", nativeQuery = true)
+    OrderDetailEntity findByIds(@Param("orderNo") int orderNo, @Param("propertyNo") int propertyNo);
 }

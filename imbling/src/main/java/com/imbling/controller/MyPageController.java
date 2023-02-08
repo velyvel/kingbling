@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
+import com.imbling.dto.*;
+import com.imbling.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -19,18 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.imbling.common.Util;
-import com.imbling.dto.AccountDocImgDto;
-import com.imbling.dto.AccountDto;
-import com.imbling.dto.BoardDto;
-import com.imbling.dto.CartDto;
-import com.imbling.dto.CategoryDto;
-import com.imbling.dto.HeartDto;
-import com.imbling.dto.OrderDto;
-import com.imbling.dto.ReviewDto;
-import com.imbling.service.AccountDocService;
-import com.imbling.service.AccountService;
-import com.imbling.service.MypageService;
-import com.imbling.service.UserOrderService;
 
 @Controller
 public class MyPageController {
@@ -50,6 +40,10 @@ public class MyPageController {
 	@Autowired
 	@Qualifier("userOrderService")
 	private UserOrderService userOrderService;
+
+	@Autowired
+	@Qualifier("reviewService")
+	private ReviewService reviewService;
 
 	@GetMapping(path = { "/mypage/myInfo", })
 	public String showMyInfo(HttpSession session, String errM, Model model) {
@@ -168,8 +162,9 @@ public class MyPageController {
 	}
 
 	@GetMapping(path = { "/mypage/orderList-detail" })
-	public String showOrderListDetail(int orderNo, Model model) {
+	public String showOrderListDetail(int orderNo, @RequestParam(defaultValue = "-1")int reviewNo, Model model) {
 		OrderDto order = userOrderService.getOrderInfo(orderNo);
+
 		int orderTotalPrice = 0;
 		for (int i = 0; i < order.getOrders().size(); i++) {
 			orderTotalPrice = orderTotalPrice + order.getOrders().get(i).getOrderDetailTotalPrice();
@@ -177,7 +172,9 @@ public class MyPageController {
 
 		model.addAttribute("order", order);
 		model.addAttribute("orderTotalPrice", orderTotalPrice);
-		return "mypage/orderList-detail"; //
+
+			return "mypage/orderList-detail";
+
 	}
 
 	////////////////////////// 내가 쓴 게시글////////////////////////////////////////////

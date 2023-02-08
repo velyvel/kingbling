@@ -61,6 +61,5 @@ public class ProductEntity {
 	@OneToMany(mappedBy="product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PropertyEntity> properties;
 
-
 	
 }
