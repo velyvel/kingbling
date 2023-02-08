@@ -201,7 +201,7 @@ public class AdminProductController {
 				String uniqueFileName = Util.makeUniqueFileName(fileName);
 				try {
 					productImage.transferTo(new File(path, uniqueFileName));
-					product.setAdminProductImage(uniqueFileName);
+					product.setAdminProductImage("/product-attachments/"+uniqueFileName);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

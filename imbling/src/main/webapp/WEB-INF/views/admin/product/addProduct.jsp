@@ -66,16 +66,17 @@
                                     <input type="text" class="form-control form-control-user" id="productContent"
                                         placeholder="상품 설명 입력" name="adminProductContent">
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row" id="propertyRow0">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" name="productSize"
-                                            id="productSize" placeholder="상품 사이즈 입력">
+                                            id="productSize0" placeholder="상품 사이즈 입력">
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control form-control-user" name="productColor"
-                                            id="productColor" placeholder="상품 색상 입력">
+                                            id="productColor0" placeholder="상품 색상 입력">
                                     </div>
                                 </div>
+                                <button type='button' class="btn btn-primary btn-user add-property" id="add-property0">상품 속성 추가</button><br /><br />
                                 <div class="form-group">
                                     <input type="number" class="form-control form-control-user" id="productPrice"
                                         placeholder="상품 가격 입력" name="adminProductPrice">
@@ -94,7 +95,7 @@
                         </div>
                     </div>
                     <div class="col-lg-5">
-                    	<img id="showProductImage"></img>
+                    	<img id="showProductImage" src=""></img>
                     </div>
                 </div>
             </div>
@@ -131,6 +132,23 @@ $(function(){
 		categoryNo = $(this).data("cateno");
 		$('#categoryNo').text($(this).text());
 		$('#hiddenCategoryNo').val(categoryNo);
+	});
+	var propertyIndex = 0;
+	$('form').on('click',"#add-property"+propertyIndex,function(event){
+		$("#add-property"+propertyIndex).hide();
+		propertyIndex+=1
+		var propertyStr = "<div class='form-group row' id='propertyRow"+propertyIndex+"'>";
+		propertyStr+="<div class='form-group row' id='propertyRow"+propertyIndex+"'>";
+		propertyStr+="<div class='col-sm-6 mb-3 mb-sm-0'>"
+		propertyStr+="<input type='text' class='form-control form-control-user' name='productSize' id='productSize"+propertyIndex+"' placeholder='상품 사이즈 입력'>";
+		propertyStr+="</div>";
+		propertyStr+="<div class='col-sm-6'>";
+		propertyStr+="<input type='text' class='form-control form-control-user' name='productColor' id='productColor"+propertyIndex+"' placeholder='상품 색상 입력'>";
+		propertyStr+="</div>";
+		propertyStr+="</div>";
+		propertyStr+="<button type='button' class='btn btn-primary btn-user add-property' id='add-property"+propertyIndex+"'>상품 속성 추가</button><br /><br />";
+		
+		$("#add-property"+(propertyIndex-1)).after(propertyStr);
 	});
 	
 	$("#productAttach").on('change',function(event) {
