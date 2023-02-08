@@ -68,5 +68,7 @@ public interface AdminProductService {
 	// 상품상세페이지 조회 
 	public AdminProductDto showAdminProductDetail(int AdminProductNo);
 
+	void writeAdminProduct(AdminProductDto adminProductWrite);
+
 
 }

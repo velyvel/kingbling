@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.imbling.dto.CategoryDto;
 import com.imbling.dto.AdminProductDto;
+import com.imbling.dto.CategoryDto;
 import com.imbling.dto.PropertyDto;
 import com.imbling.entity.CategoryEntity;
 import com.imbling.entity.ProductEntity;
@@ -28,12 +28,56 @@ public class AdminProductServiceImpl implements AdminProductService {
 	@Autowired
 	private PropertyRepository propertyRepository;
 
+//	findAll() 메소드
+//	Member 테이블에서 레코드 전체 목록을 조회
+//	List<Member> 객체가 리턴
+//	 
+//
+//	findById(id)
+//	Member 테이블에서 기본키 필드 값이 id인 레코드를 조회
+//	Optional<Member> 타입의 객체가 리턴
+//	이 객체의 get 메서드를 호출하면 Member 객체가 리턴 예) Member m = memberRepository.findById(id).get();
+//
+//
+//	save(member)
+//	Member 객체를 Member 테이블에 저장
+//	객체의 id(기본키) 속성값이 0이면 INSERT / 0이 아니면 UPDATE
+//
+//
+//	saveAll(memberList)
+//	Member 객체 목록을 Member 테이블에 저장
+//
+//	 
+//	delete(member)
+//	Member 객체의 id(기본키) 속성값과 일치하는 레코드를 삭제
+//	 
+//
+//	deleteAll(memberList)
+//	Member 객체 목록을 테이블에서 삭제
+//	 
+//
+//	count()
+//	Member 테이블의 전체 레코드 수를 리턴
+//
+//
+//	exists(id)
+//	Member 테이블에서 id에 해당하는 레코드가 있는지 true/false를 리턴
+//
+//
+//	flush()
+//	지금까지 Member 테이블에 대한 데이터 변경 작업들이 디스크에 모두 기록
+	
 	@Override
 	public void saveCategoryInfo(CategoryDto category) {
-		CategoryEntity categoryEntity = CategoryEntity.builder().categoryName(category.getCategoryName()).build();
+		CategoryEntity categoryEntity = CategoryEntity
+				.builder()
+				.categoryName(category.getCategoryName())
+				.build();
 
 		categoryRepository.save(categoryEntity);
 	}
+	
+
 
 	@Override
 	public List<CategoryDto> findAllCategories() {
@@ -68,18 +112,13 @@ public class AdminProductServiceImpl implements AdminProductService {
 
 			products.add(productDto);
 		}
-//		category.setProducts(products);
 
 		return category;
 	}
 
-	// 카테고리별 상품리스트 조회
+	// 상품리스트 조회
 	@Override
 	public List<AdminProductDto> findAdminProductListByCategory2(int categoryNo) {
-
-//		CategoryEntity categoryEntity = categoryRepository.findByCategoryNo(categoryNo);
-
-//		CategoryDto category = categoryEntityToDto(categoryEntity);
 
 		List<CategoryEntity> categoryEntity = categoryRepository.findAll();
 
@@ -89,8 +128,6 @@ public class AdminProductServiceImpl implements AdminProductService {
 			category.add(categoryEntityToDto(cate));
 
 		}
-
-		// List<ProductEntity> productEntity1 = productRepository.findAll();
 
 		ArrayList<AdminProductDto> products = new ArrayList<>();
 
@@ -117,6 +154,7 @@ public class AdminProductServiceImpl implements AdminProductService {
 					}
 					productDto.setProperties(properties);
 					products.add(productDto);
+	
 				}
 			}
 		}
@@ -124,31 +162,37 @@ public class AdminProductServiceImpl implements AdminProductService {
 		return products;
 	}
 
-	// 상품상세페이지 조회
-	public AdminProductDto showAdminProductDetail(int productNo) {
+	// 상품추가
+	@Override
+	public void writeAdminProduct(AdminProductDto adminProductWrite) {
+		ProductEntity productEntity =new ProductEntity();
+			productEntity.setProductName(adminProductWrite.getAdminProductName());
+			productEntity.setProductImage(productEntity.getProductImage());
+			productEntity.setProductContent(productEntity.getProductContent());
+			productEntity.setProductPrice(productEntity.getProductPrice());
+			productEntity.setCategory(productEntity.getCategory());
+			productEntity.setProperties(productEntity.getProperties());
+			productRepository.save(productEntity);
+	}
+	
 
-		ProductEntity productEntity = productRepository.findByProductNo(productNo);
-		AdminProductDto product = AdminProductEntityToDto(productEntity);
-
-		ArrayList<PropertyDto> properties = new ArrayList<>();
-		for (PropertyEntity propertyEntity : productEntity.getProperties()) {
-			PropertyDto propertyDto = new PropertyDto();
-			propertyDto.setPropertyNo(propertyEntity.getPropertyNo());
-			propertyDto.setProductColor(propertyEntity.getProductColor());
-			propertyDto.setProductSize(propertyEntity.getProductSize());
-			propertyDto.setProductEA(propertyEntity.getProductEA());
-
-			properties.add(propertyDto);
-		}
-		product.setProperties(properties);
-
-		return product;
+	private void build() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void saveAdminProductInfo(AdminProductDto AdminProduct) {
 		// TODO Auto-generated method stub
 
+	}
+
+
+
+	@Override
+	public AdminProductDto showAdminProductDetail(int AdminProductNo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
