@@ -166,6 +166,13 @@ public interface UserOrderService {
 
 	List<OrderDto> findAll();
 
+	OrderDto findByOrderNo(int orderId);
+
+	List<OrderDetailDto> findOrderDetailByOrderNo(int orderNo);
+
+	PropertyDto findPropertyBypropertyNo(int propertyNo);
+
+
 
 
 

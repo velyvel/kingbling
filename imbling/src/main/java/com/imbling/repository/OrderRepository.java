@@ -22,5 +22,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer	>{
 	@Query(value="select * from imb_order where (orderState=:selectedValue and userId=:userId)", nativeQuery = true)
 	List<OrderEntity> findAllByUserIdAndCondition(@Param("userId") String userId,@Param("selectedValue") String selectedValue);
 
+	OrderEntity findByOrderNo(int orderId);
+
 
 }
