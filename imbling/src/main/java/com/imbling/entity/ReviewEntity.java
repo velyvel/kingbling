@@ -58,4 +58,5 @@ public class ReviewEntity {
     @JoinColumn(name = "propertyNo")
     private PropertyEntity property;
 
+
 }

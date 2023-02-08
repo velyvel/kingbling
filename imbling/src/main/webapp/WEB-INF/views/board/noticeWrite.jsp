@@ -142,23 +142,9 @@
 
             }
         });
-
     }
 
      $(function (){
-
-        $('#selectedBoardCategory').on('change', function (event){
-            var boardCategory = $('select[name=boardCategory] option:selected').val();
-            if(boardCategory == 1){
-                $('#boardRegDate1').css("display","");
-                $('#boardRegDate2').css("display", "");
-            }else if(boardCategory == 2){
-                $('#boardRegDate1').css("display","none");
-                $('#boardRegDate1').val("${now}")
-                $('#boardRegDate2').css("display", "none");
-                $('#boardRegDate2').val("${now}")
-            }
-        });
 
         $('#submitBtn').on('click', function (event){
             event.preventDefault();

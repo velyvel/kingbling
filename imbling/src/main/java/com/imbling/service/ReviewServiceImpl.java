@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service("reviewService")
 public class ReviewServiceImpl implements ReviewService{
@@ -48,18 +49,41 @@ public class ReviewServiceImpl implements ReviewService{
 
     }
 
-
     @Override
     public List<ReviewDto> findAllReview(ReviewDto review) {
-        List<ReviewEntity> reviewList = reviewRepository.findAllByReviewNo();
+        List<ReviewEntity> reviewList = reviewRepository.findAll();
         ArrayList<ReviewDto> reviews = new ArrayList<>();
 
         for(ReviewEntity reviewEntity : reviewList){
-            reviews.add(reviewEntityToDto(reviewEntity));
-            reviewEntity.getOrder();
-            reviewEntity.getProperty();
+//            PropertyEntity propertyEntity = propertyRepository.findById(review.getPropertyNo()).orElse((null));
+//            OrderEntity orderEntity = orderRepository.findById(review.getOrderNo()).orElse(null);
+//            reviewEntity.setOrder(orderEntity);
+//            reviewEntity.setProperty(propertyEntity);
+
+            ReviewDto reviewDto = reviewEntityToDto(reviewEntity);
+            reviewDto.setOrderDto(orderEntityToDto(reviewEntity.getOrder()));
+            reviewDto.setPropertyDto(propertyEntityToDto(reviewEntity.getProperty()));
+            reviewDto.setProductDto(productEntityToDto(reviewEntity.getProperty().getProduct()));
+            reviews.add(reviewDto);
         }
 
         return reviews;
     }
+
+    @Override
+    public ReviewDto findReviewByReviewNo(int reviewNo) {
+
+        ReviewEntity reviewEntity = reviewRepository.findByReviewNo(reviewNo);
+        ReviewDto review = reviewEntityToDto(reviewEntity);
+        return review;
+    }
+
+    //=============================================================================
+
+    @Override
+    public void increaseReviewCount(int reviewNo) {
+        reviewRepository.increaseReviewCount(reviewNo);
+    }
+
+
 }

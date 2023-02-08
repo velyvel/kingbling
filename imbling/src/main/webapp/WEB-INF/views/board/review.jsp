@@ -108,21 +108,39 @@
                         <tr>
                             <th>상품명</th>
                             <th>제목</th>
-                            <th>카테고리</th>
-                            <th>작성날짜</th>
                             <th>별점</th>
+                            <th>작성자</th>
+                            <th>조회수</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach var="review" items="${reviews}">
                             <tr>
                                 <td>
-                                ${review.propertyNo}
+                                    ${review.productDto.productName}
                                 </td>
-                                <td>${review.reviewTitle}</td>
-                                <td>반지</td>
-                                <td>2023/01/18</td>
-                                <td>${review.reviewStar}</td>
+                                <td><a href="reviewDetail?reviewNo=${review.reviewNo}&pageNo=${pageNo}">${review.reviewTitle}</a></td>
+                                    <c:choose>
+                                        <c:when test="${review.reviewStar == 5}">
+                                            <td>⭐️⭐️⭐️⭐️⭐️</td>
+                                        </c:when>
+                                        <c:when test="${review.reviewStar == 4}">
+                                            <td>⭐️⭐️⭐️⭐️️</td>
+                                        </c:when>
+                                        <c:when test="${review.reviewStar == 3}">
+                                            <td>⭐️⭐️⭐️️</td>
+                                        </c:when>
+                                        <c:when test="${review.reviewStar == 2}">
+                                            <td>⭐️⭐️</td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td>⭐️</td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                <td>${review.userId}</td>
+                                <td>
+                                    ${review.reviewCount}
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
