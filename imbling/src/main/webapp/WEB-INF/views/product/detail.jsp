@@ -52,6 +52,7 @@
 				<div class="row d-flex justify-content-center">
 					<div class="col-lg-8">
 						<div class="product__details__text">
+							<input type="hidden" value="${loginuser.userId}" id="user-id" />
 							<h4>${product.productName}</h4>
 							<span><i class="fa-solid fa-person"></i>${product.productCount}</span>
 							<div class="rating">
@@ -261,8 +262,13 @@ $(function(){
 		    	location.href="/mypage/cart";
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('로그인 후 가능한 서비스입니다.');
-		        console.log(error);
+				var loginuser = $('#user-id').val();
+		    	
+		    	if (loginuser == null) {
+		    		alert('로그인 후 가능한 서비스입니다.');	
+		    	} else {
+		    		alert('이미 장바구니 목록에 포함된 상품입니다.');	
+		    	}
 		    }
 		    });
 	});
@@ -287,7 +293,7 @@ $(function(){
 
 	});
 	
-	// 관심상품 상품데이터 넣고 관심상품 페이지로 이동
+	// 관심상품 상품데이터 넣음
 	$("#add-to-heart").on('click', function(event) {
 
 		var categoryNo = ${categoryNo};
@@ -301,7 +307,13 @@ $(function(){
 		    	alert('관심상품으로 등록되었습니다.');
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('로그인 후 가능한 서비스입니다.');
+		    	var loginuser = $('#user-id').val();
+		    	
+		    	if (loginuser == null) {
+		    		alert('로그인 후 가능한 서비스입니다.');	
+		    	} else {
+		    		alert('이미 관심상품 목록에 포함된 상품입니다.');	
+		    	}
 		    }
 		});
 	});

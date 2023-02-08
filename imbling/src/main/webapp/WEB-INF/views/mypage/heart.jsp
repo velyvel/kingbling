@@ -61,6 +61,9 @@
 			});
 			
 			$('#heart-list').on('click', 'img.delete-heart', function(event) {
+				event.preventDefault();
+				event.stopPropagation();
+				
 				var productNo = $(this).data('product-no3');
 				
 				$.ajax({

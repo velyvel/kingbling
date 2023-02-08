@@ -1,7 +1,6 @@
 package com.imbling.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -11,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.imbling.entity.ProductEntity;
-import com.imbling.entity.PropertyEntity;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
@@ -35,6 +33,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 	@Modifying
 	@Query(value = "update imb_product set PRODUCTCOUNT = PRODUCTCOUNT + 1 where PRODUCTNO = :productNo", nativeQuery = true)
 	int updateProductCount(@Param("productNo") int productNo);
+	
+	// 검색
+	List<ProductEntity> findByProductNameContaining(String keyword);
 
 	// 장바구니
 	// 장바구니에 넣을 상품 정보 조회
