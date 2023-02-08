@@ -164,6 +164,8 @@ public interface UserOrderService {
 
 	void insertOrder(OrderDto order, OrderDetailDto orderDetail);
 
+	List<OrderDto> findAll();
+
 
 
 

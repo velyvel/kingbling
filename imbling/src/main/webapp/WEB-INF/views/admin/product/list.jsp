@@ -105,7 +105,7 @@
 											<th>색상</th>
 											<th>사이즈</th>
 											<th>등록일자</th>
-											<th>기능(수정, 삭제, 복사)</th>
+											<th>기능(수정, 삭제, 품절)</th>
 										</tr>
 									</thead>
 									<tbody id="product-list">
@@ -114,9 +114,8 @@
 											<c:forEach var="property" items="${product.properties}">
 
 												<tr>
-													<td></td>
-													<td class="product__item">
-														<!--  -->
+													<!-- 체크박스 --><td></td>
+													<!-- 상품코드 --><td class="product__item"><h6>${product.adminProductNo}</h6></td>
 													<td
 														style="background-size: cover; word-break: break-all; table-layout: fixed;"
 														width=50px height=50px><img
@@ -143,7 +142,7 @@
 													<!-- 등록일자 -->
 													<td><h6>${ product.adminProductRegdate }</h6></td>
 													<!-- 기능 -->
-													<td></td>
+													<td><button>수정</button><button>품절</button><button>삭제</button></td>
 
 												</tr>
 

@@ -288,6 +288,18 @@ public class UserOrderServiceImpl implements UserOrderService{
 		propertyRepository.save(property);
 	}
 
+	@Override
+	public List<OrderDto> findAll() {
+		List<OrderEntity>ordersEntities= orderRepository.findAll();
+		List<OrderDto>ordersDtos=new ArrayList<>();
+		
+		for(OrderEntity ordersEntity: ordersEntities) {
+			ordersDtos.add(orderEntityToDto(ordersEntity));
+		}
+		
+		return ordersDtos;
+	}
+
 
 	
 
