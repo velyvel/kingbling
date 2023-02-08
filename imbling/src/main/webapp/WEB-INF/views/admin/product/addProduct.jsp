@@ -41,10 +41,11 @@
                             </div>
                             <form class="user" action="/admin/productRegister" method="post" enctype="multipart/form-data">
                                 <div class="form-group row">
+                                			<input type="hidden" id="hiddenCategoryNo" name="categoryNo" />
                                 		     <div class="dropdown no-arrow mb-4" style="width:50%;padding:0 1rem">
 		                                        <button class="btn btn-white dropdown-toggle" type="button"
 		                                        style="border:solid 1px lightgray;border-radius:10rem;width:100%;height:50px"
-		                                            id="categoryNo" name="categoryNo" data-toggle="dropdown" aria-haspopup="true"
+		                                            id="categoryNo"data-toggle="dropdown" aria-haspopup="true"
 		                                            aria-expanded="false">
 		                                              상품 분류 선택 <i class="fa fa-arrow-down"></i>
 		                                        </button>
@@ -58,12 +59,12 @@
 		                                    </div>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control form-control-user" id="productName"
-                                            placeholder="상품명 입력" name="productName">
+                                            placeholder="상품명 입력" name="adminProductName">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="productContent"
-                                        placeholder="상품 설명 입력" name="productContent">
+                                        placeholder="상품 설명 입력" name="adminProductContent">
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
@@ -77,13 +78,13 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="number" class="form-control form-control-user" id="productPrice"
-                                        placeholder="상품 가격 입력" name="productPrice">
+                                        placeholder="상품 가격 입력" name="adminProductPrice">
                                 </div>
                                 <div class="form-group">
                                     <input type="file" class="form-control form-control-user" id="productAttach"
-                                        placeholder="상품 이미지 업로드" name="productAttach">
+                                        placeholder="상품 이미지 업로드" name="productAttach" />
                                 </div>
-                                <button class="btn btn-primary btn-user btn-block" id="addNewProduct" type="button">
+                                <button class="btn btn-primary btn-user btn-block" id="addNewProduct" type="submit">
                                     상품 등록
                                 </button>
 
@@ -93,7 +94,7 @@
                         </div>
                     </div>
                     <div class="col-lg-5">
-                    
+                    	<img id="showProductImage"></img>
                     </div>
                 </div>
             </div>
@@ -129,7 +130,7 @@ $(function(){
 	$('.dropdown-menu').on('click','.dropdown-item',function(event){
 		categoryNo = $(this).data("cateno");
 		$('#categoryNo').text($(this).text());
-		$('#categoryNo').val(categoryNo);
+		$('#hiddenCategoryNo').val(categoryNo);
 	});
 	
 	$("#productAttach").on('change',function(event) {
@@ -140,10 +141,19 @@ $(function(){
 						.lastIndexOf(".")
 				var extension = $("#productAttach").val().substr(
 						extensionLocation + 1);
-					console.log();
 				if (extension == "jpeg" || extension == "jfif"
 						|| extension == "gif" || extension == "jpg"
 						|| extension == "png" || extension == "ppm") {
+
+						    var reader = new FileReader();
+						    console.log("reader:"+reader);
+						    console.log("e.target.result1:"+$(this).target);
+						    reader.onload = function(e) {
+						    console.log("e.target.result2:"+e.target.result);
+						      document.getElementById('showProductImage').src = e.target.result;
+						    };
+						    reader.readAsDataURL($('#productAttach').files);
+					
 				} else {
 					alert("이미지 파일을 업로드하세요.")
 					$("#productAttach").val("")
@@ -151,31 +161,33 @@ $(function(){
 			});
 	
 	$('#addNewProduct').on('click',function(event){
-		if(categoryNo==""||categoryNo==null){
+		if(categoryNo==""){
 			alert('상품 분류를 선택하세요.');
 			return false;
-		}else if($("#productName").val()==""||$("#productName").value==null){
+		}else if($("#productName").val()==""){
 			alert('상품 이름을 입력하세요.');
 			return false;
-		}else if($("#productContent").val()==""||$("#productContent").value==null){
+		}else if($("#productContent").val()==""){
 			alert('상품 설명을 입력하세요.');
 			return false;
-		}else if($("#productSize").val()==""||$("#productSize").value==null){
+		}else if($("#productSize").val()==""){
 			alert('상품 사이즈를 입력하세요.');
 			return false;
-		}else if($("#productColor").val()==""||$("#productColor").value==null){
+		}else if($("#productColor").val()==""){
 			alert('상품 색상을 입력하세요.');
 			return false;
-		}else if($("#productPrice").val()==""||$("#productPrice").value==null){
+		}else if($("#productPrice").val()==""){
 			alert('상품 가격을 입력하세요.');
 			return false;
-		}else if($("#productAttach").val()==""||$("#productAttach").value==null){
+		}else if($("#productAttach").val()==""){
 			alert('상품 이미지를 등록하세요.');
 			return false;
 		}
-		location.href="/admin/productRegister";
+		return true;
 	});
-    
+	
+
+	
 });
 </script>
 

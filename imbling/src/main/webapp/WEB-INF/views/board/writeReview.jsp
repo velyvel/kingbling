@@ -57,6 +57,7 @@
                 <div class="form-group">
                     <label>상품명</label>
                     <input type="text" class="form-control" id="propertyNo" value="${property.productName}" readonly>
+                    <input type="hidden" class="form-control" name="propertyNo" value="${property.propertyNo}" readonly>
                 </div>
             </div>
             <div class="col-sm-6">

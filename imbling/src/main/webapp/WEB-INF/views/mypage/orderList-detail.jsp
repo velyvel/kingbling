@@ -71,12 +71,14 @@
                             	<c:set var="i" value="${i+1}" />
                             	<li>0${i}. ${orders.productName} <span>${orders.orderDetailEA}개 <fmt:formatNumber value="${orders.orderDetailTotalPrice}" pattern="#,###원" /></span></li>
                                 <c:choose>
-                                    <c:when test="${orders.reviewState == false}">
+                                    <c:when test="${orders.reviewState == false&&order.orderState=='배송완료'}">
                                         <li><a class="btn btn-outline-primary" href="/board/writeReview?orderNo=${order.orderNo}&propertyNo=${orders.propertyNo}">리뷰쓰기</a></li>
                                     </c:when>
-                                    <c:otherwise>
-                                            <li><a href="/mypage/myboard" class="btn btn-outline-dark">내가 쓴 리뷰 보러가기</a></li>
+                                   	<c:when test="${orders.reviewState==true}">
+                                   		    <li><a href="/mypage/myboard" class="btn btn-outline-dark">내가 쓴 리뷰 보러가기</a></li>
                                             <li><a href="/board/reviewDetail?reviewNo=${order.reviewNo}" class="btn btn-outline-dark">내가 쓴 리뷰 보러가기2</a></li>
+                                   	</c:when>
+                                    <c:otherwise>
                                     </c:otherwise>
                                 </c:choose>
                                 </c:forEach>
@@ -93,6 +95,9 @@
                             	<c:when test="${order.orderState=='주문완료'}">
 	                            <button type="submit" class="site-btn">주문 정보 수정</button>
 	                            <button type="button" class="cancel-btn" id="cancel-btn">주문 취소</button>
+	                            </c:when>
+	                            <c:when test="${order.orderState=='구매확정'}">
+	                            <a> 구매가 확정된 주문입니다. </a>
 	                            </c:when>
 	                            <c:otherwise>
 	                            <a> 주문 정보 수정/취소 가능 상태가 아닙니다. </a>

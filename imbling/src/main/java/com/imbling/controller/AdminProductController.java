@@ -189,10 +189,7 @@ public class AdminProductController {
 //	}
 	
 	@PostMapping(path = { "/productRegister" })
-	public String addNewProduct(ProductDto product, PropertyDto property, CategoryDto category, MultipartHttpServletRequest req,RedirectAttributes rttr) {
-		System.out.println("000000000000000000000"+product);
-		System.out.println("000000000000000000000"+property);
-		System.out.println("000000000000000000000"+category);
+	public String addNewProduct(AdminProductDto product, PropertyDto property, int categoryNo, MultipartHttpServletRequest req,RedirectAttributes rttr) {
 
 		MultipartFile productImage = req.getFile("productAttach");
 
@@ -204,17 +201,14 @@ public class AdminProductController {
 				String uniqueFileName = Util.makeUniqueFileName(fileName);
 				try {
 					productImage.transferTo(new File(path, uniqueFileName));
-					product.setProductImage(uniqueFileName);
+					product.setAdminProductImage(uniqueFileName);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
-		System.out.println("11111111111111111"+product);
-		System.out.println("11111111111111111"+property);
-		System.out.println("11111111111111111"+category);
-//		adminProductService.addNewProduct(product);
-		return "redirect:/admin-home";
+		adminProductService.addNewProduct(product,property,categoryNo);
+		return "redirect:/admin/detail";
 	}
 
 

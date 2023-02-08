@@ -120,7 +120,7 @@
                               <!-- Card Header -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">주간 매출액</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">이번달 매출</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -263,7 +263,6 @@ $.ajax({
 			list.push(dataset[i].orderAddr);
 			pricelist.push(Number(dataset[i].orderNo));
 			setTimeout(lineChart,100);
-
 		}
 	},
 	"error": function(err) {
@@ -373,7 +372,6 @@ $.ajax({
 	"dataType": "json", 
 	"success": function(data) {
 		barDataset=data;
-		console.log(data);
 		setTimeout(barChart,100);
 	},
 	"error": function(err) {

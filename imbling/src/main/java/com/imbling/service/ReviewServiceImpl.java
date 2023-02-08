@@ -6,6 +6,9 @@ import com.imbling.repository.OrderDetailRepository;
 import com.imbling.repository.OrderRepository;
 import com.imbling.repository.PropertyRepository;
 import com.imbling.repository.ReviewRepository;
+
+import lombok.Builder;
+
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,16 +42,25 @@ public class ReviewServiceImpl implements ReviewService{
                 .userId(review.getUserId())
                 .build();
 
-
+        
         PropertyEntity propertyEntity = propertyRepository.findById(review.getPropertyNo()).orElse((null));
         OrderEntity orderEntity = orderRepository.findById(review.getOrderNo()).orElse(null);
         OrderDetailEntity orderDetailEntity = orderDetailRepository.findByIds(review.getOrderNo(), review.getPropertyNo());
         reviewEntity.setOrder(orderEntity);
         reviewEntity.setProperty(propertyEntity);
+        
         orderDetailEntity.setReviewState(true);
 
         reviewRepository.save(reviewEntity);
         orderDetailRepository.save(orderDetailEntity);
+        
+        // 리뷰 다 작성된 주문은 구매확정으로 상태 바꾸기
+//        orderRepository.updateOrderState(review.getOrderNo());
+        int orderDone = orderRepository.findOrderState(review.getOrderNo());
+        if(orderDone == 1) {
+        	orderEntity.setOrderState("구매확정");
+        	orderRepository.save(orderEntity);
+        }
     }
 
     @Override
