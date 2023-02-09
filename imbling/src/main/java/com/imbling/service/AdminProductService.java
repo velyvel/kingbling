@@ -3,6 +3,8 @@ package com.imbling.service;
 import java.util.List;
 
 import com.imbling.dto.CategoryDto;
+import com.imbling.dto.ProductDto;
+import com.imbling.dto.PropertyDto;
 import com.imbling.dto.AdminProductDto;
 import com.imbling.entity.CategoryEntity;
 import com.imbling.entity.ProductEntity;
@@ -69,6 +71,8 @@ public interface AdminProductService {
 	public AdminProductDto showAdminProductDetail(int AdminProductNo);
 
 	void writeAdminProduct(AdminProductDto adminProductWrite);
+
+	void addNewProduct(AdminProductDto product, PropertyDto property, int categoryNo);
 
 
 }

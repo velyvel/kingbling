@@ -14,4 +14,6 @@ public class OrderDetailDto {
 	
 	private String productName;
 	
+	private PropertyDto propertyDto;
+	
 }

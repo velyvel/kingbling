@@ -2,7 +2,14 @@ package com.imbling.service;
 
 import com.imbling.dto.*;
 import com.imbling.entity.*;
-import com.imbling.repository.*;
+
+import com.imbling.repository.OrderDetailRepository;
+import com.imbling.repository.OrderRepository;
+import com.imbling.repository.PropertyRepository;
+import com.imbling.repository.ReviewRepository;
+
+import lombok.Builder;
+
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +33,8 @@ public class ReviewServiceImpl implements ReviewService{
     @Autowired
     private OrderRepository orderRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
+//    @Autowired
+//    private ProductRepository productRepository;
 
 
     @Override
@@ -46,11 +53,20 @@ public class ReviewServiceImpl implements ReviewService{
         reviewEntity.setProduct(propertyEntity.getProduct());
         reviewEntity.setOrder(orderEntity);
         reviewEntity.setProperty(propertyEntity);
+
         reviewRepository.save(reviewEntity);
 
         OrderDetailEntity orderDetailEntity = orderDetailRepository.findByIds(review.getOrderNo(), review.getPropertyNo());
         orderDetailEntity.setReviewState(true);
         orderDetailRepository.save(orderDetailEntity);
+        
+        // 리뷰 다 작성된 주문은 구매확정으로 상태 바꾸기
+//        orderRepository.updateOrderState(review.getOrderNo());
+        int orderDone = orderRepository.findOrderState(review.getOrderNo());
+        if(orderDone == 1) {
+        	orderEntity.setOrderState("구매확정");
+        	orderRepository.save(orderEntity);
+        }
     }
 
     @Override

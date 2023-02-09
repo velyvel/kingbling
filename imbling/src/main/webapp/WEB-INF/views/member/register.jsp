@@ -107,7 +107,8 @@
 								<div class="form-group">
 									<input type="text" placeholder="주소 찾기 버튼을 눌러주세요"
 										id="roadFullAddr" class="form-control form-control-user"
-										style="color: black" name="userAddress" readonly value="${regiInfo.userAddress}">
+										style="color: black" name="userAddress
+										" readonly value="${regiInfo.userAddress}">
 									
 									<button type="button" class="btn btn-secondary" id="goPopup">
 										주소 찾기</button>

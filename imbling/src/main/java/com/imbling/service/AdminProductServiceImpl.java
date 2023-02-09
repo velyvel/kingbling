@@ -1,6 +1,7 @@
 package com.imbling.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,13 @@ import org.springframework.stereotype.Service;
 
 import com.imbling.dto.AdminProductDto;
 import com.imbling.dto.CategoryDto;
+import com.imbling.dto.ProductDto;
 import com.imbling.dto.PropertyDto;
 import com.imbling.entity.CategoryEntity;
 import com.imbling.entity.ProductEntity;
 import com.imbling.entity.PropertyEntity;
 import com.imbling.repository.CategoryRepository;
+import com.imbling.repository.OrderRepository;
 import com.imbling.repository.ProductRepository;
 import com.imbling.repository.PropertyRepository;
 
@@ -27,6 +30,9 @@ public class AdminProductServiceImpl implements AdminProductService {
 
 	@Autowired
 	private PropertyRepository propertyRepository;
+	
+	@Autowired
+	private OrderRepository orderRepository;
 
 //	findAll() 메소드
 //	Member 테이블에서 레코드 전체 목록을 조회
@@ -193,6 +199,25 @@ public class AdminProductServiceImpl implements AdminProductService {
 	public AdminProductDto showAdminProductDetail(int AdminProductNo) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+
+	@Override
+	public void addNewProduct(AdminProductDto product, PropertyDto property, int categoryNo) {
+		
+		ProductEntity productEntity = AdminProductDtoToEntity(product);
+		productEntity.setProductRegdate(new Date());
+		productEntity.setProductCount(0);
+		CategoryEntity category = CategoryEntity.builder().categoryNo(categoryNo).build();
+		productEntity.setCategory(category);
+		PropertyEntity propertyEntity = PropertyEntity.builder().productColor(property.getProductColor())
+				.productEA(0).productSize(property.getProductSize()).build();
+		productRepository.save(productEntity);
+		productEntity.setProductNo(orderRepository.findRecentOrderNo());//상품 저장할때 속성이 같이 저장되긴 하는데 상품번호는 빼고 저장되어서 수동으로 따로 넣음ㅠ
+		propertyEntity.setProduct(productEntity);
+		propertyRepository.save(propertyEntity);
+		
 	}
 
 }

@@ -99,7 +99,7 @@ public class ReviewController {
 
     @PostMapping(path={ "/writeReview" })
     public String reviewWrite(ReviewDto review, @RequestParam(defaultValue = "-1") int orderNo, String productName, Model model){
-
+    	System.out.println(review);
         reviewService.writeReview(review);
         OrderDto order = userOrderService.getOrderInfo(orderNo);
         model.addAttribute("orderNo", orderNo);

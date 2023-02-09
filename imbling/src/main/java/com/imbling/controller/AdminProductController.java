@@ -1,7 +1,6 @@
 package com.imbling.controller;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -11,18 +10,18 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.imbling.dto.CategoryDto;
 import com.imbling.common.Util;
 import com.imbling.dto.AdminProductDto;
-import com.imbling.dto.BoardDto;
+import com.imbling.dto.CategoryDto;
+import com.imbling.dto.ProductDto;
+import com.imbling.dto.PropertyDto;
 import com.imbling.service.AdminProductService;
 
 @Controller @RequestMapping(path="/admin")
@@ -188,6 +187,29 @@ public class AdminProductController {
 //		}
 //		return "redirect:/board/notice?pageNo=" + pageNo;
 //	}
+	
+	@PostMapping(path = { "/productRegister" })
+	public String addNewProduct(AdminProductDto product, PropertyDto property, int categoryNo, MultipartHttpServletRequest req,RedirectAttributes rttr) {
+
+		MultipartFile productImage = req.getFile("productAttach");
+
+		if (productImage != null) {
+			ServletContext application = req.getServletContext();
+			String path = application.getRealPath("/product-attachments");
+			String fileName = productImage.getOriginalFilename();
+			if (fileName != null && fileName.length() > 0) {
+				String uniqueFileName = Util.makeUniqueFileName(fileName);
+				try {
+					productImage.transferTo(new File(path, uniqueFileName));
+					product.setAdminProductImage("/product-attachments/"+uniqueFileName);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		adminProductService.addNewProduct(product,property,categoryNo);
+		return "redirect:/admin/detail";
+	}
 
 
 }
