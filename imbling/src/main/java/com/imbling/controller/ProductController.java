@@ -8,6 +8,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +54,7 @@ public class ProductController {
 	public String showProductListByCategory(CategoryDto categoryDto,
 											@RequestParam(defaultValue = "productCount") String sort,
 											Model model, HttpSession session) {
+//											,@PageableDefault(page=0, size=12, sort="id", direction=Sort.Direction.DESC)Pageable pageable ) {
 		
 		boolean asc = true;
 		if (sort.equals("productRegdate")) {
@@ -59,7 +64,8 @@ public class ProductController {
 			sort = "productPriceDesc";
 		}
 		
-		List<ProductDto> products = productService.findProductListByCategory2(sort, asc, categoryDto.getCategoryNo());
+		List<ProductDto> products = productService.findProductListByCategory2(sort, asc, categoryDto.getCategoryNo());	
+//		Page<ProductDto> products = productService.findProductListByCategory2(sort, asc, categoryDto.getCategoryNo(), pageable);
 		model.addAttribute("products", products);
 		model.addAttribute("categoryNo", categoryDto.getCategoryNo());
 		
@@ -71,6 +77,14 @@ public class ProductController {
 			heart.add(h.getProductNo());
 		}
 		model.addAttribute("hearts", heart);
+		
+//		int nowPage = products.getPageable().getPageNumber() + 1;
+//		int startPage = Math.max(nowPage - 4, 1);
+//		int endPage = Math.min(nowPage + 5, products.getTotalPages());
+//		
+//		model.addAttribute("nowPage", nowPage);
+//		model.addAttribute("startPage", startPage);
+//		model.addAttribute("endPage", endPage);
 		
 		return "product/product-list";
 	}
@@ -93,6 +107,15 @@ public class ProductController {
 		ProductDto product = productService.showProductDetail(productNo);
 		model.addAttribute("product", product);
 		model.addAttribute("categoryNo", categoryNo);
+		
+		// 관심상품 내에 있는 상품번호 목록
+		AccountDto loginuser = (AccountDto) session.getAttribute("loginuser");
+		List<HeartDto> hearts = mypageService.getHeartInfo(loginuser.getUserId());
+		List<Integer> heart = new ArrayList<>();
+		for (HeartDto h : hearts) {
+			heart.add(h.getProductNo());
+		}
+		model.addAttribute("hearts", heart);
 		
 		return "product/detail";
 	}

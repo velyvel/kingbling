@@ -35,6 +35,23 @@
 	</section>
 	<!-- ****************************** end product list ************************** -->
 
+	<!-- alert -->
+	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
+		<div id="heart-delete-alert" class="toast hide" role="alert"
+			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width: 1000px;">
+			<div class="toast-header">
+				<img src="/resources/dist/img/icon/notification.png" class="rounded mr-2"
+					alt="..."> <strong class="mr-auto">NOTIFY</strong>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body" id="max-body">해당 상품을 관심상품에서 삭제했습니다.</div>
+		</div>
+	</div>
+	<!-- end of alert -->
+
 	<!-- ****************************** footer ************************** -->
 	<jsp:include page="/WEB-INF/views/modules/footer.jsp" />
 	<!-- ****************************** end footer ************************** -->
@@ -71,7 +88,7 @@
 					type : 'get',
 					data : 'productNo=' + productNo,
 					success : function(result) {
-						alert("해당 상품을 관심상품 목록에서 삭제했습니다.");
+						$('#heart-delete-alert').toast('show');
 						$('#heart-list').load("heart-list");
 					},
 					error : function(request, status, error) {

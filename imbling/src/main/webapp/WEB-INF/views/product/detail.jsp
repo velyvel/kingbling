@@ -86,9 +86,15 @@
 								<div class="quantity">
 									<div class="pro-qty">
 										<span class="fa fa-angle-up dec qtybtn" aria-hidden="true"
-											data-product-no="${product.productNo}"></span> <input
-											id="product-ea" type="text" value="5"> <span
-											class="fa fa-angle-down inc qtybtn" aria-hidden="true"
+											data-product-no="${product.productNo}"></span>
+											<input id="product-ea" type="text" value="5">
+												<%-- <c:forEach var="product" items="${product}">
+													<c:set var="i" value="${i+1}" />
+													<c:if test="${product.properties[i].productSize }">
+													</c:if>
+												</c:forEach> --%>
+										<input type="hidden" id="max-ea" value="${product.properties[0].productEA}"/>
+										<span class="fa fa-angle-down inc qtybtn" aria-hidden="true"
 											data-product-no="${product.productNo}"></span>
 									</div>
 								</div>
@@ -101,9 +107,24 @@
 								<input type="hidden" value="${productNo}" id="productNo" />
 
 								<div class="product__details__option__size">
-									<a id="add-to-heart" class="primary-btn" style="border: 1px solid lightgray; background-color: white;">
-										<i class="fa fa-heart-o" style="color: black;"></i>
-									</a>
+									<c:set var="isChecked" value="false" />
+									<c:forEach var="productNo" items="${ hearts }">
+										<c:if test="${ productNo == product.productNo }">
+											<c:set var="isChecked" value="true" />
+										</c:if>
+									</c:forEach>
+									<c:choose>
+										<c:when test="${isChecked}">
+											<a id="add-to-heart" class="primary-btn" style="border: 1px solid lightgray; background-color: white;">
+												<img src="/resources/dist/img/icon/full-heart.png" />
+											</a>
+										</c:when>
+										<c:otherwise>
+											<a id="add-to-heart" class="primary-btn" style="border: 1px solid lightgray; background-color: white;">
+												<img src="/resources/dist/img/icon/empty-heart.png" />
+											</a>
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
 							<div class="product__details__last__option">
@@ -232,20 +253,153 @@
 	<br>
 	<!-- ****************************** 상품정보 / 상품후기 / 문의사항 ************************** -->
 
-	<!-- ****************************** 관련상품 넣어도 그만 안넣어도 그만 ************************** -->
-	<!-- ****************************** end 관심상품 ************************** -->
+	<!-- cart modal -->
+	<div class="modal fade" id="cart-modal" tabindex="-1" role="dialog"aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">쇼핑을 계속 하시겠습니까?</h5>
+					<%-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button> --%>
+				</div>
+				<div class="modal-body"><i class="fa-regular fa-circle-check"></i> 상품이 장바구니에 추가되었습니다!</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">계속 쇼핑하기</button>
+					<a href="/mypage/cart"><button type="button" class="btn btn-primary">장바구니로 이동</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end of cart modal -->
+	
+	<!-- cart modal -->
+	<div class="modal fade" id="heart-delete-modal" tabindex="-1" role="dialog"aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">해당 상품을 관심상품 목록에서 삭제하시겠습니까?</h5>
+					<%-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button> --%>
+				</div>
+				<div class="modal-body">이미 관심상품 목록에 등록된 상품입니다.</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">계속 쇼핑하기</button>
+					<button id="delete-heart-detail" type="button" class="btn btn-primary">관심상품 해제</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end of cart modal -->
+	
+	<!-- alert -->
+	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top:0;">
+		<div id="log-in" class="toast hide" role="alert"
+			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width:1000px;">
+			<div class="toast-header">
+				<img src="/resources/dist/img/icon/warning.png" class="rounded mr-2"
+					alt="..."> <strong class="mr-auto">WARNING</strong>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body">로그인 후 가능한 서비스입니다.</div>
+		</div>
+	</div>
+
+	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top:0;">
+		<div id="already-cart" class="toast hide" role="alert"
+			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width:1000px;">
+			<div class="toast-header">
+				<img src="/resources/dist/img/icon/warning.png" class="rounded mr-2"
+					alt="..."> <strong class="mr-auto">WARNING</strong>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body">이미 장바구니 목록에 포함된 상품입니다.</div>
+		</div>
+	</div>
+	
+	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
+		<div id="min-alert" class="toast hide" role="alert"
+			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width: 1000px;">
+			<div class="toast-header">
+				<img src="/resources/dist/img/icon/warning.png" class="rounded mr-2"
+					alt="..."> <strong class="mr-auto">WARNING</strong>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body">최소 주문수량은 5개입니다.</div>
+		</div>
+	</div>
+	
+	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
+		<div id="max-alert" class="toast hide" role="alert"
+			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width: 1000px;">
+			<div class="toast-header">
+				<img src="/resources/dist/img/icon/warning.png" class="rounded mr-2"
+					alt="..."> <strong class="mr-auto">WARNING</strong>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body" id="max-body"></div>
+		</div>
+	</div>
+	
+	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
+		<div id="heart-add-alert" class="toast hide" role="alert"
+			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width: 1000px;">
+			<div class="toast-header">
+				<img src="/resources/dist/img/icon/notification.png" class="rounded mr-2"
+					alt="..."> <strong class="mr-auto">NOTIFY</strong>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body" id="max-body">관심상품으로 등록되었습니다.</div>
+		</div>
+	</div>
+	
+	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
+		<div id="heart-delete-alert" class="toast hide" role="alert"
+			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width: 1000px;">
+			<div class="toast-header">
+				<img src="/resources/dist/img/icon/notification.png" class="rounded mr-2"
+					alt="..."> <strong class="mr-auto">NOTIFY</strong>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body" id="max-body">해당 상품을 관심상품에서 삭제했습니다.</div>
+		</div>
+	</div>
+	<!-- end of alert -->
+
+			<!-- ****************************** 관련상품 넣어도 그만 안넣어도 그만 ************************** -->
+			<!-- ****************************** end 관심상품 ************************** -->
 
 
-	<!-- ****************************** footer ************************** -->
-	<jsp:include page="/WEB-INF/views/modules/footer.jsp" />
-	<!-- ****************************** end footer ************************** -->
+			<!-- ****************************** footer ************************** -->
+			<jsp:include page="/WEB-INF/views/modules/footer.jsp" />
+			<!-- ****************************** end footer ************************** -->
 
-	<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
+			<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
 
-	<script type="text/javascript">
+			<script type="text/javascript">
 $(function(){
 	
-	// 상품 수량 변경은 main.js에 있음. 수량 5개 이하로는 주문할 수 없음.
+	// 상품 수량 변경은 main.js - .pro-qty에 있음.
+	// 최소 수량 5개를 넘을 수 없고 상품재고(productEA) 이상 주문할 수 없음.
 	
 	// 장바구니에 상품데이터 넣고 장바구니 페이지로 이동 
 	$("#addToCart").on('click', function(event) {
@@ -259,15 +413,16 @@ $(function(){
 		    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
 		    data : {"productNo":${product.productNo},"productPrice":${product.productPrice},"productColor":productColor,"productSize":productSize,"productEA":productEA},
 		    success : function(result) { // 결과 성공 콜백함수
-		    	location.href="/mypage/cart";
+		    	$('#cart-modal').modal();
+//		    	location.href="/mypage/cart";
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
 				var loginuser = $('#user-id').val();
 		    	
 		    	if (loginuser == null) {
-		    		alert('로그인 후 가능한 서비스입니다.');	
+		    		$('#log-in').toast('show');
 		    	} else {
-		    		alert('이미 장바구니 목록에 포함된 상품입니다.');	
+		    		$('#already-cart').toast('show');
 		    	}
 		    }
 		    });
@@ -303,16 +458,32 @@ $(function(){
 		    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
 		    data : {"productNo":${product.productNo},"categoryNo":categoryNo,"productName":"${product.productName}","productImage":"${product.productImage}","productPrice":${product.productPrice}},
 		    success : function(result) { // 결과 성공 콜백함수
-		    	
-		    	alert('관심상품으로 등록되었습니다.');
+		    	$('#add-to-heart img').attr( "src", "/resources/dist/img/icon/full-heart.png");
+		    	$('#heart-add-alert').toast('show');
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
 		    	var loginuser = $('#user-id').val();
 		    	
 		    	if (loginuser == null) {
-		    		alert('로그인 후 가능한 서비스입니다.');	
+		    		$('#log-in').toast('show');
 		    	} else {
-		    		alert('이미 관심상품 목록에 포함된 상품입니다.');	
+		    		$('#heart-delete-modal').modal();
+		    		$('#delete-heart-detail').on('click', function(event) {
+		    			$('#heart-delete-modal').modal('hide');
+		    			
+		    			$.ajax({
+							url : '/delete-heart',
+							type : 'get',
+							data : 'productNo=' + ${product.productNo},
+							success : function(result) {
+								$('#heart-delete-alert').toast('show');
+								$('#add-to-heart img').attr("src", "/resources/dist/img/icon/empty-heart.png");
+							},
+							error : function(request, status, error) {
+								alert("관심상품 삭제 실패");
+							}
+		 				})
+		    		});
 		    	}
 		    }
 		});
@@ -320,7 +491,5 @@ $(function(){
 	
 });
 </script>
-
-
 </body>
 </html>

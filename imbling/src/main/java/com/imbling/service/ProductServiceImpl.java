@@ -6,6 +6,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.imbling.dto.CategoryDto;
@@ -103,9 +105,27 @@ public class ProductServiceImpl implements ProductService {
 		return category;
 	}
 	
+	// 페이징 
+	@Transactional
+	public Page<ProductEntity> pageList(Pageable pageable) {
+		return productRepository.findAll(pageable);
+	}
+	
 	// 카테고리별 상품리스트 조회 
 	@Override
 	public List<ProductDto> findProductListByCategory2(String sort, boolean asc, int categoryNo) {
+//	public Page<ProductDto> findProductListByCategory2(String sort, boolean asc, int categoryNo, Pageable pageable) {
+		
+//		Page<ProductEntity> entities = null;
+//		if (sort.equals("productRegdate") && asc == false) {
+//			entities = productRepository.findByCategoryCategoryNoOrderByProductRegdateDesc(categoryNo, pageable);
+//		} else if (sort.equals("productPriceDesc") && asc == false) {
+//			entities = productRepository.findByCategoryCategoryNoOrderByProductPriceDesc(categoryNo, pageable);
+//		} else if (sort.equals("productPriceAsc") && asc == true ) {
+//			entities = productRepository.findByCategoryCategoryNoOrderByProductPrice(categoryNo, pageable);
+//		} else {
+//			entities = productRepository.findByCategoryCategoryNoOrderByProductCountDesc(categoryNo, pageable);
+//		}
 		
 		List<ProductEntity> entities = null;
 		if (sort.equals("productRegdate") && asc == false) {
@@ -129,7 +149,9 @@ public class ProductServiceImpl implements ProductService {
 			
 			products.add(productDto);
 		}
+		
 		return products;
+//		return (Page<ProductDto>) products;
 	}
 
 	

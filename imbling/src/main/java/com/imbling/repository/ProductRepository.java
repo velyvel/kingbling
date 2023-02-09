@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +17,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
 	// 상품리스트
 	ProductEntity findByProductNo(int productNo);
-
+	
 	// 인기상품순 정렬
 	List<ProductEntity> findByCategoryCategoryNoOrderByProductCountDesc(int categoryNo);
 
@@ -27,6 +29,18 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
 	// 높은가격순 정렬
 	List<ProductEntity> findByCategoryCategoryNoOrderByProductPriceDesc(int categoryNo);
+	
+//	// 인기상품순 정렬
+//	Page<ProductEntity> findByCategoryCategoryNoOrderByProductCountDesc(int categoryNo, Pageable pageable);
+//
+//	// 신상품순 정렬
+//	Page<ProductEntity> findByCategoryCategoryNoOrderByProductRegdateDesc(int categoryNo, Pageable pageable);
+//
+//	// 낮은가격순 정렬
+//	Page<ProductEntity> findByCategoryCategoryNoOrderByProductPrice(int categoryNo, Pageable pageable);
+//
+//	// 높은가격순 정렬
+//	Page<ProductEntity> findByCategoryCategoryNoOrderByProductPriceDesc(int categoryNo, Pageable pageable);
 
 	// 조회수 증가
 	@Transactional

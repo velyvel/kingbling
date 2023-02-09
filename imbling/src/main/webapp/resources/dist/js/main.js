@@ -161,17 +161,28 @@
 		Quantity change
 	--------------------- */
     var proQty = $('.pro-qty');
+    var maxEA = $('#max-ea').val();
+    
     proQty.prepend('<span class="fa fa-angle-up dec qtybtn"></span>');
     proQty.append('<span class="fa fa-angle-down inc qtybtn"></span>');
     proQty.on('click', '.qtybtn', function () {
         var $button = $(this);
         var oldValue = $button.parent().find('input').val();
-        if ($button.hasClass('dec')) {
+        if ($button.hasClass('dec')) { // plus value
 			var newVal = parseFloat(oldValue) + 1;
-        } else {
+			if (newVal > maxEA) {
+				$("#max-alert").toast('show');
+				$('#max-body').html("재고가 "+ maxEA +"개 남은 상품 입니다.");
+				return false;
+			}
+        } else {	// minus value
             // Don't allow decrementing below zero
-            if (oldValue > 5) {
+            if (oldValue = 5) {
                 var newVal = parseFloat(oldValue) - 1;
+                if (newVal <= 5) {
+					$('#min-alert').toast('show');
+					return false;
+				}
             } else {
                 newVal = 5;
             }

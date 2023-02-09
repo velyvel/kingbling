@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -13,6 +13,11 @@
 <meta charset="UTF-8">
 <title>상품리스트</title>
 </head>
+<style>
+	input::-webkit-search-cancel-button {
+		display: none;
+	}
+</style>
 <body>
 	<jsp:include page="/WEB-INF/views/modules/common-offcanvas.jsp" />
 	<jsp:include page="/WEB-INF/views/modules/header.jsp" />
@@ -31,7 +36,7 @@
 						<!-- search -->
 						<div class="shop__sidebar__search">
 							<form name="search-form" id="search-form">
-								<input type="search" name="keyword" placeholder="Search...">
+								<input id="search-content" type="search" name="keyword" placeholder="Search...">
 								<button type="button" id="search-btn">
 									<span class="icon_search"></span>
 								</button>
@@ -98,13 +103,20 @@
 
 					<!-- paging -->
 					<div class="row">
-						<div class="col-lg-12">
+						<%-- <div class="col-lg-12">
 							<div class="product__pagination">
+								<c:forEach var="product" items="page:${#numbers.sequence(startPage, endPage}">
+									<c:if test="${page not eq nowPage }">
+										<a href="/product/list?page=${page eq (page -1)}"></a>
+									</c:if>
+									<c:if test="${page eq nowPage}">
+									</c:if>
+								</c:forEach>
 								<a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a>
 								<span>...</span> <a href="#">21</a>
 							</div>
 						</div>
-					</div>
+					</div> --%>
 					<!-- end of paging -->
 				</div>
 			</div>
@@ -202,14 +214,9 @@
 				
 			});
 			
-			$.numberWithCommas = function(x) {
-				return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-			}
-			
 			// 검색
-			$('#search-form').on('click', '#search-btn', function(event) {
-				
-				event.preventDefault();
+			// 검색 함수 
+			function searchProductName() {
 				
 				const searchValue = $('input[name=keyword]').val();
 				if (searchValue.length == 0) {
@@ -231,6 +238,7 @@
 								str += "<div class='product__item'>";
 								str += "<div class='product__item__pic set-bg product-image' data-product-no2='" + item.productNo + "' data-category-no2='" + item.category.categoryNo + "' style='background-image:url(" + item.productImage + ")'>";
 								str += "<ul class='product__hover'>";
+								
 								str += "<li><img src='/resources/dist/img/icon/empty-heart.png' class='heart-btn' data-product-no3='" + item.productNo + "' data-category-no3='" + item.categoryNo + "'></li>"
 								str += "</ul>";
 								str += "</div>";
@@ -258,9 +266,26 @@
 						alert("검색에 실패했습니다.");
 					}
 				})
+			
+			}
+			
+			// enter시 검색
+			$('#search-content').on('keypress', function(event) {
+				if (event.keyCode == '13') {
+					if(window.event) {
+						event.preventDefault();
+						searchProductName();
+					} else {
+						alert("검색에 실패했습니다. 2");
+					}
+				}
 			});
 			
-			
+			// 서치아이콘 클릭시 검색
+			$('#search-form').on('click', '#search-btn', function(event) {
+				event.preventDefault();
+				searchProductName();
+			});
 			
 		});
 	</script>
