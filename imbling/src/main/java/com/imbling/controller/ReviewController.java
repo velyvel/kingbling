@@ -6,6 +6,7 @@ import com.imbling.entity.ReviewEntity;
 import com.imbling.service.ProductService;
 import com.imbling.service.ReviewService;
 import com.imbling.service.UserOrderService;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -121,12 +122,74 @@ public class ReviewController {
         //model.addAttribute("orders", review.getOrderDto().getOrders());
         return "board/reviewDetail";
     }
+//리뷰 삭제
+    @PostMapping(path = {"/reviewDetail"})
+    public String deleteReview(ReviewDto review, Model model) {
+        reviewService.deleteReview(review);
+
+        return "redirect:review";
+    }
 
     // 수정화면은 ajax로
 
+    @GetMapping(path = {"/reviewEdit"})
+    public String showReviewEdit(@RequestParam(defaultValue = "-1") int reviewNo, Model model ){
+        ReviewDto review = reviewService.findReviewByReviewNo(reviewNo);
+        model.addAttribute("review", review);
+        model.addAttribute("reviewNo", reviewNo);
+
+        return "board/reviewEdit";
+    }
 
 
+    // 공지사항 서머노트로 편집(첨부파일도 같이 편집)
+    @PostMapping(path = {"/editReviewImageFile"})
+    @ResponseBody
+    public HashMap<String, Object> editReviewImage(MultipartHttpServletRequest req){
 
+        HashMap<String, Object> response = new HashMap<>();
 
+        MultipartFile attach = req.getFile("file");
+
+        if(attach != null){
+            ServletContext application = req.getServletContext();
+            String path = application.getRealPath("/review-attachments");
+            String fileName = attach.getOriginalFilename();
+            response.put("attachName", fileName);
+
+            if(fileName != null && fileName.length()>0){
+                String uniqueFileName = Util.makeUniqueFileName(fileName); //파일 저장하는 코드입니다
+                response.put("savedFileName", uniqueFileName);
+
+                try {
+                    attach.transferTo(new File(path, uniqueFileName));
+                    response.put("url", "/review-attachments/"+uniqueFileName);
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        }
+
+        return response;
+
+    }
+
+    @PostMapping(path = {"/reviewEdit"})
+    public String reviewEdit(ReviewDto review, Model model){
+        reviewService.modifiedReview(review);
+
+        return "redirect:reviewDetail?reviewNo="+ review.getReviewNo();
+    }
+
+//    @GetMapping(path = {"/{reviewNo}/delete"})
+//    public String deleteReview(@PathVariable("reviewNo")int reviewNo,ReviewDto review, OrderDetailDto orderDetail, OrderDto order, Model model){
+//        reviewService.deleteReview(reviewNo);
+//        reviewService.modifiedOrderState(review);
+//
+//        model.addAttribute("review", review);
+//        model.addAttribute("orderDetail", orderDetail);
+//        model.addAttribute("order", order);
+//        return "redirect:review";
+//    }
 
 }
