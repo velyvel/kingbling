@@ -15,7 +15,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -24,6 +23,9 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <form method="post" id="writeReview" action="writeReview">
+                <input type="text" name="attach" value="">
+                <input type="text" name="savedFileName" value="">
+                <input type="text" value="${products}">
             <div style="float: right;">
                 <a href="/mypage/orderList"class="btn btn-danger"><i class="fas fa-close"></i> 취소하기</a>
                 <input id="submitBtn" type="submit" class="btn btn-success" value="작성완료">
@@ -55,12 +57,8 @@
             <div class="col-sm-6" style="float: right;">
                 <div class="form-group">
                     <label>상품명</label>
-                    <select class="form-control" id="propertyNo" name="propertyNo">
-                        <option selected>상품을 선택해 주세요</option>
-                        <c:forEach var="order" items="${orders}">
-                            <option value="${order.propertyNo}">${order.productName}</option>
-                        </c:forEach>
-                    </select>
+                    <input type="hidden" class="form-control" id="propertyNo" name="propertyNo" value="${property.propertyNo}">
+                    <input type="text" class="form-control" id="propertyName" value="${property.productName}" readonly>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -70,17 +68,6 @@
                     <input type="hidden" class="form-control" value="${loginuser.userId}" name="userId" readonly>
                 </div>
             </div>
-
-<%--            <div class="col-sm-6">--%>
-<%--                <div class="form-group">--%>
-<%--                    <label>상품명</label>--%>
-<%--                    &lt;%&ndash;                    <input type="text" class="form-control" value="${productName[0].productName}" readonly>&ndash;%&gt;--%>
-<%--                    <select class="form-control">--%>
-<%--                        <option value="product">${productList[0].productName}</option>--%>
-<%--                        <option value="product">${productList[1].productName}</option>--%>
-<%--                    </select>--%>
-<%--                </div>--%>
-<%--            </div>--%>
             <div class="col-lg-12">
                 <div class="form-group">
                     <label>제목</label>
@@ -112,15 +99,52 @@
 <br>
 
 <jsp:include page="/WEB-INF/views/modules/footer.jsp" />
-
+<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
+<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script src="/resources/dist/js/summernote-ko-KR.js"></script>
 <script type="text/javascript">
-    $('#reviewContent').summernote({
-        placeholder: '리뷰 작성은 사랑입니다❤️',
-        tabsize: 2,
-        height: 500
-    });
-    $(function (){
 
+    $('#reviewContent').summernote({
+        placeholder: '리뷰',
+        tabsize: 2,
+        height: 500,
+        lang:'ko-KR',
+        callbacks: {	//여기 부분이 이미지를 첨부하는 부분
+            onImageUpload : function(files) {
+                uploadSummernoteImageFile(files[0],this);
+            },
+            onPaste: function (e) {
+                var clipboardData = e.originalEvent.clipboardData;
+                if (clipboardData && clipboardData.items && clipboardData.items.length) {
+                    var item = clipboardData.items[0];
+                    if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+                        e.preventDefault();
+                    }
+                }
+            }
+        }
+    });
+
+    function uploadSummernoteImageFile(file, editor){
+        data = new FormData();
+        data.append("file", file);
+        $.ajax({
+            data : data,
+            type : "POST",
+            url:"/board/uploadReviewFileImage",
+            contentType: false,
+            processData: false,
+            success: function(data){
+                $(editor).summernote('insertImage', data.url)
+                $('#writeReview input[name=attach]').val(data.attach);
+                $('#writeReview input[name=savedFileName]').val(data.savedFileName);
+
+            }
+        });
+    }
+
+    $(function (){
         $('#submitBtn').on('click', function (event){
             event.preventDefault();
             $('#writeReview')[0].submit();
@@ -129,7 +153,5 @@
     });
 
 </script>
-<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
-<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 </body>
 </html>

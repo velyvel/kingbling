@@ -12,6 +12,8 @@ public interface PropertyRepository extends JpaRepository<PropertyEntity, Intege
 	@Query(value="select * from imb_property where ( productNo=:productNo and productSize=:productSize and productColor=:productColor ) ", nativeQuery = true)
 	PropertyEntity findPropertyByOptions(@Param("productNo") int productNo,@Param("productSize") String productSize,@Param("productColor") String productColor);
 
+	PropertyEntity findByPropertyNo(int propertyNo);
+
 	//List<PropertyEntity> findAllByProductNo(int productNo);
 	
 }

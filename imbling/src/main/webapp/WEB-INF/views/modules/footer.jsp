@@ -10,7 +10,7 @@
                     <div class="footer__logo">
                         <a href="#"><img src="/resources/dist/img/jamlogo.png" alt=""></a>
                     </div>
-                    <p>강남 그린컴퓨터 아카데미<br> 1조가 만든 과제입니다</p>
+                    <p><br> 1조가 만든 과제입니다</p>
                     <a href="#"><img src="/resources/dist/img/payment.png" alt=""></a>
                 </div>
             </div>

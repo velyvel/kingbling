@@ -30,6 +30,10 @@ public class OrderDetailEntity {
 	
 	@Column(nullable = false)
 	private int orderDetailTotalPrice;
+
+	@Column
+	@Builder.Default
+	private boolean reviewState = false;
 	
 	@ManyToOne
 	@MapsId("orderNo")

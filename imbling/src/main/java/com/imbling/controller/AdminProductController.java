@@ -1,7 +1,6 @@
 package com.imbling.controller;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -18,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.imbling.dto.CategoryDto;
 import com.imbling.common.Util;
 import com.imbling.dto.AdminProductDto;
-import com.imbling.dto.BoardDto;
+import com.imbling.dto.PropertyDto;
 import com.imbling.service.AdminProductService;
 
 @Controller @RequestMapping(path="/admin")
@@ -36,11 +35,6 @@ public class AdminProductController {
 	@GetMapping(path= {"list"})
 	public String showAdminProductList(AdminProductDto adminProductDto , Model model) {
 			
-		
-			List<CategoryDto> categories = adminProductService.findAllCategories();
-			model.addAttribute("categories", categories);
-			
-			
 			int productNo = adminProductDto.getAdminProductNo();
 			
 			List<AdminProductDto> products = adminProductService.findAdminProductListByCategory2(productNo);
@@ -49,13 +43,30 @@ public class AdminProductController {
 			model.addAttribute("productNo", productNo);
 		return "admin/product/list";
 	}
-	
-	//공지사항 작성 페이지 보여주기
-	@GetMapping(path = {"/detail"})
-	public String showWriteNotice(@RequestParam(defaultValue = "1") int boardCategory, Model model){
 
-		model.addAttribute("boardCategory", boardCategory);
-		return "admin/product/detail";
+	// 상품삭제
+	@GetMapping(path = { "/{productNo}/delete" })
+	public String deleteAdminProduct1å(@PathVariable("productNo")int productNo) {
+		adminProductService.deleteAdminProduct(productNo);
+
+		return "redirect:admin/product/list";
+	}
+	
+	// 상품삭제
+	@GetMapping(path = { "/delete-product" })
+	@ResponseBody
+	public String deleteAdminProduct(int productNo) {
+		adminProductService.deleteAdminProduct(productNo);
+
+		return "success";
+	}
+	
+	//상품 등록 페이지 보여주기
+	@GetMapping(path = {"/detail"})
+	public String showAddProduct(@RequestParam(defaultValue = "1") int categoryNo, Model model){
+
+		model.addAttribute("categoryNo", categoryNo);
+		return "admin/product/addProduct";
 	}
 
 //	@PostMapping(path = {"/uploadNoticeImageFile"})
@@ -188,6 +199,29 @@ public class AdminProductController {
 //		}
 //		return "redirect:/board/notice?pageNo=" + pageNo;
 //	}
+	
+	@RequestMapping(path = { "/productRegister" })
+	public String addNewProduct(AdminProductDto product, PropertyDto property, int categoryNo, MultipartHttpServletRequest req,RedirectAttributes rttr) {
+
+		MultipartFile productImage = req.getFile("productAttach");
+
+		if (productImage != null) {
+			ServletContext application = req.getServletContext();
+			String path = application.getRealPath("/product-attachments");
+			String fileName = productImage.getOriginalFilename();
+			if (fileName != null && fileName.length() > 0) {
+				String uniqueFileName = Util.makeUniqueFileName(fileName);
+				try {
+					productImage.transferTo(new File(path, uniqueFileName));
+					product.setAdminProductImage("/product-attachments/"+uniqueFileName);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		adminProductService.addNewProduct(product,property,categoryNo);
+		return "redirect:/admin/detail?categoryNo="+categoryNo;
+	}
 
 
 }

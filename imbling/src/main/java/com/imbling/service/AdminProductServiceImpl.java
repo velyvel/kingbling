@@ -1,6 +1,7 @@
 package com.imbling.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,14 @@ import org.springframework.stereotype.Service;
 
 import com.imbling.dto.AdminProductDto;
 import com.imbling.dto.CategoryDto;
+import com.imbling.dto.ProductDto;
 import com.imbling.dto.PropertyDto;
 import com.imbling.entity.CategoryEntity;
 import com.imbling.entity.ProductEntity;
 import com.imbling.entity.PropertyEntity;
+import com.imbling.repository.AdminProductRepository;
 import com.imbling.repository.CategoryRepository;
+import com.imbling.repository.OrderRepository;
 import com.imbling.repository.ProductRepository;
 import com.imbling.repository.PropertyRepository;
 
@@ -21,12 +25,17 @@ public class AdminProductServiceImpl implements AdminProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private AdminProductRepository adminProductRepository;
 
 	@Autowired
 	private CategoryRepository categoryRepository;
 
 	@Autowired
 	private PropertyRepository propertyRepository;
+	
+	@Autowired
+	private OrderRepository orderRepository;
 
 //	findAll() 메소드
 //	Member 테이블에서 레코드 전체 목록을 조회
@@ -120,44 +129,45 @@ public class AdminProductServiceImpl implements AdminProductService {
 	@Override
 	public List<AdminProductDto> findAdminProductListByCategory2(int categoryNo) {
 
-		List<CategoryEntity> categoryEntity = categoryRepository.findAll();
+		List<CategoryEntity> categoryEntities = categoryRepository.findAll();
 
 		List<CategoryDto> category = new ArrayList<>();
 
-		for (CategoryEntity cate : categoryEntity) {
+		for (CategoryEntity cate : categoryEntities) {
 			category.add(categoryEntityToDto(cate));
-
 		}
 
 		ArrayList<AdminProductDto> products = new ArrayList<>();
 
-		for (CategoryDto catego : category) {
-			for (CategoryEntity categoEntity : categoryEntity) {
+//		for (CategoryDto catego : category) {
+			for (CategoryEntity categoEntity : categoryEntities) {
 				for (ProductEntity productEntity : categoEntity.getProducts()) {
-					AdminProductDto productDto = new AdminProductDto();
-					productDto.setAdminProductNo(productEntity.getProductNo());
-					productDto.setAdminProductName(productEntity.getProductName());
-					productDto.setAdminProductImage(productEntity.getProductImage());
-					productDto.setAdminProductPrice(productEntity.getProductPrice());
-					productDto.setAdminProductRegdate(productEntity.getProductRegdate());
-					productDto.setCategory(catego);
-
-					ArrayList<PropertyDto> properties = new ArrayList<>();
-					for (PropertyEntity propertyEntity : productEntity.getProperties()) {
-						PropertyDto propertyDto = new PropertyDto();
-						propertyDto.setPropertyNo(propertyEntity.getPropertyNo());
-						propertyDto.setProductColor(propertyEntity.getProductColor());
-						propertyDto.setProductSize(propertyEntity.getProductSize());
-						propertyDto.setProductEA(propertyEntity.getProductEA());
-
-						properties.add(propertyDto);
+					if (!productEntity.getDeleted()) {
+						AdminProductDto productDto = new AdminProductDto();
+						productDto.setAdminProductNo(productEntity.getProductNo());
+						productDto.setAdminProductName(productEntity.getProductName());
+						productDto.setAdminProductImage(productEntity.getProductImage());
+						productDto.setAdminProductPrice(productEntity.getProductPrice());
+						productDto.setAdminProductRegdate(productEntity.getProductRegdate());
+						productDto.setCategory(categoryEntityToDto(categoEntity));
+	
+						ArrayList<PropertyDto> properties = new ArrayList<>();
+						for (PropertyEntity propertyEntity : productEntity.getProperties()) {
+							PropertyDto propertyDto = new PropertyDto();
+							propertyDto.setPropertyNo(propertyEntity.getPropertyNo());
+							propertyDto.setProductColor(propertyEntity.getProductColor());
+							propertyDto.setProductSize(propertyEntity.getProductSize());
+							propertyDto.setProductEA(propertyEntity.getProductEA());
+	
+							properties.add(propertyDto);
+						}
+						productDto.setProperties(properties);
+						products.add(productDto);
 					}
-					productDto.setProperties(properties);
-					products.add(productDto);
 	
 				}
 			}
-		}
+//		}
 
 		return products;
 	}
@@ -175,6 +185,15 @@ public class AdminProductServiceImpl implements AdminProductService {
 			productRepository.save(productEntity);
 	}
 	
+	// 상품삭제
+	@Override
+	public void deleteAdminProduct(int productNo) {
+		ProductEntity productEntity = adminProductRepository.findById(productNo).orElse(null);
+		if (productEntity != null) {
+			productEntity.setDeleted(true);
+			adminProductRepository.save(productEntity);
+		}
+	}
 
 	private void build() {
 		// TODO Auto-generated method stub
@@ -193,6 +212,25 @@ public class AdminProductServiceImpl implements AdminProductService {
 	public AdminProductDto showAdminProductDetail(int AdminProductNo) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+
+	@Override
+	public void addNewProduct(AdminProductDto product, PropertyDto property, int categoryNo) {
+		
+		ProductEntity productEntity = AdminProductDtoToEntity(product);
+		productEntity.setProductRegdate(new Date());
+		productEntity.setProductCount(0);
+		CategoryEntity category = CategoryEntity.builder().categoryNo(categoryNo).build();
+		productEntity.setCategory(category);
+		PropertyEntity propertyEntity = PropertyEntity.builder().productColor(property.getProductColor())
+				.productEA(0).productSize(property.getProductSize()).build();
+		productRepository.save(productEntity);
+		productEntity.setProductNo(orderRepository.findRecentOrderNo());//상품 저장할때 속성이 같이 저장되긴 하는데 상품번호는 빼고 저장되어서 수동으로 따로 넣음ㅠ
+		propertyEntity.setProduct(productEntity);
+		propertyRepository.save(propertyEntity);
+		
 	}
 
 }

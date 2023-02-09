@@ -2,18 +2,8 @@ package com.imbling.service;
 
 import java.util.List;
 
-import com.imbling.dto.CartDto;
-import com.imbling.dto.OrderDetailDto;
-import com.imbling.dto.OrderDto;
-import com.imbling.dto.ProductDto;
-import com.imbling.dto.PropertyDto;
-import com.imbling.entity.AccountDtoEntity;
-import com.imbling.entity.CartEntity;
-import com.imbling.entity.OrderDetailEntity;
-import com.imbling.entity.OrderEntity;
-import com.imbling.entity.ProductEntity;
-import com.imbling.entity.PropertyEntity;
-import com.imbling.entity.SalesChartData;
+import com.imbling.dto.*;
+import com.imbling.entity.*;
 
 public interface UserOrderService {
 	
@@ -116,6 +106,7 @@ public interface UserOrderService {
 		orderDetailDto.setOrderDetailTotalPrice(orderDetailEntity.getOrderDetailTotalPrice());
 		orderDetailDto.setOrderNo(orderDetailEntity.getOrder().getOrderNo());
 		orderDetailDto.setPropertyNo(orderDetailEntity.getProperty().getPropertyNo());
+		orderDetailDto.setReviewState(orderDetailEntity.isReviewState());
 		
 		return orderDetailDto;
 	}
@@ -125,10 +116,43 @@ public interface UserOrderService {
 		PropertyEntity propertyEntity = PropertyEntity.builder().propertyNo(orderDetailDto.getPropertyNo()).build();
 		
 		OrderDetailEntity orderDetailEntity = OrderDetailEntity.builder().orderDetailEA(orderDetailDto.getOrderDetailEA())
-								.order(orderEntity).property(propertyEntity).orderDetailTotalPrice(orderDetailDto.getOrderDetailTotalPrice())
+								.order(orderEntity).property(propertyEntity).orderDetailTotalPrice(orderDetailDto.getOrderDetailTotalPrice()).reviewState((orderDetailDto.isReviewState()))
 								.build();
 		
 		return orderDetailEntity;
+	}
+
+	//===========리뷰 추가 =======
+	public default ReviewDto reviewEntityToDto(ReviewEntity reviewEntity){
+		ReviewDto reviewDto = new ReviewDto();
+		reviewDto.setReviewNo(reviewEntity.getReviewNo());
+		reviewDto.setUserId(reviewEntity.getUserId());
+		reviewDto.setReviewTitle(reviewEntity.getReviewTitle());
+		reviewDto.setReviewContent(reviewEntity.getReviewContent());
+		reviewDto.setReviewRegDate(reviewEntity.getReviewRegDate());
+		reviewDto.setReviewStar(reviewEntity.getReviewStar());
+		reviewDto.setReviewCount(reviewEntity.getReviewCount());
+		reviewDto.setReviewDeleted(reviewEntity.isReviewDeleted());
+
+		//reviewDto.setProductNo(reviewEntity.getProductNo());
+
+		return reviewDto;
+	}
+
+	public default ReviewEntity reviewDtoToEntity(ReviewDto reviewDto){
+		ReviewEntity reviewEntity = ReviewEntity.builder()
+				.reviewNo(reviewDto.getReviewNo())
+				.userId(reviewDto.getUserId())
+				.reviewTitle(reviewDto.getReviewTitle())
+				.reviewContent(reviewDto.getReviewContent())
+				.reviewRegDate(reviewDto.getReviewRegDate())
+				.reviewStar(reviewDto.getReviewStar())
+				.reviewCount(reviewDto.getReviewCount())
+				.reviewDeleted(reviewDto.isReviewDeleted())
+
+				//.productNo(reviewDto.getProductNo())
+				.build();
+		return reviewEntity;
 	}
 	
 	
@@ -165,6 +189,13 @@ public interface UserOrderService {
 	void insertOrder(OrderDto order, OrderDetailDto orderDetail);
 
 	List<OrderDto> findAll();
+
+	OrderDto findByOrderNo(int orderId);
+
+	List<OrderDetailDto> findOrderDetailByOrderNo(int orderNo);
+
+	PropertyDto findPropertyBypropertyNo(int propertyNo);
+
 
 
 

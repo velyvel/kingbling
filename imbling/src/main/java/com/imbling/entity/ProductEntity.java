@@ -53,6 +53,10 @@ public class ProductEntity {
 	@Builder.Default
 	@Column(nullable = false)
 	private int productCount = 0; // 상품 조회수
+	
+	@Builder.Default
+	@Column(nullable=true)
+	private Boolean deleted = false;
 
 	@ManyToOne
 	@JoinColumn(name = "categoryNo")
@@ -60,6 +64,9 @@ public class ProductEntity {
 	
 	@OneToMany(mappedBy="product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PropertyEntity> properties;
+
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<ReviewEntity> reviews;
 
 
 	

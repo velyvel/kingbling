@@ -16,7 +16,9 @@ public class OrderDto {
 	private String userId;
 	private String orderAddr;
 	private String orderAddr2;
-	
+
+	private int reviewNo;
+
 	private List<OrderDetailDto> orders;
 
 }
