@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.imbling.dto.CategoryDto;
 import com.imbling.dto.ProductDto;
+import com.imbling.dto.PropertyDto;
 import com.imbling.entity.CategoryEntity;
 import com.imbling.entity.ProductEntity;
 

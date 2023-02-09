@@ -68,21 +68,25 @@
 							<div class="product__details__option">
 								<%-- ${product.properties[0].productSize} / ${product.properties[0].productColor} --%>
 								<div class="product__details__option__size">
-									<div>Size:</div>
-									<select id="product-size">
+									<div>Size & Color :</div>
+									<input type="hidden" id="product-size" value="${property.productSize}" />
+									<input type="hidden" id="product-color" value="${property.productColor}" />
+									<select id="selectProperty">
 										<c:forEach var="property" items="${product.properties}">
-											<option value="${property.productSize}">${property.productSize}</option>
+											<option value="${property.propertyNo}" 
+											data-productsize="${property.productSize}" data-productcolor="${property.productColor}">
+											${property.productSize} & ${property.productColor}</option>
 										</c:forEach>
 									</select>
 								</div>
-								<div class="product__details__option__color">
+<%-- 								<div class="product__details__option__color">
 									<div>Color:</div>
 									<select id= "product-color">
 										<c:forEach var="property" items="${product.properties}">
 											<option value="${property.productColor}">${property.productColor}</option>
 										</c:forEach>
 									</select>
-								</div>
+								</div> --%>
 							</div>
 							<div class="product__details__cart__option">
 								<div class="quantity">
@@ -106,7 +110,7 @@
 								<button id="addToCart" class="primary-btn">
 									<i class="fa-solid fa-cart-plus"></i> 장바구니
 								</button>
-								<input type="hidden" value="${productNo}" id="productNo" />
+								<input type="hidden" value="${product.productNo}" id="productNo" />
 
 								<div class="product__details__option__size">
 									<c:set var="isChecked" value="false" />
@@ -342,8 +346,8 @@
 		
 		// 장바구니에 상품데이터 넣고 장바구니 페이지로 이동 
 		$("#addToCart").on('click', function(event) {
-			var productSize = $('#product-size option').val();
-			var productColor = $('#product-color option').val();
+			var productSize = $('#product-size').val();
+			var productColor = $('#product-color').val();
 			var productEA = $('#product-ea').val();
 			
 			$.ajax({
@@ -372,8 +376,8 @@
 		// 바로 결제 
 	 	$("#doOrder").on('click', function(event) {
 			
-			var productSize = $('#product-size option').val();
-			var productColor = $('#product-color option').val();
+			var productSize = $('#product-size').val();
+			var productColor = $('#product-color').val();
 			var productEA = $('#product-ea').val();
 			
 			location.href="/userOrder/doOrder?productNo=" + ${product.productNo} + "&productSize=" + productSize + "&productColor=" + productColor + "&productEA=" + productEA;
@@ -431,6 +435,38 @@
 			    }
 			});
 		});
+		
+		$('.nice-select').on("click",function(event){
+			var productNo = $('#productNo').val();
+			
+			var selectedProperty = $('.current').text();
+			selectedProperty = selectedProperty.trim();
+			selectedProperty = selectedProperty.replaceAll(' ','');
+			selectedProperty = selectedProperty.split('&');
+			var productSize = selectedProperty[0];
+			var productColor = selectedProperty[1];
+			
+			$('#product-size').val(productSize);
+			$('#product-color').val(productColor);
+			
+			$.ajax({
+				url:"/product/getPropertyInfo",
+				type:"post",
+				data:{"productNo":productNo,"productSize":productSize,"productColor":productColor},
+				dataType:"json",
+				success(data){
+					console.log(data);
+					$('#max-ea').val(data.productEA);
+				},
+				error(err){
+					console.log(err)
+				}
+			});
+		});
+		
+		
+		
+		
 		
 	});
 	</script>

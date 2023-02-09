@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 
 import com.imbling.dto.*;
 import com.imbling.service.ReviewService;
+import com.imbling.service.UserOrderService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -17,6 +19,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,6 +42,10 @@ public class ProductController {
 	@Autowired
 	@Qualifier("reviewService")
 	private ReviewService reviewService;
+	
+	@Autowired
+	@Qualifier("userOrderService")
+	private UserOrderService userOrderService;
 	
 	// 상품리스트
 	@GetMapping(path = { "/list" })
@@ -142,6 +149,12 @@ public class ProductController {
 		model.addAttribute("hearts", heart);
 		
 		return "product/product-list";
+	}
+	
+	@PostMapping("/getPropertyInfo") @ResponseBody
+	public PropertyDto getPropertyInfo(int productNo, String productSize, String productColor) {
+		PropertyDto property = userOrderService.getPropertyInfoByProductNo(productNo,productSize,productColor);
+		return property;
 	}
 	
 }
