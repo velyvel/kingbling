@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 
-public interface AdminProductRepository extends JpaRepository<ProductEntity, Integer> {
+public interface AdminProductRepository extends JpaRepository<ProductEntity,  Integer> {
 
 //  @Transactional
 //  @Modifying
@@ -19,23 +19,14 @@ public interface AdminProductRepository extends JpaRepository<ProductEntity, Int
 //  void increaseBoardCount(int boardNo);
 	
 	
+//	// 상품 삭제
+//	@Transactional
+//	@Modifying
+//	@Query(value="delete from imb_product where (productNo=:productNo and categoryNo=:categoryNo and propertyNo=:propertyNo)", nativeQuery = true)
+//	static
+//	void deleteByProductNo(@Param("productNo") int productNo, @Param("categoryNo") int categoryNo, @Param("propertyNo") int propertyNo) {
+//		// TODO Auto-generated method stub
 	
-//    @Query(value = "SELECT * FROM imb_board WHERE boardCategory=1 ORDER BY boardRegDate1 DESC", nativeQuery = true)
-//    List<BoardEntity> findEventByBoardCategoryDesc();
-//
-//    @Query(value = "SELECT * FROM imb_board WHERE boardCategory=2 ORDER BY boardRegDate1 DESC", nativeQuery = true)
-//    List<BoardEntity> findNoticeByBoardCategoryDesc();
-//
-//    BoardEntity findByBoardNo(int boardNo);
-//
-//    BoardEntity findByBoardNoAndBoardCategory(int boardNo, int boardCategory);
-//
-//    @Transactional
-//    @Modifying
-//    @Query(value = "UPDATE imb_board b set b. boardCount = b.boardCount + 1 WHERE b.boardNo = :boardNo", nativeQuery = true)
-//    void increaseBoardCount(int boardNo);
-//
-//    @Query(value = "SELECT * FROM imb_board WHERE boardCategory=3 ORDER BY boardRegDate DESC", nativeQuery = true)
-//    List<BoardEntity> findModalByBoardCategoryDesc();
-
+		
+	
 }

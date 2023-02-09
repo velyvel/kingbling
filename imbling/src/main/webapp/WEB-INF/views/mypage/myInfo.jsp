@@ -53,8 +53,10 @@
 									제출 서류 <span>*</span>
 								</p>
 								<input type="file" id="inputed_doc" name="attach"
-									onchange="readURL(this);"> <input id="btn-checkDoc"
-									type="button" value="등록" style="height: 40px" /> <img
+									onchange="readURL(this);"> 
+								<input id="btn-checkDoc"
+									type="button" value="등록" style="height: 40px" /> 
+								<img
 									src="/ocr/venv/account-attachments/${attachments[0].docName }"
 									id="preview" style="width: 600px">
 							</div>

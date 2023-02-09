@@ -14,6 +14,7 @@ import com.imbling.dto.PropertyDto;
 import com.imbling.entity.CategoryEntity;
 import com.imbling.entity.ProductEntity;
 import com.imbling.entity.PropertyEntity;
+import com.imbling.repository.AdminProductRepository;
 import com.imbling.repository.CategoryRepository;
 import com.imbling.repository.OrderRepository;
 import com.imbling.repository.ProductRepository;
@@ -24,6 +25,8 @@ public class AdminProductServiceImpl implements AdminProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private AdminProductRepository adminProductRepository;
 
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -126,44 +129,45 @@ public class AdminProductServiceImpl implements AdminProductService {
 	@Override
 	public List<AdminProductDto> findAdminProductListByCategory2(int categoryNo) {
 
-		List<CategoryEntity> categoryEntity = categoryRepository.findAll();
+		List<CategoryEntity> categoryEntities = categoryRepository.findAll();
 
 		List<CategoryDto> category = new ArrayList<>();
 
-		for (CategoryEntity cate : categoryEntity) {
+		for (CategoryEntity cate : categoryEntities) {
 			category.add(categoryEntityToDto(cate));
-
 		}
 
 		ArrayList<AdminProductDto> products = new ArrayList<>();
 
-		for (CategoryDto catego : category) {
-			for (CategoryEntity categoEntity : categoryEntity) {
+//		for (CategoryDto catego : category) {
+			for (CategoryEntity categoEntity : categoryEntities) {
 				for (ProductEntity productEntity : categoEntity.getProducts()) {
-					AdminProductDto productDto = new AdminProductDto();
-					productDto.setAdminProductNo(productEntity.getProductNo());
-					productDto.setAdminProductName(productEntity.getProductName());
-					productDto.setAdminProductImage(productEntity.getProductImage());
-					productDto.setAdminProductPrice(productEntity.getProductPrice());
-					productDto.setAdminProductRegdate(productEntity.getProductRegdate());
-					productDto.setCategory(catego);
-
-					ArrayList<PropertyDto> properties = new ArrayList<>();
-					for (PropertyEntity propertyEntity : productEntity.getProperties()) {
-						PropertyDto propertyDto = new PropertyDto();
-						propertyDto.setPropertyNo(propertyEntity.getPropertyNo());
-						propertyDto.setProductColor(propertyEntity.getProductColor());
-						propertyDto.setProductSize(propertyEntity.getProductSize());
-						propertyDto.setProductEA(propertyEntity.getProductEA());
-
-						properties.add(propertyDto);
+					if (!productEntity.getDeleted()) {
+						AdminProductDto productDto = new AdminProductDto();
+						productDto.setAdminProductNo(productEntity.getProductNo());
+						productDto.setAdminProductName(productEntity.getProductName());
+						productDto.setAdminProductImage(productEntity.getProductImage());
+						productDto.setAdminProductPrice(productEntity.getProductPrice());
+						productDto.setAdminProductRegdate(productEntity.getProductRegdate());
+						productDto.setCategory(categoryEntityToDto(categoEntity));
+	
+						ArrayList<PropertyDto> properties = new ArrayList<>();
+						for (PropertyEntity propertyEntity : productEntity.getProperties()) {
+							PropertyDto propertyDto = new PropertyDto();
+							propertyDto.setPropertyNo(propertyEntity.getPropertyNo());
+							propertyDto.setProductColor(propertyEntity.getProductColor());
+							propertyDto.setProductSize(propertyEntity.getProductSize());
+							propertyDto.setProductEA(propertyEntity.getProductEA());
+	
+							properties.add(propertyDto);
+						}
+						productDto.setProperties(properties);
+						products.add(productDto);
 					}
-					productDto.setProperties(properties);
-					products.add(productDto);
 	
 				}
 			}
-		}
+//		}
 
 		return products;
 	}
@@ -181,6 +185,15 @@ public class AdminProductServiceImpl implements AdminProductService {
 			productRepository.save(productEntity);
 	}
 	
+	// 상품삭제
+	@Override
+	public void deleteAdminProduct(int productNo) {
+		ProductEntity productEntity = adminProductRepository.findById(productNo).orElse(null);
+		if (productEntity != null) {
+			productEntity.setDeleted(true);
+			adminProductRepository.save(productEntity);
+		}
+	}
 
 	private void build() {
 		// TODO Auto-generated method stub
