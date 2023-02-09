@@ -148,7 +148,6 @@ public class ReviewController {
     public HashMap<String, Object> editReviewImage(MultipartHttpServletRequest req){
 
         HashMap<String, Object> response = new HashMap<>();
-
         MultipartFile attach = req.getFile("file");
 
         if(attach != null){
@@ -179,6 +178,13 @@ public class ReviewController {
         reviewService.modifiedReview(review);
 
         return "redirect:reviewDetail?reviewNo="+ review.getReviewNo();
+    }
+
+
+    @PostMapping(path= {"/findReviewNo"}) @ResponseBody
+    public int findReviewNo(int orderNo, int propertyNo) {
+        int reviewNo =reviewService.findOneReview(orderNo,propertyNo);
+        return reviewNo;
     }
 
 //    @GetMapping(path = {"/{reviewNo}/delete"})

@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -13,10 +13,14 @@
 <meta charset="UTF-8">
 <title>상품리스트</title>
 </head>
+<style>
+	input::-webkit-search-cancel-button {
+		display: none;
+	}
+</style>
 <body>
 	<jsp:include page="/WEB-INF/views/modules/common-offcanvas.jsp" />
 	<jsp:include page="/WEB-INF/views/modules/header.jsp" />
-	<h2>상품리스트</h2>
 	<!-- ****************************** 다자인 허전하니까 뭐 넣을거긴 함 ************************** -->
 	<!-- ****************************** end ************************** -->
 
@@ -31,7 +35,7 @@
 						<!-- search -->
 						<div class="shop__sidebar__search">
 							<form name="search-form" id="search-form">
-								<input type="search" name="keyword" placeholder="Search...">
+								<input id="search-content" type="search" name="keyword" placeholder="Search...">
 								<button type="button" id="search-btn">
 									<span class="icon_search"></span>
 								</button>
@@ -72,19 +76,18 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-sm-6">
 								<div class="shop__product__option__left">
-									<p>Showing 1–12 of 126 results</p>
+									<h4>상품목록</h4>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-sm-6">
 								<div class="shop__product__option__right">
-									<p>Sort by</p>
 									<select id="sort-select">
-										<option value="productCount">조회수</option>
-										<option value="">인기상품</option>
-										<option value="">상품리뷰</option>
-										<option value="productRegdate">신상품</option>
-										<option value="productPriceAsc">낮은가격</option>
-										<option value="productPriceDesc">높은가격</option>
+										<option value="productCount">인기상품순</option>
+										<%-- <option value="">판매량순</option> --%>
+										<option value="reviewCountDesc">리뷰많은순</option>
+										<option value="productRegdate">신상품순</option>
+										<option value="productPriceAsc">낮은가격순</option>
+										<option value="productPriceDesc">높은가격순</option>
 									</select>
 								</div>
 							</div>
@@ -98,18 +101,91 @@
 
 					<!-- paging -->
 					<div class="row">
-						<div class="col-lg-12">
+						<%-- <div class="col-lg-12">
 							<div class="product__pagination">
+								<c:forEach var="product" items="page:${#numbers.sequence(startPage, endPage}">
+									<c:if test="${page not eq nowPage }">
+										<a href="/product/list?page=${page eq (page -1)}"></a>
+									</c:if>
+									<c:if test="${page eq nowPage}">
+									</c:if>
+								</c:forEach>
 								<a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a>
 								<span>...</span> <a href="#">21</a>
 							</div>
 						</div>
-					</div>
+					</div> --%>
 					<!-- end of paging -->
 				</div>
 			</div>
 		</div>
 	</section>
+	
+	<!-- modal -->
+	<div class="modal fade" id="heart-delete-modal" tabindex="-1" role="dialog"aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">해당 상품을 관심상품 목록에서 삭제하시겠습니까?</h5>
+					<%-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button> --%>
+				</div>
+				<div class="modal-body">이미 관심상품 목록에 등록된 상품입니다.</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">계속 쇼핑하기</button>
+					<button id="delete-heart-detail" type="button" class="btn btn-primary">관심상품 해제</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top:0;">
+		<div id="log-in" class="toast hide" role="alert"
+			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width:1000px;">
+			<div class="toast-header">
+				<img src="/resources/dist/img/icon/warning.png" class="rounded mr-2"
+					alt="..."> <strong class="mr-auto">WARNING</strong>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body">로그인 후 가능한 서비스입니다.</div>
+		</div>
+	</div>
+	
+	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
+		<div id="heart-add-alert" class="toast hide" role="alert"
+			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width: 1000px;">
+			<div class="toast-header">
+				<img src="/resources/dist/img/icon/notification.png" class="rounded mr-2"
+					alt="..."> <strong class="mr-auto">NOTIFY</strong>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body" id="max-body">관심상품으로 등록되었습니다.</div>
+		</div>
+	</div>
+	
+	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
+		<div id="heart-delete-alert" class="toast hide" role="alert"
+			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width: 1000px;">
+			<div class="toast-header">
+				<img src="/resources/dist/img/icon/notification.png" class="rounded mr-2"
+					alt="..."> <strong class="mr-auto">NOTIFY</strong>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body" id="max-body">해당 상품을 관심상품에서 삭제했습니다.</div>
+		</div>
+	</div>
+	<!-- end of modal -->
+	
 	<!-- ****************************** end product list ************************** -->
 
 	<!-- ****************************** footer ************************** -->
@@ -159,19 +235,36 @@
 				    data : {"productNo":productNo,"categoryNo":categoryNo,"productName":productName,"productImage":productImage,"productPrice":productPrice},
 				    success : function(result) { // 결과 성공 콜백함수
 				    	$('.heart-btn[data-product-no3=' + productNo + ']').attr( "src", "/resources/dist/img/icon/full-heart.png");
-				    	alert('관심상품으로 등록되었습니다.');
+				    	$('#heart-add-alert').toast('show');
 				    },
 				    error : function(request, status, error) { // 결과 에러 콜백함수
 				    	var loginuser = $('#user-id').val();
 				    	
 				    	if (loginuser == null) {
-				    		alert('로그인 후 가능한 서비스입니다.');	
-				    	} /* else if (){
-				    		alert('이미 관심상품 목록에 포함된 상품입니다.');	
-				    	} */ else {
+				    		$('#log-in').toast('show');
+				    	} else {
+				    		$('#heart-delete-modal').modal();
+				    		$('#delete-heart-detail').on('click', function(event) {
+				    			$('#heart-delete-modal').modal('hide');
+				    			
+				    			$.ajax({
+									url : '/delete-heart',
+									type : 'get',
+									data : 'productNo=' + productNo,
+									success : function(result) {
+										$('#heart-delete-alert').toast('show');
+										$('.heart-btn[data-product-no3=' + productNo + ']').attr( "src", "/resources/dist/img/icon/empty-heart.png");
+									},
+									error : function(request, status, error) {
+										alert("관심상품 삭제 실패");
+									}
+				 				})
+				    		});
+				    	} 
+				    	/* else {
 				    		alert('알수없는 오류가 발생하여 페이지를 초기화합니다.');
 				    		$('#product-list').load("/product/product-list");
-				    	}
+				    	} */
 				    }
 				})
 			});
@@ -202,14 +295,9 @@
 				
 			});
 			
-			$.numberWithCommas = function(x) {
-				return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-			}
-			
 			// 검색
-			$('#search-form').on('click', '#search-btn', function(event) {
-				
-				event.preventDefault();
+			// 검색 함수 
+			function searchProductName() {
 				
 				const searchValue = $('input[name=keyword]').val();
 				if (searchValue.length == 0) {
@@ -217,9 +305,12 @@
 					return;
 				}
 				
-				const formData = $('form[name=search-form]').serialize();
+				// const formData = $('form[name=search-form]').serialize();
+				const searchContent = $('#search-content').val();
+				const cn = ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo };
+				$('#product-list').load("/product/search?keyword=" + searchContent + "&categoryNo=" + cn);
 				
-				$.ajax({
+				/* $.ajax({
 					"url" : "/product/search",
 					"method" : "get",
 					"data" : formData,
@@ -246,21 +337,36 @@
 								str += "</div>";
 								str += "</div>"; 
 							
-								
 								$('#product-list').append(str);
 							});
 						} else {
 							alert("일치하는 상품이 없습니다.");
 						}
-						
 					},
 					"error" : function(err) {
 						alert("검색에 실패했습니다.");
 					}
-				})
+				}) */
+			
+			}
+			
+			// enter시 검색
+			$('#search-content').on('keypress', function(event) {
+				if (event.keyCode == '13') {
+					if(window.event) {
+						event.preventDefault();
+						searchProductName();
+					} else {
+						alert("검색에 실패했습니다. 2");
+					}
+				}
 			});
 			
-			
+			// 서치아이콘 클릭시 검색
+			$('#search-form').on('click', '#search-btn', function(event) {
+				event.preventDefault();
+				searchProductName();
+			});
 			
 		});
 	</script>

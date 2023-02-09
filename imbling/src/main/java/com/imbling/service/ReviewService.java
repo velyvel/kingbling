@@ -158,5 +158,6 @@ public interface ReviewService {
 
     void deleteReview(ReviewDto review);
 
-    // void modifiedOrderState(ReviewDto review);
+	int findOneReview(int orderNo, int propertyNo);
+
 }
