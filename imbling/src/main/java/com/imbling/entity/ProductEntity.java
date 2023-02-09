@@ -53,6 +53,10 @@ public class ProductEntity {
 	@Builder.Default
 	@Column(nullable = false)
 	private int productCount = 0; // 상품 조회수
+	
+	@Builder.Default
+	@Column(nullable=true)
+	private Boolean deleted = false;
 
 	@ManyToOne
 	@JoinColumn(name = "categoryNo")

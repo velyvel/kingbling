@@ -113,7 +113,7 @@
 										<c:forEach var="product" items="${products}">
 											<c:forEach var="property" items="${product.properties}">
 
-												<tr>
+												<tr data-productno="${product.adminProductNo}">
 													<!-- 체크박스 --><td></td>
 													<!-- 상품코드 --><td class="product__item"><h6>${product.adminProductNo}</h6></td>
 													<td
@@ -129,8 +129,6 @@
 													</td>
 													<td><fmt:formatNumber
 															value="${product.adminProductPrice}" pattern="₩#,###" /></td>
-
-
 													<!-- 재고 -->
 													<td><h6>${property.productEA}</h6></td>
 													<!-- 구분 -->
@@ -140,9 +138,10 @@
 													<!-- 사이즈 -->
 													<td><h6>${property.productSize}</h6></td>
 													<!-- 등록일자 -->
-													<td><h6>${ product.adminProductRegdate }</h6></td>
+													<td><fmt:formatDate value="${ product.adminProductRegdate }" type="both" dateStyle="full" timeStyle="short" /></td>
 													<!-- 기능 -->
-													<td><button>수정</button><button>품절</button><button>삭제</button></td>
+													<td><button>수정</button><button>품절</button>
+													<button class="delete_product_button" data-productno="${product.adminProductNo}">삭제</button></td>
 
 												</tr>
 
@@ -261,37 +260,56 @@
 
 	<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
 	<script type="text/javascript">
-		/* 		$(function() {
+		 		$(function() {
 		
-		 $('#product-list').load("product-list?categoryNo="+ ${categories[0].categoryNo});
+/* 		 $('#product-list').load("product-list?categoryNo="+ ${categories[0].categoryNo}); */
 		
-		 // 카테고리 클릭시 그 카테고리에 해당하는 상품리스트 조회 
-		 $('.product-category').on('click', function(event) {
-		 var categoryNo = $(this).data('category-no');
+		 // 상품삭제 
+		 $('.delete_product_button').on('click', function(event) {
+			 const productNo = $(this).data("productno");
+			 
+			const ok = confirm(productNo + " 번 글을 삭제할까요?");
+			if (!ok) return;
+			
+			// location.href = '${product.productNo}/delete.action?';
+			$.ajax({
+				 "url" : "/admin/delete-product",
+				 "method" : "get",
+				 "data" : "productNo=" + productNo,
+				 "success" : function(result, status, xhr) {
+					 console.log(result);
+					 $('tr[data-productno=' + productNo + ']').remove();
+				 },
+				 "error" : function(xhr, status, err) {
+				 	alert('error');
+				 }
+			});
+		});
+/* 		 $('#product-list').on('click', 'button.delete-product', function(event) {
+		 var propertyNo = $(this).data('product-no1');
 
 		 $.ajax({
-		 "url" : "product-list",
+		 "url" : "/delete-product",
 		 "method" : "get",
-		 "data" : "categoryNo=" + categoryNo,
-		 "success" : function(data, status, xhr) {
-		 $('#product-list').load("product-list?categoryNo="+ categoryNo);
-		 },
-		 "error" : function(data, status, err) {
+		 "data" : "propertyNo=" + propertyNo,
+		 "success" : function(result) {
+			 console.log(result);
+		 "error" : function(request, status, err) {
 		 alert('error');
 		 }
 		 })
-		 });
+		 }); */
 		
-		 // 상품명 또는 상품이미지 클릭시 상품상세페이지로 이동
+/* 		 // 상품명 또는 상품이미지 클릭시 상품상세페이지로 이동
 		 $('#product-list').on('click', 'a.product-name', function(event) {
 		 var productNo = $(this).data('product-no');
 		 var categoryNo = $(this).data('category-no');
 
 		 location.href= "/product/detail?productNo=" + productNo + "&categoryNo=" + categoryNo;
-		 }); 
+		 });  */
 		
 		 });
-		 */
+		 
 	</script>
 	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 </body>

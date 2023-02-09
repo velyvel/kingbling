@@ -70,5 +70,8 @@ public interface AdminProductService {
 
 	void writeAdminProduct(AdminProductDto adminProductWrite);
 
+	// 상품삭제
+	void deleteAdminProduct(int productNo);
+
 
 }
