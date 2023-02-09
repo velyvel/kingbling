@@ -124,8 +124,11 @@ public class ReviewController {
 
     // 수정화면은 ajax로
 
-
-
+    @PostMapping(path= {"/findReviewNo"}) @ResponseBody
+    public int findReviewNo(int orderNo, int propertyNo) {
+    	int reviewNo =reviewService.findOneReview(orderNo,propertyNo);
+    	return reviewNo;
+    }
 
 
 

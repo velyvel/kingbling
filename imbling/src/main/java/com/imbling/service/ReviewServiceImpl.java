@@ -117,5 +117,11 @@ public class ReviewServiceImpl implements ReviewService{
         return reviews;
     }
 
+	@Override
+	public int findOneReview(int orderNo, int propertyNo) {
+		int reviewNo = reviewRepository.findOneReview(orderNo,propertyNo);
+		return reviewNo;
+	}
+
 
 }
