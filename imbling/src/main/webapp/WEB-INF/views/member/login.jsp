@@ -58,7 +58,7 @@
 									<hr>
 									
 									<div class="text-center">
-										<a class="small" href="register.html">회원가입 하기!</a>
+										<a class="small" href="register">회원가입 하기!</a>
 									</div>
 								</div>
 							</div>
