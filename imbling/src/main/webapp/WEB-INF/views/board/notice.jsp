@@ -196,12 +196,9 @@
                                             </button>
                                             <input id="submitBtn" type="submit" class="btn btn-primary" value="작성완료">
                                         </div>
-                                        </div>
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                    </div>
                     <!-- ****************************** end of 1:1문의 ************************** -->
                 </div>
             </div>
@@ -343,10 +340,10 @@
                     </form>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
+
 
 
 <jsp:include page="/WEB-INF/views/modules/footer.jsp"/>
