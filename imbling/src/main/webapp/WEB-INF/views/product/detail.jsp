@@ -9,6 +9,7 @@
 <jsp:include page="/WEB-INF/views/modules/common-meta.jsp" />
 <!-- Css Styles ,font -->
 <jsp:include page="/WEB-INF/views/modules/common-css.jsp" />
+<jsp:include page="/WEB-INF/views/modules/admin/common-css.jsp" />
 <meta charset="UTF-8">
 <title>상품상세 페이지</title>
 </head>
@@ -154,54 +155,32 @@
 								<div class="tab-pane" id="tabs-6" role="tabpanel">
 									<div class="product__details__tab__content">
 										<div class="product__details__tab__content__item">
-											<h5>상품후기</h5>
+
 											<div class="card shadow mb-4">
 												<div class="card-header py-3">
 													<span>후기</span>
-													<form
-															class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-														<div class="input-group">
-															<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-																   aria-label="Search" aria-describedby="basic-addon2">
-															<div class="input-group-append">
-																<button class="btn btn-primary" type="button">
-																	<i class="fas fa-search fa-sm"></i>
-																</button>
-															</div>
-														</div>
-													</form>
-													<%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
-													<div style="float: right;">
-														<a href="writeReview"class="btn btn-secondary">후기 작성하기</a>
-													</div>
 												</div>
 												<div class="card-body">
 													<div class="table-responsive">
 														<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+
 															<thead>
 															<tr>
 																<th>상품명</th>
 																<th>제목</th>
-																<t작성자</th>
+																<th>작성자</th>
 																<th>조회수</th>
 															</tr>
 															</thead>
 															<tbody>
-															<c:set var="productNo" value="${productNo}"></c:set>
 															<c:forEach var="review" items="${reviews}">
-																<c:choose>
-																	<c:when test="${review.productDto.productNo == productNo}">
-																		<tr>
-																			<td>${review.productDto.productName}</td>
-																			<td><a href="reviewDetail?reviewNo=${review.reviewNo}">${review.reviewTitle}</a></td>
-																			<td>${review.userId}</td>
-																			<td>${review.reviewCount}</td>
-																		</tr>
-																	</c:when>
-																	<c:otherwise>
-
-																	</c:otherwise>
-																</c:choose>
+																<tr>
+																	<td>${review.productDto.productName}</td>
+																	<td><a href="/board/reviewDetail?reviewNo=${review.reviewNo}">${review.reviewTitle}</a></td>
+																	<td>${review.userId}</td>
+																	<td>${review.reviewCount}</td>
+																</tr>
 															</c:forEach>
 															</tbody>
 														</table>
@@ -269,6 +248,7 @@
 	<!-- ****************************** end footer ************************** -->
 
 	<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
+	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp"/>
 
 	<script type="text/javascript">
 $(function(){

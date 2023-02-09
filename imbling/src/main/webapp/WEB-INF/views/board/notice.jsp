@@ -15,8 +15,6 @@
     </style>
     <title>notice</title>
 </head>
-
-
 <body>
 
 <div class="container">
@@ -198,6 +196,7 @@
                                             </button>
                                             <input id="submitBtn" type="submit" class="btn btn-primary" value="작성완료">
                                         </div>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -348,8 +347,9 @@
         </div>
     </div>
 </div>
-<jsp:include page="/WEB-INF/views/modules/footer.jsp"/>
 
+
+<jsp:include page="/WEB-INF/views/modules/footer.jsp"/>
 <jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp"/>
 
 <script type="text/javascript">
@@ -422,6 +422,5 @@
 
     });
 </script>
-
 </body>
 </html>

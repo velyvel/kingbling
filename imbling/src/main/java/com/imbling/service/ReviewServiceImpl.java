@@ -33,9 +33,6 @@ public class ReviewServiceImpl implements ReviewService{
     @Autowired
     private OrderRepository orderRepository;
 
-//    @Autowired
-//    private ProductRepository productRepository;
-
 
     @Override
     public void writeReview(ReviewDto review) {
@@ -105,9 +102,20 @@ public class ReviewServiceImpl implements ReviewService{
         reviewRepository.increaseReviewCount(reviewNo);
     }
 
-    //insert할 때 넣은 productId가지고 리뷰찾기 메서드 만들기
+    @Override
+    public List<ReviewDto> findReviewsByProductNo(int productNo) {
+        List<ReviewEntity> reviewList = reviewRepository.findReviewByProductNo(productNo);
+        ArrayList<ReviewDto> reviews = new ArrayList<>();
+        for(ReviewEntity reviewEntity : reviewList){
 
-
+            ReviewDto reviewDto = reviewEntityToDto(reviewEntity);
+            reviewDto.setOrderDto(orderEntityToDto(reviewEntity.getOrder()));
+            reviewDto.setPropertyDto(propertyEntityToDto(reviewEntity.getProperty()));
+            reviewDto.setProductDto(productEntityToDto(reviewEntity.getProperty().getProduct()));
+            reviews.add(reviewDto);
+        }
+        return reviews;
+    }
 
 
 }

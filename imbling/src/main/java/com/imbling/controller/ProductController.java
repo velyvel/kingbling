@@ -95,6 +95,10 @@ public class ProductController {
 		ProductDto product = productService.showProductDetail(productNo);
 		model.addAttribute("product", product);
 		model.addAttribute("categoryNo", categoryNo);
+
+		List<ReviewDto> reviews = reviewService.findReviewsByProductNo(productNo);
+		model.addAttribute("reviews", reviews);
+
 		
 		return "product/detail";
 	}

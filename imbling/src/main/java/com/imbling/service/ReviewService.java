@@ -152,4 +152,6 @@ public interface ReviewService {
 
     void increaseReviewCount(int reviewNo);
 
+    List<ReviewDto> findReviewsByProductNo(int productNo);
+
 }
