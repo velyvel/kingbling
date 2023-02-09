@@ -86,7 +86,7 @@
                                         placeholder="상품 가격 입력" name="adminProductPrice">
                                 </div>
                                 <div class="form-group">
-                                    <input type="file" class="form-control form-control-user" id="productAttach"
+                                    <input type="file" class="form-control form-control-user" id="productAttach" style="padding-bottom:45px"
                                         placeholder="상품 이미지 업로드" name="productAttach" />
                                 </div>
                                 <button class="btn btn-primary btn-user btn-block" id="addNewProduct" type="button">
