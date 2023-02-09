@@ -119,7 +119,7 @@ public class UserOrderServiceImpl implements UserOrderService{
 			orderDetailRepository.save(o);////////////ㅇㅅㅠ
 		}
 		
-		cartRepository.deleteAllById(order.getUserId());
+		cartRepository.deleteAllByUserId(order.getUserId());
 	}
 
 	@Override
@@ -335,6 +335,17 @@ public class UserOrderServiceImpl implements UserOrderService{
 
 		PropertyDto s= propertyEntityToDto (propertyRepository.findByPropertyNo(propertyNo));
 		return s;
+	}
+
+	@Override
+	public int cartOrnot(String userId) {
+		int cartProductEA = cartRepository.cartOrNot(userId);
+		return cartProductEA;
+	}
+
+	@Override
+	public void deleteAllCart(String userId) {
+		cartRepository.deleteAllByUserId(userId);
 	}
 
 	
