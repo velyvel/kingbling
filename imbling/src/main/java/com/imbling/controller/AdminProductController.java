@@ -61,12 +61,11 @@ public class AdminProductController {
 		return "success";
 	}
 	
-	//공지사항 작성 페이지 보여주기
+	//상품 등록 페이지 보여주기
 	@GetMapping(path = {"/detail"})
-	public String showWriteNotice(@RequestParam(defaultValue = "1") int boardCategory, Model model){
+	public String showAddProduct(@RequestParam(defaultValue = "1") int categoryNo, Model model){
 
-
-		model.addAttribute("boardCategory", boardCategory);
+		model.addAttribute("categoryNo", categoryNo);
 		return "admin/product/addProduct";
 	}
 
@@ -201,7 +200,7 @@ public class AdminProductController {
 //		return "redirect:/board/notice?pageNo=" + pageNo;
 //	}
 	
-	@PostMapping(path = { "/productRegister" })
+	@RequestMapping(path = { "/productRegister" })
 	public String addNewProduct(AdminProductDto product, PropertyDto property, int categoryNo, MultipartHttpServletRequest req,RedirectAttributes rttr) {
 
 		MultipartFile productImage = req.getFile("productAttach");
@@ -221,7 +220,7 @@ public class AdminProductController {
 			}
 		}
 		adminProductService.addNewProduct(product,property,categoryNo);
-		return "redirect:/admin/detail";
+		return "redirect:/admin/detail?categoryNo="+categoryNo;
 	}
 
 
