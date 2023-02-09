@@ -20,7 +20,7 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
     @Transactional
     @Modifying
     @Query(value = "UPDATE imb_review r set r. reviewCount = r.reviewCount + 1 WHERE r.reviewNo = :reviewNo", nativeQuery = true)
-    void increaseReviewCount(int reviewNo);
+    void increaseReviewCount(@Param("reviewNo") int reviewNo);
     
 	@Query(value = "SELECT * FROM imb_review WHERE (userId= :userId AND ROWNUM<6 ) ORDER BY reviewRegDate DESC", nativeQuery = true)
 	List<ReviewEntity> findSomeById(@Param("userId") String userId);
@@ -29,7 +29,7 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
 	List<ReviewEntity> findAllById(@Param("userId") String userId);
 
     @Query(value = "SELECT * FROM imb_review WHERE productNo= :productNo ORDER BY reviewRegDate DESC", nativeQuery = true)
-    List<ReviewEntity> findReviewByProductNo(int productNo);
+    List<ReviewEntity> findReviewByProductNo(@Param("productNo") int productNo);
 
 //	@Query(value = "SELECT * FROM imb_review WHERE productNo= :productNo ORDER BY reviewRegDate DESC", nativeQuery = true)
 //    ReviewEntity findReviewByProductNo(int productNo);
