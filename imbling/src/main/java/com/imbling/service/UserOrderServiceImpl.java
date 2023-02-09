@@ -5,17 +5,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import com.imbling.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.imbling.dto.CartDto;
-import com.imbling.dto.OrderDetailDto;
-import com.imbling.dto.OrderDto;
-import com.imbling.dto.ProductDto;
-import com.imbling.dto.PropertyDto;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.CartEntity;
 import com.imbling.entity.OrderDetailEntity;
+import com.imbling.entity.OrderDetailId;
 import com.imbling.entity.OrderEntity;
 import com.imbling.entity.ProductEntity;
 import com.imbling.entity.PropertyEntity;
@@ -215,29 +212,17 @@ public class UserOrderServiceImpl implements UserOrderService{
 				odd.setOrderDetailTotalPrice(od.getOrderDetailTotalPrice());
 				odd.setOrderNo(od.getOrder().getOrderNo());
 				odd.setPropertyNo(od.getProperty().getPropertyNo());
+				odd.setReviewState(od.isReviewState());
 				orderDetails.add(odd);
 				orderDto.setOrders(orderDetails);
+//=================리뷰 정보 불러오기 추가 여기 페이지는 리뷰 불러오기 전이라 헷갈림============================
+
+				orderDto.setReviewNo(orderEntity.getOrderNo());
 			}
 			orders.add(orderDto);
 			
 		}
 		return orders;
-	}
-
-	@Override
-	public OrderDto getOrderInfo(int orderNo) {
-		OrderEntity orderentity = orderRepository.findById(orderNo).orElse(null);
-		OrderDto order = orderEntityToDto(orderentity);
-		List<OrderDetailDto> ods = new ArrayList<>(); 
-		for(OrderDetailEntity oe : orderentity.getOrderDetails()) {
-			OrderDetailDto odd = new OrderDetailDto();
-			odd = orderDetailEntityToDto(oe);
-			odd.setProductName(oe.getProperty().getProduct().getProductName());
-			ods.add(odd);
-		}
-		order.setOrders(ods);
-		
-		return order;
 	}
 
 	@Override
@@ -300,6 +285,57 @@ public class UserOrderServiceImpl implements UserOrderService{
 		return ordersDtos;
 	}
 
+	@Override
+	public OrderDto findByOrderNo(int orderId) {
+		
+		return orderEntityToDto(orderRepository.findByOrderNo(orderId));
+	}
+
+	@Override
+	public List<OrderDetailDto> findOrderDetailByOrderNo(int orderNo) {
+		List<OrderDetailDto> findDetails= new ArrayList<>();
+		for(OrderDetailEntity  findDetail:orderDetailRepository.findByOrderNo(orderNo)) {
+			OrderDetailDto orderDetailDto = orderDetailEntityToDto(findDetail);
+			
+			PropertyEntity pe = findDetail.getProperty();
+			PropertyDto propertyDto = propertyEntityToDto(pe);
+			
+			orderDetailDto.setPropertyDto(propertyDto);
+			
+			findDetails.add(orderDetailDto);
+		}
+				
+		return findDetails;
+	}
+	
+	@Override
+	public OrderDto getOrderInfo(int orderNo) {
+		OrderEntity orderentity = orderRepository.findById(orderNo).orElse(null);
+		OrderDto order = orderEntityToDto(orderentity);
+		List<OrderDetailDto> ods = new ArrayList<>(); 
+		for(OrderDetailEntity oe : orderentity.getOrderDetails()) {
+			OrderDetailDto odd = new OrderDetailDto();
+			odd = orderDetailEntityToDto(oe);
+			odd.setProductName(oe.getProperty().getProduct().getProductName());
+			
+			PropertyEntity pe = oe.getProperty();
+			PropertyDto propertyDto = propertyEntityToDto(pe);
+			
+			odd.setPropertyDto(propertyDto);
+			
+			ods.add(odd);
+		}
+		order.setOrders(ods);
+		
+		return order;
+	}
+
+	@Override
+	public PropertyDto findPropertyBypropertyNo(int propertyNo) {
+
+		PropertyDto s= propertyEntityToDto (propertyRepository.findByPropertyNo(propertyNo));
+		return s;
+	}
 
 	
 

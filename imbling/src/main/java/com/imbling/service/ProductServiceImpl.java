@@ -3,6 +3,8 @@ package com.imbling.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -156,6 +158,28 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void increaseProductReadCount(int productNo) {
 		productRepository.updateProductCount(productNo);
+	}
+	
+	// 검색 
+	@Transactional
+	public List<ProductDto> searchProduct(String keyword) {
+		List<ProductEntity> products = productRepository.findByProductNameContaining(keyword);
+		ArrayList<ProductDto> productDtos = new ArrayList<>();
+		
+		for (ProductEntity product : products) {
+			ProductDto productDto = new ProductDto();
+			productDto.setProductNo(product.getProductNo());
+			productDto.setProductName(product.getProductName());
+			productDto.setProductImage(product.getProductImage());
+			productDto.setProductPrice(product.getProductPrice());
+			CategoryEntity categoryEntity = product.getCategory();
+			CategoryDto dto = null;
+			dto = categoryEntityToDto(categoryEntity);
+			productDto.setCategory(dto);
+			productDtos.add(productDto);
+		}
+		
+		return productDtos;
 	}
 
 }

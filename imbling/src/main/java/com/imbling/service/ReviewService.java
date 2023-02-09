@@ -1,17 +1,13 @@
 package com.imbling.service;
 
-import com.imbling.dto.OrderDetailDto;
-import com.imbling.dto.OrderDto;
-import com.imbling.dto.PropertyDto;
-import com.imbling.dto.ReviewDto;
-import com.imbling.entity.OrderDetailEntity;
-import com.imbling.entity.OrderEntity;
-import com.imbling.entity.PropertyEntity;
-import com.imbling.entity.ReviewEntity;
+import com.imbling.dto.*;
+import com.imbling.entity.*;
 
 import java.util.List;
 
 public interface ReviewService {
+
+
 
     public default ReviewDto reviewEntityToDto(ReviewEntity reviewEntity){
         ReviewDto reviewDto = new ReviewDto();
@@ -58,6 +54,7 @@ public interface ReviewService {
         orderDto.setUserId(orderEntity.getUserId());
         orderDto.setOrderAddr(orderEntity.getOrderAddr());
 
+
         return orderDto;
     }
 
@@ -77,6 +74,7 @@ public interface ReviewService {
         orderDetailDto.setOrderDetailTotalPrice(orderDetailEntity.getOrderDetailTotalPrice());
         orderDetailDto.setOrderNo(orderDetailEntity.getOrder().getOrderNo());
         orderDetailDto.setPropertyNo(orderDetailEntity.getProperty().getPropertyNo());
+        orderDetailDto.setReviewState(orderDetailEntity.isReviewState());
 
         return orderDetailDto;
     }
@@ -86,7 +84,7 @@ public interface ReviewService {
         PropertyEntity propertyEntity = PropertyEntity.builder().propertyNo(orderDetailDto.getPropertyNo()).build();
 
         OrderDetailEntity orderDetailEntity = OrderDetailEntity.builder().orderDetailEA(orderDetailDto.getOrderDetailEA())
-                .order(orderEntity).property(propertyEntity).orderDetailTotalPrice(orderDetailDto.getOrderDetailTotalPrice())
+                .order(orderEntity).property(propertyEntity).orderDetailTotalPrice(orderDetailDto.getOrderDetailTotalPrice()).reviewState(orderDetailDto.isReviewState())
                 .build();
 
         return orderDetailEntity;
@@ -116,11 +114,42 @@ public interface ReviewService {
     }
     //================================================================================================
 
+    public default ProductDto productEntityToDto(ProductEntity productEntity) {
+        ProductDto productDto = new ProductDto();
+        productDto.setProductNo(productEntity.getProductNo());
+        productDto.setProductName(productEntity.getProductName());
+        productDto.setProductContent(productEntity.getProductContent());
+        productDto.setProductImage(productEntity.getProductImage());
+        productDto.setProductPrice(productEntity.getProductPrice());
+        productDto.setProductRegdate(productEntity.getProductRegdate());
+        productDto.setProductCount(productEntity.getProductCount());
+
+        return productDto;
+    }
+
+    public default ProductEntity productDtoToEntity(ProductDto productDto) {
+        ProductEntity productEntity = ProductEntity.builder()
+                .productNo(productDto.getProductNo())
+                .productName(productDto.getProductName())
+                .productContent(productDto.getProductContent())
+                .productImage(productDto.getProductImage())
+                .productPrice(productDto.getProductPrice())
+                .productRegdate(productDto.getProductRegdate())
+                .productCount(productDto.getProductCount())
+                .build();
+
+        return productEntity;
+    }
+    //================================================================================================
+
 
     void writeReview(ReviewDto review);
     //void findOrder(OrderDto order);
 
     List<ReviewDto> findAllReview(ReviewDto review);
 
+    ReviewDto findReviewByReviewNo(int reviewNo);
+
+    void increaseReviewCount(int reviewNo);
 
 }

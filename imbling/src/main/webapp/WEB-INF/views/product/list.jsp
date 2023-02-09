@@ -28,14 +28,16 @@
 
 					<!-- ****************************** product sidebar ************************** -->
 					<div class="shop__sidebar">
+						<!-- search -->
 						<div class="shop__sidebar__search">
-							<form action="#">
-								<input type="text" placeholder="Search...">
-								<button type="submit">
+							<form name="search-form" id="search-form">
+								<input type="search" name="keyword" placeholder="Search...">
+								<button type="button" id="search-btn">
 									<span class="icon_search"></span>
 								</button>
 							</form>
 						</div>
+						<!-- end of search -->
 						<div class="shop__sidebar__accordion">
 							<div class="accordion" id="accordionExample">
 								<div class="card">
@@ -48,7 +50,8 @@
 											<div class="shop__sidebar__categories">
 												<ul class="nice-scroll">
 													<c:forEach var="category" items="${categories}">
-														<li><a class="product-category" data-category-no="${category.categoryNo}">
+														<li><a class="product-category"
+															data-category-no="${category.categoryNo}">
 																${category.categoryName}</a></li>
 													</c:forEach>
 												</ul>
@@ -135,12 +138,42 @@
 					}
 				})
 			});
-			
 
-			$('#product-list').on('click', 'a.heart-btn', function(event) {
-				var productNo3 = $(this).data('product-no3');
+			$('#product-list').on('click', 'img.heart-btn', function(event) {
 				
-				location.href = "/mypage/heart?productNo=" + productNo3;
+				event.preventDefault();
+				event.stopPropagation();
+				
+				var productNo = $(this).data('product-no3');
+				var categoryNo = $(this).data('category-no3');
+				var productName = $('#product-name').val();
+				var productPrice = $('#product-price').val();
+				var productImage = $('#product-image').val();
+				
+				// $('.heart-btn[data-product-no3=' + productNo + ']').attr( "src", "/resources/dist/img/icon/full-heart.png");
+				
+				$.ajax({
+					url : '/add-to-heart',
+				    type : 'post',
+				    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
+				    data : {"productNo":productNo,"categoryNo":categoryNo,"productName":productName,"productImage":productImage,"productPrice":productPrice},
+				    success : function(result) { // 결과 성공 콜백함수
+				    	$('.heart-btn[data-product-no3=' + productNo + ']').attr( "src", "/resources/dist/img/icon/full-heart.png");
+				    	alert('관심상품으로 등록되었습니다.');
+				    },
+				    error : function(request, status, error) { // 결과 에러 콜백함수
+				    	var loginuser = $('#user-id').val();
+				    	
+				    	if (loginuser == null) {
+				    		alert('로그인 후 가능한 서비스입니다.');	
+				    	} /* else if (){
+				    		alert('이미 관심상품 목록에 포함된 상품입니다.');	
+				    	} */ else {
+				    		alert('알수없는 오류가 발생하여 페이지를 초기화합니다.');
+				    		$('#product-list').load("/product/product-list");
+				    	}
+				    }
+				})
 			});
 			
 			// 상품명 또는 상품이미지 클릭시 상품상세페이지로 이동
@@ -168,6 +201,65 @@
 				$('#product-list').load("product-list?categoryNo="+ categoryNo + "&sort=" + sort);
 				
 			});
+			
+			$.numberWithCommas = function(x) {
+				return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			}
+			
+			// 검색
+			$('#search-form').on('click', '#search-btn', function(event) {
+				
+				event.preventDefault();
+				
+				const searchValue = $('input[name=keyword]').val();
+				if (searchValue.length == 0) {
+					alert("검색어를 입력하세요.");
+					return;
+				}
+				
+				const formData = $('form[name=search-form]').serialize();
+				
+				$.ajax({
+					"url" : "/product/search",
+					"method" : "get",
+					"data" : formData,
+					"success" : function(result) {
+						if(result.length >= 1) {
+							$('#product-list').empty(); // 테이블 초기화
+							result.forEach(function(item) {
+								var str = "<div class='col-lg-4 col-md-6 col-sm-6'>";
+								str += "<div class='product__item'>";
+								str += "<div class='product__item__pic set-bg product-image' data-product-no2='" + item.productNo + "' data-category-no2='" + item.category.categoryNo + "' style='background-image:url(" + item.productImage + ")'>";
+								str += "<ul class='product__hover'>";
+								str += "<li><img src='/resources/dist/img/icon/empty-heart.png' class='heart-btn' data-product-no3='" + item.productNo + "' data-category-no3='" + item.categoryNo + "'></li>"
+								str += "</ul>";
+								str += "</div>";
+								str += "<input type='hidden' value='" + item.productImage + "' id='product-image'/>";
+								str += "<div class='product__item__text'>"
+								str += "<h6>" + item.productName + "</h6>";
+								str += "<input type='hidden' value='" + item.productName + "' id='product-name'/>";
+								str += "<a class='add-cart product-name' data-product-no='" + item.productNo + "' data-category-no='" + item.categoryNo + "'>+ 상세페이지 보기</a>"
+								str += "<h5 class='product-price'>₩" + item.productPrice.toLocaleString("ko-KR") + "</h5>";
+								str += "<input type='hidden' value='" + item.productPrice + "' id='product-price'/>";
+								str += "</div>";
+								str += "</div>"; 
+								str += "</div>";
+								str += "</div>"; 
+							
+								
+								$('#product-list').append(str);
+							});
+						} else {
+							alert("일치하는 상품이 없습니다.");
+						}
+						
+					},
+					"error" : function(err) {
+						alert("검색에 실패했습니다.");
+					}
+				})
+			});
+			
 			
 			
 		});

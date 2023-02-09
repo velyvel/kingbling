@@ -43,6 +43,7 @@ color: white;
                     <th>글 제목</th>
                     <th>작성자</th>
                     <th>작성일</th>
+                    <th>처리상태</th>
                     <th>조회수</th>
                 </c:when>
                 <c:otherwise>
@@ -71,6 +72,7 @@ color: white;
                     <td>${board.userId}</td>
                     <td id="regDate${board.boardNo}" data-regdate="${board.boardRegDate1}" >
                     <fmt:formatDate value="${board.boardRegDate1}" type="both" dateStyle="full" timeStyle="short" /></td>
+                    <td></td>
                     <td id="boardCount${board.boardNo}" data-boardcount="${board.boardCount}" >${board.boardCount}</td>
                 </tr>
                	</c:forEach>
@@ -140,11 +142,19 @@ $(function(){
 	
 	$("table[id*='dataTable']").on('click',"tr[id *= 'boardRow']",function(event){
 		var boardNo = $(this).data("boardno");
-		$("#myModal").modal();
-		$('#exampleModalLabel').html("<h5>"+$("#category"+boardNo).data("category")+"</h5>");
-		$('#exampleModalLabel').append("<h7>작성자 : "+userId+"</h7>");
-		$('#boardDetailTitle').val($("#title"+boardNo).data("title"));
-		$('#boardDetailContent').text($("#content"+boardNo).data("content"));
+		
+		if($("#category"+boardNo).data("category")=='1:1문의'){
+			$("#myModal").modal();
+			$('#exampleModalLabel').html("<h5>"+$("#category"+boardNo).data("category")+"</h5>");
+			$('#exampleModalLabel').append("<h7>작성자 : "+userId+"</h7>");
+			$('#boardDetailTitle').val($("#title"+boardNo).data("title"));
+			$('#boardDetailContent').text($("#content"+boardNo).data("content"));
+		}else{
+			location.href="/board/reviewDetail?reviewNo="+boardNo;
+		}
+		
+		
+		
 	});
 	
 });
