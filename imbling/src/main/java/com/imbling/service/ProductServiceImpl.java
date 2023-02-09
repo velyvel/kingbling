@@ -1,7 +1,10 @@
 package com.imbling.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -127,28 +130,44 @@ public class ProductServiceImpl implements ProductService {
 //			entities = productRepository.findByCategoryCategoryNoOrderByProductCountDesc(categoryNo, pageable);
 //		}
 		
-		List<ProductEntity> entities = null;
-		if (sort.equals("productRegdate") && asc == false) {
-			entities = productRepository.findByCategoryCategoryNoOrderByProductRegdateDesc(categoryNo);
-		} else if (sort.equals("productPriceDesc") && asc == false) {
-			entities = productRepository.findByCategoryCategoryNoOrderByProductPriceDesc(categoryNo);
-		} else if (sort.equals("productPriceAsc") && asc == true ) {
-			entities = productRepository.findByCategoryCategoryNoOrderByProductPrice(categoryNo);
+		ArrayList<ProductDto> products = new ArrayList<>();
+		if (sort.equals("reviewCountDesc") ) {
+			List<Map<String, Object>> entities2 = productRepository.findByCategroyCategoryNoOrderByReviewDesc(categoryNo);
+			for (Map<String, Object> productEntity : entities2) {
+				ProductDto productDto = new ProductDto();
+				productDto.setProductNo(((BigDecimal)productEntity.get("productNo")).intValue());
+				productDto.setProductName((String)productEntity.get("productName"));
+				productDto.setProductImage((String)productEntity.get("productImage"));
+				productDto.setProductPrice(((BigDecimal)productEntity.get("productPrice")).intValue());
+				productDto.setProductRegdate((Date)productEntity.get("productRegdate"));
+				
+				products.add(productDto);
+			}
 		} else {
-			entities = productRepository.findByCategoryCategoryNoOrderByProductCountDesc(categoryNo);
+			List<ProductEntity> entities = new ArrayList<>();
+			if (sort.equals("productRegdate") && asc == false) {
+				entities = productRepository.findByCategoryCategoryNoOrderByProductRegdateDesc(categoryNo);
+			} else if (sort.equals("productPriceDesc") && asc == false) {
+				entities = productRepository.findByCategoryCategoryNoOrderByProductPriceDesc(categoryNo);
+			} else if (sort.equals("productPriceAsc") && asc == true ) {
+				entities = productRepository.findByCategoryCategoryNoOrderByProductPrice(categoryNo);
+			} else if (sort.equals("productCountDesc")){
+				entities = productRepository.findByCategoryCategoryNoOrderByProductCountDesc(categoryNo);
+			} 
+			for (ProductEntity productEntity : entities) {
+				ProductDto productDto = new ProductDto();
+				productDto.setProductNo(productEntity.getProductNo());
+				productDto.setProductName(productEntity.getProductName());
+				productDto.setProductImage(productEntity.getProductImage());
+				productDto.setProductPrice(productEntity.getProductPrice());
+				productDto.setProductRegdate(productEntity.getProductRegdate());
+				
+				products.add(productDto);
+			}
 		}
 		
-		ArrayList<ProductDto> products = new ArrayList<>();
-		for (ProductEntity productEntity : entities) {
-			ProductDto productDto = new ProductDto();
-			productDto.setProductNo(productEntity.getProductNo());
-			productDto.setProductName(productEntity.getProductName());
-			productDto.setProductImage(productEntity.getProductImage());
-			productDto.setProductPrice(productEntity.getProductPrice());
-			productDto.setProductRegdate(productEntity.getProductRegdate());
-			
-			products.add(productDto);
-		}
+		
+		
 		
 		return products;
 //		return (Page<ProductDto>) products;

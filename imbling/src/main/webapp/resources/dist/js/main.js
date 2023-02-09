@@ -180,7 +180,8 @@
             if (oldValue = 5) {
                 var newVal = parseFloat(oldValue) - 1;
                 if (newVal <= 5) {
-					$('#min-alert').toast('show');
+					$("#max-alert").toast('show');
+					$('#max-body').html("최소 주문수량은 5개입니다.");
 					return false;
 				}
             } else {

@@ -54,7 +54,7 @@ public class ProductController {
 	// 카테고리별 상품리스트 조회 
 	@GetMapping(path= {"/product-list"})
 	public String showProductListByCategory(CategoryDto categoryDto,
-											@RequestParam(defaultValue = "productCount") String sort,
+											@RequestParam(defaultValue = "productCountDesc") String sort,
 											Model model, HttpSession session) {
 //											,@PageableDefault(page=0, size=12, sort="id", direction=Sort.Direction.DESC)Pageable pageable ) {
 		
@@ -128,13 +128,20 @@ public class ProductController {
 	
 	// 검색
 	@GetMapping("/search")
-	@ResponseBody
-	public List<ProductDto> showSearchList(String keyword, CategoryDto categoryDto, Model model) {
+	public String showSearchList(String keyword, CategoryDto categoryDto, HttpSession session, Model model) {
 		List<ProductDto> productList = productService.searchProduct(keyword);
-		model.addAttribute("productList", productList);
+		model.addAttribute("products", productList);
 		model.addAttribute("categoryNo", categoryDto.getCategoryNo());
 		
-		return productList;
+		AccountDto loginuser = (AccountDto) session.getAttribute("loginuser");
+		List<HeartDto> hearts = mypageService.getHeartInfo(loginuser.getUserId());
+		List<Integer> heart = new ArrayList<>();
+		for (HeartDto h : hearts) {
+			heart.add(h.getProductNo());
+		}
+		model.addAttribute("hearts", heart);
+		
+		return "product/product-list";
 	}
 	
 }

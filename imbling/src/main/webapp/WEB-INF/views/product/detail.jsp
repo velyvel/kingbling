@@ -66,6 +66,7 @@
 									pattern="₩#,###" />
 							</h3>
 							<div class="product__details__option">
+								<%-- ${product.properties[0].productSize} / ${product.properties[0].productColor} --%>
 								<div class="product__details__option__size">
 									<div>Size:</div>
 									<select id="product-size">
@@ -249,7 +250,7 @@
 	<br>
 	<!-- ****************************** 상품정보 / 상품후기 / 문의사항 ************************** -->
 
-	<!-- cart modal -->
+	<!-- modal -->
 	<div class="modal fade" id="cart-modal" tabindex="-1" role="dialog"aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -267,9 +268,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- end of cart modal -->
 	
-	<!-- cart modal -->
 	<div class="modal fade" id="heart-delete-modal" tabindex="-1" role="dialog"aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -287,53 +286,9 @@
 			</div>
 		</div>
 	</div>
-	<!-- end of cart modal -->
+	<!-- end of modal -->
 	
 	<!-- alert -->
-	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top:0;">
-		<div id="log-in" class="toast hide" role="alert"
-			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width:1000px;">
-			<div class="toast-header">
-				<img src="/resources/dist/img/icon/warning.png" class="rounded mr-2"
-					alt="..."> <strong class="mr-auto">WARNING</strong>
-				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="toast-body">로그인 후 가능한 서비스입니다.</div>
-		</div>
-	</div>
-
-	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top:0;">
-		<div id="already-cart" class="toast hide" role="alert"
-			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width:1000px;">
-			<div class="toast-header">
-				<img src="/resources/dist/img/icon/warning.png" class="rounded mr-2"
-					alt="..."> <strong class="mr-auto">WARNING</strong>
-				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="toast-body">이미 장바구니 목록에 포함된 상품입니다.</div>
-		</div>
-	</div>
-	
-	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
-		<div id="min-alert" class="toast hide" role="alert"
-			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width: 1000px;">
-			<div class="toast-header">
-				<img src="/resources/dist/img/icon/warning.png" class="rounded mr-2"
-					alt="..."> <strong class="mr-auto">WARNING</strong>
-				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="toast-body">최소 주문수량은 5개입니다.</div>
-		</div>
-	</div>
 	
 	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
 		<div id="max-alert" class="toast hide" role="alert"
@@ -351,7 +306,7 @@
 	</div>
 	
 	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
-		<div id="heart-add-alert" class="toast hide" role="alert"
+		<div id="heart-alert" class="toast hide" role="alert"
 			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width: 1000px;">
 			<div class="toast-header">
 				<img src="/resources/dist/img/icon/notification.png" class="rounded mr-2"
@@ -361,24 +316,10 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="toast-body" id="max-body">관심상품으로 등록되었습니다.</div>
+			<div class="toast-body" id="heart-body"></div>
 		</div>
 	</div>
 	
-	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
-		<div id="heart-delete-alert" class="toast hide" role="alert"
-			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width: 1000px;">
-			<div class="toast-header">
-				<img src="/resources/dist/img/icon/notification.png" class="rounded mr-2"
-					alt="..."> <strong class="mr-auto">NOTIFY</strong>
-				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="toast-body" id="max-body">해당 상품을 관심상품에서 삭제했습니다.</div>
-		</div>
-	</div>
 	<!-- end of alert -->
 
 	<!-- ****************************** 관련상품 넣어도 그만 안넣어도 그만 ************************** -->
@@ -418,9 +359,11 @@
 					var loginuser = $('#user-id').val();
 			    	
 			    	if (loginuser == null) {
-			    		$('#log-in').toast('show');
+			    		$("#max-alert").toast('show');
+						$('#max-body').html("로그인이 필요한 서비스입니다.");
 			    	} else {
-			    		$('#already-cart').toast('show');
+			    		$("#max-alert").toast('show');
+						$('#max-body').html("이미 장바구니 목록에 등록된 상품입니다.");
 			    	}
 			    }
 			    });
@@ -457,7 +400,8 @@
 			    data : {"productNo":${product.productNo},"categoryNo":categoryNo,"productName":"${product.productName}","productImage":"${product.productImage}","productPrice":${product.productPrice}},
 			    success : function(result) { // 결과 성공 콜백함수
 			    	$('#add-to-heart img').attr( "src", "/resources/dist/img/icon/full-heart.png");
-			    	$('#heart-add-alert').toast('show');
+			    	$("#heart-alert").toast('show');
+					$('#heart-body').html("관심상품으로 등록되었습니다.");
 			    },
 			    error : function(request, status, error) { // 결과 에러 콜백함수
 			    	var loginuser = $('#user-id').val();
@@ -474,7 +418,8 @@
 								type : 'get',
 								data : 'productNo=' + ${product.productNo},
 								success : function(result) {
-									$('#heart-delete-alert').toast('show');
+									$("#heart-alert").toast('show');
+									$('#heart-body').html("해당 상품을 관심상품 목록에서 삭제했습니다.");
 									$('#add-to-heart img').attr("src", "/resources/dist/img/icon/empty-heart.png");
 								},
 								error : function(request, status, error) {

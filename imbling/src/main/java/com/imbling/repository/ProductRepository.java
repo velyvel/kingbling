@@ -1,6 +1,7 @@
 package com.imbling.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -30,18 +31,15 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 	// 높은가격순 정렬
 	List<ProductEntity> findByCategoryCategoryNoOrderByProductPriceDesc(int categoryNo);
 	
-//	// 인기상품순 정렬
-//	Page<ProductEntity> findByCategoryCategoryNoOrderByProductCountDesc(int categoryNo, Pageable pageable);
-//
-//	// 신상품순 정렬
-//	Page<ProductEntity> findByCategoryCategoryNoOrderByProductRegdateDesc(int categoryNo, Pageable pageable);
-//
-//	// 낮은가격순 정렬
-//	Page<ProductEntity> findByCategoryCategoryNoOrderByProductPrice(int categoryNo, Pageable pageable);
-//
-//	// 높은가격순 정렬
-//	Page<ProductEntity> findByCategoryCategoryNoOrderByProductPriceDesc(int categoryNo, Pageable pageable);
-
+	// 인기상품순 정렬
+	
+	// 리뷰많은순 정렬
+	@Query(value="select p.*, (select count(*) from imb_review where productNo = p.productNo) cnt "
+			+ "from imb_product p "
+			+ "where p.categoryNo = :categoryNo "
+			+ "order by cnt desc ", nativeQuery = true)
+	List<Map<String, Object>> findByCategroyCategoryNoOrderByReviewDesc(@Param(value = "categoryNo")int categoryNo);
+	
 	// 조회수 증가
 	@Transactional
 	@Modifying
