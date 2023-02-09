@@ -10,7 +10,7 @@ public class OrderDetailDto {
 	private int orderDetailEA;
 	private int orderDetailTotalPrice;
 	private boolean reviewState;
-
+	private int productNo;
 	
 	private String productName;
 	

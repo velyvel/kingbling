@@ -117,7 +117,7 @@
                         <c:forEach var="review" items="${reviews}">
                             <tr>
                                 <td>
-                                    ${review.productDto.productName}
+                                    ${review.productDto.productName},,,,,,,,,,,${review.productDto.productNo}
                                 </td>
                                 <td><a href="reviewDetail?reviewNo=${review.reviewNo}">${review.reviewTitle}</a></td>
                                     <c:choose>

@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.imbling.dto.*;
+import com.imbling.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -15,10 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.imbling.dto.AccountDto;
-import com.imbling.dto.CategoryDto;
-import com.imbling.dto.HeartDto;
-import com.imbling.dto.ProductDto;
 import com.imbling.service.MypageService;
 import com.imbling.service.ProductService;
 
@@ -33,6 +31,10 @@ public class ProductController {
 	@Autowired
 	@Qualifier("mypageService")
 	private MypageService mypageService;
+
+	@Autowired
+	@Qualifier("reviewService")
+	private ReviewService reviewService;
 	
 	// 상품리스트
 	@GetMapping(path = { "/list" })
@@ -77,7 +79,7 @@ public class ProductController {
 	
 	// 상품상세페이지 
 	@GetMapping(path = { "/detail" })
-	public String showDetail(int categoryNo, int productNo, Model model, HttpSession session) {
+	public String showDetail(int categoryNo, int productNo, ReviewDto review, Model model, HttpSession session) {
 		
 		// 상품게시글 조회수 증가
 		ArrayList<Integer> productList = (ArrayList<Integer>) session.getAttribute("product-list");

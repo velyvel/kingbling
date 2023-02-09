@@ -11,6 +11,7 @@ public class ReviewDto {
     private int reviewNo;
     private int orderNo;
     private int propertyNo;
+    private int productNo;
     private String userId;
     private String reviewTitle;
     private String reviewContent;

@@ -2,10 +2,7 @@ package com.imbling.service;
 
 import com.imbling.dto.*;
 import com.imbling.entity.*;
-import com.imbling.repository.OrderDetailRepository;
-import com.imbling.repository.OrderRepository;
-import com.imbling.repository.PropertyRepository;
-import com.imbling.repository.ReviewRepository;
+import com.imbling.repository.*;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +26,9 @@ public class ReviewServiceImpl implements ReviewService{
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
 
     @Override
     public void writeReview(ReviewDto review) {
@@ -39,15 +39,17 @@ public class ReviewServiceImpl implements ReviewService{
                 .userId(review.getUserId())
                 .build();
 
-
         PropertyEntity propertyEntity = propertyRepository.findById(review.getPropertyNo()).orElse((null));
         OrderEntity orderEntity = orderRepository.findById(review.getOrderNo()).orElse(null);
-        OrderDetailEntity orderDetailEntity = orderDetailRepository.findByIds(review.getOrderNo(), review.getPropertyNo());
+
+        //reviewEntity에 property타고 product 넣기.. 디비는 수정 해야함
+        reviewEntity.setProduct(propertyEntity.getProduct());
         reviewEntity.setOrder(orderEntity);
         reviewEntity.setProperty(propertyEntity);
-        orderDetailEntity.setReviewState(true);
-
         reviewRepository.save(reviewEntity);
+
+        OrderDetailEntity orderDetailEntity = orderDetailRepository.findByIds(review.getOrderNo(), review.getPropertyNo());
+        orderDetailEntity.setReviewState(true);
         orderDetailRepository.save(orderDetailEntity);
     }
 
@@ -86,6 +88,10 @@ public class ReviewServiceImpl implements ReviewService{
     public void increaseReviewCount(int reviewNo) {
         reviewRepository.increaseReviewCount(reviewNo);
     }
+
+    //insert할 때 넣은 productId가지고 리뷰찾기 메서드 만들기
+
+
 
 
 }

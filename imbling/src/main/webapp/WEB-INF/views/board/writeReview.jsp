@@ -25,6 +25,7 @@
             <form method="post" id="writeReview" action="writeReview">
                 <input type="text" name="attach" value="">
                 <input type="text" name="savedFileName" value="">
+                <input type="text" value="${products}">
             <div style="float: right;">
                 <a href="/mypage/orderList"class="btn btn-danger"><i class="fas fa-close"></i> 취소하기</a>
                 <input id="submitBtn" type="submit" class="btn btn-success" value="작성완료">
@@ -56,7 +57,8 @@
             <div class="col-sm-6" style="float: right;">
                 <div class="form-group">
                     <label>상품명</label>
-                    <input type="text" class="form-control" id="propertyNo" value="${property.productName}" readonly>
+                    <input type="hidden" class="form-control" id="propertyNo" name="propertyNo" value="${property.propertyNo}">
+                    <input type="text" class="form-control" id="propertyName" value="${property.productName}" readonly>
                 </div>
             </div>
             <div class="col-sm-6">

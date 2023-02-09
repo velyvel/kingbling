@@ -150,36 +150,64 @@
 										</div>
 									</div>
 								</div>
+<%--			상품후기					--%>
 								<div class="tab-pane" id="tabs-6" role="tabpanel">
 									<div class="product__details__tab__content">
 										<div class="product__details__tab__content__item">
-											<h5>Products Infomation</h5>
-											<p>A Pocket PC is a handheld computer, which features
-												many of the same capabilities as a modern PC. These handy
-												little devices allow individuals to retrieve and store
-												e-mail messages, create a contact file, coordinate
-												appointments, surf the internet, exchange text messages and
-												more. Every product that is labeled as a Pocket PC must be
-												accompanied with specific software to operate the unit and
-												must feature a touchscreen and touchpad.</p>
-											<p>As is the case with any new technology product, the
-												cost of a Pocket PC was substantial during it’s early
-												release. For approximately $700.00, consumers could purchase
-												one of top-of-the-line Pocket PCs in 2003. These days,
-												customers are finding that prices have become much more
-												reasonable now that the newness is wearing off. For
-												approximately $350.00, a new Pocket PC can now be purchased.</p>
-										</div>
-										<div class="product__details__tab__content__item">
-											<h5>Material used</h5>
-											<p>Polyester is deemed lower quality due to its none
-												natural quality’s. Made from synthetic materials, not
-												natural like wool. Polyester suits become creased easily and
-												are known for not being breathable. Polyester suits tend to
-												have a shine to them compared to wool and cotton suits, this
-												can make the suit look cheap. The texture of velvet is
-												luxurious and breathable. Velvet is a great choice for
-												dinner party jacket and can be worn all year round.</p>
+											<h5>상품후기</h5>
+											<div class="card shadow mb-4">
+												<div class="card-header py-3">
+													<span>후기</span>
+													<form
+															class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+														<div class="input-group">
+															<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+																   aria-label="Search" aria-describedby="basic-addon2">
+															<div class="input-group-append">
+																<button class="btn btn-primary" type="button">
+																	<i class="fas fa-search fa-sm"></i>
+																</button>
+															</div>
+														</div>
+													</form>
+													<%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
+													<div style="float: right;">
+														<a href="writeReview"class="btn btn-secondary">후기 작성하기</a>
+													</div>
+												</div>
+												<div class="card-body">
+													<div class="table-responsive">
+														<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+															<thead>
+															<tr>
+																<th>상품명</th>
+																<th>제목</th>
+																<t작성자</th>
+																<th>조회수</th>
+															</tr>
+															</thead>
+															<tbody>
+															<c:set var="productNo" value="${productNo}"></c:set>
+															<c:forEach var="review" items="${reviews}">
+																<c:choose>
+																	<c:when test="${review.productDto.productNo == productNo}">
+																		<tr>
+																			<td>${review.productDto.productName}</td>
+																			<td><a href="reviewDetail?reviewNo=${review.reviewNo}">${review.reviewTitle}</a></td>
+																			<td>${review.userId}</td>
+																			<td>${review.reviewCount}</td>
+																		</tr>
+																	</c:when>
+																	<c:otherwise>
+
+																	</c:otherwise>
+																</c:choose>
+															</c:forEach>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>

@@ -2,6 +2,7 @@ package com.imbling.controller;
 
 import com.imbling.common.Util;
 import com.imbling.dto.*;
+import com.imbling.entity.ReviewEntity;
 import com.imbling.service.ProductService;
 import com.imbling.service.ReviewService;
 import com.imbling.service.UserOrderService;
@@ -42,15 +43,19 @@ public class ReviewController {
         List<ReviewDto> reviews = reviewService.findAllReview(review);
         model.addAttribute("reviews", reviews);
 
+
         return "board/review";
     }
 
     @GetMapping(path = { "/writeReview" })
-    public String showBoardWrite(@RequestParam(defaultValue = "-1") int orderNo, int propertyNo, Model model) {
+    public String showBoardWrite(@RequestParam(defaultValue = "-1") int orderNo, int propertyNo,@RequestParam(defaultValue = "1") int productNo, Model model) {
 
         OrderDto order = userOrderService.getOrderInfo(orderNo);
+
         model.addAttribute("orderNo", orderNo);
         model.addAttribute("orders", order.getOrders());
+        model.addAttribute("productNo", productNo);
+        //model.addAttribute("product",order.getOrders());
 
         for(int i=0; i<order.getOrders().size(); i ++){
             if(order.getOrders().get(i).getPropertyNo()==propertyNo){
