@@ -43,7 +43,6 @@ color: white;
                     <th>글 제목</th>
                     <th>작성자</th>
                     <th>작성일</th>
-                    <th>처리상태</th>
                     <th>조회수</th>
                 </c:when>
                 <c:otherwise>
@@ -62,6 +61,7 @@ color: white;
                 <c:choose>
                 <c:when test="${sort=='inquery'}">
                 <c:forEach items="${boards}" var="board"> 
+                <c:if test="${!board.boardDeleted}">
                	<tr id="boardRow${board.boardNo}" data-boardno="${board.boardNo}" style="cursor: pointer;">
                		<td>${board.boardNo}
                		<input type="hidden" id="category${board.boardNo}" data-category="1:1문의"  >
@@ -72,13 +72,14 @@ color: white;
                     <td>${board.userId}</td>
                     <td id="regDate${board.boardNo}" data-regdate="${board.boardRegDate1}" >
                     <fmt:formatDate value="${board.boardRegDate1}" type="both" dateStyle="full" timeStyle="short" /></td>
-                    <td></td>
                     <td id="boardCount${board.boardNo}" data-boardcount="${board.boardCount}" >${board.boardCount}</td>
                 </tr>
+                </c:if>
                	</c:forEach>
                 </c:when>
                 <c:otherwise>
                 <c:forEach items="${reviews}" var="review"> 
+                <c:if test="${!review.reviewDeleted}">
                	<tr id="boardRow${review.reviewNo}" data-boardno="${review.reviewNo}" style="cursor: pointer;">
                		<td id="boardNo${review.reviewNo}">${review.reviewNo}</td>
                     <td>${review.reviewTitle}</td>
@@ -87,6 +88,7 @@ color: white;
                     <td><c:forEach begin="1" end="${review.reviewStar}">⭐️</c:forEach></td>
                     <td>${review.reviewCount}</td>
                 </tr>
+                </c:if>
                	</c:forEach>
                 </c:otherwise>
                 </c:choose>

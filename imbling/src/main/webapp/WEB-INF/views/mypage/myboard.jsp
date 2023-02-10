@@ -41,7 +41,6 @@ color: white;
                     <th data-orderable="false">글 제목</th>
                     <th data-orderable="false">작성자</th>
                     <th data-orderable="false">작성일</th>
-                    <th data-orderable="false">처리상태</th>
                     <th data-orderable="false">조회수</th>
                 </tr>
                 </thead>
@@ -58,7 +57,6 @@ color: white;
                     <td>${board.userId}</td>
                     <td id="regDate${board.boardNo}" data-regdate="${board.boardRegDate1}" >
                     <fmt:formatDate value="${board.boardRegDate1}" type="both" dateStyle="full" timeStyle="short" /></td>
-                    <td></td>
                     <td id="boardCount${board.boardNo}" data-boardcount="${board.boardCount}" >${board.boardCount}</td>
                 </tr>
                	</c:if>
