@@ -136,7 +136,8 @@ public interface BoardService {
 
     void modifiedNoticeBoard(BoardDto board);
 
-    void deleteBoard(int boardNo);
+//    void deleteBoard(int boardNo);
+    void deleteBoard(BoardDto board);
 
     void increaseBoardCount(int boardNo);
 
@@ -158,11 +159,16 @@ public interface BoardService {
 
     void modifiedFaq(BoardFaqDto faq);
 
-    void deleteFaq(int faqNo);
+    //void deleteFaq(int faqNo);
 
     List<BoardFaqDto> findFaq2();
 
     List<BoardFaqDto> findFaq3();
+
+    List<BoardDto> findModalBoardByProductNo(int productNo);
+
+    void deleteFaq(BoardFaqDto faq);
+
 
     //void updateGroupNo(int commentNo, int commentGroup);
 }

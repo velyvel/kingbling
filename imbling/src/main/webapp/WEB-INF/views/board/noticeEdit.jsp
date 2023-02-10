@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <jsp:include page="/WEB-INF/views/modules/common-css.jsp" />
     <jsp:include page="/WEB-INF/views/modules/admin/common-css.jsp" />
-    <title>상품후기작성</title>
+    <title>게시판 편집</title>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -57,21 +57,23 @@
                     <div class="form-group">
                         <label for="userId">작성자</label>
                         <input type="text" class="form-control" id="userId" name="userId" value="${loginuser.userId}" readonly>
-
+                        <input type="hidden" class="form-control" id="boardRegDate1" name="boardRegDate1" value="${board.boardRegDate1}">
+                        <input type="hidden" class="form-control" id="boardRegDate2" name="boardRegDate2" value="${board.boardRegDate2}">
                     </div>
                 </div>
-                <div class="col-sm-6"style="float: right;">
-                    <div class="form-group">
-                        <label for="boardRegDate2">이벤트 마감날짜</label>
-                        <input type="text" class="form-control" id="boardRegDate2" name="boardRegDate1" value="${board.boardRegDate2}">
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="boardRegDate1">이벤트 시작날짜</label>
-                        <input type="text" class="form-control" id="boardRegDate1" name="boardRegDate1" value="${board.boardRegDate1}">
-                    </div>
-                </div>
+<%--                <div class="col-sm-6"style="float: right;">--%>
+<%--                    <div class="form-group">--%>
+<%--                        <label for="boardRegDate2">이벤트 마감날짜</label>--%>
+<%--                        <input type="hidden" class="form-control" id="boardRegDate2" name="boardRegDate2" value="${board.boardRegDate2}">--%>
+<%--                        --%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--                <div class="col-sm-6">--%>
+<%--                    <div class="form-group">--%>
+<%--                        <label for="boardRegDate1">이벤트 시작날짜</label>--%>
+<%--                        <input type="hiddn" class="form-control" id="boardRegDate1" name="boardRegDate1" value="${board.boardRegDate1}">--%>
+<%--                    </div>--%>
+<%--                </div>--%>
 
                 <div class="col-lg-12">
                     <div class="form-group">

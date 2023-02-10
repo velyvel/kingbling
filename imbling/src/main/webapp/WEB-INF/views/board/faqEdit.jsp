@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <html lang="en">
@@ -28,8 +29,9 @@
                 <input type="hidden" name="attach" value="">
                 <input type="hidden" name="savedFileName" value="">
                 <div style="float: right;">
-                    <a href="notice"class="btn btn-danger"><i class="fas fa-close"></i> 취소하기</a>
-                    <input id="submitBtn" type="submit" class="btn btn-success" value="작성완료">
+                    <a href="notice"class="btn btn-warning"><i class="fas fa-close"></i> 취소하기</a>
+                    <input id="submitBtn" type="button" class="btn btn-success" value="작성완료">
+                    <input id="deleteBtn" type="button" class="btn btn-secondary" value="삭제하기">
                 </div>
                 <h5>게시글 작성</h5>
                 <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
@@ -40,10 +42,28 @@
                 <div class="form-group">
                     <label for="faqCategory">게시판 종류</label>
                     <select class="form-control" id="faqCategory" name="faqCategory" required>
-                        <option selected>${faq.faqCategory}</option>
-                        <option value="1">주문, 결제</option>
-                        <option value="2">배송문의</option>
-                        <option value="3">회원가입, 로그인</option>
+                        <c:choose>
+                            <c:when test="${faq.faqCategory==1}">
+                                <option selected value="1">주문, 결제</option>
+                                <option value="2">배송문의</option>
+                                <option value="3">회원가입, 로그인</option>
+                            </c:when>
+                            <c:when test="${faq.faqCategory==2}">
+                                <option selected value="2">배송문의</option>
+                                <option value="1">주문, 결제</option>
+                                <option value="3">회원가입, 로그인</option>
+                            </c:when>
+                            <c:when test="${faq.faqCategory==3}">
+                                <option selected value="3">회원가입, 로그인</option>
+                                <option value="1">주문, 결제</option>
+                                <option value="2">배송문의</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option selected value="1">주문, 결제</option>
+                                <option value="2">배송문의</option>
+                                <option value="3">회원가입, 로그인</option>
+                            </c:otherwise>
+                        </c:choose>
                     </select>
                 </div>
             </div>
@@ -51,7 +71,7 @@
                 <div class="form-group">
                     <label for="faq">게시판</label>
                     <input type="text" class="form-control" id="faq" value="faq 게시판 편집" readonly>
-                    <input type="hidden" class="form-control" id="faqRegDate1" value="faqRegDate1">
+                    <input type="hidden" class="form-control" id="faqRegDate" value="faqRegDate">
                 </div>
             </div>
             <div class="col-lg-12">
@@ -59,6 +79,8 @@
                     <label for="faqTitle">제목</label>
                     <input type="text" class="form-control" placeholder="자주묻는질문" name="faqTitle" id="faqTitle" value="${faq.faqTitle}">
                     <input type="hidden" class="form-control" readonly name="faqNo" value="${faq.faqNo}">
+                    <input type="hidden" class="form-control" readonly name="userId" value="${faq.userId}">
+                    <input type="hidden" class="form-control" readonly name="faqDeleted" value="false">
                     <%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
                 </div>
             </div>
@@ -154,6 +176,17 @@
             }else{
                 $('#faqEdit')[0].submit();
             }
+        });
+
+        $('#deleteBtn').on('click', function (event){
+
+            const deleted = $('input[name=faqDeleted]').val()
+            $(deleted).on('change', function (event){
+                this.value=true;
+            });
+            const agree = confirm("${faq.faqNo}글을 삭제 할까요?");
+            if (!agree) return;
+            $('#faqEdit')[0].submit();
         });
     });
 </script>

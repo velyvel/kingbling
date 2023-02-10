@@ -97,7 +97,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td style="align-content: center;" id="reviewContent1">
+                        <td style="align-content: center;" id="reviewContent">
                         ${review.reviewContent}
                     </td>
                     </tr>

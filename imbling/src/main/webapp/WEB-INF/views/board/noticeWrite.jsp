@@ -53,18 +53,21 @@
                         <input type="text" class="form-control" id="userId" name="userId" value="${loginuser.userName}" readonly>
                     </div>
                 </div>
-                <div class="col-sm-6"style="float: right;">
-                    <div class="form-group">
-                        <label for="boardRegDate2">이벤트 마감날짜</label>
-                        <input type="date" class="form-control" id="boardRegDate2" name="boardRegDate2" value="">
+                <div id="regDateDiv">
+                    <div class="col-sm-6"style="float: right;">
+                        <div class="form-group">
+                            <label for="boardRegDate2">이벤트 마감날짜</label>
+                            <input type="date" class="form-control" id="boardRegDate2" name="boardRegDate2" value="">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="boardRegDate1">이벤트 시작날짜</label>
+                            <input type="date" class="form-control" id="boardRegDate1" name="boardRegDate1" value="">
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="boardRegDate1">이벤트 시작날짜</label>
-                        <input type="date" class="form-control" id="boardRegDate1" name="boardRegDate1" value="">
-                    </div>
-                </div>
+
 
                 <div class="col-lg-12">
                     <div class="form-group">
@@ -146,7 +149,17 @@
 
      $(function (){
 
-        $('#submitBtn').on('click', function (event){
+         $('#selectedBoardCategory').on('change',function (event){
+             var result = $('select[name=boardCategory] option:selected').val();
+             if(result == 2){
+                 $('#regDateDiv').css("display","none");
+             }else if(result == 1){
+                 $('#regDateDiv').css("display","");
+             }
+         });
+
+
+         $('#submitBtn').on('click', function (event){
             event.preventDefault();
             const boardTitle = $('input[name = boardTitle]').val();
             const boardContent = $('textarea[name = boardContent]').val();

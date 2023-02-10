@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import com.imbling.dto.*;
+import com.imbling.entity.BoardEntity;
+import com.imbling.service.BoardService;
 import com.imbling.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,6 +41,10 @@ public class ProductController {
 	@Autowired
 	@Qualifier("reviewService")
 	private ReviewService reviewService;
+
+	@Autowired
+	@Qualifier("boardService")
+	private BoardService boardService;
 	
 	// 상품리스트
 	@GetMapping(path = { "/list" })
@@ -112,6 +118,8 @@ public class ProductController {
 
 		List<ReviewDto> reviews = reviewService.findReviewsByProductNo(productNo);
 		model.addAttribute("reviews", reviews);
+
+		List<BoardDto> boards = boardService.findModalBoardByProductNo(productNo);
 
 		
 		// 관심상품 내에 있는 상품번호 목록

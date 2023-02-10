@@ -177,6 +177,22 @@ public class BoardController {
 		return "board/noticeDetail";
 	}
 
+	@PostMapping(path = {"/noticeDetail"})
+	public String deleteBoard(BoardDto board, int boardCategory, Model model){
+
+		boardService.deleteBoard(board);
+		if(boardCategory == 1) {
+			board.setBoardCategory(board.getBoardCategory());
+			return "redirect:event";
+		}else if(boardCategory == 2) {
+			board.setBoardCategory(board.getBoardCategory());
+			return "redirect:notice";
+		} else {
+			return "board/noticeWrite";
+		}
+	}
+
+
 	// 공지사항 수정화면 보여주기
 	@GetMapping(path = {"/noticeEdit"})
 	public String showNoticeEdit(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int boardCategory, Model model){
@@ -232,19 +248,19 @@ public class BoardController {
 	}
 
 	//게시글삭제
-	@GetMapping(path = {"/{boardNo}/delete"})
-	public String deleteBoard(@PathVariable("boardNo") int boardNo, @RequestParam(defaultValue = "-1")int pageNo, BoardDto board){
-		int boardCategory = board.getBoardCategory();
-		boardService.deleteBoard(boardNo);
-
-		if(boardCategory == 1) {
-			board.setBoardCategory(board.getBoardCategory());
-			return "redirect:/board/event?pageNo=" + pageNo;
-		}else if(boardCategory == 2) {
-			board.setBoardCategory(board.getBoardCategory());
-		}
-		return "redirect:/board/notice?pageNo=" + pageNo;
-	}
+//	@GetMapping(path = {"/{boardNo}/delete"})
+//	public String deleteBoard(@PathVariable("boardNo") int boardNo, @RequestParam(defaultValue = "-1")int pageNo, BoardDto board){
+//		int boardCategory = board.getBoardCategory();
+//		boardService.deleteBoard(boardNo);
+//
+//		if(boardCategory == 1) {
+//			board.setBoardCategory(board.getBoardCategory());
+//			return "redirect:/board/event?pageNo=" + pageNo;
+//		}else if(boardCategory == 2) {
+//			board.setBoardCategory(board.getBoardCategory());
+//		}
+//		return "redirect:/board/notice?pageNo=" + pageNo;
+//	}
 	//============================ 댓글 ============================
 	//댓글 리스트 조회
 	@GetMapping(path = "/commentList")
@@ -293,16 +309,17 @@ public class BoardController {
 	@PostMapping(path = {"/faqEdit"})
 	public String faqEdit(@RequestParam(defaultValue = "-1") int pageNo,@RequestParam(defaultValue = "1") int faqCategory, BoardFaqDto faq){
 		boardService.modifiedFaq(faq);
+		boardService.deleteFaq(faq);
 		//System.out.println(board);
 
 		return "redirect:notice";
 	}
 
 
-	@GetMapping(path = {"/{faqNo}/delete"})
-	public String deleteFaq(@PathVariable("faqNo") int faqNo, @RequestParam(defaultValue = "-1")int pageNo, BoardFaqDto faq){
-		int faqCategory = faq.getFaqCategory();
-		boardService.deleteFaq(faqNo);
-		return "redirect:notice";
-	}
+//	@GetMapping(path = {"/{faqNo}/delete"})
+//	public String deleteFaq(@PathVariable("faqNo") int faqNo, @RequestParam(defaultValue = "-1")int pageNo, BoardFaqDto faq){
+//		int faqCategory = faq.getFaqCategory();
+//		boardService.deleteFaq(faqNo);
+//		return "redirect:notice";
+//	}
 }

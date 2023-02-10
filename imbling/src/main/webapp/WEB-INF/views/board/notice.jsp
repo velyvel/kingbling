@@ -63,7 +63,7 @@
                                             <button class="btn btn-link" type="button" data-toggle="collapse"
                                                     data-target="#orderCollapseOne${i}" aria-expanded="true"
                                                     aria-controls="orderCollapseOne${i}">
-                                                공지사항 번호: #${faq.faqNo}, 제목:${faq.faqTitle}
+                                                ❤️ ${faq.faqTitle}
                                             </button>
                                         </h2>
                                     </div>
@@ -74,10 +74,10 @@
                                                 ${faq.faqContent}
                                             <c:choose>
                                                 <c:when test="${loginuser.userId=='admin'}">
+                                                    <hr>
                                                     <a class="btn btn-success"
                                                        href="faqEdit?faqNo=${faq.faqNo}&pageNo=${pageNo}&faqCategory=${faq.faqCategory}">글
                                                         수정</a>
-                                                    <input type="button" id="faqDeleteBtn" value="글 삭제" class="btn btn-warning">
                                                 </c:when>
                                                 <c:otherwise>
                                                     ❤️
@@ -102,7 +102,7 @@
                                         <button class="btn btn-link" type="button" data-toggle="collapse"
                                                 data-target="#collapseOne${k}" aria-expanded="true"
                                                 aria-controls="collapseOne${k}">
-                                            공지사항 번호: #${faq2.faqNo}, 제목:${faq2.faqTitle}
+                                            🧡${faq2.faqTitle}
                                         </button>
                                     </h2>
                                 </div>
@@ -113,10 +113,10 @@
                                             ${faq2.faqContent}
                                                 <c:choose>
                                                     <c:when test="${loginuser.userId=='admin'}">
+                                                    <hr>
                                                         <a class="btn btn-success"
-                                                           href="faqEdit?faqNo=${faq.faqNo}&pageNo=${pageNo}&faqCategory=${faq.faqCategory}">글
+                                                           href="faqEdit?faqNo=${faq2.faqNo}&pageNo=${pageNo}&faqCategory=${faq2.faqCategory}">글
                                                             수정</a>
-                                                        <input type="button" id="faqDeleteBtn" value="글 삭제" class="btn btn-warning">
                                                     </c:when>
                                                     <c:otherwise>
                                                         🧡
@@ -139,7 +139,7 @@
                                         <button class="btn btn-link" type="button" data-toggle="collapse"
                                                 data-target="#collapseOne${j}" aria-expanded="true"
                                                 aria-controls="collapseOne${j}">
-                                            공지사항 번호: #${faq3.faqNo}, 제목:${faq3.faqTitle}
+                                            💛${faq3.faqTitle}
                                         </button>
                                     </h2>
                                 </div>
@@ -150,10 +150,10 @@
                                             ${faq3.faqContent}
                                                 <c:choose>
                                                     <c:when test="${loginuser.userId=='admin'}">
+                                                        <hr>
                                                         <a class="btn btn-success"
-                                                           href="faqEdit?faqNo=${faq.faqNo}&pageNo=${pageNo}&faqCategory=${faq.faqCategory}">글
+                                                           href="faqEdit?faqNo=${faq3.faqNo}&pageNo=${pageNo}&faqCategory=${faq3.faqCategory}">글
                                                             수정</a>
-                                                        <input type="button" id="faqDeleteBtn" value="글 삭제" class="btn btn-warning">
                                                     </c:when>
                                                     <c:otherwise>
                                                         💛
@@ -372,13 +372,6 @@
         $('#exampleModal').on('show.bs.modal', function (event) {
         });
 
-
-        $('#faqDeleteBtn3').on('click', function (event) {
-
-            const agree = confirm("${faq.faqNo}글을 삭제 할까요?");
-            if (!agree) return;
-            location.href = '${faq3.faqNo}/delete?pageNo=${pageNo}';
-        });
 
         $('.btnShowAnswerModal').on('click', function (event) {
             // 데이터 조
