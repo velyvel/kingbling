@@ -27,14 +27,16 @@
                 <input type="hidden" name="savedFileName" value="">
             <div style="float: right;">
                 <a href="/board/review"class="btn btn-success">목록보기</a>
-                <c:if test="${ not empty loginuser and loginuser.userId eq review.userId}">
-                <input id="editBtn" type="button" class="btn btn-warning" value="수정하기">
-                <input type="submit" id="deleteBtn" value="글 삭제" class="btn btn-secondary">
-                </c:if>
-                <c:if test="${loginuser.userId=='admin'}">
-                    <input id="editBtn" type="button" class="btn btn-warning" value="수정하기">
-                    <input type="submit" id="deleteBtn" value="글 삭제" class="btn btn-secondary">
-                </c:if>
+                <c:choose>
+                    <c:when test="${loginuser.userId eq review.userId}">
+                        <input id="editBtn" type="button" class="btn btn-warning" value="수정하기">
+                        <input type="submit" id="deleteBtn" value="글 삭제" class="btn btn-secondary">
+                    </c:when>
+                    <c:when test="${loginuser.userId =='admin'}">
+                        <input id="editBtn" type="button" class="btn btn-warning" value="수정하기">
+                        <input type="submit" id="deleteBtn" value="글 삭제" class="btn btn-secondary">
+                    </c:when>
+                </c:choose>
             </div>
             <h5>소중한 리뷰</h5>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>

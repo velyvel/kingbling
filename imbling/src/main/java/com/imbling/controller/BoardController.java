@@ -83,6 +83,33 @@ public class BoardController {
 		return board;
 	}
 
+	@GetMapping(path = {"/modalDetail"})
+	public String showModalDetail2(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int boardCategory, Model model){
+		BoardDto board = boardService.findBoardByBoardNo(boardNo, boardCategory);
+		model.addAttribute("board",board);
+		model.addAttribute("pageNo", pageNo);
+
+		return "board/modalDetail";
+	}
+
+	@GetMapping(path = {"/faqCommentList"})
+	public String showFaqCommentList(int boardNo, Model model){
+		List<BoardCommentDto> comments = boardService.findComments(boardNo);
+		model.addAttribute("comments",comments);
+
+		return "board/faqCommentList";
+	}
+
+	@PostMapping(path = {"/faqCommentForm"})
+	@ResponseBody
+	public String writeFaqComment(BoardCommentDto comment, AccountDto account){
+		boardService.writeComment(comment, account);
+		return "success";
+	}
+
+
+
+
 
 	//============================ 공지사항 ============================
 //공지사항 페이지 보여주기
