@@ -200,6 +200,8 @@ public interface UserOrderService {
 
 	void deleteAllCart(String userId);
 
+	void orderEdit(OrderDto findOrder);
+
 
 
 

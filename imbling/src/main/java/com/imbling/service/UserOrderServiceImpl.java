@@ -348,6 +348,15 @@ public class UserOrderServiceImpl implements UserOrderService{
 		cartRepository.deleteAllByUserId(userId);
 	}
 
+	@Override
+	public void orderEdit(OrderDto findOrder) {
+		OrderEntity orderentity =orderDtoToEntity(findOrder); 
+		orderRepository.save(orderentity);
+
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 	

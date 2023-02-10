@@ -307,9 +307,14 @@ public class BoardController {
 	}
 
 	@PostMapping(path = {"/faqEdit"})
-	public String faqEdit(@RequestParam(defaultValue = "-1") int pageNo,@RequestParam(defaultValue = "1") int faqCategory, BoardFaqDto faq){
-		boardService.modifiedFaq(faq);
-		boardService.deleteFaq(faq);
+	public String faqEdit(@RequestParam(defaultValue = "-1") int pageNo,@RequestParam(defaultValue = "1") int faqCategory, String updateType, BoardFaqDto faq){
+		if (updateType.equals("update")) {
+			boardService.modifiedFaq(faq);
+		} else if (updateType.equals("delete")) {
+			boardService.deleteFaq(faq);
+		} else {
+			// 이상한 경우 처리
+		}
 		//System.out.println(board);
 
 		return "redirect:notice";
