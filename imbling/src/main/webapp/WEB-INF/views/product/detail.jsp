@@ -94,11 +94,6 @@
 										<span class="fa fa-angle-up dec qtybtn" aria-hidden="true"
 											data-product-no="${product.productNo}"></span>
 											<input id="product-ea" type="text" value="5">
-												<%-- <c:forEach var="product" items="${product}">
-													<c:set var="i" value="${i+1}" />
-													<c:if test="${product.properties[i].productSize }">
-													</c:if>
-												</c:forEach> --%>
 										<input type="hidden" id="max-ea" value="${product.properties[0].productEA}"/>
 										<span class="fa fa-angle-down inc qtybtn" aria-hidden="true"
 											data-product-no="${product.productNo}"></span>
@@ -344,7 +339,6 @@
 
 
 	<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
-	<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
 	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp"/>
 	<script type="text/javascript">
 	$(function(){
@@ -443,6 +437,7 @@
 			    }
 			});
 		});
+		
 	//추가
 		$('#exampleModal').on('show.bs.modal', function (event) {
 		});

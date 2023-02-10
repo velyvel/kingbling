@@ -160,11 +160,34 @@
     /*-------------------
 		Quantity change
 	--------------------- */
+	/*
+	var proQty = $('.pro-qty');
+    proQty.prepend('<span class="fa fa-angle-up dec qtybtn"></span>');
+    proQty.append('<span class="fa fa-angle-down inc qtybtn"></span>');
+    proQty.on('click', '.qtybtn', function () {
+        var $button = $(this);
+        var oldValue = $button.parent().find('input').val();
+        if ($button.hasClass('inc')) {
+            var newVal = parseFloat(oldValue) + 1;
+        } else {
+            // Don't allow decrementing below zero
+            if (oldValue > 0) {
+                var newVal = parseFloat(oldValue) - 1;
+            } else {
+                newVal = 0;
+            }
+        }
+        $button.parent().find('input').val(newVal);
+    });
+	*/
+	
     var proQty = $('.pro-qty');
     var maxEA = $('#max-ea').val();
     
+    
     proQty.prepend('<span class="fa fa-angle-up dec qtybtn"></span>');
     proQty.append('<span class="fa fa-angle-down inc qtybtn"></span>');
+    
     proQty.on('click', '.qtybtn', function () {
         var $button = $(this);
         var oldValue = $button.parent().find('input').val();
@@ -176,21 +199,16 @@
 				return false;
 			}
         } else {	// minus value
-            // Don't allow decrementing below zero
-            if (oldValue = 5) {
-                var newVal = parseFloat(oldValue) - 1;
-                if (newVal <= 5) {
-					$("#max-alert").toast('show');
-					$('#max-body').html("최소 주문수량은 5개입니다.");
-					return false;
-				}
-            } else {
-                newVal = 5;
-            }
+			var newVal = parseFloat(oldValue) - 1;
+			if (newVal < 5) {
+				$("#max-alert").toast('show');
+				$('#max-body').html("최소 주문수량은 5개입니다.");
+				return false;
+			}
         }
         $button.parent().find('input').val(newVal);
-    });
-
+    }); 	
+	
     var proQty = $('.pro-qty-2');
     proQty.prepend('<span class="fa fa-angle-left dec qtybtn"></span>');
     proQty.append('<span class="fa fa-angle-right inc qtybtn"></span>');
@@ -210,6 +228,7 @@
         $button.parent().find('input').val(newVal);
     });
 
+	
     /*------------------
         Achieve Counter
     --------------------*/
