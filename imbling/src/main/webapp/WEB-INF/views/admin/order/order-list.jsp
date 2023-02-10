@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -60,17 +61,19 @@
 										<c:forEach var="order" items="${ orders }">
 
 											<tr>
-												<th>${ order.orderNo }</th>
-												<th>${ order.orderState }</th>
-												<th>${ order.orderDate }</th>
-												<th>${ order.orderDeliveryRequire }</th>
-												<th>${ order.orderPay }</th>
-												<th>${ order.userId }</th>
-												<th>${ order.orderAddr }${ order.orderAddr2 }</th>
-												<th><a style="width: 100%"
+												<td>${ order.orderNo }</td>
+												<td>${ order.orderState }</td>
+												<td>
+												<fmt:formatDate value="${ order.orderDate }" type="both" dateStyle="full" timeStyle="short" />
+												</td>
+												<td>${ order.orderDeliveryRequire }</td>
+												<td>${ order.orderPay }</td>
+												<td>${ order.userId }</td>
+												<td>${ order.orderAddr }${ order.orderAddr2 }</td>
+												<td><a style="width: 100%"
 													data-order-id=${  order.orderNo  }
 													class="btn btn-primary btn-icon-split editOrderInfo ">수정
-												</a></th>
+												</a></td>
 											</tr>
 										</c:forEach>
 
