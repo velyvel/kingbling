@@ -50,15 +50,15 @@ public class ReviewEntity {
     @Column
     private boolean reviewDeleted = false;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orderNo", updatable = false)
     private OrderEntity order;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "propertyNo")
     private PropertyEntity property;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "productNo")
     private ProductEntity product;
 

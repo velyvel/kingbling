@@ -59,7 +59,7 @@ public class ProductEntity {
 	@Column(nullable=true)
 	private Boolean deleted = false;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "categoryNo")
 	private CategoryEntity category;
 	
