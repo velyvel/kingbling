@@ -23,9 +23,9 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <form method="post" id="writeReview" action="writeReview">
-                <input type="text" name="attach" value="">
-                <input type="text" name="savedFileName" value="">
-                <input type="text" value="${products}">
+                <input type="hidden" name="attach" value="">
+                <input type="hidden" name="savedFileName" value="">
+                <input type="hidden" value="${products}">
             <div style="float: right;">
                 <a href="/mypage/orderList"class="btn btn-danger"><i class="fas fa-close"></i> 취소하기</a>
                 <input id="submitBtn" type="submit" class="btn btn-success" value="작성완료">
