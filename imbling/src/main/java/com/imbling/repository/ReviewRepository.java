@@ -34,6 +34,11 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
     @Query(value = "SELECT reviewNo FROM imb_review WHERE orderNo= :orderNo AND propertyNo= :propertyNo", nativeQuery = true)
 	int findOneReview(@Param("orderNo") int orderNo,@Param("propertyNo") int propertyNo);
 
+    
+    //@Query(value = "select re from ReviewEntity order By reviewRegDate desc", nativeQuery = true)
+	//List<ReviewEntity> findAllReviewWithoutDelete();
+    List<ReviewEntity> findAllByOrderByReviewRegDateDesc();
+
 //	@Query(value = "SELECT * FROM imb_review WHERE productNo= :productNo ORDER BY reviewRegDate DESC", nativeQuery = true)
 //    ReviewEntity findReviewByProductNo(int productNo);
 }

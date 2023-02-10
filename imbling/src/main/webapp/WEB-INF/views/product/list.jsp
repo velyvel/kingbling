@@ -26,10 +26,10 @@
 
 	<!-- ****************************** product list ************************** -->
 	<section class="shop spad">
+	<input type="hidden" value="${loginuser.userId}" id="user-id" />
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3">
-
 					<!-- ****************************** product sidebar ************************** -->
 					<div class="shop__sidebar">
 						<!-- search -->
@@ -55,6 +55,7 @@
 												<ul class="nice-scroll">
 													<c:forEach var="category" items="${categories}">
 														<li><a class="product-category"
+																href="#"
 															data-category-no="${category.categoryNo}">
 																${category.categoryName}</a></li>
 													</c:forEach>
@@ -141,7 +142,7 @@
 	</div>
 	
 	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top:0;">
-		<div id="log-in" class="toast hide" role="alert"
+		<div id="warning-alert" class="toast hide" role="alert"
 			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width:1000px;">
 			<div class="toast-header">
 				<img src="/resources/dist/img/icon/warning.png" class="rounded mr-2"
@@ -151,12 +152,12 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="toast-body">로그인 후 가능한 서비스입니다.</div>
+			<div class="toast-body" id="warning-body"></div>
 		</div>
 	</div>
 	
 	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
-		<div id="heart-add-alert" class="toast hide" role="alert"
+		<div id="heart-alert" class="toast hide" role="alert"
 			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width: 1000px;">
 			<div class="toast-header">
 				<img src="/resources/dist/img/icon/notification.png" class="rounded mr-2"
@@ -166,22 +167,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="toast-body" id="max-body">관심상품으로 등록되었습니다.</div>
-		</div>
-	</div>
-	
-	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
-		<div id="heart-delete-alert" class="toast hide" role="alert"
-			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width: 1000px;">
-			<div class="toast-header">
-				<img src="/resources/dist/img/icon/notification.png" class="rounded mr-2"
-					alt="..."> <strong class="mr-auto">NOTIFY</strong>
-				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="toast-body" id="max-body">해당 상품을 관심상품에서 삭제했습니다.</div>
+			<div class="toast-body" id="heart-body"></div>
 		</div>
 	</div>
 	<!-- end of modal -->
@@ -196,12 +182,21 @@
 	<script type="text/javascript">
 		$(function() {
 			
+			let currentCategoryNo = ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo };
+			
 			$('#product-list').load("product-list?categoryNo="+ ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo });
 			
 			// 카테고리 클릭시 그 카테고리에 해당하는 상품리스트 조회 
 			$('.product-category').on('click', function(event) {
+				event.preventDefault();
+				event.stopPropagation();
+				
 				var categoryNo = $(this).data('category-no');
-
+				currentCategoryNo = categoryNo;
+				
+				$('#sort-select option[value]').attr('selected', false);
+				$('#sort-select option[value=productCount]').attr('selected', true);
+				
 				$.ajax({
 					"url" : "product-list",
 					"method" : "get",
@@ -235,13 +230,15 @@
 				    data : {"productNo":productNo,"categoryNo":categoryNo,"productName":productName,"productImage":productImage,"productPrice":productPrice},
 				    success : function(result) { // 결과 성공 콜백함수
 				    	$('.heart-btn[data-product-no3=' + productNo + ']').attr( "src", "/resources/dist/img/icon/full-heart.png");
-				    	$('#heart-add-alert').toast('show');
+				    	$('#heart-alert').toast('show');
+				    	$('#heart-body').html("해당 상품을 관심상품 목록에 등록했습니다.");
 				    },
 				    error : function(request, status, error) { // 결과 에러 콜백함수
 				    	var loginuser = $('#user-id').val();
 				    	
 				    	if (loginuser == null) {
-				    		$('#log-in').toast('show');
+				    		$("#warning-alert").toast('show');
+							$('#warning-body').html("로그인이 필요한 서비스입니다.");
 				    	} else {
 				    		$('#heart-delete-modal').modal();
 				    		$('#delete-heart-detail').on('click', function(event) {
@@ -252,19 +249,17 @@
 									type : 'get',
 									data : 'productNo=' + productNo,
 									success : function(result) {
-										$('#heart-delete-alert').toast('show');
+										$('#heart-alert').toast('show');
+										$('#heart-body').html("해당 상품을 관심상품 목록에서 삭제했습니다.");
 										$('.heart-btn[data-product-no3=' + productNo + ']').attr( "src", "/resources/dist/img/icon/empty-heart.png");
 									},
 									error : function(request, status, error) {
-										alert("관심상품 삭제 실패");
+										$("#warning-alert").toast('show');
+										$('#warning-body').html("관심상품 삭제 실패");
 									}
 				 				})
 				    		});
 				    	} 
-				    	/* else {
-				    		alert('알수없는 오류가 발생하여 페이지를 초기화합니다.');
-				    		$('#product-list').load("/product/product-list");
-				    	} */
 				    }
 				})
 			});
@@ -289,9 +284,9 @@
 				option = $(this).find("option:selected");
 				const sort = option.attr('value');
 				
-				const categoryNo = ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo };
+				//const categoryNo = ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo };
 
-				$('#product-list').load("product-list?categoryNo="+ categoryNo + "&sort=" + sort);
+				$('#product-list').load("product-list?categoryNo="+ currentCategoryNo + "&sort=" + sort);
 				
 			});
 			
@@ -301,14 +296,15 @@
 				
 				const searchValue = $('input[name=keyword]').val();
 				if (searchValue.length == 0) {
-					alert("검색어를 입력하세요.");
+					$('#warning-alert').toast('show');
+					$('#warning-body').html("검색어를 입력하세요.");
 					return;
 				}
 				
 				// const formData = $('form[name=search-form]').serialize();
 				const searchContent = $('#search-content').val();
-				const cn = ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo };
-				$('#product-list').load("/product/search?keyword=" + searchContent + "&categoryNo=" + cn);
+				// const cn = ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo };
+				$('#product-list').load("/product/search?keyword=" + searchContent + "&categoryNo=" + currentCategoryNo);
 				
 				/* $.ajax({
 					"url" : "/product/search",

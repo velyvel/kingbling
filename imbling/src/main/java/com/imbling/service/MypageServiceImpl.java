@@ -20,6 +20,7 @@ import com.imbling.entity.BoardEntity;
 import com.imbling.entity.CartEntity;
 import com.imbling.entity.HeartEntity;
 import com.imbling.entity.ProductEntity;
+import com.imbling.entity.PropertyEntity;
 import com.imbling.entity.ReviewEntity;
 import com.imbling.repository.AccountRepository;
 import com.imbling.repository.CartRepository;
@@ -127,12 +128,16 @@ public class MypageServiceImpl implements MypageService {
 			cartDto.setCartEA(cart.getCartEA());
 			cartDto.setCartRegDate(cart.getCartRegDate());
 			cartDto.setCartTotalPrice(cart.getCartTotalPrice());
-			cartDto.setPropertyNo(cart.getProperty().getPropertyNo());
+			PropertyEntity propertyEntity = cart.getProperty();
+			int propertyNo = propertyEntity.getPropertyNo();
+			cartDto.setPropertyNo(propertyNo);
 			cartDto.setUserId(userId);
 			cartDto.setCartChk(cart.isCartChk());
 			cartDto.setProduct(
-					productEntityToDto(productRepository.findByPropertyNo(cart.getProperty().getPropertyNo())));
-			cartDto.setProperty(propertyEntityToDto(propertyRepository.findById(cartDto.getPropertyNo()).orElse(null)));
+					// productEntityToDto(productRepository.findByPropertyNo(propertyNo)));
+					productEntityToDto(propertyEntity.getProduct()));
+			//cartDto.setProperty(propertyEntityToDto(propertyRepository.findById(cartDto.getPropertyNo()).orElse(null)));
+			cartDto.setProperty(propertyEntityToDto(propertyEntity));
 			cartDtos.add(cartDto);
 		}
 		return cartDtos;
@@ -164,6 +169,7 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public List<HeartDto> getHeartInfo(String userId) {
 
+		System.out.println(userId);
 		List<HeartEntity> hearts = heartRepository.findAllByUserId(userId);
 		ArrayList<HeartDto> heartDtos = new ArrayList<>();
 

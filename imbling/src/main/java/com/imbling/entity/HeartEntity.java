@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -39,7 +40,7 @@ public class HeartEntity {
 	@JoinColumn(name = "userId")
 	private AccountDtoEntity user;
 	
-	@ManyToOne 
+	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("productNo")
 	@JoinColumn(name = "productNo")
 	private ProductEntity products;

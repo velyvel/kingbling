@@ -59,7 +59,7 @@ public class ProductEntity {
 	@Column(nullable=true)
 	private Boolean deleted = false;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "categoryNo")
 	private CategoryEntity category;
 	
@@ -71,6 +71,9 @@ public class ProductEntity {
 
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<BoardEntity> boards;
+	
+	@OneToMany(mappedBy = "products", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<HeartEntity> hearts;
 
 
 	
