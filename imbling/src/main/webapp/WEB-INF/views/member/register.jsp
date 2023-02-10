@@ -38,7 +38,7 @@
 			<div class="card-body p-0">
 				<!-- Nested Row within Card Body -->
 				<div class="row">
-					<div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+
 					<div class="col-lg-7">
 						<div class="p-5">
 							<div class="text-center">
@@ -49,8 +49,7 @@
 								<div class="row">
 									<div class="form-group  col-lg-6">
 										<input type="text" class="form-control form-control-user"
-											id="userId" placeholder="아이디 " name="userId"
-											value="${regiInfo.userId}">
+											id="userId" placeholder="아이디 " name="userId">
 									</div>
 
 									<div class="form-group   col-lg-6">
@@ -73,7 +72,8 @@
 										눌러주세요</div>
 									<div class="row">
 										<div class=" col-lg-6 ">
-											<input type="file" id="inputed_doc" name="attach">
+											<input type="file" id="inputed_doc" name="attach"
+												onchange="readURL(this);">
 										</div>
 										<div class=" col-lg-5  ">
 											<input id="btn-checkDoc" type="button" value="등록"
@@ -87,8 +87,7 @@
 								<div class="form-group col-lg-12">
 									<div class="row">
 										<input type="text" class="form-control form-control-user"
-											id="userCorpNo" placeholder="사업자 등록번호 " name="userCorpNo"
-											value="${regiInfo.userCorpNo}">
+											id="userCorpNo" placeholder="사업자 등록번호 " name="userCorpNo">
 									</div>
 									<input id="btn-checkInfoByDocNo" type="button" value="정보 조회  "
 										style="height: 40px" />
@@ -97,8 +96,7 @@
 								<div class="form-group  col-lg-12">
 									<div class="row">
 										<input type="text" class="form-control form-control-user"
-											id="userName" placeholder="이름 " name="userName"
-											value="${regiInfo.userName}">
+											id="userName" placeholder="이름 " name="userName">
 									</div>
 
 								</div>
@@ -107,32 +105,30 @@
 								<div class="form-group">
 									<input type="text" placeholder="주소 찾기 버튼을 눌러주세요"
 										id="roadFullAddr" class="form-control form-control-user"
-										style="color: black" name="userAddress
-										" readonly value="${regiInfo.userAddress}">
-									
+										style="color: black" name="userAddress" readonly>
+									<%-- value="${regiInfo.userAddress}" --%>
+
 									<button type="button" class="btn btn-secondary" id="goPopup">
 										주소 찾기</button>
-									</p>
-									
+
+
 								</div>
 
 
 								<div class="form-group">
 									<input type="text" class="form-control form-control-user"
-										id="exampleInputEmail" placeholder="전화번호 " name="userPhone"
-										value="${regiInfo.userPhone}">
+										id="userPhone" placeholder="전화번호 " name="userPhone">
 								</div>
 								<div class="form-group">
 									<input type="email" class="form-control form-control-user"
-										id="exampleInputEmail" placeholder="이메일 주소 " name="userEmail"
-										value="${regiInfo.userEmail}">
+										id="exampleInputEmail" placeholder="이메일 주소 " name="userEmail">
 								</div>
 
 
 
 								<div class="form-group ">
 									<input type="submit" class="btn btn-primary btn-user btn-block"
-										id="submit" value="회원가입하기!">
+										id="submit" value="회원가입하기!" disabled="disabled">
 								</div>
 								<input type="hidden" name="userType" value="needCheck"
 									id="userType"> <input type="hidden" name="userDocValid"
@@ -145,6 +141,9 @@
 								<a class="small" href="/member/login">로그인하러 가기!</a>
 							</div>
 						</div>
+					</div>
+					<div class="col-lg-5 d-none d-lg-block ">
+						<img id="preview">
 					</div>
 				</div>
 			</div>
@@ -184,8 +183,49 @@
 			alert("${errM}")
 
 			</c:if>
+
+			
+			<c:if test ="${not empty regiInfo}">
+
+				<c:if test ="${not empty regiInfo.userId}">
+					$("#userId").val("${regiInfo.userId}")
+	
+				</c:if>
+
+				<c:if test ="${not empty regiInfo.userCorpNo}">
+				$("#userCorpNo").val("${regiInfo.userCorpNo}")
+				</c:if>
+			
+				<c:if test ="${not empty regiInfo.userName}">
+				$("#userName").val("${regiInfo.userName}")
+				</c:if>
+				
+				<c:if test ="${not empty regiInfo.userAddress}">
+				$("#roadFullAddr").val("${regiInfo.userAddress}")
+				</c:if>
+				
+				<c:if test ="${not empty regiInfo.userPhone}">
+				$("#userPhone").val("${regiInfo.userPhone}")
+				</c:if>
+	
+				<c:if test ="${not empty regiInfo.userEmail}">
+				$("#exampleInputEmail").val("${regiInfo.userEmail}")
+				</c:if>
+
+
+			</c:if>
+
 			console.log("${errM}")
 			$('#btn-checkId').on('click', function(event) {
+
+				if ($("#userId").val() == "") {
+					alert("아이디를 입력해주세요 ")
+					return
+
+					
+
+				}
+
 				$.ajax({
 					"url" : '/member/checkId',//해당 컨트롤러에서 리턴값으로success를 받
 					"method" : "get",
@@ -193,9 +233,11 @@
 					"success" : function(data, status, xhr) {
 						if (data == "success") {
 							$("#IdExistence").html("사용 가능합니다 ")
-							/*  $("#submit").attr("disabled","able")submit*/
+							$("#submit").removeAttr("disabled");
+
 						} else if (data == "noId") {
 							$("#IdExistence").html("사용 불가능합니다 ")
+							$("#submit").attr("disabled", "disabled");
 
 						}
 					},
@@ -340,6 +382,18 @@
 					});
 
 		});
+		function readURL(input) {
+
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					document.getElementById('preview').src = e.target.result;
+				};
+				reader.readAsDataURL(input.files[0]);
+			} else {
+				document.getElementById('preview').src = "";
+			}
+		}
 	</script>
 
 

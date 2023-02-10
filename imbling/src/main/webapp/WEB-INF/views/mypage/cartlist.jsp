@@ -69,7 +69,8 @@
                     <ul>
                         <li>주문 총액 <span id="cartTotalPriceResult"><fmt:formatNumber value="${cartTotalPrice}" pattern="₩#,###" /></span></li>
                     </ul>
-                    <a href="/userOrder/doCartOrder" class="primary-btn">전체 상품 주문하기</a>
+                    <button id="orderAllCart" class="primary-btn">전체 상품 주문하기</button>
+                    <button id="deleteAllCart" class="primary-btn" style="border:1px solid;background:gray">장바구니 🧺 비우기</button>
                 </div>
             </div>
         

@@ -2,8 +2,12 @@ package com.imbling.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.imbling.dto.CategoryDto;
 import com.imbling.dto.ProductDto;
+import com.imbling.dto.PropertyDto;
 import com.imbling.entity.CategoryEntity;
 import com.imbling.entity.ProductEntity;
 
@@ -68,6 +72,7 @@ public interface ProductService {
 	// 카테고리별 상품리스트 조회 
 	CategoryDto findProductListByCategory(int categoryNo);
 	List<ProductDto> findProductListByCategory2(String sort, boolean asc, int categoryNo);
+//	Page<ProductDto> findProductListByCategory2(String sort, boolean asc, int categoryNo, Pageable pageable);
 	
 	// 상품상세페이지 조회 
 	public ProductDto showProductDetail(int productNo);

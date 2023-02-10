@@ -39,8 +39,11 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">새로운 상품을 등록합니다.</h1>
                             </div>
-                            <form class="user" action="/admin/productRegister" method="post" enctype="multipart/form-data">
+                            <form class="user" action="/admin/productRegister" id="addProductForm" method="post" enctype="multipart/form-data">
                                 <div class="form-group row">
+                                			<input type="hidden" id="hiddenCategoryNo" name="categoryNo" />
+                                			<input type="hidden" id="sizes" name="sizes" />
+                                			<input type="hidden" id="colors" name="colors" />
                                 			<input type="hidden" id="hiddenCategoryNo" name="categoryNo" />
                                 		     <div class="dropdown no-arrow mb-4" style="width:50%;padding:0 1rem">
 		                                        <button class="btn btn-white dropdown-toggle" type="button"
@@ -66,36 +69,39 @@
                                     <input type="text" class="form-control form-control-user" id="productContent"
                                         placeholder="상품 설명 입력" name="adminProductContent">
                                 </div>
-                                <div class="form-group row" id="propertyRow0">
+                                <input type="hidden" id="productIndext" value=1 />
+                                <div class="form-group row" id="propertyRow">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" name="productSize"
-                                            id="productSize0" placeholder="상품 사이즈 입력">
+                                        <input type="text" class="form-control form-control-user"
+                                            id="productSize1" placeholder="상품 사이즈 입력">
                                     </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" name="productColor"
-                                            id="productColor0" placeholder="상품 색상 입력">
+                                    <div class="col-sm-6  mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user"
+                                            id="productColor1" placeholder="상품 색상 입력">
                                     </div>
+                                     <br />
+                                        <button type='button' style="margin:12px" class="btn btn-secondary btn-user add-property" 
+                                        id="add-property1">상품 속성 추가</button> 
+                                    
                                 </div>
-                                <button type='button' class="btn btn-primary btn-user add-property" id="add-property0">상품 속성 추가</button><br /><br />
                                 <div class="form-group">
                                     <input type="number" class="form-control form-control-user" id="productPrice"
                                         placeholder="상품 가격 입력" name="adminProductPrice">
                                 </div>
                                 <div class="form-group">
-                                    <input type="file" class="form-control form-control-user" id="productAttach"
+                                    <input type="file" class="form-control form-control-user" id="productAttach" style="padding-bottom:45px"
                                         placeholder="상품 이미지 업로드" name="productAttach" />
                                 </div>
-                                <button class="btn btn-primary btn-user btn-block" id="addNewProduct" type="submit">
+                                <button class="btn btn-primary btn-user btn-block" id="addNewProduct" type="button">
                                     상품 등록
                                 </button>
-
                             </form>
                             <hr>
 
                         </div>
                     </div>
                     <div class="col-lg-5">
-                    	<img id="showProductImage" src=""></img>
+                    	<img id="showProductImage" src="/resources/dist/img/skyblue-gem.png" style="width:400px;height:400px;margin:20px"></img>
                     </div>
                 </div>
             </div>
@@ -127,31 +133,44 @@
 </body>
 <script type="text/javascript">
 $(function(){
+	
+	if(${categoryNo!=1}){
+		alert('상품이 등록되었습니다.');
+	}
+	
+	
 	var categoryNo = "";
 	$('.dropdown-menu').on('click','.dropdown-item',function(event){
 		categoryNo = $(this).data("cateno");
 		$('#categoryNo').text($(this).text());
 		$('#hiddenCategoryNo').val(categoryNo);
 	});
-	var propertyIndex = 0;
-	$('form').on('click',"#add-property"+propertyIndex,function(event){
-		$("#add-property"+propertyIndex).hide();
-		propertyIndex+=1
-		var propertyStr = "<div class='form-group row' id='propertyRow"+propertyIndex+"'>";
-		propertyStr+="<div class='form-group row' id='propertyRow"+propertyIndex+"'>";
-		propertyStr+="<div class='col-sm-6 mb-3 mb-sm-0'>"
-		propertyStr+="<input type='text' class='form-control form-control-user' name='productSize' id='productSize"+propertyIndex+"' placeholder='상품 사이즈 입력'>";
-		propertyStr+="</div>";
-		propertyStr+="<div class='col-sm-6'>";
-		propertyStr+="<input type='text' class='form-control form-control-user' name='productColor' id='productColor"+propertyIndex+"' placeholder='상품 색상 입력'>";
-		propertyStr+="</div>";
-		propertyStr+="</div>";
-		propertyStr+="<button type='button' class='btn btn-primary btn-user add-property' id='add-property"+propertyIndex+"'>상품 속성 추가</button><br /><br />";
-		
-		$("#add-property"+(propertyIndex-1)).after(propertyStr);
-	});
 	
-	$("#productAttach").on('change',function(event) {
+  	var productIndext = Number($('#productIndext').val());
+	$('#propertyRow').on('click',"button",function(event){
+		if($('#productSize'+productIndext).val()==""){
+			alert('상품 사이즈를 입력하세요');
+			return false;
+		}else if($('#productColor'+productIndext).val()==""){
+			alert('상품 색상을 입력하세요');
+			return false;
+		}
+		
+		$("#add-property"+productIndext).hide();
+		productIndext = Number(productIndext)+1;
+		$('#productIndext').val(productIndext);
+        
+		var propertyStr = "<div class='col-sm-6 mb-3 mb-sm-0'>";
+		propertyStr+="<input type='text' class='form-control form-control-user' name='productSize' id='productSize"+productIndext+"' placeholder='상품 사이즈 입력'></div>";
+		propertyStr+="<div class='col-sm-6  mb-3 mb-sm-0'>";
+		propertyStr+="<input type='text' class='form-control form-control-user' name='productColor' id='productColor"+productIndext+"' placeholder='상품 색상 입력'>";
+		propertyStr+="</div><br />";
+		propertyStr+="<button type='button' style='margin:12px' class='btn btn-secondary btn-user add-property' id='add-property"+productIndext+"'>상품 속성 추가</button>";
+		
+		$("#add-property"+(productIndext-1)).after(propertyStr);
+	});  
+	
+	$("#productAttach").on('change',function(event) { //상품 파일 올리면 이미지파일 형식인지 확인, 이미지파일이면 미리보기
 				const productImage = $("#productAttach");
 				const formData = new FormData();
 				formData.append("attach", productImage.file);// hashmap 형식 
@@ -162,22 +181,19 @@ $(function(){
 				if (extension == "jpeg" || extension == "jfif"
 						|| extension == "gif" || extension == "jpg"
 						|| extension == "png" || extension == "ppm") {
-
+							var uploadImage = event.target.files[0];
 						    var reader = new FileReader();
-						    console.log("reader:"+reader);
-						    console.log("e.target.result1:"+$(this).target);
-						    reader.onload = function(e) {
-						    console.log("e.target.result2:"+e.target.result);
-						      document.getElementById('showProductImage').src = e.target.result;
+						    reader.onload = function(event) {
+						      $('#showProductImage').attr('src',event.target.result);
 						    };
-						    reader.readAsDataURL($('#productAttach').files);
-					
+						    reader.readAsDataURL(uploadImage);
 				} else {
 					alert("이미지 파일을 업로드하세요.")
 					$("#productAttach").val("")
 				}
 			});
-	
+	var colors = [];
+	var sizes = [];
 	$('#addNewProduct').on('click',function(event){
 		if(categoryNo==""){
 			alert('상품 분류를 선택하세요.');
@@ -188,10 +204,10 @@ $(function(){
 		}else if($("#productContent").val()==""){
 			alert('상품 설명을 입력하세요.');
 			return false;
-		}else if($("#productSize").val()==""){
+		}else if(sizes==null){
 			alert('상품 사이즈를 입력하세요.');
 			return false;
-		}else if($("#productColor").val()==""){
+		}else if(colors==null){
 			alert('상품 색상을 입력하세요.');
 			return false;
 		}else if($("#productPrice").val()==""){
@@ -201,7 +217,34 @@ $(function(){
 			alert('상품 이미지를 등록하세요.');
 			return false;
 		}
-		return true;
+		
+		for(var i=1;i<=productIndext;i++){
+			if($('#productSize'+i).val()==""){
+				alert('사이즈 값을 입력하세요');
+				return false;
+			}else if($('#productColor'+i).val()==""){
+				alert('색상 값을 입력하세요');
+				return false;
+			}
+		}
+		for(var i=1;i<=productIndext;i++){
+			for(var j=1;j<=productIndext;j++){
+				if(i!=j&&($('#productSize'+i).val()==$('#productSize'+j).val()&&$('#productColor'+i).val()==$('#productColor'+j).val())){
+				alert('중복된 옵션 값이 있습니다.');
+				return false;
+				}
+			}
+		
+		}
+
+		for(var i=1;i<=productIndext;i++){
+			colors.push($('#productColor'+i).val());
+			sizes.push($('#productSize'+i).val());
+		}
+		$('#sizes').val(sizes);
+		$('#colors').val(colors);
+		
+		$('#addProductForm').submit();
 	});
 	
 

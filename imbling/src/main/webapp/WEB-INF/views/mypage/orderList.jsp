@@ -67,10 +67,19 @@ color: white;
                             <td style="text-align: center;"><button type="button" class="btn btn-success">주문완료</button> </td>
                         </c:when>
                         <c:when test="${order.orderState == '주문취소'}">
-                            <td style="text-align: center;"><button type="button" class="btn btn-danger">주문취소</button> </td>
+                            <td style="text-align: center;"><button type="button" class="btn btn-dark">주문취소</button> </td>
+                        </c:when>
+                        <c:when test="${order.orderState == '배송중'}">
+                            <td style="text-align: center;"><button type="button" class="btn btn-warning">배송중</button> </td>
+                        </c:when>
+                        <c:when test="${order.orderState == '배송완료'}">
+                            <td style="text-align: center;"><button type="button" class="btn btn-outline-primary">배송완료</button> </td>
+                        </c:when>
+                        <c:when test="${order.orderState == '구매확정'}">
+                            <td style="text-align: center;"><button type="button" class="btn btn-primary">구매확정</button> </td>
                         </c:when>
                         <c:otherwise>
-                            <td style="text-align: center;"> 🚚${order.orderState}🚚</td>
+                            <td></td>
                         </c:otherwise>
                     </c:choose>
                     <td>${order.orderPay}</td>

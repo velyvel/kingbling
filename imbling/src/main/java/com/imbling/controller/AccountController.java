@@ -101,11 +101,12 @@ public class AccountController {
 
 	@PostMapping(path = { "/member/register" })
 	public String registe(AccountDto account, MultipartHttpServletRequest req,RedirectAttributes rttr) {
-		System.out.print("account" + account.isUserDocValid());
+		System.out.println("account" + account.isUserDocValid());
+		System.out.println("account registe" + account);
 
-		if (account.getUserId() == "" || account.getUserPassword() == "" || req.getFile("attach")== null
-				|| account.getUserCorpNo() == "" || account.getUserName() == "" || account.getUserAddress() == ""
-				|| account.getUserPhone() == "" || account.getUserEmail() == "") {
+		if (account.getUserId().length() == 0 || account.getUserPassword().length() == 0 || req.getFile("attach")== null
+				|| account.getUserCorpNo().length() == 0 || account.getUserName().length() == 0 || account.getUserAddress().length() == 0
+				|| account.getUserPhone().length() == 0 || account.getUserEmail().length() == 0) {
 			rttr.addFlashAttribute("errM", "모든 정보를 입력해주세요. ");
 			System.out.println("모든 정보를 입력해주세요." );
 			System.out.println(account);

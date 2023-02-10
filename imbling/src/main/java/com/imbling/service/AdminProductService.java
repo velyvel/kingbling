@@ -107,7 +107,7 @@ public interface AdminProductService {
 	// 상품삭제
 	void deleteAdminProduct(int productNo);
 
-	void addNewProduct(AdminProductDto product, PropertyDto property, int categoryNo);
+	void addNewProduct(AdminProductDto product, List<PropertyDto> property, int categoryNo);
 
 	Collection<ProductDto> findAdminProductListByCategoryName(int selectedValue);
 

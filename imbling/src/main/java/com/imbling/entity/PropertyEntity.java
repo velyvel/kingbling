@@ -45,7 +45,7 @@ public class PropertyEntity {
 
 	// 장바구니 외래키 ...
 	// 주문 외래키 ...
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "productNo")
 	private ProductEntity product;
 	

@@ -238,20 +238,20 @@ public class AdminProductServiceImpl implements AdminProductService {
 
 
 	@Override
-	public void addNewProduct(AdminProductDto product, PropertyDto property, int categoryNo) {
+	public void addNewProduct(AdminProductDto product, List<PropertyDto> property, int categoryNo) {
 		
 		ProductEntity productEntity = AdminProductDtoToEntity(product);
 		productEntity.setProductRegdate(new Date());
 		productEntity.setProductCount(0);
 		CategoryEntity category = CategoryEntity.builder().categoryNo(categoryNo).build();
 		productEntity.setCategory(category);
-		PropertyEntity propertyEntity = PropertyEntity.builder().productColor(property.getProductColor())
-				.productEA(0).productSize(property.getProductSize()).build();
 		productRepository.save(productEntity);
-		productEntity.setProductNo(orderRepository.findRecentOrderNo());//상품 저장할때 속성이 같이 저장되긴 하는데 상품번호는 빼고 저장되어서 수동으로 따로 넣음ㅠ
-		propertyEntity.setProduct(productEntity);
-		propertyRepository.save(propertyEntity);
-		
+		productEntity.setProductNo(orderRepository.findRecentOrderNo());
+		for(PropertyDto pro: property) {
+			PropertyEntity propertyEntity = PropertyEntity.builder().productColor(pro.getProductColor()).product(productEntity)
+					.productEA(0).productSize(pro.getProductSize()).build();
+			propertyRepository.save(propertyEntity);//상품 저장할때 속성이 같이 저장되긴 하는데 상품번호는 빼고 저장되어서 수동으로 따로 넣음ㅠ
+		}
 	}
 
 	// 상품상세페이지 조회 

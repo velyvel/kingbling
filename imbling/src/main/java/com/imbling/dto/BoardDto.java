@@ -26,5 +26,8 @@ public class BoardDto {
 	private List<BoardAttachDto> boardAttachments;
 	private List<BoardCommentDto> boardComments;
 
+	//조회 위한 dto
+	private PropertyDto propertyDto;
+
 
 }

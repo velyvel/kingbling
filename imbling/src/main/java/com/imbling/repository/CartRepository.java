@@ -25,7 +25,7 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer> {
 
 	@Modifying @Transactional
 	@Query(value = "delete from imb_cart where userId=:userId", nativeQuery = true)
-	void deleteAllById(@Param("userId") String userId);
+	void deleteAllByUserId(@Param("userId") String userId);
 
 	@Query(value = "select * from imb_cart where (userId = :userId and cartChk=1) order By cartRegDate", nativeQuery = true)
 	List<CartEntity> findCheckedByUserId(@Param("userId") String userId);
@@ -34,6 +34,9 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer> {
 	@Query(value = "delete from imb_cart where (userId=:userId and cartChk=1)", nativeQuery = true)
 	void deleteCheckedById(@Param("userId") String userId);
 
+	@Query(value = "select count(*) from imb_cart where userId=:userId ", nativeQuery = true)
+	int cartOrNot(@Param("userId")String userId);
+	
 
 
 

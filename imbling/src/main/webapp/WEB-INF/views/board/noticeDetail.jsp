@@ -27,7 +27,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <form method="get" id="noticeDetail" action="noticeDetail">
+            <form method="post" id="noticeDetail" action="noticeDetail">
             <div style="float: right;">
 <%--      내가 하고 싶은 것          --%>
                 <c:choose>
@@ -49,8 +49,17 @@
             <div class="card-body">
                 <div class="col-sm-6" style="float: right;">
                     <div class="form-group">
-                        <label for="boardCategory">게시판 종류</label>
-                        <input type="text" class="form-control" id="boardCategory" value="${board.boardCategory}" readonly>
+                        <label>게시판 종류</label>
+                        <select class="form-control" id="boardCategory" name="boardCategory">
+                            <c:choose>
+                                <c:when test="${board.boardCategory==1}">
+                                    <option name="boardCategory" value="1" selected>이벤트</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option name="boardCategory" value="2" selected>공지사항</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -58,7 +67,10 @@
                         <div class="form-group">
                             <label for="userId">작성자</label>
                             <input type="text" class="form-control" id="userId" name="userId" value="${board.userId}" readonly>
-                            <input type="hidden" class="form-control" id="boardRegDate1" value="boardRegDate1">
+                            <input type="hidden" class="form-control" id="boardRegDate1" name="boardRegDate1" value="${board.boardRegDate1}">
+                            <input type="hidden" class="form-control" id="boardRegDate2" name="boardRegDate2" value="${board.boardRegDate2}">
+                            <input type="hidden" class="form-control" id="boardDeleted" name="boardDeleted" value="true">
+                            <input type="hidden" class="form-control" id="boardNo" name="boardNo" value="${board.boardNo}">
                         </div>
                     </div>
                 </div>
@@ -66,13 +78,13 @@
                     <div class="form-group">
                         <label for="boardTitle">제목</label>
                         <input type="text" class="form-control" name="boardTitle"  id="boardTitle" value="${board.boardTitle}" readonly>
-                        <input type="hidden" class="form-control" readonly name="boardNo" value="${board.boardNo}">
+                        <input type="hidden" class="form-control" name="boardNo" value="${board.boardNo}">
 <%--                        <input type="hidden" class="form-control" readonly value="userNo">--%>
                     </div>
                 </div>
                 <div class="col-lg-12">
                 <div class="table-responsive">
-                    <label for="boardContent"> 글 내용</label>
+                    <label> 글 내용</label>
                     <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                         <thead hidden>
                         <tr>
@@ -81,7 +93,8 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td style="align-content: center;" id="boardContent">
+                            <input type="hidden" class="form-control" id=boardContent" name="boardContent" value="${board.boardContent}">
+                            <td style="align-content: center;">
                                 ${board.boardContent}
                             </td>
                         </tr>
@@ -143,7 +156,7 @@
 
             const agree = confirm("${board.boardNo}글을 삭제 할까요?");
             if (!agree) return;
-            location.href='${board.boardNo}/delete?pageNo=${pageNo}';
+            $('#noticeDetail')[0].submit();
         });
 
         $('#commentList').load("commentList?boardNo=${board.boardNo}");

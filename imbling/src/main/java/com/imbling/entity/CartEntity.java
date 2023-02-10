@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -41,12 +42,12 @@ public class CartEntity {
 	@Builder.Default
 	private boolean cartChk = false;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("userId")
 	@JoinColumn(name = "userId")
 	private AccountDtoEntity user;
 	
-	@ManyToOne 
+	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("propertyNo")
 	@JoinColumn(name = "propertyNo")
 	private PropertyEntity property;

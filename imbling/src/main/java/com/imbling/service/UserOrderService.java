@@ -196,6 +196,12 @@ public interface UserOrderService {
 
 	PropertyDto findPropertyBypropertyNo(int propertyNo);
 
+	int cartOrnot(String userId);
+
+	void deleteAllCart(String userId);
+
+	void orderEdit(OrderDto findOrder);
+
 
 
 

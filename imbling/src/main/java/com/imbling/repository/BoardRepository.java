@@ -14,10 +14,10 @@ import java.util.List;
 
 public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
 
-    @Query(value = "SELECT * FROM imb_board WHERE boardCategory=1 ORDER BY boardRegDate1 DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM imb_board WHERE boardCategory=1 AND boardDeleted = 0 ORDER BY boardRegDate1 DESC", nativeQuery = true)
     List<BoardEntity> findEventByBoardCategoryDesc();
 
-    @Query(value = "SELECT * FROM imb_board WHERE boardCategory=2 ORDER BY boardRegDate1 DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM imb_board WHERE boardCategory=2 AND boardDeleted = 0 ORDER BY boardRegDate1 DESC", nativeQuery = true)
     List<BoardEntity> findNoticeByBoardCategoryDesc();
 
     BoardEntity findByBoardNo(int boardNo);
@@ -27,9 +27,10 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
     @Transactional
     @Modifying
     @Query(value = "UPDATE imb_board b set b. boardCount = b.boardCount + 1 WHERE b.boardNo = :boardNo", nativeQuery = true)
-    void increaseBoardCount(int boardNo);
+    void increaseBoardCount(@Param("boardNo") int boardNo);
 
-    @Query(value = "SELECT * FROM imb_board WHERE boardCategory=3 ORDER BY boardRegDate DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM imb_board WHERE boardCategory=3 AND boardDeleted = 0 ORDER BY boardRegDate DESC", nativeQuery = true)
     List<BoardEntity> findModalByBoardCategoryDesc();
 
+    //List<BoardEntity> findBoardByProductNo(int productNo);
 }

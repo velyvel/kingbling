@@ -179,4 +179,22 @@ public class UserOrderController {
 		return "redirect:/mypage/orderList";
 	}
 	
+	@PostMapping(path= {"/cartOrnot"}) @ResponseBody
+	public String cartOrnot(HttpSession session) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		int cartProductEA = userOrderService.cartOrnot(loginUser.getUserId());
+		if(cartProductEA==0) {
+			return "nothing";
+		}else {
+			return "good";
+		}
+	}
+	
+	@GetMapping(path= {"/deleteAllCart"}) @ResponseBody
+	public String deleteAllCart(HttpSession session) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		userOrderService.deleteAllCart(loginUser.getUserId());
+		return "success";
+	}
+	
 }

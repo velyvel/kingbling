@@ -73,12 +73,11 @@ public class AdminProductController {
 		return "success";
 	}
 	
-	//공지사항 작성 페이지 보여주기
+	//상품 등록 페이지 보여주기
 	@GetMapping(path = {"/detail"})
-	public String showWriteNotice(@RequestParam(defaultValue = "1") int boardCategory, Model model){
+	public String showAddProduct(@RequestParam(defaultValue = "1") int categoryNo, Model model){
 
-
-		model.addAttribute("boardCategory", boardCategory);
+		model.addAttribute("categoryNo", categoryNo);
 		return "admin/product/addProduct";
 	}
 	
@@ -201,9 +200,19 @@ public class AdminProductController {
 //		return "redirect:/board/notice?pageNo=" + pageNo;
 //	}
 	
-	@PostMapping(path = { "/productRegister" })
-	public String addNewProduct(AdminProductDto product, PropertyDto property, int categoryNo, MultipartHttpServletRequest req,RedirectAttributes rttr) {
-
+	@RequestMapping(path = { "/productRegister" })
+	public String addNewProduct(AdminProductDto product, int categoryNo, String[] colors, String[] sizes,
+			MultipartHttpServletRequest req,RedirectAttributes rttr) {
+		System.out.println(colors);
+		System.out.println(sizes);
+		List<PropertyDto> property = new ArrayList<>();
+		for(int i=0;i<colors.length;i++) {
+			PropertyDto p = new PropertyDto();
+			p.setProductColor(colors[i]);
+			p.setProductSize(sizes[i]);
+			property.add(p);
+		}
+		
 		MultipartFile productImage = req.getFile("productAttach");
 
 		if (productImage != null) {
@@ -221,7 +230,7 @@ public class AdminProductController {
 			}
 		}
 		adminProductService.addNewProduct(product,property,categoryNo);
-		return "redirect:/admin/detail";
+		return "redirect:/admin/detail?categoryNo="+categoryNo;
 	}
 
 

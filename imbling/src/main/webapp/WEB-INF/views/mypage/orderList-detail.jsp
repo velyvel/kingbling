@@ -69,14 +69,14 @@
                             <ul class="checkout__total__products">
                             	<c:forEach items="${order.orders}" var="orders">
                             	<c:set var="i" value="${i+1}" />
-                            	<li>0${i}. ${orders.productName} <span>${orders.orderDetailEA}개 <fmt:formatNumber value="${orders.orderDetailTotalPrice}" pattern="#,###원" /></span></li>
+                            	<li>💎 ${i}. ${orders.productName} <span>${orders.orderDetailEA}개 <fmt:formatNumber value="${orders.orderDetailTotalPrice}" pattern="#,###원" /></span></li>
                                 <c:choose>
                                     <c:when test="${orders.reviewState == false&&order.orderState=='배송완료'}">
                                         <li><a class="btn btn-outline-primary" href="/board/writeReview?orderNo=${order.orderNo}&propertyNo=${orders.propertyNo}">리뷰쓰기</a></li>
                                     </c:when>
                                    	<c:when test="${orders.reviewState==true}">
-                                   		    <li><a href="/mypage/myboard" class="btn btn-outline-dark">내가 쓴 리뷰 보러가기</a></li>
-                                            <li><a href="/board/reviewDetail?reviewNo=${order.reviewNo}" class="btn btn-outline-dark">내가 쓴 리뷰 보러가기2</a></li>
+                                   		    <li><a href="/mypage/myboard" class="btn btn-outline-dark">내가 쓴 게시글 목록 보기</a></li>
+                                            <li><button type="button" class="btn btn-outline-dark" id="goToReviewDtail${i}" data-orderno="${order.orderNo}" data-propertyno="${orders.propertyNo}">내가 쓴 리뷰 보러가기</button></li>
                                    	</c:when>
                                     <c:otherwise>
                                     </c:otherwise>
@@ -181,6 +181,23 @@ $(function(){
 		return false;
 		}
 		location.href="/userOrder/cancelOrder?orderNo="+${order.orderNo};
+	});
+	
+	$('li').on('click',"button[id *= 'goToReviewDtail']",function(event){//내가 쓴 리뷰 보러가기 누르면 리뷰글 번호 조회해서 리뷰상세보기로 이동
+		var orderNo = $(this).data('orderno');
+		var propertyNo = $(this).data('propertyno');
+		$.ajax({
+			url:"/board/findReviewNo",
+			type:"post",
+			data:{"orderNo":orderNo,"propertyNo":propertyNo},
+			dataType:"text",
+			success(data){
+				location.href="/board/reviewDetail?reviewNo="+Number(data);
+			},
+			error(err){
+				console.log(err)
+			}
+		});
 	});
 	
 

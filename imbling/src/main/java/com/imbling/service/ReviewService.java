@@ -152,4 +152,14 @@ public interface ReviewService {
 
     void increaseReviewCount(int reviewNo);
 
+    List<ReviewDto> findReviewsByProductNo(int productNo);
+
+    void modifiedReview(ReviewDto review);
+
+    void deleteReview(ReviewDto review);
+
+	int findOneReview(int orderNo, int propertyNo);
+
+	List<ReviewDto> findAllReviewWithoutDelete(ReviewDto review);
+
 }
