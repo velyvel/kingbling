@@ -60,6 +60,45 @@ $(function(){
 	
 	$('#cartList').load("cartlist");
 	
+	$('#cartList').on('click','#orderAllCart',function(event){//전체 주문시 장바구니 비어있으면 주문 못함
+		$.ajax({
+			url:"/userOrder/cartOrnot",
+		    type : 'post',
+		    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
+		    success(data) { // 결과 성공 콜백함수
+		    	console.log(data);
+		    if(data=="nothing"){
+		    	alert('장바구니에 상품이 없습니다.');
+		    	return false;
+		    }else{
+		    	location.href="/userOrder/doCartOrder";
+		    }
+		    },
+		    error(error) { // 결과 에러 콜백함수
+		        console.log(error);
+		    }
+	    });
+	});
+	
+	$('#cartList').on('click','#deleteAllCart',function(event){ //장바구니 전체 비우기
+		
+		var ok = confirm('장바구니에 담긴 상품을 모두 삭제할까요?');
+		if(!ok){
+			return false;
+		}
+		$.ajax({
+			url:"/userOrder/deleteAllCart",
+		    type : 'get',
+		    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
+		    success(data) { // 결과 성공 콜백함수
+		    	$('#cartList').load("cartlist");
+		    },
+		    error(error) { // 결과 에러 콜백함수
+		        console.log(error);
+		    }
+	    });
+	});
+	
 	$('#cartList').on('click',"i[id *= 'cartDelete']",function(event){// 상품 하나 카트에서 삭제하기
 		var deleteNo = $(this).data("propertyno");
 		$.ajax({
