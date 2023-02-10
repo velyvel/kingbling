@@ -58,10 +58,14 @@ public class OrderController {
 	
 	
 	@PostMapping(path= {"orderEdit"})
-	public String orderEdit(String orderState,String orderNo) {
-		
+	public String orderEdit(String orderState,int orderNo) {
+		OrderDto findOrder=userOrderService.getOrderInfo(orderNo);
+		findOrder.setOrderState(orderState);
+		userOrderService.orderEdit(findOrder);
 		System.out.println("orderEdit");
 		System.out.println(orderNo+orderState);
+		
+		
 		
 		return "redirect:order-list";
 
