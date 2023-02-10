@@ -153,9 +153,9 @@ public class ProductController {
 	
 	@PostMapping("/getPropertyInfo")
 	@ResponseBody
-	public PropertyDto getPropertyInfo(int productNo, String productSize, String productColor) {
-		PropertyDto property = userOrderService.getPropertyInfoByProductNo(productNo,productSize,productColor);
-		return property;
+	public int getPropertyInfo(int propertyNo) {
+		int propertyEA = productService.getProductEAByPropertyNo(propertyNo);
+		return propertyEA;
 	}
 	
 }

@@ -31,7 +31,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer	>{
 //			+ "where orderNo=(select :orderNo from dual "
 //			+ "where ((select count(*) from imb_orderDetail where orderNo=:orderNo)=(select count(*) from imb_review where orderNo=:orderNo)))",nativeQuery = true)
 //	void updateOrderState(@Param("orderNo") int orderNo);
-	@Query(value="select count(:orderNo) from dual where ((select count(*) from imb_orderDetail where orderNo=:orderNo)=(select count(*) from imb_review where orderNo=:orderNo))", nativeQuery = true)
+	@Query(value="select count(:orderNo) from dual where ((select count(*) from imb_orderDetail where orderNo=:orderNo)=(select count(*) from imb_review where orderNo=:orderNo and reviewDeleted=0))", nativeQuery = true)
 	int findOrderState(@Param("orderNo") int orderNo);
 
 }

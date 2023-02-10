@@ -83,4 +83,6 @@ public interface ProductService {
 	// 검색 
 	public List<ProductDto> searchProduct(String keyword);
 
+	int getProductEAByPropertyNo(int propertyNo);
+
 }
