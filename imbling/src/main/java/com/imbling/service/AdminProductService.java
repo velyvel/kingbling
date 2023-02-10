@@ -1,5 +1,6 @@
 package com.imbling.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.imbling.dto.CategoryDto;
@@ -38,6 +39,37 @@ public interface AdminProductService {
 		return AdminProductEntity;
 	}
 	
+	public default ProductDto productEntityToDto(ProductEntity productEntity) {
+		ProductDto productDto = new ProductDto();
+		productDto.setProductNo(productEntity.getProductNo());
+		productDto.setProductName(productEntity.getProductName());
+		productDto.setProductContent(productEntity.getProductContent());
+		productDto.setProductImage(productEntity.getProductImage());
+		productDto.setProductPrice(productEntity.getProductPrice());
+		productDto.setProductRegdate(productEntity.getProductRegdate());
+		productDto.setProductCount(productEntity.getProductCount());
+		
+		CategoryDto category = new CategoryDto();
+		category.setCategoryName(productEntity.getCategory().getCategoryName());
+		productDto.setCategory(category);;
+		
+		return productDto;
+	}
+	
+	public default ProductEntity productDtoToEntity(ProductDto productDto) {
+		ProductEntity productEntity = ProductEntity.builder()
+												   .productNo(productDto.getProductNo())
+												   .productName(productDto.getProductName())
+												   .productContent(productDto.getProductContent())
+												   .productImage(productDto.getProductImage())
+												   .productPrice(productDto.getProductPrice())
+												   .productRegdate(productDto.getProductRegdate())
+												   .productCount(productDto.getProductCount())
+												   .build();
+		
+		return productEntity;
+	}
+	
 	public default CategoryDto categoryEntityToDto(CategoryEntity categoryEntity) {
 		CategoryDto categoryDto = new CategoryDto();
 		categoryDto.setCategoryNo(categoryEntity.getCategoryNo());
@@ -65,10 +97,10 @@ public interface AdminProductService {
 	
 	// 카테고리별 상품리스트 조회 
 	CategoryDto findAdminProductListByCategory(int categoryNo);
-	List<AdminProductDto> findAdminProductListByCategory2(int categoryNo);
+	Collection<ProductDto> findAdminProductListByCategory2(int categoryNo);
 	
 	// 상품상세페이지 조회 
-	public AdminProductDto showAdminProductDetail(int AdminProductNo);
+	public ProductDto showAdminProductDetail(int productNo);
 
 	void writeAdminProduct(AdminProductDto adminProductWrite);
 
@@ -76,6 +108,8 @@ public interface AdminProductService {
 	void deleteAdminProduct(int productNo);
 
 	void addNewProduct(AdminProductDto product, PropertyDto property, int categoryNo);
+
+	Collection<ProductDto> findAdminProductListByCategoryName(int selectedValue);
 
 
 }
