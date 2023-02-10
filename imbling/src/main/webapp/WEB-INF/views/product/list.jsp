@@ -141,7 +141,7 @@
 	</div>
 	
 	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top:0;">
-		<div id="log-in" class="toast hide" role="alert"
+		<div id="warning-alert" class="toast hide" role="alert"
 			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width:1000px;">
 			<div class="toast-header">
 				<img src="/resources/dist/img/icon/warning.png" class="rounded mr-2"
@@ -151,12 +151,12 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="toast-body">로그인 후 가능한 서비스입니다.</div>
+			<div class="toast-body" id="warning-body"></div>
 		</div>
 	</div>
 	
 	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
-		<div id="heart-add-alert" class="toast hide" role="alert"
+		<div id="heart-alert" class="toast hide" role="alert"
 			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width: 1000px;">
 			<div class="toast-header">
 				<img src="/resources/dist/img/icon/notification.png" class="rounded mr-2"
@@ -166,22 +166,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="toast-body" id="max-body">관심상품으로 등록되었습니다.</div>
-		</div>
-	</div>
-	
-	<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; top: 0;">
-		<div id="heart-delete-alert" class="toast hide" role="alert"
-			aria-live="assertive" aria-atomic="true" data-delay="3000" style="width: 1000px;">
-			<div class="toast-header">
-				<img src="/resources/dist/img/icon/notification.png" class="rounded mr-2"
-					alt="..."> <strong class="mr-auto">NOTIFY</strong>
-				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="toast-body" id="max-body">해당 상품을 관심상품에서 삭제했습니다.</div>
+			<div class="toast-body" id="heart-body"></div>
 		</div>
 	</div>
 	<!-- end of modal -->
@@ -235,13 +220,15 @@
 				    data : {"productNo":productNo,"categoryNo":categoryNo,"productName":productName,"productImage":productImage,"productPrice":productPrice},
 				    success : function(result) { // 결과 성공 콜백함수
 				    	$('.heart-btn[data-product-no3=' + productNo + ']').attr( "src", "/resources/dist/img/icon/full-heart.png");
-				    	$('#heart-add-alert').toast('show');
+				    	$('#heart-alert').toast('show');
+				    	$('#heart-body').html("해당 상품을 관심상품 목록에 등록했습니다.");
 				    },
 				    error : function(request, status, error) { // 결과 에러 콜백함수
 				    	var loginuser = $('#user-id').val();
 				    	
 				    	if (loginuser == null) {
-				    		$('#log-in').toast('show');
+				    		$("#warning-alert").toast('show');
+							$('#warning-body').html("로그인이 필요한 서비스입니다.");
 				    	} else {
 				    		$('#heart-delete-modal').modal();
 				    		$('#delete-heart-detail').on('click', function(event) {
@@ -252,7 +239,8 @@
 									type : 'get',
 									data : 'productNo=' + productNo,
 									success : function(result) {
-										$('#heart-delete-alert').toast('show');
+										$('#heart-alert').toast('show');
+										$('#heart-body').html("해당 상품을 관심상품 목록에서 삭제했습니다.");
 										$('.heart-btn[data-product-no3=' + productNo + ']').attr( "src", "/resources/dist/img/icon/empty-heart.png");
 									},
 									error : function(request, status, error) {
@@ -301,7 +289,8 @@
 				
 				const searchValue = $('input[name=keyword]').val();
 				if (searchValue.length == 0) {
-					alert("검색어를 입력하세요.");
+					$('#warning-alert').toast('show');
+					$('#warning-body').html("검색어를 입력하세요.");
 					return;
 				}
 				
