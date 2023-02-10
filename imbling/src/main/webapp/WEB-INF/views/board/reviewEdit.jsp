@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <jsp:include page="/WEB-INF/views/modules/common-css.jsp" />
     <jsp:include page="/WEB-INF/views/modules/admin/common-css.jsp" />
-    <title>상품후기작성</title>
+    <title>상품후기수정</title>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -22,13 +22,11 @@
     <jsp:include page="/WEB-INF/views/modules/header.jsp" />
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <form method="post" id="reviewDetail" name="reviewDetail" action="reviewDetail">
+            <form method="post" id="reviewEdit" action="reviewEdit" name="reviewEdit">
                 <input type="hidden" name="attach" value="">
                 <input type="hidden" name="savedFileName" value="">
             <div style="float: right;">
-                <a href="/board/review"class="btn btn-success">목록보기</a>
-                <input id="editBtn" type="button" class="btn btn-warning" value="수정하기">
-                <input type="submit" id="deleteBtn" value="글 삭제" class="btn btn-secondary">
+                <input id="submitBtn" type="button" class="btn btn-success" value="수정완료">
             </div>
             <h5>소중한 리뷰</h5>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
@@ -38,30 +36,20 @@
                 <div class="form-group">
                     <label>별점</label>
                     <select class="form-control" id="reviewStar" name="reviewStar">
-                            <c:choose>
-                                <c:when test="${review.reviewStar == 5}">
-                                    <option selected value="5">⭐️⭐️⭐️⭐️⭐️</option>
-                                </c:when>
-                                <c:when test="${review.reviewStar == 4}">
-                                    <option selected value="4">⭐️⭐️⭐️⭐️️</option>
-                                </c:when>
-                                <c:when test="${review.reviewStar == 3}">
-                                    <option selected value="3">⭐️⭐️⭐️️</option>
-                                </c:when>
-                                <c:when test="${review.reviewStar == 2}">
-                                    <option selected value="2">⭐️⭐️</option>
-                                </c:when>
-                                <c:otherwise>
-                                    <option selected value="1">⭐️</option>
-                                </c:otherwise>
-                            </c:choose>
+                        <option selected value="5">별점을 선택해 주세요</option>
+                                    <option value="5">⭐️⭐️⭐️⭐️⭐️</option>
+                                    <option value="4">⭐️⭐️⭐️⭐️️</option>
+                                    <option value="3">⭐️⭐️⭐️️</option>
+                                    <option value="2">⭐️⭐️</option>
+                                    <option value="1">⭐️</option>
+
                     </select>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>주문명</label>
-                    <input type="text" class="form-control" id="orderNo" value="${review.orderDto.orderNo}" name="orderNo" readonly>
+                    <input type="text" class="form-control" id="orderNo" name="orderNo" value="${review.orderDto.orderNo}" readonly>
                 </div>
             </div>
 
@@ -69,22 +57,21 @@
                 <div class="form-group">
                     <label>상품명</label>
                     <input type="text" class="form-control" id="propertyNo" name="propertyNo" value="${review.propertyDto.propertyNo}">
-                    <input type="text" class="form-control" id="propertyName" value="${review.productDto.productName}"readonly>
                     <input type="text" class="form-control" id="productNo" name="productNo" value="${review.productDto.productNo}">
-                    <input type="text" class="form-control" id="reviewNo" name="reviewNo" value="${review.reviewNo}">
-                    <input type="text" class="form-control" id="reviewDeleted" name="reviewDeleted" value="true">
+                    <input type="text" class="form-control" id="propertyName" value="${review.productDto.productName}" readonly>
+                    <input type="text" class="form-control" id="reviewNo" value="${review.reviewNo}" name="reviewNo" readonly>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>작성자</label>
-                    <input type="text" class="form-control" value="${review.userId}" readonly>
+                    <input type="text" class="form-control" id="userId" name="userId" value="${review.userId}" readonly>
                 </div>
             </div>
             <div class="col-lg-12">
                 <div class="form-group">
                     <label>제목</label>
-                    <input type="text" class="form-control" placeholder="후기제목" id="reviewTitle" name="reviewTitle" value="${review.reviewTitle}" readonly>
+                    <input type="text" class="form-control" placeholder="후기제목" id="reviewTitle" name="reviewTitle" value="${review.reviewTitle}">
                 </div>
             </div>
             <div class="table-responsive">
@@ -97,9 +84,9 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td style="align-content: center;" id="reviewContent">
-                        ${review.reviewContent}
-                    </td>
+                        <td>
+                            <textarea id="reviewContent" name="reviewContent">${review.reviewContent}</textarea>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -123,19 +110,46 @@
         tabsize: 2,
         height: 500,
         lang:'ko-KR',
+        callbacks: {	//여기 부분이 이미지를 첨부하는 부분
+            onImageUpload: function (files) {
+                uploadSummernoteImageFile(files[0], this);
+            },
+            onPaste: function (e) {
+                var clipboardData = e.originalEvent.clipboardData;
+                if (clipboardData && clipboardData.items && clipboardData.items.length) {
+                    var item = clipboardData.items[0];
+                    if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+                        e.preventDefault();
+                    }
+                }
+            }
+        }
 
     });
 
 
-    $(function (){
-        $('#editBtn').on('click', function (event){
-            location.href='reviewEdit?reviewNo=${review.reviewNo}';
+    function uploadSummernoteImageFile(file, editor){
+        data = new FormData();
+        data.append("file", file);
+        $.ajax({
+            data : data,
+            type : "POST",
+            url:"/board/editReviewImageFile",
+            contentType: false,
+            processData: false,
+            success: function(data){
+                $(editor).summernote('insertImage', data.url)
+                $('#reviewEdit input[name=attach]').val(data.attach);
+                $('#reviewEdit input[name=savedFileName]').val(data.savedFileName);
+
+            }
         });
+    }
 
-        $('#DeleteBtn').on('click', function (event){
+    $(function (){
+        $('#submitBtn').on('click', function (event){
             event.preventDefault();
-            $('#reviewDetail')[0].submit();
-
+            $('#reviewEdit')[0].submit();
         });
 
     });

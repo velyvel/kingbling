@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service("reviewService")
-public class ReviewServiceImpl implements ReviewService{
+public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private ReviewRepository reviewRepository;
@@ -56,13 +56,13 @@ public class ReviewServiceImpl implements ReviewService{
         OrderDetailEntity orderDetailEntity = orderDetailRepository.findByIds(review.getOrderNo(), review.getPropertyNo());
         orderDetailEntity.setReviewState(true);
         orderDetailRepository.save(orderDetailEntity);
-        
+
         // 리뷰 다 작성된 주문은 구매확정으로 상태 바꾸기
 //        orderRepository.updateOrderState(review.getOrderNo());
         int orderDone = orderRepository.findOrderState(review.getOrderNo());
-        if(orderDone == 1) {
-        	orderEntity.setOrderState("구매확정");
-        	orderRepository.save(orderEntity);
+        if (orderDone == 1) {
+            orderEntity.setOrderState("구매확정");
+            orderRepository.save(orderEntity);
         }
     }
 
@@ -71,7 +71,7 @@ public class ReviewServiceImpl implements ReviewService{
         List<ReviewEntity> reviewList = reviewRepository.findAll();
         ArrayList<ReviewDto> reviews = new ArrayList<>();
 
-        for(ReviewEntity reviewEntity : reviewList){
+        for (ReviewEntity reviewEntity : reviewList) {
 
             ReviewDto reviewDto = reviewEntityToDto(reviewEntity);
             reviewDto.setOrderDto(orderEntityToDto(reviewEntity.getOrder()));
@@ -106,7 +106,7 @@ public class ReviewServiceImpl implements ReviewService{
     public List<ReviewDto> findReviewsByProductNo(int productNo) {
         List<ReviewEntity> reviewList = reviewRepository.findReviewByProductNo(productNo);
         ArrayList<ReviewDto> reviews = new ArrayList<>();
-        for(ReviewEntity reviewEntity : reviewList){
+        for (ReviewEntity reviewEntity : reviewList) {
 
             ReviewDto reviewDto = reviewEntityToDto(reviewEntity);
             reviewDto.setOrderDto(orderEntityToDto(reviewEntity.getOrder()));
@@ -117,11 +117,78 @@ public class ReviewServiceImpl implements ReviewService{
         return reviews;
     }
 
-	@Override
-	public int findOneReview(int orderNo, int propertyNo) {
-		int reviewNo = reviewRepository.findOneReview(orderNo,propertyNo);
-		return reviewNo;
-	}
+    @Override
+    public void modifiedReview(ReviewDto review) {
+        ReviewEntity reviewEntity = reviewRepository.findByReviewNo(review.getReviewNo());
+        reviewEntity.setReviewTitle(review.getReviewTitle());
+        reviewEntity.setReviewContent(review.getReviewContent());
+        reviewEntity.setReviewStar(review.getReviewStar());
+        reviewEntity.setUserId(reviewEntity.getUserId());
+        reviewRepository.save(reviewEntity);
+
+        PropertyEntity propertyEntity = propertyRepository.findById(review.getPropertyNo()).orElse((null));
+        OrderEntity orderEntity = orderRepository.findById(review.getOrderNo()).orElse(null);
+
+        reviewEntity.setProduct(propertyEntity.getProduct());
+        reviewEntity.setOrder(orderEntity);
+        reviewEntity.setProperty(propertyEntity);
+
+    }
+
+    @Override
+    public void deleteReview(ReviewDto review) {
+        ReviewEntity reviewEntity = reviewRepository.findByReviewNo(review.getReviewNo());
+        reviewEntity.setReviewTitle(review.getReviewTitle());
+        reviewEntity.setReviewContent(review.getReviewContent());
+        reviewEntity.setReviewStar(review.getReviewStar());
+        reviewEntity.setUserId(reviewEntity.getUserId());
+        reviewEntity.setReviewDeleted(true);
+
+        reviewRepository.save(reviewEntity);
+
+        PropertyEntity propertyEntity = propertyRepository.findById(review.getPropertyNo()).orElse((null));
+        OrderEntity orderEntity = orderRepository.findById(review.getOrderNo()).orElse(null);
+
+        OrderDetailEntity orderDetailEntity = orderDetailRepository.findByIds(review.getOrderNo(),review.getPropertyNo());
+// 여기 값이 들어가지 않으니 수정해야함
+        orderDetailEntity.setReviewState(false);
+        orderDetailRepository.save(orderDetailEntity);
+
+        reviewEntity.setProduct(propertyEntity.getProduct());
+        reviewEntity.setOrder(orderEntity);
+        reviewEntity.setProperty(propertyEntity);
 
 
+        int orderDone = orderRepository.findOrderState(review.getOrderNo());
+        if (orderDone == 1) {
+            orderEntity.setOrderState("배송완료");
+            orderRepository.save(orderEntity);
+
+        }
+    }
+
+    @Override
+    public int findOneReview(int orderNo, int propertyNo) {
+        int reviewNo = reviewRepository.findOneReview(orderNo,propertyNo);
+        return reviewNo;
+    }
 }
+
+
+//    @Override
+//    public void modifiedOrderState(ReviewDto review) {
+//
+//        OrderDetailEntity orderDetailEntity = orderDetailRepository.findByIds(review.getOrderNo(), review.getPropertyNo());
+//        orderDetailEntity.setReviewState(false);
+//        orderDetailRepository.save(orderDetailEntity);
+//
+//
+//        OrderEntity orderEntity = orderRepository.findById(review.getOrderNo()).orElse(null);
+//        int orderDone = orderRepository.findOrderState(review.getOrderNo());
+//        if(orderDone == 0) {
+//            orderEntity.setOrderState("배송왼료");
+//            orderRepository.save(orderEntity);
+//        }
+//
+//    }
+

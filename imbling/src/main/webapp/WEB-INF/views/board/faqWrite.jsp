@@ -51,6 +51,7 @@
                     <label for="faq">게시판</label>
                     <input type="text" class="form-control" id="faq" value="faq 게시판 편집" readonly>
                     <input type="hidden" class="form-control" id="faqRegDate1" value="faqRegDate1">
+                    <input type="hidden" class="form-control" id="userId" value="${loginuser.userId}"name="userId">
                 </div>
             </div>
             <div class="col-lg-12">

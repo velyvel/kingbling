@@ -42,6 +42,9 @@
                             <form class="user" action="/admin/productRegister" id="addProductForm" method="post" enctype="multipart/form-data">
                                 <div class="form-group row">
                                 			<input type="hidden" id="hiddenCategoryNo" name="categoryNo" />
+                                			<input type="hidden" id="sizes" name="sizes" />
+                                			<input type="hidden" id="colors" name="colors" />
+                                			<input type="hidden" id="hiddenCategoryNo" name="categoryNo" />
                                 		     <div class="dropdown no-arrow mb-4" style="width:50%;padding:0 1rem">
 		                                        <button class="btn btn-white dropdown-toggle" type="button"
 		                                        style="border:solid 1px lightgray;border-radius:10rem;width:100%;height:50px"
@@ -69,16 +72,16 @@
                                 <input type="hidden" id="productIndext" value=1 />
                                 <div class="form-group row" id="propertyRow">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" name="productSize"
+                                        <input type="text" class="form-control form-control-user"
                                             id="productSize1" placeholder="상품 사이즈 입력">
                                     </div>
                                     <div class="col-sm-6  mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" name="productColor"
+                                        <input type="text" class="form-control form-control-user"
                                             id="productColor1" placeholder="상품 색상 입력">
                                     </div>
-                                    <!--  <br />
+                                     <br />
                                         <button type='button' style="margin:12px" class="btn btn-secondary btn-user add-property" 
-                                        id="add-property1">상품 속성 추가</button>  -->
+                                        id="add-property1">상품 속성 추가</button> 
                                     
                                 </div>
                                 <div class="form-group">
@@ -143,13 +146,19 @@ $(function(){
 		$('#hiddenCategoryNo').val(categoryNo);
 	});
 	
-/*  	var productIndext = Number($('#productIndext').val());
+  	var productIndext = Number($('#productIndext').val());
 	$('#propertyRow').on('click',"button",function(event){
+		if($('#productSize'+productIndext).val()==""){
+			alert('상품 사이즈를 입력하세요');
+			return false;
+		}else if($('#productColor'+productIndext).val()==""){
+			alert('상품 색상을 입력하세요');
+			return false;
+		}
 		
 		$("#add-property"+productIndext).hide();
 		productIndext = Number(productIndext)+1;
 		$('#productIndext').val(productIndext);
-
         
 		var propertyStr = "<div class='col-sm-6 mb-3 mb-sm-0'>";
 		propertyStr+="<input type='text' class='form-control form-control-user' name='productSize' id='productSize"+productIndext+"' placeholder='상품 사이즈 입력'></div>";
@@ -159,7 +168,7 @@ $(function(){
 		propertyStr+="<button type='button' style='margin:12px' class='btn btn-secondary btn-user add-property' id='add-property"+productIndext+"'>상품 속성 추가</button>";
 		
 		$("#add-property"+(productIndext-1)).after(propertyStr);
-	});  */
+	});  
 	
 	$("#productAttach").on('change',function(event) { //상품 파일 올리면 이미지파일 형식인지 확인, 이미지파일이면 미리보기
 				const productImage = $("#productAttach");
@@ -183,7 +192,8 @@ $(function(){
 					$("#productAttach").val("")
 				}
 			});
-	
+	var colors = [];
+	var sizes = [];
 	$('#addNewProduct').on('click',function(event){
 		if(categoryNo==""){
 			alert('상품 분류를 선택하세요.');
@@ -194,10 +204,10 @@ $(function(){
 		}else if($("#productContent").val()==""){
 			alert('상품 설명을 입력하세요.');
 			return false;
-		}else if($("#productSize").val()==""){
+		}else if(sizes==null){
 			alert('상품 사이즈를 입력하세요.');
 			return false;
-		}else if($("#productColor").val()==""){
+		}else if(colors==null){
 			alert('상품 색상을 입력하세요.');
 			return false;
 		}else if($("#productPrice").val()==""){
@@ -207,6 +217,33 @@ $(function(){
 			alert('상품 이미지를 등록하세요.');
 			return false;
 		}
+		
+		for(var i=1;i<=productIndext;i++){
+			if($('#productSize'+i).val()==""){
+				alert('사이즈 값을 입력하세요');
+				return false;
+			}else if($('#productColor'+i).val()==""){
+				alert('색상 값을 입력하세요');
+				return false;
+			}
+		}
+		for(var i=1;i<=productIndext;i++){
+			for(var j=1;j<=productIndext;j++){
+				if(i!=j&&($('#productSize'+i).val()==$('#productSize'+j).val()&&$('#productColor'+i).val()==$('#productColor'+j).val())){
+				alert('중복된 옵션 값이 있습니다.');
+				return false;
+				}
+			}
+		
+		}
+
+		for(var i=1;i<=productIndext;i++){
+			colors.push($('#productColor'+i).val());
+			sizes.push($('#productSize'+i).val());
+		}
+		$('#sizes').val(sizes);
+		$('#colors').val(colors);
+		
 		$('#addProductForm').submit();
 	});
 	

@@ -154,6 +154,10 @@ public interface ReviewService {
 
     List<ReviewDto> findReviewsByProductNo(int productNo);
 
+    void modifiedReview(ReviewDto review);
+
+    void deleteReview(ReviewDto review);
+
 	int findOneReview(int orderNo, int propertyNo);
 
 }

@@ -68,21 +68,25 @@
 							<div class="product__details__option">
 								<%-- ${product.properties[0].productSize} / ${product.properties[0].productColor} --%>
 								<div class="product__details__option__size">
-									<div>Size:</div>
-									<select id="product-size">
+									<div>Size & Color :</div>
+									<input type="hidden" id="product-size" value="${property.productSize}" />
+									<input type="hidden" id="product-color" value="${property.productColor}" />
+									<select id="selectProperty">
 										<c:forEach var="property" items="${product.properties}">
-											<option value="${property.productSize}">${property.productSize}</option>
+											<option value="${property.propertyNo}" 
+											data-productsize="${property.productSize}" data-productcolor="${property.productColor}">
+											${property.productSize} & ${property.productColor}</option>
 										</c:forEach>
 									</select>
 								</div>
-								<div class="product__details__option__color">
+<%-- 								<div class="product__details__option__color">
 									<div>Color:</div>
 									<select id= "product-color">
 										<c:forEach var="property" items="${product.properties}">
 											<option value="${property.productColor}">${property.productColor}</option>
 										</c:forEach>
 									</select>
-								</div>
+								</div> --%>
 							</div>
 							<div class="product__details__cart__option">
 								<div class="quantity">
@@ -106,7 +110,7 @@
 								<button id="addToCart" class="primary-btn">
 									<i class="fa-solid fa-cart-plus"></i> 장바구니
 								</button>
-								<input type="hidden" value="${productNo}" id="productNo" />
+								<input type="hidden" value="${product.productNo}" id="productNo" />
 
 								<div class="product__details__option__size">
 									<c:set var="isChecked" value="false" />
@@ -201,42 +205,50 @@
 										</div>
 									</div>
 								</div>
+<%--			1:1문의					--%>
 								<div class="tab-pane" id="tabs-7" role="tabpanel">
 									<div class="product__details__tab__content">
-										<p class="note">Nam tempus turpis at metus scelerisque
-											placerat nulla deumantos solicitud felis. Pellentesque diam
-											dolor, elementum etos lobortis des mollis ut risus. Sedcus
-											faucibus an sullamcorper mattis drostique des commodo
-											pharetras loremos.</p>
-										<div class="product__details__tab__content__item">
-											<h5>Products Infomation</h5>
-											<p>A Pocket PC is a handheld computer, which features
-												many of the same capabilities as a modern PC. These handy
-												little devices allow individuals to retrieve and store
-												e-mail messages, create a contact file, coordinate
-												appointments, surf the internet, exchange text messages and
-												more. Every product that is labeled as a Pocket PC must be
-												accompanied with specific software to operate the unit and
-												must feature a touchscreen and touchpad.</p>
-											<p>As is the case with any new technology product, the
-												cost of a Pocket PC was substantial during it’s early
-												release. For approximately $700.00, consumers could purchase
-												one of top-of-the-line Pocket PCs in 2003. These days,
-												customers are finding that prices have become much more
-												reasonable now that the newness is wearing off. For
-												approximately $350.00, a new Pocket PC can now be purchased.</p>
+										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+											1:1문의
+										</button>
+<%--			modal start							--%>
+										<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+											 aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog" role="document">
+												<form name="boardModal" method="post" action="boardModal" id="boardModal">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">1:1문의</h5>
+															<div> 작성자: ${loginuser.userId} </div>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+															<div class="form-group">
+																<label for="recipient-name" class="col-form-label">제목:</label>
+																<input type="text" class="form-control" id="recipient-name"
+																	   name="boardTitle">
+																<input type="hidden" class="form-control" name="boardCategory" value="3">
+																<input type="hidden" name="userId" value="${loginuser.userId}">
+															</div>
+															<div class="form-group">
+																<label for="message-text" class="col-form-label">내용:</label>
+																<textarea class="form-control" id="message-text"
+																		  name="boardContent"></textarea>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary" data-dismiss="modal">취소하기
+																</button>
+																<input id="submitBtn" type="submit" class="btn btn-primary" value="작성완료">
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
 										</div>
-										<div class="product__details__tab__content__item">
-											<h5>Material used</h5>
-											<p>Polyester is deemed lower quality due to its none
-												natural quality’s. Made from synthetic materials, not
-												natural like wool. Polyester suits become creased easily and
-												are known for not being breathable. Polyester suits tend to
-												have a shine to them compared to wool and cotton suits, this
-												can make the suit look cheap. The texture of velvet is
-												luxurious and breathable. Velvet is a great choice for
-												dinner party jacket and can be worn all year round.</p>
-										</div>
+										<!-- ****************************** end of 1:1문의 ************************** -->
+
 									</div>
 								</div>
 							</div>
@@ -342,8 +354,8 @@
 		
 		// 장바구니에 상품데이터 넣고 장바구니 페이지로 이동 
 		$("#addToCart").on('click', function(event) {
-			var productSize = $('#product-size option').val();
-			var productColor = $('#product-color option').val();
+			var productSize = $('#product-size').val();
+			var productColor = $('#product-color').val();
 			var productEA = $('#product-ea').val();
 			
 			$.ajax({
@@ -372,8 +384,8 @@
 		// 바로 결제 
 	 	$("#doOrder").on('click', function(event) {
 			
-			var productSize = $('#product-size option').val();
-			var productColor = $('#product-color option').val();
+			var productSize = $('#product-size').val();
+			var productColor = $('#product-color').val();
 			var productEA = $('#product-ea').val();
 			
 			location.href="/userOrder/doOrder?productNo=" + ${product.productNo} + "&productSize=" + productSize + "&productColor=" + productColor + "&productEA=" + productEA;
@@ -431,6 +443,41 @@
 			    }
 			});
 		});
+	//추가
+		$('#exampleModal').on('show.bs.modal', function (event) {
+		});
+		
+		$('.nice-select').on("click",function(event){
+			var productNo = $('#productNo').val();
+			
+			var selectedProperty = $('.current').text();
+			selectedProperty = selectedProperty.trim();
+			selectedProperty = selectedProperty.replaceAll(' ','');
+			selectedProperty = selectedProperty.split('&');
+			var productSize = selectedProperty[0];
+			var productColor = selectedProperty[1];
+			
+			$('#product-size').val(productSize);
+			$('#product-color').val(productColor);
+			
+			$.ajax({
+				url:"/product/getPropertyInfo",
+				type:"post",
+				data:{"productNo":productNo,"productSize":productSize,"productColor":productColor},
+				dataType:"json",
+				success(data){
+					console.log(data);
+					$('#max-ea').val(data.productEA);
+				},
+				error(err){
+					console.log(err)
+				}
+			});
+		});
+		
+		
+		
+		
 		
 	});
 	</script>

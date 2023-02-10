@@ -1,6 +1,7 @@
 package com.imbling.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -201,8 +202,18 @@ public class AdminProductController {
 //	}
 	
 	@RequestMapping(path = { "/productRegister" })
-	public String addNewProduct(AdminProductDto product, PropertyDto property, int categoryNo, MultipartHttpServletRequest req,RedirectAttributes rttr) {
-
+	public String addNewProduct(AdminProductDto product, int categoryNo, String[] colors, String[] sizes,
+			MultipartHttpServletRequest req,RedirectAttributes rttr) {
+		System.out.println(colors);
+		System.out.println(sizes);
+		List<PropertyDto> property = new ArrayList<>();
+		for(int i=0;i<colors.length;i++) {
+			PropertyDto p = new PropertyDto();
+			p.setProductColor(colors[i]);
+			p.setProductSize(sizes[i]);
+			property.add(p);
+		}
+		
 		MultipartFile productImage = req.getFile("productAttach");
 
 		if (productImage != null) {

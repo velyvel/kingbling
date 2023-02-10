@@ -26,10 +26,10 @@
 
 	<!-- ****************************** product list ************************** -->
 	<section class="shop spad">
+	<input type="hidden" value="${loginuser.userId}" id="user-id" />
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3">
-
 					<!-- ****************************** product sidebar ************************** -->
 					<div class="shop__sidebar">
 						<!-- search -->
@@ -55,6 +55,7 @@
 												<ul class="nice-scroll">
 													<c:forEach var="category" items="${categories}">
 														<li><a class="product-category"
+																href="#"
 															data-category-no="${category.categoryNo}">
 																${category.categoryName}</a></li>
 													</c:forEach>
@@ -181,12 +182,21 @@
 	<script type="text/javascript">
 		$(function() {
 			
+			let currentCategoryNo = ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo };
+			
 			$('#product-list').load("product-list?categoryNo="+ ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo });
 			
 			// 카테고리 클릭시 그 카테고리에 해당하는 상품리스트 조회 
 			$('.product-category').on('click', function(event) {
+				event.preventDefault();
+				event.stopPropagation();
+				
 				var categoryNo = $(this).data('category-no');
-
+				currentCategoryNo = categoryNo;
+				
+				$('#sort-select option[value]').attr('selected', false);
+				$('#sort-select option[value=productCount]').attr('selected', true);
+				
 				$.ajax({
 					"url" : "product-list",
 					"method" : "get",
@@ -244,15 +254,12 @@
 										$('.heart-btn[data-product-no3=' + productNo + ']').attr( "src", "/resources/dist/img/icon/empty-heart.png");
 									},
 									error : function(request, status, error) {
-										alert("관심상품 삭제 실패");
+										$("#warning-alert").toast('show');
+										$('#warning-body').html("관심상품 삭제 실패");
 									}
 				 				})
 				    		});
 				    	} 
-				    	/* else {
-				    		alert('알수없는 오류가 발생하여 페이지를 초기화합니다.');
-				    		$('#product-list').load("/product/product-list");
-				    	} */
 				    }
 				})
 			});
@@ -277,9 +284,9 @@
 				option = $(this).find("option:selected");
 				const sort = option.attr('value');
 				
-				const categoryNo = ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo };
+				//const categoryNo = ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo };
 
-				$('#product-list').load("product-list?categoryNo="+ categoryNo + "&sort=" + sort);
+				$('#product-list').load("product-list?categoryNo="+ currentCategoryNo + "&sort=" + sort);
 				
 			});
 			
@@ -296,8 +303,8 @@
 				
 				// const formData = $('form[name=search-form]').serialize();
 				const searchContent = $('#search-content').val();
-				const cn = ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo };
-				$('#product-list').load("/product/search?keyword=" + searchContent + "&categoryNo=" + cn);
+				// const cn = ${ categoryNo == -1 ? categories[0].categoryNo : categoryNo };
+				$('#product-list').load("/product/search?keyword=" + searchContent + "&categoryNo=" + currentCategoryNo);
 				
 				/* $.ajax({
 					"url" : "/product/search",

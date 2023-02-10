@@ -164,6 +164,7 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public List<HeartDto> getHeartInfo(String userId) {
 
+		System.out.println(userId);
 		List<HeartEntity> hearts = heartRepository.findAllByUserId(userId);
 		ArrayList<HeartDto> heartDtos = new ArrayList<>();
 

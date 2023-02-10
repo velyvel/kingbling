@@ -1,28 +1,32 @@
 package com.imbling.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import com.imbling.dto.*;
-import com.imbling.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.imbling.dto.AccountDto;
+import com.imbling.dto.BoardDto;
+import com.imbling.dto.CategoryDto;
+import com.imbling.dto.HeartDto;
+import com.imbling.dto.ProductDto;
+import com.imbling.dto.PropertyDto;
+import com.imbling.dto.ReviewDto;
+import com.imbling.service.BoardService;
 import com.imbling.service.MypageService;
 import com.imbling.service.ProductService;
+import com.imbling.service.ReviewService;
+import com.imbling.service.UserOrderService;
 
 @Controller
 @RequestMapping (path = { "/product" })
@@ -39,6 +43,14 @@ public class ProductController {
 	@Autowired
 	@Qualifier("reviewService")
 	private ReviewService reviewService;
+
+	@Autowired
+	@Qualifier("boardService")
+	private BoardService boardService;
+	
+	@Autowired
+	@Qualifier("userOrderService")
+	private UserOrderService userOrderService;
 	
 	// 상품리스트
 	@GetMapping(path = { "/list" })
@@ -56,7 +68,6 @@ public class ProductController {
 	public String showProductListByCategory(CategoryDto categoryDto,
 											@RequestParam(defaultValue = "productCountDesc") String sort,
 											Model model, HttpSession session) {
-//											,@PageableDefault(page=0, size=12, sort="id", direction=Sort.Direction.DESC)Pageable pageable ) {
 		
 		boolean asc = true;
 		if (sort.equals("productRegdate")) {
@@ -67,7 +78,6 @@ public class ProductController {
 		}
 		
 		List<ProductDto> products = productService.findProductListByCategory2(sort, asc, categoryDto.getCategoryNo());	
-//		Page<ProductDto> products = productService.findProductListByCategory2(sort, asc, categoryDto.getCategoryNo(), pageable);
 		model.addAttribute("products", products);
 		model.addAttribute("categoryNo", categoryDto.getCategoryNo());
 		
@@ -79,14 +89,6 @@ public class ProductController {
 			heart.add(h.getProductNo());
 		}
 		model.addAttribute("hearts", heart);
-		
-//		int nowPage = products.getPageable().getPageNumber() + 1;
-//		int startPage = Math.max(nowPage - 4, 1);
-//		int endPage = Math.min(nowPage + 5, products.getTotalPages());
-//		
-//		model.addAttribute("nowPage", nowPage);
-//		model.addAttribute("startPage", startPage);
-//		model.addAttribute("endPage", endPage);
 		
 		return "product/product-list";
 	}
@@ -112,6 +114,8 @@ public class ProductController {
 
 		List<ReviewDto> reviews = reviewService.findReviewsByProductNo(productNo);
 		model.addAttribute("reviews", reviews);
+
+		List<BoardDto> boards = boardService.findModalBoardByProductNo(productNo);
 
 		
 		// 관심상품 내에 있는 상품번호 목록
@@ -142,6 +146,13 @@ public class ProductController {
 		model.addAttribute("hearts", heart);
 		
 		return "product/product-list";
+	}
+	
+	@PostMapping("/getPropertyInfo")
+	@ResponseBody
+	public PropertyDto getPropertyInfo(int productNo, String productSize, String productColor) {
+		PropertyDto property = userOrderService.getPropertyInfoByProductNo(productNo,productSize,productColor);
+		return property;
 	}
 	
 }

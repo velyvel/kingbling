@@ -100,14 +100,28 @@ public class BoardServiceImpl implements BoardService{
         boardEntity.setBoardContent(board.getBoardContent());
         boardEntity.setBoardRegDate1(board.getBoardRegDate1());
         boardEntity.setBoardRegDate2(board.getBoardRegDate2());
+        boardEntity.setUserId(board.getUserId());
         boardRepository.save(boardEntity);
     }
 
     @Override
-    public void deleteBoard(int boardNo) {
-        BoardEntity boardEntity = boardRepository.findByBoardNo(boardNo);
-        boardRepository.delete(boardEntity);
+    public void deleteBoard(BoardDto board) {
+        BoardEntity boardEntity = boardRepository.findByBoardNoAndBoardCategory(board.getBoardNo(), board.getBoardCategory());
+        boardEntity.setBoardTitle(board.getBoardTitle());
+        boardEntity.setBoardContent(board.getBoardContent());
+        boardEntity.setBoardRegDate1(board.getBoardRegDate1());
+        boardEntity.setBoardRegDate2(board.getBoardRegDate2());
+        boardEntity.setBoardCategory(board.getBoardCategory());
+        boardEntity.setBoardDeleted(true);
+
+        boardRepository.save(boardEntity);
     }
+
+//    @Override
+//    public void deleteBoard(int boardNo) {
+//        BoardEntity boardEntity = boardRepository.findByBoardNo(boardNo);
+//        boardRepository.delete(boardEntity);
+//    }
 
     @Override
     public void increaseBoardCount(int boardNo) {
@@ -206,15 +220,28 @@ public class BoardServiceImpl implements BoardService{
         boardFaqEntity.setFaqTitle(faq.getFaqTitle());
         boardFaqEntity.setFaqCategory(faq.getFaqCategory());
         boardFaqEntity.setFaqContent(faq.getFaqContent());
+        boardFaqEntity.setUserId(faq.getUserId());
         faqRepository.save(boardFaqEntity);
     }
 
     @Override
-    public void deleteFaq(int faqNo) {
+    public void deleteFaq(BoardFaqDto faq) {
+        BoardFaqEntity boardFaqEntity = faqRepository.findByFaqNo(faq.getFaqNo());
+        boardFaqEntity.setFaqTitle(faq.getFaqTitle());
+        boardFaqEntity.setFaqCategory(faq.getFaqCategory());
+        boardFaqEntity.setFaqContent(faq.getFaqContent());
+        boardFaqEntity.setUserId(faq.getUserId());
+        boardFaqEntity.setFaqDeleted(true);
+        faqRepository.save(boardFaqEntity);
 
-        BoardFaqEntity boardFaqEntity = faqRepository.findByFaqNo(faqNo);
-        faqRepository.delete(boardFaqEntity);
     }
+
+//    @Override
+//    public void deleteFaq(int faqNo) {
+//
+//        BoardFaqEntity boardFaqEntity = faqRepository.findByFaqNo(faqNo);
+//        faqRepository.delete(boardFaqEntity);
+//    }
 
     @Override
     public List<BoardFaqDto> findFaq2() {
@@ -237,6 +264,12 @@ public class BoardServiceImpl implements BoardService{
 
         return faqs;
     }
+
+    @Override
+    public List<BoardDto> findModalBoardByProductNo(int productNo) {
+        return null;
+    }
+
 
 
 //    @Override
