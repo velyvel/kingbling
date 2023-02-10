@@ -300,7 +300,17 @@
                                 <td>${board2.boardTitle}</td>
                                 <td>${board2.userId}</td>
                                 <td>
-                                    <button type="button" class="btn btn-primary btnShowAnswerModal" data-boardno="${board2.boardNo}">1:1문의</button>
+                                    <c:choose>
+                                        <c:when test="${loginuser.userId == 'admin'}">
+                                            <button type="button" class="btn btn-primary btnShowAnswerModal" data-boardno="${board2.boardNo}">1:1문의</button>
+                                            <a href="modalDetail?boardNo=${board2.boardNo}&pageNo=${pageNo}&boardCategory=${board2.boardCategory}"class="btn btn-dark"><i class="fas fa-sticky-note"></i>상세보기</a>
+                                        </c:when>
+                                        <c:when test="${loginuser.userId eq board2.userId}">
+                                            <button type="button" class="btn btn-primary btnShowAnswerModal" data-boardno="${board2.boardNo}">1:1문의</button>
+                                            <a href="modalDetail?boardNo=${board2.boardNo}&pageNo=${pageNo}&boardCategory=${board2.boardCategory}"class="btn btn-dark"><i class="fas fa-sticky-note"></i>상세보기</a>
+                                        </c:when>
+                                    </c:choose>
+
                                 </td>
                             </tr>
                         </c:forEach>
@@ -321,6 +331,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
+<%--         화면에 보여지는 것           --%>
                     <form method="get">
                         <div class="form-group">
                             <label for="boardDetailTitle" class="col-form-label">제목:</label>
@@ -334,13 +345,16 @@
                             <textarea class="form-control" id="boardDetailContent"
                                       name="boardContent" style="color: #393E46"></textarea>
                         </div>
+                    </form>
                         <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="comments">답변달기</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                         </div>
-                    </form>
+
                 </div>
             </div>
         </div>
+        <!-- ****************************** end of 1:1문의 ************************** -->
     </div>
 </div>
     </div>
@@ -370,6 +384,10 @@
 
     $(function () {
         $('#exampleModal').on('show.bs.modal', function (event) {
+        });
+        $('#comments').on('click', function(event){
+
+            $('#commentTest').modal('show');
         });
 
 
@@ -409,7 +427,7 @@
 
                 }
             });
-        })
+        });
 
     });
 </script>

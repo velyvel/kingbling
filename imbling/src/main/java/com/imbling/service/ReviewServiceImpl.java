@@ -172,6 +172,24 @@ public class ReviewServiceImpl implements ReviewService {
         int reviewNo = reviewRepository.findOneReview(orderNo,propertyNo);
         return reviewNo;
     }
+
+	@Override
+	public List<ReviewDto> findAllReviewWithoutDelete(ReviewDto review) {
+		List<ReviewEntity> reviewList = reviewRepository.findAllByOrderByReviewRegDateDesc();
+        ArrayList<ReviewDto> reviews = new ArrayList<>();
+
+        for (ReviewEntity reviewEntity : reviewList) {
+
+            ReviewDto reviewDto = reviewEntityToDto(reviewEntity);
+            reviewDto.setOrderDto(orderEntityToDto(reviewEntity.getOrder()));
+            PropertyEntity propertyEntity = reviewEntity.getProperty();
+            reviewDto.setPropertyDto(propertyEntityToDto(propertyEntity));
+            reviewDto.setProductDto(productEntityToDto(propertyEntity.getProduct()));
+            reviews.add(reviewDto);
+        }
+
+        return reviews;
+	}
 }
 
 

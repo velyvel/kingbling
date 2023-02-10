@@ -15,6 +15,8 @@ public class ProductDto {
 	private int productPrice;
 	private Date productRegdate;
 	private int productCount;
+	private boolean productdeleted;
+	
 	
 	private CategoryDto category;
 	private List<PropertyDto> properties;

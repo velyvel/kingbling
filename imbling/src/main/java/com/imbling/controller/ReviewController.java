@@ -197,5 +197,30 @@ public class ReviewController {
 //        model.addAttribute("order", order);
 //        return "redirect:review";
 //    }
+    
+    ///////////어드민이유~ 
+  //리뷰페이지 보여주기
+    @GetMapping(path = { "/adminreviewList" })
+    public String showAdminreviewList(@RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "1") int reviewNo,ReviewDto review, OrderDto orders, PropertyDto properties, Model model ) {
+
+        List<ReviewDto> reviews = reviewService.findAllReviewWithoutDelete(review);
+        model.addAttribute("reviews", reviews);
+
+
+        return "admin/review/reviewlist";
+    }
+    //리뷰페이지 보여주기
+    @GetMapping(path = { "/adminDeleteReview" })
+    public String adminDeleteReview( Model model , @RequestParam(defaultValue = "1") int reviewNo) {
+        System.out.println("==========adminDeleteReview");
+
+    	ReviewDto review = reviewService.findReviewByReviewNo(reviewNo);
+        System.out.print(review);
+        //review.setReviewDeleted(!review.isReviewDeleted());
+    	//reviewService.modifiedReview(review);
+
+
+        return "admin/review/reviewlist";
+    }
 
 }
