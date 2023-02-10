@@ -267,6 +267,14 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public List<BoardDto> findModalBoardByProductNo(int productNo) {
+//        List<BoardEntity> boardList = boardRepository.findBoardByProductNo(productNo);
+//        ArrayList<BoardDto> boards = new ArrayList<>();
+
+//        for(BoardEntity  boardEntity : boardList){
+//            BoardDto boardDto = boardEntityToDto(boardEntity);
+//        }
+
+
         return null;
     }
 

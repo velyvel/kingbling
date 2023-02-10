@@ -27,8 +27,14 @@
                 <input type="hidden" name="savedFileName" value="">
             <div style="float: right;">
                 <a href="/board/review"class="btn btn-success">목록보기</a>
+                <c:if test="${ not empty loginuser and loginuser.userId eq review.userId}">
                 <input id="editBtn" type="button" class="btn btn-warning" value="수정하기">
                 <input type="submit" id="deleteBtn" value="글 삭제" class="btn btn-secondary">
+                </c:if>
+                <c:if test="${loginuser.userId=='admin'}">
+                    <input id="editBtn" type="button" class="btn btn-warning" value="수정하기">
+                    <input type="submit" id="deleteBtn" value="글 삭제" class="btn btn-secondary">
+                </c:if>
             </div>
             <h5>소중한 리뷰</h5>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
@@ -68,11 +74,11 @@
             <div class="col-sm-6" style="float: right;">
                 <div class="form-group">
                     <label>상품명</label>
-                    <input type="text" class="form-control" id="propertyNo" name="propertyNo" value="${review.propertyDto.propertyNo}">
+                    <input type="hidden" class="form-control" id="propertyNo" name="propertyNo" value="${review.propertyDto.propertyNo}">
                     <input type="text" class="form-control" id="propertyName" value="${review.productDto.productName}"readonly>
-                    <input type="text" class="form-control" id="productNo" name="productNo" value="${review.productDto.productNo}">
-                    <input type="text" class="form-control" id="reviewNo" name="reviewNo" value="${review.reviewNo}">
-                    <input type="text" class="form-control" id="reviewDeleted" name="reviewDeleted" value="true">
+                    <input type="hidden" class="form-control" id="productNo" name="productNo" value="${review.productDto.productNo}">
+                    <input type="hidden" class="form-control" id="reviewNo" name="reviewNo" value="${review.reviewNo}">
+                    <input type="hidden" class="form-control" id="reviewDeleted" name="reviewDeleted" value="true">
                 </div>
             </div>
             <div class="col-sm-6">
@@ -97,7 +103,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td style="align-content: center;" id="reviewContent">
+                        <td style="align-content: center;">
                         ${review.reviewContent}
                     </td>
                     </tr>
@@ -134,6 +140,10 @@
 
         $('#DeleteBtn').on('click', function (event){
             event.preventDefault();
+
+            const agree = confirm("${review.reviewNo}글을 삭제 할까요?");
+            if (!agree) return;
+
             $('#reviewDetail')[0].submit();
 
         });

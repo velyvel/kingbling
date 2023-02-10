@@ -77,6 +77,7 @@
             <div class="col-lg-12">
                 <div class="form-group">
                     <label for="faqTitle">제목</label>
+                    <input type="hidden" name="updateType" value="">
                     <input type="text" class="form-control" placeholder="자주묻는질문" name="faqTitle" id="faqTitle" value="${faq.faqTitle}">
                     <input type="hidden" class="form-control" readonly name="faqNo" value="${faq.faqNo}">
                     <input type="hidden" class="form-control" readonly name="userId" value="${faq.userId}">
@@ -160,6 +161,7 @@
 
         $('#submitBtn').on('click', function (event){
             event.preventDefault();
+            $('input[name=updateType]').val("update");
             const faqTitle = $('input[name=faqTitle]').val();
             const faqContent = $('textarea[name=faqContent]').val();
             const faqCategory = $('select[name=faqCategory]').val();
@@ -186,6 +188,8 @@
             });
             const agree = confirm("${faq.faqNo}글을 삭제 할까요?");
             if (!agree) return;
+
+            $('input[name=updateType]').val("delete");
             $('#faqEdit')[0].submit();
         });
     });

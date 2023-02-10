@@ -123,10 +123,13 @@ public class ProductController {
 		model.addAttribute("product", product);
 		model.addAttribute("categoryNo", categoryNo);
 
+		//리뷰 리스트 추가
 		List<ReviewDto> reviews = reviewService.findReviewsByProductNo(productNo);
 		model.addAttribute("reviews", reviews);
 
+		//1:1 문의 게시글 추가
 		List<BoardDto> boards = boardService.findModalBoardByProductNo(productNo);
+		model.addAttribute("boards", boards);
 
 		
 		// 관심상품 내에 있는 상품번호 목록
