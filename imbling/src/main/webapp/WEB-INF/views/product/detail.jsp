@@ -56,11 +56,11 @@
 							<input type="hidden" value="${loginuser.userId}" id="user-id" />
 							<h4>${product.productName}</h4>
 							<span><i class="fa-solid fa-person"></i>${product.productCount}</span>
-							<div class="rating">
+<!-- 							<div class="rating">
 								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 									class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 									class="fa fa-star-o"></i> <span> - 5 Reviews</span>
-							</div>
+							</div> -->
 							<h3>
 								<fmt:formatNumber value="${product.productPrice}"
 									pattern="₩#,###" />

@@ -99,7 +99,7 @@ color: white;
 </div>
  <!-- 모달 시작 -->	
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -124,7 +124,7 @@ color: white;
   </div>
 </div>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display:none"> 
-</button>
+</button> -->
 <!-- 모달 끝 -->
 
 <!-- ****************************** footer ************************** -->
@@ -146,11 +146,12 @@ $(function(){
 		var boardNo = $(this).data("boardno");
 		
 		if($("#category"+boardNo).data("category")=='1:1문의'){
-			$("#myModal").modal();
+/* 			$("#myModal").modal();
 			$('#exampleModalLabel').html("<h5>"+$("#category"+boardNo).data("category")+"</h5>");
 			$('#exampleModalLabel').append("<h7>작성자 : "+userId+"</h7>");
 			$('#boardDetailTitle').val($("#title"+boardNo).data("title"));
-			$('#boardDetailContent').text($("#content"+boardNo).data("content"));
+			$('#boardDetailContent').text($("#content"+boardNo).data("content")); */
+			location.href="/board/modalDetail?boardNo="+boardNo"&boardCategory="+3;
 		}else{
 			location.href="/board/reviewDetail?reviewNo="+boardNo;
 		}
