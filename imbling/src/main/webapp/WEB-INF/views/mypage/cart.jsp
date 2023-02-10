@@ -71,7 +71,22 @@ $(function(){
 		    	alert('장바구니에 상품이 없습니다.');
 		    	return false;
 		    }else{
+		    // 주문시 장바구니 수량과 주문 수량 비교하기
+		    var quantity = 0;
+		    $('input[id *= "cartEA"]').each(function(){// 맨 위에 상품만 들어옴ㅠ
+			  var propertyNo = $(this).data('prono');
+			  if( Number($('#cartEA'+propertyNo).val()) > Number($('#maxEA'+propertyNo).val()) ){
+				  alert($('#productName'+propertyNo).val()+"의 재고수량은 "+$('#maxEA'+propertyNo).val()+"개 입니다.");
+				  $('#cartEA'+propertyNo).focus();
+				  quantity = quantity+1;
+			  }
+			});
+		    if(quantity==0){
 		    	location.href="/userOrder/doCartOrder";
+		    }else{
+		    	return false;
+		    }
+		    	
 		    }
 		    },
 		    error(error) { // 결과 에러 콜백함수

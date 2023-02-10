@@ -69,8 +69,8 @@
 								<%-- ${product.properties[0].productSize} / ${product.properties[0].productColor} --%>
 								<div class="product__details__option__size">
 									<div>Size & Color :</div>
-									<input type="hidden" id="product-size" value="${property.productSize}" />
-									<input type="hidden" id="product-color" value="${property.productColor}" />
+									<input type="hidden" id="product-size" value="${product.properties[0].productSize}" />
+									<input type="hidden" id="product-color" value="${product.properties[0].productColor}" />
 									<select id="selectProperty">
 										<c:forEach var="property" items="${product.properties}">
 											<option value="${property.propertyNo}" 
@@ -449,19 +449,25 @@
 		$('#exampleModal').on('show.bs.modal', function (event) {
 		});
 		
-		$('#selectProperty').on("change",function(event){
+		$('#selectProperty').on("change",function(event){ //select로 옵션 선택시 선택 옵션이랑 재고 수량 변경
 
 			var productNo = $('#productNo').val();
 			var propertyNo = $(this).val();
-						
+			$('#product-size').val($('#selectProperty option:selected').data('productsize'));
+			$('#product-color').val($('#selectProperty option:selected').data('productcolor'));
+			
+			console.log($('#product-size').val());
+			console.log($('#product-color').val());
+
 			$.ajax({
 				url:"/product/getPropertyInfo",
 				type:"post",
 				data:{"propertyNo":propertyNo},
 				dataType:"text",
 				success(data){
-					console.log(data);
+					console.log("data : "+data);
 					$('#max-ea').val(Number(data));
+					console.log("max : "+$('#max-ea').val());
 				},
 				error(err){
 					console.log(err)
