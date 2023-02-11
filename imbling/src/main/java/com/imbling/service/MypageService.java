@@ -5,6 +5,7 @@ import java.util.List;
 import com.imbling.dto.AccountDocImgDto;
 import com.imbling.dto.AccountDto;
 import com.imbling.dto.BoardDto;
+import com.imbling.dto.BoardFaqDto;
 import com.imbling.dto.CartDto;
 import com.imbling.dto.HeartDto;
 import com.imbling.dto.ProductDto;
@@ -13,6 +14,7 @@ import com.imbling.dto.ReviewDto;
 import com.imbling.entity.AccountDocImgDtoEntity;
 import com.imbling.entity.AccountDtoEntity;
 import com.imbling.entity.BoardEntity;
+import com.imbling.entity.BoardFaqEntity;
 import com.imbling.entity.CartEntity;
 import com.imbling.entity.ProductEntity;
 import com.imbling.entity.PropertyEntity;
@@ -79,6 +81,33 @@ public interface MypageService {
 				.build();
 		return reviewEntity;
 	}
+	
+    public default BoardFaqDto boardFaqEntityToDto(BoardFaqEntity faqEntity){
+        BoardFaqDto faqDto = new BoardFaqDto();
+        faqDto.setFaqNo(faqEntity.getFaqNo());
+        faqDto.setFaqCategory(faqEntity.getFaqCategory());
+        faqDto.setFaqContent(faqEntity.getFaqContent());
+        faqDto.setFaqTitle(faqEntity.getFaqTitle());
+        faqDto.setUserId(faqEntity.getUserId());
+        faqDto.setFaqRegDate(faqEntity.getFaqRegDate());
+        faqDto.setFaqDeleted(faqEntity.isFaqDeleted());
+
+        return faqDto;
+    }
+
+    public default BoardFaqEntity boardFaqDtoToEntity(BoardFaqDto faqDto){
+        BoardFaqEntity faqEntity = BoardFaqEntity.builder()
+                .faqNo(faqDto.getFaqNo())
+                .faqCategory(faqDto.getFaqCategory())
+                .faqContent(faqDto.getFaqContent())
+                .faqTitle(faqDto.getFaqTitle())
+                .userId(faqDto.getUserId())
+                .faqRegDate(faqDto.getFaqRegDate())
+                .faqDeleted(faqDto.isFaqDeleted())
+                .build();
+
+        return faqEntity;
+    }
 
 	public default AccountDto accountEntityAccountDto(AccountDtoEntity accountEntity) {
 		AccountDto accountDto = new AccountDto();

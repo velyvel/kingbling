@@ -23,18 +23,15 @@ import com.imbling.entity.ProductEntity;
 import com.imbling.entity.PropertyEntity;
 import com.imbling.entity.ReviewEntity;
 import com.imbling.repository.AccountRepository;
+import com.imbling.repository.BoardRepository;
 import com.imbling.repository.CartRepository;
 import com.imbling.repository.HeartRepository;
-import com.imbling.repository.MypageRepository;
 import com.imbling.repository.ProductRepository;
 import com.imbling.repository.PropertyRepository;
 import com.imbling.repository.ReviewRepository;
 
 @Service("mypageService")
 public class MypageServiceImpl implements MypageService {
-
-	@Autowired
-	private MypageRepository mypageRepository;
 
 	@Autowired
 	private AccountRepository accountRepository;
@@ -46,19 +43,23 @@ public class MypageServiceImpl implements MypageService {
 	private ProductRepository productRepository;
 
 	@Autowired
-	private PropertyRepository propertyRepository;
-
-	@Autowired
 	private HeartRepository heartRepository;
 	
 	@Autowired
 	private ReviewRepository reviewRepository;
+	
+	@Autowired
+	private BoardRepository boardRepository; 
 
 	@Override
 	public List<BoardDto> findMyInquery(String userId) {
-		List<BoardEntity> boardList = mypageRepository.findSomeByIdAndCategory(userId);
+		List<BoardEntity> boardList = boardRepository.findSomeByUserId(userId);
 		ArrayList<BoardDto> boards = new ArrayList<>();
 		for (BoardEntity boardEntity : boardList) {
+			int inqueryComment = boardRepository.findInqueryComment(boardEntity.getBoardNo());//답글 달렸나?
+			if(inqueryComment>0) {//답글 달렸으면 날짜2 비우지 않는걸로 확인할 거임
+			boardEntity.setBoardRegDate2(new Date());
+			}
 			boards.add(boardEntityToDto(boardEntity));
 		}
 		return boards;
@@ -87,12 +88,15 @@ public class MypageServiceImpl implements MypageService {
 
 	@Override
 	public List<BoardDto> findMyAllInquery(String userId) {
-		List<BoardEntity> boardList = mypageRepository.findAllByIdAndCategory(userId);
+		List<BoardEntity> boardList = boardRepository.findAllByUserId(userId);
 		ArrayList<BoardDto> boards = new ArrayList<>();
 		for (BoardEntity boardEntity : boardList) {
+			int inqueryComment = boardRepository.findInqueryComment(boardEntity.getBoardNo());//답글 달렸나?
+			if(inqueryComment>0) {//답글 달렸으면 날짜2 비우지 않는걸로 확인할 거임
+			boardEntity.setBoardRegDate2(new Date());
+			}
 			boards.add(boardEntityToDto(boardEntity));
 		}
-
 		return boards;
 	}
 

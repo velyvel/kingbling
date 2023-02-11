@@ -41,6 +41,7 @@ color: white;
                     <th data-orderable="false">글 제목</th>
                     <th data-orderable="false">작성자</th>
                     <th data-orderable="false">작성일</th>
+                    <th data-orderable="false">처리상태</th>
                     <th data-orderable="false">조회수</th>
                 </tr>
                 </thead>
@@ -57,6 +58,12 @@ color: white;
                     <td>${board.userId}</td>
                     <td id="regDate${board.boardNo}" data-regdate="${board.boardRegDate1}" >
                     <fmt:formatDate value="${board.boardRegDate1}" type="both" dateStyle="full" timeStyle="short" /></td>
+                    <td>
+                    <c:choose>
+                    <c:when test="${board.boardRegDate2==null}">확인중</c:when>
+                    <c:otherwise>답변완료</c:otherwise>
+                    </c:choose>
+                    </td>
                     <td id="boardCount${board.boardNo}" data-boardcount="${board.boardCount}" >${board.boardCount}</td>
                 </tr>
                	</c:if>
@@ -164,7 +171,6 @@ $(function(){
 			$('#boardDetailTitle').val($("#title"+boardNo).data("title"));
 			$('#boardDetailContent').text($("#content"+boardNo).data("content")); */
 			location.href="/board/modalDetail?boardNo="+boardNo+"&boardCategory="+3;
-			
 		}else{
 			location.href="/board/reviewDetail?reviewNo="+boardNo;
 		}

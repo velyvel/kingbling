@@ -1,14 +1,16 @@
 package com.imbling.repository;
 
 
-import com.imbling.entity.ReviewEntity;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import javax.transaction.Transactional;
-import java.util.List;
+import com.imbling.entity.ReviewEntity;
 
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
 

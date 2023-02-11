@@ -1,22 +1,12 @@
 package com.imbling.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.imbling.entity.BoardEntity;
-import com.imbling.entity.ReviewEntity;
 import com.imbling.entity.SalesChartData;
 
-public interface MypageRepository extends JpaRepository<BoardEntity, String> {
-	
-	@Query(value = "SELECT * FROM imb_board WHERE (boardCategory=3 AND userId= :userId AND boardDeleted=0 and ROWNUM<6 ) ORDER BY boardNo DESC", nativeQuery = true)
-	List<BoardEntity> findSomeByIdAndCategory(@Param("userId") String userId);
-
-	@Query(value = "SELECT * FROM imb_board WHERE (boardCategory=3 AND userId= :userId) ORDER BY boardNo DESC", nativeQuery = true)
-	List<BoardEntity> findAllByIdAndCategory(@Param("userId") String userId);
+public interface AdminHomeRepository extends JpaRepository<BoardEntity, String> {
 
 	@Query(value = "select COUNT(*) from imb_user where usertype!='admin' ", nativeQuery = true)
 	int findUserAmount();
