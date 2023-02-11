@@ -98,6 +98,24 @@ public class UserOrderController {
 		return "success";
 	}
 	
+	@PostMapping(path= {"/setUnChkAll"}) @ResponseBody
+	public String setUnChkAll(HttpSession session) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		String chkOrUnchk = "unchk";
+		userOrderService.setChkAll(loginUser.getUserId(),chkOrUnchk);
+		
+		return "success";
+	}
+	
+	@PostMapping(path= {"/setChkAll"}) @ResponseBody
+	public String setChkAll(HttpSession session) {
+		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
+		String chkOrUnchk = "chk";
+		userOrderService.setChkAll(loginUser.getUserId(),chkOrUnchk);
+		
+		return "success";
+	}
+	
 	@GetMapping(path= {"/doOrder"})
 	public String ShowOrderPage(HttpSession session, Model model, 
 		int productNo, String productSize, String productColor, int productEA ) {

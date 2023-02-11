@@ -202,6 +202,8 @@ public interface UserOrderService {
 
 	void orderEdit(OrderDto findOrder);
 
+	void setChkAll(String userId, String chkOrUnchk);
+
 
 
 

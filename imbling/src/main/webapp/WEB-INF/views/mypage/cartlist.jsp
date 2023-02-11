@@ -8,8 +8,8 @@
                     <table>
                         <thead>
                         <tr>
-                        	<th></th>
-                            <th>주문 제품</th>
+                        	<th style="width:30px;"><button type="button" id="chkAll" style="font-size:9px;width:46px;float:left;border:1px solid lightgray" class="btn btn-light">전체<br />선택</button></th>
+                            <th style="padding-left:20px">주문 제품</th>
                             <th>주문 수량</th>
                             <th>주문 금액</th>
                             <th></th>
