@@ -239,7 +239,6 @@ public class AdminProductServiceImpl implements AdminProductService {
 
 	@Override
 	public void addNewProduct(AdminProductDto product, List<PropertyDto> property, int categoryNo) {
-		
 		ProductEntity productEntity = AdminProductDtoToEntity(product);
 		productEntity.setProductRegdate(new Date());
 		productEntity.setProductCount(0);

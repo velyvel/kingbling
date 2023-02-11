@@ -68,7 +68,8 @@ $(function(){
 		    success(data) { // 결과 성공 콜백함수
 		    	console.log(data);
 		    if(data=="nothing"){
-		    	alert('장바구니에 상품이 없습니다.');
+				$("#myModal").modal();
+				$('.modal-body').html("<p>장바구니에 상품이 없습니다.</p>");
 		    	return false;
 		    }else{
 		    // 주문시 장바구니 수량과 주문 수량 비교하기
@@ -76,7 +77,8 @@ $(function(){
 		    $('input[id *= "cartEA"]').each(function(){// 맨 위에 상품만 들어옴ㅠ
 			  var propertyNo = $(this).data('prono');
 			  if( Number($('#cartEA'+propertyNo).val()) > Number($('#maxEA'+propertyNo).val()) ){
-				  alert($('#productName'+propertyNo).val()+"의 재고수량은 "+$('#maxEA'+propertyNo).val()+"개 입니다.");
+					$("#myModal").modal();
+					$('.modal-body').html("<p>["+$('#productName'+propertyNo).val()+"]의 주문 가능 수량은 "+$('#maxEA'+propertyNo).val()+"개 입니다.</p>");
 				  $('#cartEA'+propertyNo).focus();
 				  quantity = quantity+1;
 			  }
@@ -125,7 +127,6 @@ $(function(){
 		    	$('#cartList').load("cartlist");
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('에러');
 		        console.log(error);
 		    }
 	    });
@@ -163,7 +164,6 @@ $(function(){
 		    	$('#cartList').load("cartlist");
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('에러');
 		        console.log(error);
 		    }
 	    });
@@ -193,7 +193,6 @@ $(function(){
 		    	$('#cartList').load("cartlist");
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('에러');
 		        console.log(error);
 		    }
 	    });
@@ -217,7 +216,6 @@ $(function(){
 		    	$('#cartList').load("cartlist");
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('에러');
 		        console.log(error);
 		    }
 	    });
@@ -242,7 +240,6 @@ $(function(){
 		    	$('#cartList').load("cartlist");
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('에러');
 		        console.log(error);
 		    }
 	    });

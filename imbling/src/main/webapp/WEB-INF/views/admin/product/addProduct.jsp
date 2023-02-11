@@ -77,8 +77,8 @@ cursor:pointer;
                                 <div class="form-group row" id="propertyRow">
                                     <div class="col-sm-6 mb-3 mb-sm-0" id="addedSize1">
                                         <input type="text" class="form-control form-control-user"
-                                            id="productSize1" placeholder="상품 사이즈 입력" data-propertyRow=1>
-                                            <i style="float:left;" id="deleteProperty1" >- 속성 입력 행 삭제</i>
+                                            id="productSize1" placeholder="상품 사이즈 입력">
+                                            <i style="float:left;display:none;" id="deleteProperty1" data-propertyrow=1>- 속성 입력 행 삭제</i>
                                     </div>
                                     <div class="col-sm-6  mb-3 mb-sm-0" id="addedColor1">
                                         <input type="text" class="form-control form-control-user"
@@ -174,21 +174,48 @@ $(function(){
 		$('#hiddenCategoryNo').val(categoryNo);
 	});
 	
+	var propertyIndexList = [1];
   	var productIndex = Number($('#productIndex').val());
 	$('#propertyRow').on('click',"i[id*='addProperty']",function(event){ // 속성 입력 행 추가하기
 		productIndex = Number(productIndex)+1;
 		$('#productIndex').val(productIndex);
+		
+		for(var i=0;i<propertyIndexList.length;i++ ){
+			$('#deleteProperty'+propertyIndexList[i]).show();
+		}
+		var formerRow = propertyIndexList[(propertyIndexList.length-1)];
+		propertyIndexList.push(productIndex);
         
 		var propertyStr = "<div class='col-sm-6 mb-3 mb-sm-0' id='addedSize"+productIndex+"'>";
-		propertyStr+="<input type='text' class='form-control form-control-user' id='productSize"+productIndex+"' placeholder='상품 사이즈 입력' data-propertyRow="+productIndex+">";
-		propertyStr+="<i style='float:left;' id='deleteProperty"+productIndex+"' >- 속성 입력 행 삭제</i></div>";
+		propertyStr+="<input type='text' class='form-control form-control-user' id='productSize"+productIndex+"' placeholder='상품 사이즈 입력'>";
+		propertyStr+="<i style='float:left;' id='deleteProperty"+productIndex+"' data-propertyrow="+productIndex+" >- 속성 입력 행 삭제</i></div>";
 		propertyStr+="<div class='col-sm-6 mb-3 mb-sm-0' id='addedColor"+productIndex+"'>";
 		propertyStr+="<input type='text' class='form-control form-control-user' id='productColor"+productIndex+"' placeholder='상품 색상 입력'>";
 		propertyStr+="<i style='float:right;' id='addProperty"+productIndex+"' >+ 속성 입력 행 추가</i></div>";
 		propertyStr+="<input type='hidden' id='propertyLocation"+productIndex+"' />";
-		$("#propertyLocation"+(productIndex-1)).after(propertyStr);
-		console.log(propertyStr)
-		$('#addProperty'+(productIndex-1)).hide();
+		
+		$("#propertyLocation"+formerRow).after(propertyStr);
+		$('#addProperty'+formerRow).hide();
+	});  
+	
+	$('#propertyRow').on('click',"i[id*='deleteProperty']",function(event){ // 속성 입력 행 삭제하기
+        var thisRow = $(this).data('propertyrow');
+		$('#addedSize'+thisRow).remove();
+		$('#addedColor'+thisRow).remove();
+		$('#propertyLocation'+thisRow).remove();
+		
+		propertyIndexList = propertyIndexList.filter(function(idx) {
+			  return idx != thisRow;
+		});
+		if(propertyIndexList.length==1){
+			$('#addProperty'+propertyIndexList[0]).show();
+			$('#deleteProperty'+propertyIndexList[0]).hide(); 
+		}else{
+			for(var i=0;i<propertyIndexList.length;i++ ){
+				$('#deleteProperty'+propertyIndexList[i]).show();
+			}
+		}
+		$('#addProperty'+propertyIndexList[(propertyIndexList.length-1)]).show();
 	});  
 	
 	$("#productAttach").on('change',function(event) { //상품 파일 올리면 이미지파일 형식인지 확인, 이미지파일이면 미리보기
@@ -232,27 +259,30 @@ $(function(){
 			return false;
 		}
 		
-		for(var i=1;i<=productIndex;i++){
-			if($('#productSize'+i).val()==""){
+		
+		for(var i=0;i<propertyIndexList.length;i++){
+			if($('#productSize'+propertyIndexList[i]).val()==""){
 				$("#myModal").modal();
 				$('.modal-body').html("<p>상품 사이즈를 입력하세요.</p>");
 				return false;
-			}else if($('#productColor'+i).val()==""){
+			}else if($('#productColor'+propertyIndexList[i]).val()==""){
 				$("#myModal").modal();
 				$('.modal-body').html("<p>상품 색상을 입력하세요.</p>");
 				return false;
 			}
 		}
-		for(var i=1;i<=productIndex;i++){
-			for(var j=1;j<=productIndex;j++){
-				if(i!=j&&($('#productSize'+i).val()==$('#productSize'+j).val()&&$('#productColor'+i).val()==$('#productColor'+j).val())){
-				$("#myModal").modal();
-				$('.modal-body').html("<p>중복된 옵션 값이 있습니다.</p>");
-				return false;
+		
+		for(var i=0;i<propertyIndexList.length;i++){
+			for(var j=0;j<propertyIndexList.length;j++){
+				if(i!=j&&($('#productSize'+propertyIndexList[i]).val()==$('#productSize'+propertyIndexList[j]).val()
+						&&$('#productColor'+propertyIndexList[i]).val()==$('#productColor'+propertyIndexList[j]).val())){
+					$("#myModal").modal();
+					$('.modal-body').html("<p>중복된 옵션 값이 있습니다.</p>");
+					return false;
 				}
 			}
 		}
-			
+		
 		if($("#productPrice").val()==""){
 			$("#myModal").modal();
 			$('.modal-body').html("<p>상품 가격을 입력하세요.</p>");
@@ -263,9 +293,9 @@ $(function(){
 			return false;
 		}
 		
-		for(var i=1;i<=productIndex;i++){
-			colors.push($('#productColor'+i).val());
-			sizes.push($('#productSize'+i).val());
+		for(var i=0;i<propertyIndexList.length;i++){
+			colors.push($('#productColor'+propertyIndexList[i]).val());
+			sizes.push($('#productSize'+propertyIndexList[i]).val());
 		}
 		$('#sizes').val(sizes);
 		$('#colors').val(colors);
