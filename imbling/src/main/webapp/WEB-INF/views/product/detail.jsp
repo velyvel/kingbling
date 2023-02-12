@@ -56,11 +56,11 @@
 							<input type="hidden" value="${loginuser.userId}" id="user-id" />
 							<h4>${product.productName}</h4>
 							<span><i class="fa-solid fa-person"></i>${product.productCount}</span>
-							<div class="rating">
+<!-- 							<div class="rating">
 								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 									class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 									class="fa fa-star-o"></i> <span> - 5 Reviews</span>
-							</div>
+							</div> -->
 							<h3>
 								<fmt:formatNumber value="${product.productPrice}"
 									pattern="₩#,###" />
@@ -69,8 +69,8 @@
 								<%-- ${product.properties[0].productSize} / ${product.properties[0].productColor} --%>
 								<div class="product__details__option__size">
 									<div>Size & Color :</div>
-									<input type="hidden" id="product-size" value="${property.productSize}" />
-									<input type="hidden" id="product-color" value="${property.productColor}" />
+									<input type="hidden" id="product-size" value="${product.properties[0].productSize}" />
+									<input type="hidden" id="product-color" value="${product.properties[0].productColor}" />
 									<select id="selectProperty">
 										<c:forEach var="property" items="${product.properties}">
 											<option value="${property.propertyNo}" 
@@ -348,6 +348,8 @@
 	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp"/>
 	<script type="text/javascript">
 	$(function(){
+		$('#selectProperty').css('display','block');
+		$('.nice-select').hide();
 		
 		// 상품 수량 변경은 main.js - .pro-qty에 있음.
 		// 최소 수량 5개를 넘을 수 없고 상품재고(productEA) 이상 주문할 수 없음.
@@ -447,27 +449,25 @@
 		$('#exampleModal').on('show.bs.modal', function (event) {
 		});
 		
-		$('.nice-select').on("click",function(event){
+		$('#selectProperty').on("change",function(event){ //select로 옵션 선택시 선택 옵션이랑 재고 수량 변경
+
 			var productNo = $('#productNo').val();
+			var propertyNo = $(this).val();
+			$('#product-size').val($('#selectProperty option:selected').data('productsize'));
+			$('#product-color').val($('#selectProperty option:selected').data('productcolor'));
 			
-			var selectedProperty = $('.current').text();
-			selectedProperty = selectedProperty.trim();
-			selectedProperty = selectedProperty.replaceAll(' ','');
-			selectedProperty = selectedProperty.split('&');
-			var productSize = selectedProperty[0];
-			var productColor = selectedProperty[1];
-			
-			$('#product-size').val(productSize);
-			$('#product-color').val(productColor);
-			
+			console.log($('#product-size').val());
+			console.log($('#product-color').val());
+
 			$.ajax({
 				url:"/product/getPropertyInfo",
 				type:"post",
-				data:{"productNo":productNo,"productSize":productSize,"productColor":productColor},
-				dataType:"json",
+				data:{"propertyNo":propertyNo},
+				dataType:"text",
 				success(data){
-					console.log(data);
-					$('#max-ea').val(data.productEA);
+					console.log("data : "+data);
+					$('#max-ea').val(Number(data));
+					console.log("max : "+$('#max-ea').val());
 				},
 				error(err){
 					console.log(err)

@@ -69,7 +69,6 @@ public class OrderController {
 		
 		return "redirect:order-list";
 
-
 	}
 
 }

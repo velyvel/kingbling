@@ -27,11 +27,11 @@
 <!-- ****************************** end of 바로가기메뉴 ************************** -->
 <!-- ****************************** 상품후기 상단바 ************************** -->
     <div>
-        <section class="breadcrumb-blog set-bg" data-setbg="/resources/dist/img/breadcrumb-bg.jpg">
+        <section class="breadcrumb-blog set-bg" data-setbg="/resources/dist/img/banner/review4.jpg">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h2>상품후기</h2>
+                        <h2 style="color: black">상품후기</h2>
                     </div>
                 </div>
             </div>
@@ -44,33 +44,37 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="blog__item">
-                            <div class="blog__item__pic set-bg" data-setbg="/resources/dist/img/blog/blog-1.jpg"></div>
+                            <div class="blog__item__pic set-bg" data-setbg="/resources/dist/img/banner/review1.png"></div>
                             <div class="blog__item__text">
-                                <span><img src="/resources/dist/img/icon/calendar.png" alt="">작성날짜</span>
-                                <h5>상품이름</h5>
-                                <span>가격</span>
-                                <span>내용</span>
-                                <a href="#">Read More</a>
+                                <span><img src="/resources/dist/img/icon/calendar.png" alt="">2023.02.10</span>
+                                <h5>로즈골드 티타늄 귀걸이</h5>
+                                <span>₩6,400</span>
+                                <span>로즈골드 티타늄 샤이닝 컷팅 원터치 링귀걸이</span>
+                                <a href="/product/detail?productNo=3789&categoryNo=1641">Read More</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="blog__item">
-                            <div class="blog__item__pic set-bg" data-setbg="/resources/dist/img/blog/blog-2.jpg"></div>
+                            <div class="blog__item__pic set-bg" data-setbg="/resources/dist/img/banner/review2.png"></div>
                             <div class="blog__item__text">
-                                <span><img src="/resources/dist/img/icon/calendar.png" alt=""> 21 February 2020</span>
-                                <h5>Eternity Bands Do Last Forever</h5>
-                                <a href="#">Read More</a>
+                                <span><img src="/resources/dist/img/icon/calendar.png" alt=""> 2023.03.10</span>
+                                <h5>볼드 진주 이어커프</h5>
+                                <span>₩4,900</span>
+                                <span>볼드 진주  이어커프 링 귀찌 피어싱 귀걸이</span>
+                                <a href="/product/detail?productNo=3789&categoryNo=1641">Read More</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="blog__item">
-                            <div class="blog__item__pic set-bg" data-setbg="/resources/dist/img/blog/blog-3.jpg"></div>
+                            <div class="blog__item__pic set-bg" data-setbg="/resources/dist/img/banner/review3.png"></div>
                             <div class="blog__item__text">
-                                <span><img src="/resources/dist/img/icon/calendar.png" alt=""> 28 February 2020</span>
-                                <h5>The Health Benefits Of Sunglasses</h5>
-                                <a href="#">Read More</a>
+                                <span><img src="/resources/dist/img/icon/calendar.png" alt="">2023.02.10</span>
+                                <h5>볼라레 더블큐빅 귀걸이</h5>
+                                <span>₩16,490</span>
+                                <span>볼라레 더블큐빅 투웨이 귀걸이</span>
+                                <a href="/product/detail?productNo=3713&categoryNo=1641">Read More</a>
                             </div>
                         </div>
                     </div>
@@ -156,7 +160,13 @@
 <jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 <jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
 <script type="text/javascript">
+
+    $(document).ready( function () {
+        $('#dataTable').DataTable();
+    });
 </script>
+
+
 
 </body>
 </html>

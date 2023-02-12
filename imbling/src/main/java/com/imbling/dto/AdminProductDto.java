@@ -15,7 +15,8 @@ public class AdminProductDto {
 	private int adminProductPrice;
 	private Date adminProductRegdate;
 	private int adminProductCount;
-	
+	private boolean adminproductdeleted;
+
 	private CategoryDto category;
 	private List<PropertyDto> properties;
 }

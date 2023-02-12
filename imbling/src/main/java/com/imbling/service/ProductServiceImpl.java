@@ -223,5 +223,11 @@ public class ProductServiceImpl implements ProductService {
 		return productDtos;
 	}
 
+	@Override
+	public int getProductEAByPropertyNo(int propertyNo) {
+		int propertyEA = propertyRepository.findProductEAByPropertyNo(propertyNo);
+		return propertyEA;
+	}
+
 
 }

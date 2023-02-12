@@ -37,7 +37,7 @@
         </div>
         <div class="card-body">
             <div class="blog__details__pic">
-                <img src="/resources/dist/img/carousel-1.jpeg" alt="">
+                <img src="/resources/dist/img/event.png" alt="">
             </div>
         </div>
     </div>
@@ -70,11 +70,6 @@
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle Dropright</span>
                 </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">전체조회</a>
-                    <a class="dropdown-item" href="#">진행 중인 이벤트</a>
-                    <a class="dropdown-item" href="#">마감된 이벤트</a>
-                </div>
             </div>
             <%--    c:if 활용하여 adminuser일 때만 편집 가능하도록 구현--%>
             <div style="float: right;">

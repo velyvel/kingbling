@@ -58,7 +58,12 @@ color: white;
                     <td>${board.userId}</td>
                     <td id="regDate${board.boardNo}" data-regdate="${board.boardRegDate1}" >
                     <fmt:formatDate value="${board.boardRegDate1}" type="both" dateStyle="full" timeStyle="short" /></td>
-                    <td></td>
+                    <td>
+                    <c:choose>
+                    <c:when test="${board.boardCategory==0}">확인중</c:when>
+                    <c:otherwise>답변완료</c:otherwise>
+                    </c:choose>
+                    </td>
                     <td id="boardCount${board.boardNo}" data-boardcount="${board.boardCount}" >${board.boardCount}</td>
                 </tr>
                	</c:if>
@@ -102,7 +107,7 @@ color: white;
 </div>
  <!-- 모달 시작 -->	
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -127,7 +132,7 @@ color: white;
   </div>
 </div>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display:none"> 
-</button>
+</button> -->
 <!-- 모달 끝 -->
 <!-- ****************************** footer ************************** -->
 <jsp:include page="/WEB-INF/views/modules/footer.jsp" />
@@ -160,11 +165,12 @@ $(function(){
 		var boardNo = $(this).data("boardno");
 		
 		if($("#category"+boardNo).data("category")=='1:1문의'){
-			$("#myModal").modal();
+/* 			$("#myModal").modal();
 			$('#exampleModalLabel').html("<h5>"+$("#category"+boardNo).data("category")+"</h5>");
 			$('#exampleModalLabel').append("<h7>작성자 : "+userId+"</h7>");
 			$('#boardDetailTitle').val($("#title"+boardNo).data("title"));
-			$('#boardDetailContent').text($("#content"+boardNo).data("content"));
+			$('#boardDetailContent').text($("#content"+boardNo).data("content")); */
+			location.href="/board/modalDetail?boardNo="+boardNo+"&boardCategory="+3;
 		}else{
 			location.href="/board/reviewDetail?reviewNo="+boardNo;
 		}

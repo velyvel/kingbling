@@ -154,7 +154,7 @@ public class MyPageController {
 	@GetMapping(path = { "/mypage/orderList", })
 	public String showOrder(HttpSession session,@RequestParam(defaultValue="전체보기")String selectedValue,Model model) {
 		AccountDto loginUser = (AccountDto) session.getAttribute("loginuser");
-		mypageService.setCartInfoToUnChk(loginUser.getUserId());
+//		mypageService.setCartInfoToUnChk(loginUser.getUserId());
 		List<OrderDto> orders = userOrderService.getUserOrderList(loginUser.getUserId(),selectedValue);
 		model.addAttribute("selectedValue", selectedValue);
 		model.addAttribute("orders", orders);
@@ -185,7 +185,6 @@ public class MyPageController {
 		List<ReviewDto> reviews = mypageService.findMyreview(loginUser.getUserId());
 		model.addAttribute("boards", boards);
 		model.addAttribute("reviews", reviews);
-
 		return "mypage/myboard";
 	}
 
