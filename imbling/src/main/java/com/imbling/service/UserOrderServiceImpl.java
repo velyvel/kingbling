@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.imbling.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.imbling.entity.AccountDtoEntity;
@@ -355,6 +356,21 @@ public class UserOrderServiceImpl implements UserOrderService{
 
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void setChkAll(String userId, String chkOrUnchk) {
+		
+		List<CartEntity> carts = cartRepository.findAllByUserId(userId);
+		
+		for(CartEntity cart : carts) {
+			if(chkOrUnchk.equals("chk")) {
+				cart.setCartChk(true);
+			}else {
+				cart.setCartChk(false);
+			}
+			cartRepository.save(cart);
+		}
 	}
 
 	

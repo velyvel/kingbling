@@ -59,26 +59,63 @@
 $(function(){
 	
 	$('#cartList').load("cartlist");
-	
-	$('#cartList').on('click','#orderAllCart',function(event){//전체 주문시 장바구니 비어있으면 주문 못함
-		$.ajax({
+    var quantity = 0;
+	$('#cartList').on('click','#orderAllCart',function(event){//장바구니 전체 주문
+		quantity = 0;
+		chkedList=[];
+		$.ajax({//전체 주문시 장바구니 비어있으면 주문 못함
 			url:"/userOrder/cartOrnot",
 		    type : 'post',
-		    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
+		    dataType : 'text', // 반환 데이터 타입 (html, xml, json, text 등등)
 		    success(data) { // 결과 성공 콜백함수
 		    	console.log(data);
 		    if(data=="nothing"){
-		    	alert('장바구니에 상품이 없습니다.');
+				$("#myModal").modal();
+				$('.modal-body').html("<p>장바구니에 상품이 없습니다.</p>");
 		    	return false;
-		    }else{
-		    	location.href="/userOrder/doCartOrder";
 		    }
-		    },
-		    error(error) { // 결과 에러 콜백함수
-		        console.log(error);
+		    },//success
+		    error(err){
+	    		console.log(err);	
 		    }
+	    });//ajax
+		    
+
+	    $('input[id *= "cartEA"]').each(function(){//전체 속성 번호 배열 저장
+			var propertyNo = $(this).data('prono');
+			chkedList.push(propertyNo);
 	    });
-	});
+	    
+	    for(var i=0; i<chkedList.length;i++){
+	    	doAllCartOrder(i);
+	    }
+	});//장바구니 전체주문 끝
+	
+    function doAllCartOrder(i){	// 전체 주문시 장바구니 수량과 주문 수량 비교하기
+		$.ajax({
+			url:"/product/getPropertyInfo",
+			type:"post",
+			data:{"propertyNo":chkedList[i]},
+			dataType:"text",
+			success(data){
+				var newMaxEA = Number(data);
+				if( Number($('#cartEA'+chkedList[i]).val()) <= newMaxEA ){
+					quantity=quantity+1;
+			  	}else{
+					$("#myModal").modal();
+					$('.modal-body').html("<p>["+$('#productName'+chkedList[i]).val()+"]의 주문 가능 수량은 "+newMaxEA+"개 입니다.</p>");
+					$('#cartEA'+chkedList[i]).focus();
+					return false;
+			  	}
+				if(quantity==chkedList.length){
+					location.href="/userOrder/doCartOrder";
+		  		}
+			},
+			error(err){
+				console.log(err)
+			}
+		});//ajax
+    }//doAllCartOrder
 	
 	$('#cartList').on('click','#deleteAllCart',function(event){ //장바구니 전체 비우기
 		
@@ -110,7 +147,6 @@ $(function(){
 		    	$('#cartList').load("cartlist");
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('에러');
 		        console.log(error);
 		    }
 	    });
@@ -148,7 +184,6 @@ $(function(){
 		    	$('#cartList').load("cartlist");
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('에러');
 		        console.log(error);
 		    }
 	    });
@@ -178,10 +213,37 @@ $(function(){
 		    	$('#cartList').load("cartlist");
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('에러');
 		        console.log(error);
 		    }
 	    });
+	});
+	
+	$('#cartList').on("click","#chkAll",function(event){//전체선택
+		if (!$('.chk i').hasClass('fa-square-o')){//모든 상품이 선택된 상태면 체크 다 풀어줌
+			$.ajax({
+				url:"/userOrder/setUnChkAll",
+			    type : 'post',
+			    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
+			    success : function(result) { // 결과 성공 콜백함수
+			    	$('#cartList').load("cartlist");
+			    },
+			    error : function(request, status, error) { // 결과 에러 콜백함수
+			        console.log(error);
+			    }
+		    });
+		}else{//체크 안된게 하나라도 있는 상태면 모두 다 선택 해주기
+			$.ajax({
+				url:"/userOrder/setChkAll",
+			    type : 'post',
+			    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
+			    success : function(result) { // 결과 성공 콜백함수
+			    	$('#cartList').load("cartlist");
+			    },
+			    error : function(request, status, error) { // 결과 에러 콜백함수
+			        console.log(error);
+			    }
+		    });
+		}
 	});
 	
 	$('#cartList').on("click",".chk i",function(event){//체크박스 클릭
@@ -202,18 +264,53 @@ $(function(){
 		    	$('#cartList').load("cartlist");
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('에러');
 		        console.log(error);
 		    }
 	    });
 	});
 	
+	var chkedList = [];
 	$("#cartList").on('click',"#chk-order",function(event){//선택상품 주문
-		if (!$('.chk i').hasClass('fa-check-square-o')){
+    	quantity = 0;
+    	chkedList = [];
+		if (!$('.chk i').hasClass('fa-check-square-o')){//선택된 상품이 없으면 주문 못함
 			return false;
 		}
-		location.href="/userOrder/doOrderCheckedCart";
-	});
+	    $('.fa-check-square-o').each(function(){// 선택된 상품 속성 번호만 저장하기
+			var propertyNo = $(this).data('prono');
+			chkedList.push(propertyNo);
+	    });
+		for(var i=0;i<chkedList.length;i++){// 선택 주문시 장바구니 수량과 주문 수량 비교하기
+			chkedQuantity(i);
+	    }
+	});//선택상품 주문
+	
+	function chkedQuantity(i){ //선택 상품 주문시 재고량 확인을 위한 ajax를 for문 돌리려고 함수로 밖에 빼둠.
+		$.ajax({
+			url:"/product/getPropertyInfo",
+			type:"post",
+			data:{"propertyNo":chkedList[i]},
+			dataType:"text",
+			success(data){
+				var newMaxEA = Number(data);
+				if( Number($('#cartEA'+chkedList[i]).val()) <= newMaxEA ){
+					quantity = quantity+1;
+			  	}else{
+					$("#myModal").modal();
+					$('.modal-body').html("<p>["+$('#productName'+chkedList[i]).val()+"]의 주문 가능 수량은 "+newMaxEA+"개 입니다.</p>");
+					$('#cartEA'+chkedList[i]).focus();
+					quantity = 0;
+					return false;
+			  	}
+			    if(quantity==chkedList.length){
+			    	location.href="/userOrder/doOrderCheckedCart";
+			    }
+			},
+			error(err){
+				console.log(err)
+			}
+		});//ajax
+	}//chkedQuantity
 	
 	$("#cartList").on('click',"#chk-delete",function(event){//선택상품 삭제
 		if (!$('.chk i').hasClass('fa-check-square-o')){
@@ -227,7 +324,6 @@ $(function(){
 		    	$('#cartList').load("cartlist");
 		    },
 		    error : function(request, status, error) { // 결과 에러 콜백함수
-		    	alert('에러');
 		        console.log(error);
 		    }
 	    });

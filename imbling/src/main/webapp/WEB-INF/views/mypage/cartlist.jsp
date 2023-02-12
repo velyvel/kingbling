@@ -8,8 +8,8 @@
                     <table>
                         <thead>
                         <tr>
-                        	<th></th>
-                            <th>주문 제품</th>
+                        	<th style="width:30px;"><button type="button" id="chkAll" style="font-size:9px;width:46px;float:left;border:1px solid lightgray" class="btn btn-light">전체<br />선택</button></th>
+                            <th style="padding-left:20px">주문 제품</th>
                             <th>주문 수량</th>
                             <th>주문 금액</th>
                             <th></th>
@@ -18,6 +18,7 @@
                         <tbody>
                         <c:forEach items="${carts}" var="cart">
                         <input type="hidden" id="maxEA${cart.propertyNo}" value="${cart.property.productEA}" />
+                        <input type="hidden" id="productName${cart.propertyNo}" value="${cart.product.productName}" />
                            <tr id="cartRow" >
                            	<td class="chk">
                            	<c:choose>
@@ -41,7 +42,7 @@
                                     <div class="pro-qty-2">
                                         <i class="fa fa-arrow-down" style="float:left;border:solid 1px lightgray;border-radius:50px" data-proNo="${cart.propertyNo}" data-singleprice="${cart.product.productPrice}"></i>
                                         <input id="cartEA${cart.propertyNo}" type="text" value="${cart.cartEA}" style="border:solid 1px lightgray;border-radius:50px"
-                                        data-proNo="${cart.propertyNo}" data-singleprice="${cart.product.productPrice}">
+                                        data-prono="${cart.propertyNo}" data-singleprice="${cart.product.productPrice}">
                                         <i class="fa fa-arrow-up" style="float:right;border:solid 1px lightgray;border-radius:50px" data-proNo="${cart.propertyNo}" data-singleprice="${cart.product.productPrice}"></i>
                                     </div>
                                 </div>

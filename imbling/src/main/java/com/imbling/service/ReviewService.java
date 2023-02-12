@@ -160,6 +160,9 @@ public interface ReviewService {
 
 	int findOneReview(int orderNo, int propertyNo);
 
-	List<ReviewDto> findAllReviewWithoutDelete(ReviewDto review);
+	List<ReviewDto> findAllReviewWithoutDelete();
+
+	void deleteReviewAdmin(ReviewDto review);
+
 
 }

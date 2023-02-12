@@ -266,7 +266,7 @@ $.ajax({
 		}
 	},
 	"error": function(err) {
-		alert('매출 데이터 호출 실패.');
+		console.log('매출 데이터 호출 실패.');
 	}
 });
 
@@ -375,7 +375,7 @@ $.ajax({
 		setTimeout(barChart,100);
 	},
 	"error": function(err) {
-		alert('승인 회원 데이터 호출 실패.');
+		console.log('구매 회원 데이터 호출 실패.');
 	}
 });
 
@@ -426,7 +426,7 @@ $.ajax({
 		setTimeout(pieChart,100);
 	},
 	"error": function(err) {
-		alert('승인 회원 데이터 호출 실패.');
+		console.log('승인 회원 데이터 호출 실패.');
 	}
 });
 
@@ -468,7 +468,7 @@ $.ajax({
 		setTimeout(circleChart,100);
 	},
 	"error": function(err) {
-		alert('승인 회원 데이터 호출 실패.');
+		console.log('판매 상품 데이터 호출 실패.');
 	}
 });
 

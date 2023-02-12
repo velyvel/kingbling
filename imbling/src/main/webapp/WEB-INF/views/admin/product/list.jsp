@@ -39,7 +39,7 @@
 					<h1 class="h3 mb-2 text-gray-800">상품 목록</h1>
 					<p class="mb-4">전체 상품 목록을 조회할 수 있는 페이지 입니다.</p>
 					<!-- 상품 분류 -->
-					<div class="card shadow mb-4">
+<!-- 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">상품 분류</h6>
 						</div>
@@ -59,7 +59,7 @@
 														<option class="option" value="1643">반지</option>
 														<option class="option" value="1644">팔찌</option>
 													</select>
-												</div> <!-- 	</td> -->
+												</div> 	</td>
 										</tr>
 										<tr>
 											<th>상품재고</th>
@@ -75,7 +75,7 @@
 							</div>
 						</div>
 					</div>
-					<br>
+ -->					<br>
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">상품 목록</h6>
