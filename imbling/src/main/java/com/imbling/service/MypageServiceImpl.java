@@ -57,9 +57,7 @@ public class MypageServiceImpl implements MypageService {
 		ArrayList<BoardDto> boards = new ArrayList<>();
 		for (BoardEntity boardEntity : boardList) {
 			int inqueryComment = boardRepository.findInqueryComment(boardEntity.getBoardNo());//답글 달렸나?
-			if(inqueryComment>0) {//답글 달렸으면 날짜2 비우지 않는걸로 확인할 거임
-			boardEntity.setBoardRegDate2(new Date());
-			}
+			boardEntity.setBoardCategory(inqueryComment);
 			boards.add(boardEntityToDto(boardEntity));
 		}
 		return boards;
@@ -92,9 +90,7 @@ public class MypageServiceImpl implements MypageService {
 		ArrayList<BoardDto> boards = new ArrayList<>();
 		for (BoardEntity boardEntity : boardList) {
 			int inqueryComment = boardRepository.findInqueryComment(boardEntity.getBoardNo());//답글 달렸나?
-			if(inqueryComment>0) {//답글 달렸으면 날짜2 비우지 않는걸로 확인할 거임
-			boardEntity.setBoardRegDate2(new Date());
-			}
+			boardEntity.setBoardCategory(inqueryComment);
 			boards.add(boardEntityToDto(boardEntity));
 		}
 		return boards;

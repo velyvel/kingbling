@@ -61,6 +61,8 @@ $(function(){
 	$('#cartList').load("cartlist");
     var quantity = 0;
 	$('#cartList').on('click','#orderAllCart',function(event){//장바구니 전체 주문
+		quantity = 0;
+		chkedList=[];
 		$.ajax({//전체 주문시 장바구니 비어있으면 주문 못함
 			url:"/userOrder/cartOrnot",
 		    type : 'post',
@@ -76,39 +78,44 @@ $(function(){
 		    error(err){
 	    		console.log(err);	
 		    }
-	    });//ajax1
+	    });//ajax
 		    
-	    // 전체 주문시 장바구니 수량과 주문 수량 비교하기
-	    $('input[id *= "cartEA"]').each(function(){
+
+	    $('input[id *= "cartEA"]').each(function(){//전체 속성 번호 배열 저장
 			var propertyNo = $(this).data('prono');
-			$.ajax({
-				url:"/product/getPropertyInfo",
-				type:"post",
-				data:{"propertyNo":propertyNo},
-				dataType:"text",
-				success(data){
-					var newMaxEA = Number(data);
-					if( Number($('#cartEA'+propertyNo).val()) > newMaxEA ){
-						$("#myModal").modal();
-						$('.modal-body').html("<p>["+$('#productName'+propertyNo).val()+"]의 주문 가능 수량은 "+newMaxEA+"개 입니다.</p>");
-						$('#cartEA'+propertyNo).focus();
-						quantity=quantity+1;
-						if(quantity==0){
-							location.href="/userOrder/doCartOrder";
-				  		}else{
-				  			quantity=0;
-				  			return false;
-				  		}
-						
-				  	}
-				},
-				error(err){
-					console.log(err)
-				}
-			});//ajax2
+			chkedList.push(propertyNo);
 	    });
 	    
+	    for(var i=0; i<chkedList.length;i++){
+	    	doAllCartOrder(i);
+	    }
 	});//장바구니 전체주문 끝
+	
+    function doAllCartOrder(i){	// 전체 주문시 장바구니 수량과 주문 수량 비교하기
+		$.ajax({
+			url:"/product/getPropertyInfo",
+			type:"post",
+			data:{"propertyNo":chkedList[i]},
+			dataType:"text",
+			success(data){
+				var newMaxEA = Number(data);
+				if( Number($('#cartEA'+chkedList[i]).val()) <= newMaxEA ){
+					quantity=quantity+1;
+			  	}else{
+					$("#myModal").modal();
+					$('.modal-body').html("<p>["+$('#productName'+chkedList[i]).val()+"]의 주문 가능 수량은 "+newMaxEA+"개 입니다.</p>");
+					$('#cartEA'+chkedList[i]).focus();
+					return false;
+			  	}
+				if(quantity==chkedList.length){
+					location.href="/userOrder/doCartOrder";
+		  		}
+			},
+			error(err){
+				console.log(err)
+			}
+		});//ajax
+    }//doAllCartOrder
 	
 	$('#cartList').on('click','#deleteAllCart',function(event){ //장바구니 전체 비우기
 		
@@ -262,40 +269,48 @@ $(function(){
 	    });
 	});
 	
+	var chkedList = [];
 	$("#cartList").on('click',"#chk-order",function(event){//선택상품 주문
+    	quantity = 0;
+    	chkedList = [];
 		if (!$('.chk i').hasClass('fa-check-square-o')){//선택된 상품이 없으면 주문 못함
 			return false;
 		}
-	    // 선택 주문시 장바구니 수량과 주문 수량 비교하기
-	    $('.fa-check-square-o').each(function(){
+	    $('.fa-check-square-o').each(function(){// 선택된 상품 속성 번호만 저장하기
 			var propertyNo = $(this).data('prono');
-			$.ajax({
-				url:"/product/getPropertyInfo",
-				type:"post",
-				data:{"propertyNo":propertyNo},
-				dataType:"text",
-				success(data){
-					var newMaxEA = Number(data);
-					if( Number($('#cartEA'+propertyNo).val()) > newMaxEA ){
-						$("#myModal").modal();
-						$('.modal-body').html("<p>["+$('#productName'+propertyNo).val()+"]의 주문 가능 수량은 "+newMaxEA+"개 입니다.</p>");
-						$('#cartEA'+propertyNo).focus();
-						quantity=quantity+1;
-				  	}else{
-				  		if(quantity!=0){
-				  			quantity=0;
-				  			return false;
-				  		}else{
-				  			location.href="/userOrder/doOrderCheckedCart";
-				  		}
-			  		}
-				},
-				error(err){
-					console.log(err)
-				}
-			});//ajax
+			chkedList.push(propertyNo);
 	    });
-	});
+		for(var i=0;i<chkedList.length;i++){// 선택 주문시 장바구니 수량과 주문 수량 비교하기
+			chkedQuantity(i);
+	    }
+	});//선택상품 주문
+	
+	function chkedQuantity(i){ //선택 상품 주문시 재고량 확인을 위한 ajax를 for문 돌리려고 함수로 밖에 빼둠.
+		$.ajax({
+			url:"/product/getPropertyInfo",
+			type:"post",
+			data:{"propertyNo":chkedList[i]},
+			dataType:"text",
+			success(data){
+				var newMaxEA = Number(data);
+				if( Number($('#cartEA'+chkedList[i]).val()) <= newMaxEA ){
+					quantity = quantity+1;
+			  	}else{
+					$("#myModal").modal();
+					$('.modal-body').html("<p>["+$('#productName'+chkedList[i]).val()+"]의 주문 가능 수량은 "+newMaxEA+"개 입니다.</p>");
+					$('#cartEA'+chkedList[i]).focus();
+					quantity = 0;
+					return false;
+			  	}
+			    if(quantity==chkedList.length){
+			    	location.href="/userOrder/doOrderCheckedCart";
+			    }
+			},
+			error(err){
+				console.log(err)
+			}
+		});//ajax
+	}//chkedQuantity
 	
 	$("#cartList").on('click',"#chk-delete",function(event){//선택상품 삭제
 		if (!$('.chk i').hasClass('fa-check-square-o')){

@@ -60,7 +60,7 @@ color: white;
                     <fmt:formatDate value="${board.boardRegDate1}" type="both" dateStyle="full" timeStyle="short" /></td>
                     <td>
                     <c:choose>
-                    <c:when test="${board.boardRegDate2==null}">확인중</c:when>
+                    <c:when test="${board.boardCategory==0}">확인중</c:when>
                     <c:otherwise>답변완료</c:otherwise>
                     </c:choose>
                     </td>

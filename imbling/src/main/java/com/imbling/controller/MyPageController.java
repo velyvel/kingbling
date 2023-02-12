@@ -184,7 +184,6 @@ public class MyPageController {
 		List<BoardDto> boards = mypageService.findMyInquery(loginUser.getUserId());
 		List<ReviewDto> reviews = mypageService.findMyreview(loginUser.getUserId());
 		model.addAttribute("boards", boards);
-		System.out.println(boards);
 		model.addAttribute("reviews", reviews);
 		return "mypage/myboard";
 	}
