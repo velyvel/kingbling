@@ -185,7 +185,6 @@ public class MyPageController {
 		List<ReviewDto> reviews = mypageService.findMyreview(loginUser.getUserId());
 		model.addAttribute("boards", boards);
 		model.addAttribute("reviews", reviews);
-
 		return "mypage/myboard";
 	}
 

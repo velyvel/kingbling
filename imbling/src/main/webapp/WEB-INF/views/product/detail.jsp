@@ -342,6 +342,8 @@
 	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp"/>
 	<script type="text/javascript">
 	$(function(){
+		$('#selectProperty').css('display','block');
+		$('.nice-select').hide();
 		
 		// 상품 수량 변경은 main.js - .pro-qty에 있음.
 		// 최소 수량 5개를 넘을 수 없고 상품재고(productEA) 이상 주문할 수 없음.
@@ -442,27 +444,19 @@
 		$('#exampleModal').on('show.bs.modal', function (event) {
 		});
 		
-		$('.nice-select').on("click",function(event){
+		$('#selectProperty').on("change",function(event){
+
 			var productNo = $('#productNo').val();
-			
-			var selectedProperty = $('.current').text();
-			selectedProperty = selectedProperty.trim();
-			selectedProperty = selectedProperty.replaceAll(' ','');
-			selectedProperty = selectedProperty.split('&');
-			var productSize = selectedProperty[0];
-			var productColor = selectedProperty[1];
-			
-			$('#product-size').val(productSize);
-			$('#product-color').val(productColor);
-			
+			var propertyNo = $(this).val();
+						
 			$.ajax({
 				url:"/product/getPropertyInfo",
 				type:"post",
-				data:{"productNo":productNo,"productSize":productSize,"productColor":productColor},
-				dataType:"json",
+				data:{"propertyNo":propertyNo},
+				dataType:"text",
 				success(data){
 					console.log(data);
-					$('#max-ea').val(data.productEA);
+					$('#max-ea').val(Number(data));
 				},
 				error(err){
 					console.log(err)

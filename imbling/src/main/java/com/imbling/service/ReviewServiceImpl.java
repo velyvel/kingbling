@@ -160,7 +160,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 
         int orderDone = orderRepository.findOrderState(review.getOrderNo());
-        if (orderDone == 1) {
+        if (orderDone != 1) {
             orderEntity.setOrderState("배송완료");
             orderRepository.save(orderEntity);
 
