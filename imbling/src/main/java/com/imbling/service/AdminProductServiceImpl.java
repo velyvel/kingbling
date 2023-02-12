@@ -148,6 +148,7 @@ public class AdminProductServiceImpl implements AdminProductService {
 		HashMap<Integer, ProductDto> products = new HashMap<>();
 		HashMap<Integer, PropertyDto> properties = new HashMap<>();
 		
+		
 		for (Map<String, Object> row : rows) {
 		
 			int categoryNo2 = (int)row.get("categoryNo");
@@ -158,37 +159,42 @@ public class AdminProductServiceImpl implements AdminProductService {
 				categoryDto.setCategoryName((String)row.get("categoryName"));
 				categories.put(categoryNo2, categoryDto);
 			}
-			
-			int productNo = (int)row.get("productNo");
-			ProductDto productDto = products.get(productNo);
-			if (productDto == null) {
-				productDto = new ProductDto();
-				productDto.setProductNo(productNo);
-				productDto.setProductName((String)row.get("productName"));
-				productDto.setProductImage((String)row.get("productImage"));
-				productDto.setProductPrice((int)row.get("productPrice"));
-				productDto.setProductRegdate((Date)row.get("productRegdate"));
-//				productDto.setProductdeleted((boolean)row.get("productDeleted"));
-				productDto.setCategory(categoryDto);
-				products.put(productNo, productDto);
+			try {
+				int productNo = (int)row.get("productNo");
+				ProductDto productDto = products.get(productNo);
+				if (productDto == null) {
+					productDto = new ProductDto();
+					productDto.setProductNo(productNo);
+					productDto.setProductName((String)row.get("productName"));
+					productDto.setProductImage((String)row.get("productImage"));
+					productDto.setProductPrice((int)row.get("productPrice"));
+					productDto.setProductRegdate((Date)row.get("productRegdate"));
+//					productDto.setProductdeleted((boolean)row.get("productDeleted"));
+					productDto.setCategory(categoryDto);
+					products.put(productNo, productDto);
+				}
+				
+				int propertyNo = (int)row.get("propertyNo");
+				PropertyDto propertyDto = properties.get(propertyNo);
+				if (propertyDto == null) {
+					propertyDto = new PropertyDto();
+					propertyDto.setPropertyNo(propertyNo);
+					propertyDto.setProductColor((String)row.get("productColor"));
+					propertyDto.setProductEA((int)row.get("productEA"));
+					propertyDto.setProductSize((String)row.get("productSize"));
+					properties.put(propertyNo, propertyDto);
+					List<PropertyDto> properties2 = productDto.getProperties();
+					if (properties2 == null) {
+						properties2 = new ArrayList<PropertyDto>();
+					}
+					properties2.add(propertyDto);
+					productDto.setProperties(properties2);
+				} 
+			}catch(Exception e ) {
+        	    e.printStackTrace();    //예외정보 출력 
+
 			}
 			
-			int propertyNo = (int)row.get("propertyNo");
-			PropertyDto propertyDto = properties.get(propertyNo);
-			if (propertyDto == null) {
-				propertyDto = new PropertyDto();
-				propertyDto.setPropertyNo(propertyNo);
-				propertyDto.setProductColor((String)row.get("productColor"));
-				propertyDto.setProductEA((int)row.get("productEA"));
-				propertyDto.setProductSize((String)row.get("productSize"));
-				properties.put(propertyNo, propertyDto);
-				List<PropertyDto> properties2 = productDto.getProperties();
-				if (properties2 == null) {
-					properties2 = new ArrayList<PropertyDto>();
-				}
-				properties2.add(propertyDto);
-				productDto.setProperties(properties2);
-			} 
 			
 			
 			
