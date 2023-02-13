@@ -53,5 +53,4 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
 	
 	@Query(value = "select count(*) from imb_comment where boardNo=:boardNo ", nativeQuery = true)
 	int findInqueryComment(@Param("boardNo") int boardNo);
->>>>>>> da688c23025d0e03e0cf4d8d9b56a89bcd015da9
 }
