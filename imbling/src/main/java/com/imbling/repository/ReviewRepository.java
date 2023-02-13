@@ -1,14 +1,16 @@
 package com.imbling.repository;
 
 
-import com.imbling.entity.ReviewEntity;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import javax.transaction.Transactional;
-import java.util.List;
+import com.imbling.entity.ReviewEntity;
 
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
 
@@ -31,13 +33,13 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
     @Query(value = "SELECT * FROM imb_review WHERE productNo= :productNo AND reviewDeleted = 0 ORDER BY reviewRegDate DESC", nativeQuery = true)
     List<ReviewEntity> findReviewByProductNo(@Param("productNo") int productNo);
 
-    @Query(value = "SELECT reviewNo FROM imb_review WHERE orderNo= :orderNo AND propertyNo= :propertyNo", nativeQuery = true)
+    @Query(value = "SELECT reviewNo FROM imb_review WHERE orderNo= :orderNo AND propertyNo= :propertyNo and reviewDeleted=0", nativeQuery = true)
 	int findOneReview(@Param("orderNo") int orderNo,@Param("propertyNo") int propertyNo);
 
     
-    //@Query(value = "select re from ReviewEntity order By reviewRegDate desc", nativeQuery = true)
-	//List<ReviewEntity> findAllReviewWithoutDelete();
-    List<ReviewEntity> findAllByOrderByReviewRegDateDesc();
+    @Query(value = "select * from imb_review order By reviewRegDate desc", nativeQuery = true)
+	List<ReviewEntity> findAllReviewWithoutDelete();
+    //List<ReviewEntity> findAllByOrderByReviewRegDateDesc();
 
 //	@Query(value = "SELECT * FROM imb_review WHERE productNo= :productNo ORDER BY reviewRegDate DESC", nativeQuery = true)
 //    ReviewEntity findReviewByProductNo(int productNo);

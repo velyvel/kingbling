@@ -8,7 +8,7 @@
         <!-- Css Styles ,font -->
         <jsp:include page="/WEB-INF/views/modules/common-css.jsp" />
 <meta charset="UTF-8">
-<title>임블리 사이트</title>
+<title>임블링</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/modules/common-offcanvas.jsp" />
@@ -25,7 +25,7 @@
                                                         <h6>jewelry Collection</h6>
                                                         <h2 style="color: black">Shining winter jewelry</h2>
                                                         <p>하얀 겨울과 잘 어울리는 쥬얼리를 소개해 드려요!<br>하얀 눈과 같은 주얼리를 만나보세요</p>
-                                                        <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
+                                                        <a href="/product/list" class="primary-btn">Shop now <span class="arrow_right"></span></a>
                                                         <div class="hero__social">
                                                                 <a href="#"><i class="fa fa-facebook"></i></a>
                                                                 <a href="#"><i class="fa fa-twitter"></i></a>
@@ -45,7 +45,7 @@
                                                         <h6>jewelry Collection</h6>
                                                         <h2 style="color: black">Warm and sweet jewelry</h2>
                                                         <p>띠뜻한 로즈골드 쥬얼리로 임블리와 때스한 겨울나기 함께해요</p>
-                                                        <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
+                                                        <a href="/product/list" class="primary-btn">Shop now <span class="arrow_right"></span></a>
                                                         <div class="hero__social">
                                                                 <a href="#"><i class="fa fa-facebook"></i></a>
                                                                 <a href="#"><i class="fa fa-twitter"></i></a>
@@ -72,7 +72,7 @@
                                         </div>
                                         <div class="banner__item__text">
                                                 <h2>Classic Jewelry 2030</h2>
-                                                <a href="#">Shop now</a>
+                                                <a href="/product/list">Shop now</a>
                                         </div>
                                 </div>
                         </div>
@@ -83,7 +83,7 @@
                                         </div>
                                         <div class="banner__item__text">
                                                 <h2>Romantic Stud Earrings</h2>
-                                                <a href="#">Shop now</a>
+                                                <a href="/product/list?categoryNo=1641">Shop now</a>
                                         </div>
                                 </div>
                         </div>
@@ -94,7 +94,7 @@
                                         </div>
                                         <div class="banner__item__text">
                                                 <h2>Colorful Bracelets</h2>
-                                                <a href="#">Shop now</a>
+                                                <a href="/product/list?categoryNo=1644">Shop now</a>
                                         </div>
                                 </div>
                         </div>
@@ -104,7 +104,7 @@
 <!-- ****************************** end banner ************************** -->
 
 <!-- ****************************** product ************************** -->
-<section class="product spad">
+<!-- <section class="product spad">
         <div class="container">
                 <div class="row">
                         <div class="col-lg-12">
@@ -393,11 +393,11 @@
                         </div>
                 </div>
         </div>
-</section>
+</section> -->
 <!-- ****************************** end product ************************** -->
 
 <!-- ****************************** sale ************************** -->
-<section class="categories spad">
+<!-- <section class="categories spad">
         <div class="container">
                 <div class="row">
                         <div class="col-lg-3">
@@ -441,7 +441,7 @@
                         </div>
                 </div>
         </div>
-</section>
+</section> -->
 <!-- ****************************** end sale ************************** -->
 
 <!-- ****************************** instagram ************************** -->
@@ -463,7 +463,7 @@
                                         <h2>Instagram</h2>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                                                 labore et dolore magna aliqua.</p>
-                                        <h3>#Male_Fashion</h3>
+                                        <h3>#I'mbling</h3>
                                 </div>
                         </div>
                 </div>

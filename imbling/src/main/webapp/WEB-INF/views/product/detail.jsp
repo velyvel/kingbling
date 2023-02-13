@@ -56,11 +56,11 @@
 							<input type="hidden" value="${loginuser.userId}" id="user-id" />
 							<h4>${product.productName}</h4>
 							<span><i class="fa-solid fa-person"></i>${product.productCount}</span>
-							<div class="rating">
+<!-- 							<div class="rating">
 								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 									class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 									class="fa fa-star-o"></i> <span> - 5 Reviews</span>
-							</div>
+							</div> -->
 							<h3>
 								<fmt:formatNumber value="${product.productPrice}"
 									pattern="₩#,###" />
@@ -69,8 +69,8 @@
 								<%-- ${product.properties[0].productSize} / ${product.properties[0].productColor} --%>
 								<div class="product__details__option__size">
 									<div>Size & Color :</div>
-									<input type="hidden" id="product-size" value="${property.productSize}" />
-									<input type="hidden" id="product-color" value="${property.productColor}" />
+									<input type="hidden" id="product-size" value="${product.properties[0].productSize}" />
+									<input type="hidden" id="product-color" value="${product.properties[0].productColor}" />
 									<select id="selectProperty">
 										<c:forEach var="property" items="${product.properties}">
 											<option value="${property.propertyNo}" 
@@ -93,12 +93,7 @@
 									<div class="pro-qty">
 										<span class="fa fa-angle-up dec qtybtn" aria-hidden="true"
 											data-product-no="${product.productNo}"></span>
-											<input id="product-ea" type="text" value="5">
-												<%-- <c:forEach var="product" items="${product}">
-													<c:set var="i" value="${i+1}" />
-													<c:if test="${product.properties[i].productSize }">
-													</c:if>
-												</c:forEach> --%>
+											<input id="product-ea" type="text" value="5" name="product-ea">
 										<input type="hidden" id="max-ea" value="${product.properties[0].productEA}"/>
 										<span class="fa fa-angle-down inc qtybtn" aria-hidden="true"
 											data-product-no="${product.productNo}"></span>
@@ -394,7 +389,6 @@
 
 
 	<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
-	<jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
 	<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp"/>
 	<script type="text/javascript">
 	$(function(){
@@ -403,6 +397,23 @@
 		
 		// 상품 수량 변경은 main.js - .pro-qty에 있음.
 		// 최소 수량 5개를 넘을 수 없고 상품재고(productEA) 이상 주문할 수 없음.
+		$('input[name=product-ea]').on('change', function(event) {
+			var productEA = $('input[name=product-ea]').val();
+	    	var maxEA = $('#max-ea').val();
+			
+			if (productEA>= maxEA) {
+				$("#max-alert").toast('show');
+				$('#max-body').html("재고가 "+ maxEA +"개 남은 상품 입니다.");
+				$('input[name=product-ea]').val(maxEA);
+			} else if (productEA < 5) {
+				$("#max-alert").toast('show');
+				$('#max-body').html("최소 주문수량은 5개 이상입니다.");
+				$('input[name=product-ea]').val(5);
+			} else if (maxEA == 0) {
+				$("#max-alert").toast('show');
+				$('#max-body').html("재고가 없는 상품입니다.");
+			}
+		});
 		
 		// 장바구니에 상품데이터 넣고 장바구니 페이지로 이동 
 		$("#addToCart").on('click', function(event) {
@@ -415,9 +426,8 @@
 			    type : 'post',
 			    dataType : 'text',       // 반환 데이터 타입 (html, xml, json, text 등등)
 			    data : {"productNo":${product.productNo},"productPrice":${product.productPrice},"productColor":productColor,"productSize":productSize,"productEA":productEA},
-			    success : function(result) { // 결과 성공 콜백함수
-			    	$('#cart-modal').modal();
-	//		    	location.href="/mypage/cart";
+			    success : function(result) { // 결과 성공 콜백함수	
+					$('#cart-modal').modal();	
 			    },
 			    error : function(request, status, error) { // 결과 에러 콜백함수
 					var loginuser = $('#user-id').val();
@@ -430,7 +440,7 @@
 						$('#max-body').html("이미 장바구니 목록에 등록된 상품입니다.");
 			    	}
 			    }
-			    });
+			});
 		});
 		
 		// 바로 결제 
@@ -439,8 +449,14 @@
 			var productSize = $('#product-size').val();
 			var productColor = $('#product-color').val();
 			var productEA = $('#product-ea').val();
+			var maxEA = $('#max-ea').val();
 			
-			location.href="/userOrder/doOrder?productNo=" + ${product.productNo} + "&productSize=" + productSize + "&productColor=" + productColor + "&productEA=" + productEA;
+			if (maxEA == 0) {
+				$("#max-alert").toast('show');
+				$('#max-body').html("재고가 0개인 상품입니다.");
+			} else {
+				location.href="/userOrder/doOrder?productNo=" + ${product.productNo} + "&productSize=" + productSize + "&productColor=" + productColor + "&productEA=" + productEA;	
+			}
 			
 		});
 		
@@ -495,23 +511,30 @@
 			    }
 			});
 		});
+		
 	//추가
 		$('#exampleModal').on('show.bs.modal', function (event) {
 		});
 		
-		$('#selectProperty').on("change",function(event){
+		$('#selectProperty').on("change",function(event){ //select로 옵션 선택시 선택 옵션이랑 재고 수량 변경
 
 			var productNo = $('#productNo').val();
 			var propertyNo = $(this).val();
-						
+			$('#product-size').val($('#selectProperty option:selected').data('productsize'));
+			$('#product-color').val($('#selectProperty option:selected').data('productcolor'));
+			
+			console.log($('#product-size').val());
+			console.log($('#product-color').val());
+
 			$.ajax({
 				url:"/product/getPropertyInfo",
 				type:"post",
 				data:{"propertyNo":propertyNo},
 				dataType:"text",
 				success(data){
-					console.log(data);
+					console.log("data : "+data);
 					$('#max-ea').val(Number(data));
+					console.log("max : "+$('#max-ea').val());
 				},
 				error(err){
 					console.log(err)
@@ -526,8 +549,7 @@
 		$('#questionTable').dataTable({
 
 		});
-		
-		
+
 		
 	});
 	</script>

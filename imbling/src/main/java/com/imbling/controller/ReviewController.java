@@ -201,9 +201,10 @@ public class ReviewController {
     ///////////어드민이유~ 
   //리뷰페이지 보여주기
     @GetMapping(path = { "/adminreviewList" })
-    public String showAdminreviewList(@RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "1") int reviewNo,ReviewDto review, OrderDto orders, PropertyDto properties, Model model ) {
+    public String showAdminreviewList(@RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "1") int reviewNo, OrderDto orders, PropertyDto properties, Model model ) {
+        System.out.println("==========adminreviewList");
 
-        List<ReviewDto> reviews = reviewService.findAllReviewWithoutDelete(review);
+        List<ReviewDto> reviews = reviewService.findAllReviewWithoutDelete();
         model.addAttribute("reviews", reviews);
 
 
@@ -215,12 +216,18 @@ public class ReviewController {
         System.out.println("==========adminDeleteReview");
 
     	ReviewDto review = reviewService.findReviewByReviewNo(reviewNo);
-        System.out.print(review);
-        //review.setReviewDeleted(!review.isReviewDeleted());
-    	//reviewService.modifiedReview(review);
+    	review.setOrderNo(review.getOrderDto().getOrderNo());
+    	review.setPropertyNo(review.getPropertyDto().getPropertyNo());
+    	review.setProductNo(review.getProductDto().getProductNo());
+        System.out.println("before"+review);
+        review.setReviewDeleted(!review.isReviewDeleted());
+        System.out.println("after"+review);
+
+        
+        reviewService.deleteReviewAdmin(review);
 
 
-        return "admin/review/reviewlist";
+        return "redirect:/board/adminreviewList";
     }
 
 }

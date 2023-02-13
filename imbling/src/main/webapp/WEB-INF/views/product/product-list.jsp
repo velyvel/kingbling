@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-	
+
 <c:forEach var="product" items="${products}">
 	<div class="col-lg-4 col-md-6 col-sm-6">
 		<div class="product__item">

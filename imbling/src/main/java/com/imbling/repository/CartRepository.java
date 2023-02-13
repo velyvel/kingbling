@@ -36,6 +36,7 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer> {
 
 	@Query(value = "select count(*) from imb_cart where userId=:userId ", nativeQuery = true)
 	int cartOrNot(@Param("userId")String userId);
+
 	
 
 

@@ -9,13 +9,13 @@
 			<div>
 				<div class="header__logo">
 					<a href="/"><img src="/resources/dist/img/jamlogo.png"
-						alt="jamLogo" style="width: 60px;"></a>
+						alt="jamLogo" style="width: 60px;"></a><h3>I'mBLING</h3>
 				</div>
 			</div>
 			<div class="col-lg-10 col-lg-10">
 				<nav class="header__menu mobile-menu">
 					<ul>
-						<li class="active"><a href="/">임블리홈</a></li>
+						<li class="active"><a href="/">홈</a></li>
 						<li><a href="/product/list">상품</a></li>
 						<li><a href="#">마이페이지</a>
 							<ul class="dropdown">

@@ -65,7 +65,7 @@
 							<div class="row d-flex justify-content-center">
 								<div id="productEdit">
 									<a data-order-id=${  product.productNo  } id="productEdit_btn"
-										class="btn btn-primary btn-icon-split editOrderInfo ">수정???
+										class="btn btn-primary btn-icon-split editOrderInfo ">수정
 									</a>
 								</div>
 								<div class="col-lg-8">
@@ -141,7 +141,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content" style="width: 800px">
 								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">주문 수정</h5>
+									<h5 class="modal-title" id="exampleModalLabel">상품 수정</h5>
 
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
@@ -152,31 +152,23 @@
 									<div class="modal-body">
 
 										<div class="form-group">
-											주문 번호 <input name="orderNo" id="orderNo" type="text" readonly>
+											상품 번호 <input name="productNo" id="productNo" type="text" readonly>
 										</div>
 										<div class="form-group">
-											주문 사용자 <input name="userId" id="userId" type="text">
+											상품명 <input name="productName" id="productName" type="text">
 										</div>
 										<div class="form-group">
-											주문 방법 <input name="orderPay" id="orderPay" type="text">
+											상품 사이즈 <input name="productSize" id="productSize" type="text">
 										</div>
 										<div class="form-group">
-											주문 날짜 <input name="orderDate" id="orderDate" type="text">
+											상품 속성 <input name="pro" id="orderDate" type="text">
 										</div>
 										<div class="form-group">
-											주문 요청 사항 <input name="orderDeliveryRequire"
-												id="orderDeliveryRequire" type="text">
+											상품 가격 <input name="productPrice"
+												id="productPrice" type="text">
 										</div>
 										<div class="form-group">
-											주문 주소 <input name="orderAddr" id="orderAddr" type="text">
-										</div>
-										<div class="form-group">
-											주문 상태 <select name="orderState" id="orderState">
-												<option value="주문완료">주문완료</option>
-												<option value="배송중">배송중</option>
-												<option value="배송완료">배송완료</option>
-												<option value="구매확정">구매확정</option>
-											</select>
+											상품 이미지 <input name="productImage" id="productImage" type="text">
 										</div>
 										<div class="card shadow mb-4">
 											<div class="card-header py-3">
@@ -296,7 +288,6 @@
 			$('#productEdit')
 				.on( 'click', function(event) {
 						var productNo = $(this).data('order-id');
-						alert(productNo);
 						$('#detailModal').modal('show')
 								
 								

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.imbling.dto.OrderDto;
 import com.imbling.entity.SalesChartData;
-import com.imbling.repository.MypageRepository;
+import com.imbling.repository.AdminHomeRepository;
 import com.imbling.repository.OrderRepository;
 
 @Service("homeService")
@@ -18,7 +18,7 @@ public class HomeServiceImpl implements HomeService {
 	private OrderRepository orderRepository;
 		
 	@Autowired
-	private MypageRepository mypageRepository;
+	private AdminHomeRepository mypageRepository;
 	
 	@Override
 	public List<OrderDto> findSalesData() {

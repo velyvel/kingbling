@@ -234,12 +234,20 @@
 		$(function() {
 			 $('#dataTable').on('click','.deleteReview', function(event){
 				var reviewNo=$(this).data('review-no');
-
+				var reviewState=$(this).attr("class");
+				
 				//console.log("message: ")
 				event.preventDefault();
-				const yn = confirm("계정을 삭제하겠습니까?");
-				if (!yn)
-					return;
+				if(reviewState.includes('btn-danger')){
+					const yn = confirm("리뷰를 다시 개시하겠습니까?");
+					if (!yn)
+						return;
+				}else{
+					const yn = confirm("리뷰를 삭제하겠습니까?");
+					if (!yn)
+						return;
+				}
+				
 				location.href="/board/adminDeleteReview?reviewNo="+reviewNo;
 
 

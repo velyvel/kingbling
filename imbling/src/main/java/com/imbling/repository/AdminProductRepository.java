@@ -1,19 +1,12 @@
 package com.imbling.repository;
 
-import com.imbling.dto.AdminProductDto;
-import com.imbling.dto.ProductDto;
-import com.imbling.entity.ProductEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-import javax.transaction.Transactional;
-
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.imbling.entity.ProductEntity;
 
 
 public interface AdminProductRepository extends JpaRepository<ProductEntity,  Integer> {
