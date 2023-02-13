@@ -111,5 +111,7 @@ public interface AdminProductService {
 
 	Collection<ProductDto> findAdminProductListByCategoryName(int selectedValue);
 
+	void productEdit(ProductDto findProduct);
+
 
 }

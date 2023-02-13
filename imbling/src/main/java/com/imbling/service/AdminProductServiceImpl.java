@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.imbling.dto.AdminProductDto;
 import com.imbling.dto.CategoryDto;
+import com.imbling.dto.OrderDto;
 import com.imbling.dto.ProductDto;
 import com.imbling.dto.PropertyDto;
 import com.imbling.entity.CategoryEntity;
+import com.imbling.entity.OrderEntity;
 import com.imbling.entity.ProductEntity;
 import com.imbling.entity.PropertyEntity;
 import com.imbling.repository.AdminProductRepository;
@@ -132,22 +134,11 @@ public class AdminProductServiceImpl implements AdminProductService {
 	@Override
 	public Collection<ProductDto> findAdminProductListByCategory2(int categoryNo) {
 
-//		List<CategoryEntity> categoryEntities = categoryRepository.findAll();
-//
-//		List<CategoryDto> category = new ArrayList<>();
-//
-//		for (CategoryEntity cate : categoryEntities) {
-//			category.add(categoryEntityToDto(cate));
-//		}
-		
 		List<Map<String, Object>> rows = adminProductRepository.findAllProducts();
-		
-		//ArrayList<AdminProductDto> products = new ArrayList<>();
 		
 		HashMap<Integer, CategoryDto> categories = new HashMap<>();
 		HashMap<Integer, ProductDto> products = new HashMap<>();
 		HashMap<Integer, PropertyDto> properties = new HashMap<>();
-		
 		
 		for (Map<String, Object> row : rows) {
 		
@@ -195,13 +186,7 @@ public class AdminProductServiceImpl implements AdminProductService {
 
 			}
 			
-			
-			
-			
-			
-			
 		}
-
 
 		return products.values();
 	}
@@ -288,7 +273,14 @@ public class AdminProductServiceImpl implements AdminProductService {
 		return null;
 	}
 
+	@Override
+	public void productEdit(ProductDto findProduct) {
+		ProductEntity productentity =productDtoToEntity(findProduct); 
+		productRepository.save(productentity);
 
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 

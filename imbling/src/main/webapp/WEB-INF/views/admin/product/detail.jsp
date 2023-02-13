@@ -103,7 +103,7 @@
 												id="add-property0">상품사이즈</button>
 										</div>
 										<div>
-											<h3 class="form-control form-control-user">${property.productSize}</h3>
+											<h3 class="form-control form-control-user"> ${product.properties[0].productSize}</h3>
 										</div>
 									</div>
 									<div class="form-group row">
@@ -112,7 +112,7 @@
 												id="add-property0">상품색상</button>
 										</div>
 										<div>
-											<h3 class="form-control form-control-user">${property.productSize}</h3>
+											<h3 class="form-control form-control-user"> ${product.properties[0].productColor}</h3>
 										</div>
 									</div>
 									<div class="form-group row">
@@ -122,6 +122,15 @@
 										</div>
 										<div>
 											<h3 class="form-control form-control-user">${product.productPrice}</h3>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div>
+											<button class="btn btn-primary btn-user add-property"
+												id="add-property0">상품재고</button>
+										</div>
+										<div>
+											<h3 class="form-control form-control-user">${product.properties[0].productEA}</h3>
 										</div>
 									</div>
 								</div>
@@ -158,49 +167,27 @@
 											상품명 <input name="productName" id="productName" type="text">
 										</div>
 										<div class="form-group">
-											상품 사이즈 <input name="productSize" id="productSize" type="text">
+											상품 사이즈 <input name="properties[0].productSize" id="productSize" type="text">
 										</div>
 										<div class="form-group">
-											상품 속성 <input name="pro" id="orderDate" type="text">
+											상품 색상 <input name="properties[0].productColor" id="productColor" type="text">
+										</div>
+										<div class="form-group">
+											상품 카테고리 <input name="category.categoryName" id="categoryName" type="text">
 										</div>
 										<div class="form-group">
 											상품 가격 <input name="productPrice"
 												id="productPrice" type="text">
 										</div>
 										<div class="form-group">
-											상품 이미지 <input name="productImage" id="productImage" type="text">
+											상품 재고 <input name="properteis[0].productEA"
+												id="productEA" type="text">
 										</div>
-										<div class="card shadow mb-4">
-											<div class="card-header py-3">
-												<h6 class="m-0 font-weight-bold text-primary">주문 상품 목록</h6>
-											</div>
-											<div class="card-body">
-
-												<div class="table-responsive">
-													<table class="table table-bordered dataTableModal"
-														id="dataTableModal" width="100%" cellspacing="0">
-														<thead>
-															<tr>
-																<th>제품 이름</th>
-																<th>주문 색상</th>
-																<th>주문 사이즈</th>
-																<th>주문 수량</th>
-																<th>주문 총 액</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td>s</td>
-																<td>s</td>
-																<td>s</td>
-																<td>s</td>
-																<td>s</td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
+										<div class="form-group">
+											상품 이미지
 										</div>
+										 <img name="productImage" id="productImage"  style="width:400px;height:300px">
+										 <input name="category.categoryNo" id="categoryNo" type="hidden">
 										<div class="modal-footer">
 											<button type="button" class="btn btn-secondary"
 												data-dismiss="modal">취소하기</button>
@@ -281,15 +268,40 @@
 			 $('#productEdit_btn').on('click', function(event){
 
 					var productNo = $(this).data('order-id');
-					alert(productNo);
-
+					alert(productNo + "번 상품을 수정하시겠습니까?");
 			 })
 			
 			$('#productEdit')
 				.on( 'click', function(event) {
 						var productNo = $(this).data('order-id');
+						
 						$('#detailModal').modal('show')
-								
+						$('#productNo').val(${product.productNo});
+						 $('#productName').val("${product.productName}");
+						$('#productSize').val("${product.properties[0].productSize}");
+						$('#productColor').val("${product.properties[0].productColor}");
+						$('#productEA').val("${product.properties[0].productEA}");
+						
+						$('#categoryNo').val("${categoryNo}");
+						$('#categoryName').val("${product.category.categoryName}");
+						$('#productPrice').val("${product.productPrice}");
+						$('#productImage').attr("src","${product.productImage}");
+						 
+						
+						
+/* 						$.ajax({
+							url : "/admin/detail",
+							"method" : "post",
+							"data" : 'productNo=' + productNo,
+							"success" : function(data, status,
+									xhr) {
+								console.log(data);
+	
+								$('#productNo').val(data.productNo);
+								$('#productName').val(data.productName);
+								$('#productSize').val(data.orderPay);
+								$('#orderDate').val(data.orderDate); */
+
 								
 			});
 		});

@@ -85,4 +85,8 @@ public interface ProductService {
 
 	int getProductEAByPropertyNo(int propertyNo);
 
+	ProductDto findByProductNo(int productNo);
+
+	void modeifyProduct(ProductDto productbefore);
+
 }

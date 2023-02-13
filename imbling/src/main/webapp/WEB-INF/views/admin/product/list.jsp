@@ -141,7 +141,6 @@
 															dateStyle="full" timeStyle="short" /></td>
 													<!-- 기능 -->
 													<td><button>수정</button>
-														<button>품절</button>
 														<button class="delete_product_button"
 															data-productno="${product.productNo}">삭제</button></td>
 												</tr>

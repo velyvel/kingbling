@@ -229,5 +229,42 @@ public class ProductServiceImpl implements ProductService {
 		return propertyEA;
 	}
 
+	@Override
+	public ProductDto findByProductNo(int productNo) {
+		ProductDto findByProductNo=productEntityToDto( productRepository.findByProductNo(productNo));
+		return findByProductNo;
+	}
+
+	@Override
+	public void modeifyProduct(ProductDto productbefore) {
+		
+		System.out.println("==modeifyProduct=========================");
+
+		System.out.println(productbefore);
+		CategoryEntity categoryEntity =  CategoryEntity.builder().categoryNo(productbefore.getCategory().getCategoryNo()).build(); 
+			ProductEntity productEntity = ProductEntity.builder()
+					.productNo(productbefore.getProductNo())   
+					.productName(productbefore.getProductName())
+					   .productImage(productbefore.getProductImage())
+					   .productPrice(productbefore.getProductPrice())
+					   .category(categoryEntity)
+					   .build();
+	
+	ArrayList<PropertyEntity> properties = new ArrayList<>();
+	for (PropertyDto property : productbefore.getProperties()) {
+	properties.add(PropertyEntity.builder()
+			 .productColor(property.getProductColor())
+			 .productSize(property.getProductSize())
+			 .productEA(property.getProductEA())
+			 .product(productEntity)
+			 .build());
+	}
+
+	productEntity.setProperties(properties);
+	//System.out.println(productEntity);
+
+	productRepository.save(productEntity);
+	}
+
 
 }
