@@ -38,7 +38,7 @@
                 <div class="form-group">
                     <label>별점</label>
                     <select class="form-control" id="reviewStar" name="reviewStar">
-                        <option selected>별점을 선택해주세요️</option>
+                        <option selected value="5">별점을 선택해주세요️</option>
                         <option value="5">⭐️⭐️⭐️⭐⭐️️️️</option>
                         <option value="4">⭐️⭐️⭐️⭐️️</option>
                         <option value="3">⭐️⭐️⭐️️</option>
@@ -147,8 +147,27 @@
     $(function (){
         $('#submitBtn').on('click', function (event){
             event.preventDefault();
-            $('#writeReview')[0].submit();
-        });
+            
+           
+            $('input[name=updateType]').val("update");
+            const reviewTitle = $('input[name=reviewTitle]').val();
+            const reviewContent = $('textarea[name=reviewContent]').val();
+            const reviewStar = $('select[name=reviewStar]').val();
+
+            if (reviewTitle.length==0){
+                alert("제목 빠짐")
+                return;
+            }else if(reviewContent.length==0){
+                alert("내용빠짐")
+                return;
+            }else if(reviewStar == null){
+                alert("아이고오 별점 빠졌슈")
+                return;
+            }else{
+            	$('#writeReview')[0].submit();
+            }
+            });
+            
 
     });
 
