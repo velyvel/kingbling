@@ -36,12 +36,12 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">유저 관리</h1>
+					<h1 class="h3 mb-2 text-gray-800">리뷰 관리</h1>
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">사용자 목록</h6>
+							<h6 class="m-0 font-weight-bold text-primary">리뷰 목록</h6>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -66,7 +66,7 @@
 													${ review.reviewNo }
 												</td> 
 												<td>
-													${review.productDto.productName},,,,,,,,,,,${review.productDto.productNo}
+													${review.productDto.productName}
 												</td>
 												<td><a href="reviewDetail?reviewNo=${review.reviewNo}">${review.reviewTitle}</a></td>
 

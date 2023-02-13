@@ -179,7 +179,7 @@ public class AccountController {
 			properties.put("User-Agent",
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52");
 
-			HttpURLConnection conn = makeFileUploadConnection("http://192.168.200.173:5001/ocr", boundary, properties);
+			HttpURLConnection conn = makeFileUploadConnection("http://192.168.124.121:5001/ocr", boundary, properties);
 
 			OutputStream os = conn.getOutputStream();
 			PrintWriter writer = new PrintWriter(os, true, Charset.forName("utf-8"));
@@ -222,7 +222,7 @@ public class AccountController {
 		System.out.println("searchByCorpNo==============");
 
 		try {
-			String path = "http://192.168.200.173:5001/searchByCorpNo"
+			String path = "http://192.168.124.121:5001/searchByCorpNo"
 					+ (docNo != null ? "?docNo=" + URLEncoder.encode(docNo, "utf-8") : "");
 			URL url = new URL(path);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
