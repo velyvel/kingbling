@@ -353,7 +353,7 @@
 			
 			if (productEA>= maxEA) {
 				$("#max-alert").toast('show');
-				$('#max-body').html("재고가 "+ maxea +"개 남은 상품 입니다.");
+				$('#max-body').html("재고가 "+ maxEA +"개 남은 상품 입니다.");
 				$('input[name=product-ea]').val(maxEA);
 			} else if (productEA < 5) {
 				$("#max-alert").toast('show');
