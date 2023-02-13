@@ -57,4 +57,7 @@ public class PropertyEntity {
 
 	@OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
 	private Collection<ReviewEntity> reviews;
+
+	@OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+	private Collection<ReviewEntity> boards;
 }

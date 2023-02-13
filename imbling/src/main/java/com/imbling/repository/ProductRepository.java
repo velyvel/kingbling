@@ -2,6 +2,7 @@ package com.imbling.repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -34,7 +35,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 	// 인기상품순 정렬
 	
 	// 리뷰많은순 정렬
-	@Query(value="select p.*, (select count(*) from imb_review where productNo = p.productNo) cnt "
+	@Query(value="select p.*, (select count(*) from imb_review where productNo = p.productNo and reviewDeleted=0) cnt "
 			+ "from imb_product p "
 			+ "where p.categoryNo = :categoryNo "
 			+ "order by cnt desc ", nativeQuery = true)
@@ -53,5 +54,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 	// 장바구니에 넣을 상품 정보 조회
 	@Query(value = "select * from imb_product where productNo=( select productNo from imb_property where propertyNo=:propertyNo ) ", nativeQuery = true)
 	ProductEntity findByPropertyNo(@Param("propertyNo") int propertyNo);
-	
+
+
 }

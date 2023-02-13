@@ -1,6 +1,7 @@
 package com.imbling.entity;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -37,5 +38,8 @@ public class CategoryEntity {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "categoryNo")
 	private Collection<ProductEntity> products;
+
+	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<BoardEntity> boards;
 	
 }

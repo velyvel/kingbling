@@ -3,6 +3,7 @@ package com.imbling.dto;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class BoardFaqDto {
@@ -15,5 +16,7 @@ public class BoardFaqDto {
     private Date faqRegDate;
     private String userId;
     private boolean faqDeleted;
+
+    private List<BoardCommentDto> boardComments;
 
 }

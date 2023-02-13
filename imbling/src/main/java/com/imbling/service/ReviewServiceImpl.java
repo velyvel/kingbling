@@ -148,7 +148,6 @@ public class ReviewServiceImpl implements ReviewService {
 
         PropertyEntity propertyEntity = propertyRepository.findById(review.getPropertyNo()).orElse((null));
         OrderEntity orderEntity = orderRepository.findById(review.getOrderNo()).orElse(null);
-
         OrderDetailEntity orderDetailEntity = orderDetailRepository.findByIds(review.getOrderNo(),review.getPropertyNo());
 // 여기 값이 들어가지 않으니 수정해야함
         orderDetailEntity.setReviewState(false);

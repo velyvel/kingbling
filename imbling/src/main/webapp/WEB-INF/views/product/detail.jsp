@@ -209,16 +209,15 @@
 								<div class="tab-pane" id="tabs-7" role="tabpanel">
 									<div class="product__details__tab__content">
 										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-											1:1문의
+											1:1문의글 작성하기
 										</button>
 <%--			modal start							--%>
-										<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-											 aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
 											<div class="modal-dialog" role="document">
-												<form name="boardModal" method="post" action="boardModal" id="boardModal">
+												<form name="productModal" method="post" action="detail" id="productModal">
 													<div class="modal-content">
 														<div class="modal-header">
-															<h5 class="modal-title" id="exampleModalLabel">1:1문의</h5>
+															<h5 class="modal-title" id="exampleModalLabel2">1:1문의</h5>
 															<div> 작성자: ${loginuser.userId} </div>
 															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 																<span aria-hidden="true">&times;</span>
@@ -227,10 +226,15 @@
 														<div class="modal-body">
 															<div class="form-group">
 																<label for="recipient-name" class="col-form-label">제목:</label>
-																<input type="text" class="form-control" id="recipient-name"
-																	   name="boardTitle">
-																<input type="hidden" class="form-control" name="boardCategory" value="3">
+																<input type="hidden" value="${products}">
+																<input type="hidden" value="${category}">
+																<input type="text" class="form-control" id="recipient-name" name="boardTitle">
+																<input type="hidden" class="form-control" name="productNo" value="${product.productNo}">
+																<input type="hidden" class="form-control" name="boardCategory" value="4">
+																<input type="hidden" name="categoryNo" value="${categoryNo}">
+<%--																<input type="text" name="boardNo" id="boardNo" value="${boardNo}">--%>
 																<input type="hidden" name="userId" value="${loginuser.userId}">
+
 															</div>
 															<div class="form-group">
 																<label for="message-text" class="col-form-label">내용:</label>
@@ -247,8 +251,54 @@
 												</form>
 											</div>
 										</div>
+										<br>
+										<br>
 										<!-- ****************************** end of 1:1문의 ************************** -->
+										<div class="card shadow mb-4">
+											<div class="card-header py-3">
+												<span>1:1 문의 리스트</span>
 
+											</div>
+												<div class="card-body">
+													<div class="table-responsive">
+														<table class="table table-bordered" id="questionTable" width="100%" cellspacing="0">
+															<thead>
+															<tr>
+																<th hidden>작성날짜</th>
+																<th>작성자</th>
+																<th>제목</th>
+																<th>내용</th>
+																<th>상세보기</th>
+															</tr>
+															</thead>
+															<tbody>
+															<c:forEach var="board" items="${boards}">
+																<tr>
+																	<td hidden>${board.boardRegDate1}</td>
+																	<td>${board.userId}</td>
+																	<td>${board.boardTitle}</td>
+																	<td>${board.boardContent}</td>
+																	<c:choose>
+																		<c:when test="${loginuser.userId == 'admin'}">
+																	<td><a href="/board/productModalDetail?boardNo=${board.boardNo}&productNo=${productNo}&productName=${product.productName}" class="btn btn-primary">상세보기</a> </td>
+																		</c:when>
+																		<c:when test="${loginuser.userId eq board.userId}">
+																			<td><a href="/board/productModalDetail?boardNo=${board.boardNo}&productNo=${productNo}&productName=${product.productName}" class="btn btn-primary">상세보기</a> </td>
+																		</c:when>
+																		<c:otherwise>
+																			<td>
+																				비밀글입니다
+																			</td>
+																		</c:otherwise>
+																	</c:choose>
+																</tr>
+															</c:forEach>
+															</tbody>
+														</table>
+													</div>
+												</div>
+										</div>
+		<!-- ****************************** end of question ************************** -->
 									</div>
 								</div>
 							</div>
@@ -468,8 +518,14 @@
 				}
 			});
 		});
-		
-		
+
+		$('#submitBtn').on('click', function (event){
+			$('#productModal')[0].submit();
+		});
+
+		$('#questionTable').dataTable({
+
+		});
 		
 		
 		

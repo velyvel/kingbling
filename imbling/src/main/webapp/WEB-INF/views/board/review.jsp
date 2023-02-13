@@ -107,7 +107,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered" id="reviewTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
                             <th>상품명</th>
@@ -121,7 +121,7 @@
                         <c:forEach var="review" items="${reviews}">
                             <tr>
                                 <td>
-                                    ${review.productDto.productName},,,,,,,,,,,${review.productDto.productNo}
+                                    ${review.productDto.productName}
                                 </td>
                                 <td><a href="reviewDetail?reviewNo=${review.reviewNo}">${review.reviewTitle}</a></td>
                                     <c:choose>
@@ -157,13 +157,16 @@
 </div>
 <jsp:include page="/WEB-INF/views/modules/footer.jsp" />
 
-<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp" />
 <jsp:include page="/WEB-INF/views/modules/common-js.jsp" />
+<jsp:include page="/WEB-INF/views/modules/admin/common-js.jsp"/>
 <script type="text/javascript">
 
-    $(document).ready( function () {
-        $('#dataTable').DataTable();
+    $(function (){
+        $('#reviewTable').dataTable({
+
+        });
     });
+
 </script>
 
 

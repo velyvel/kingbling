@@ -115,8 +115,9 @@ public class ProductController {
 		//리뷰 리스트 추가
 		List<ReviewDto> reviews = reviewService.findReviewsByProductNo(productNo);
 		model.addAttribute("reviews", reviews);
+		model.addAttribute("productNo", productNo);
 
-		//1:1 문의 게시글 추가
+
 		List<BoardDto> boards = boardService.findModalBoardByProductNo(productNo);
 		model.addAttribute("boards", boards);
 
@@ -131,6 +132,19 @@ public class ProductController {
 		model.addAttribute("hearts", heart);
 		
 		return "product/detail";
+	}
+
+	//======================상품목록에서 1:1문의==========================
+
+	@PostMapping(path={"/detail"})
+	public String writeProductModal(BoardDto board, CategoryDto category, ProductDto product, int  productNo, Model model){
+
+		boardService.writeProductBoard(board, product,category);
+		model.addAttribute("categoryNo", category.getCategoryNo());
+
+//		return "product/detail?productNo="+board.getProductDto().getProductNo() + "categoryNo="+category.getCategoryNo();
+		return "redirect:/product/detail?productNo="+ product.getProductNo() + "&categoryNo="+category.getCategoryNo();
+
 	}
 	
 	// 검색

@@ -27,7 +27,11 @@ public class BoardDto {
 	private List<BoardCommentDto> boardComments;
 
 	//조회 위한 dto
+	private int propertyNo;
+	private int productNo;
+	private int categoryNo;
 	private PropertyDto propertyDto;
+	private ProductDto productDto;
 
 
 }

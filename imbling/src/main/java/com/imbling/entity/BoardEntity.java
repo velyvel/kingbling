@@ -59,8 +59,15 @@ public class BoardEntity {
 	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Collection<BoardCommentEntity> boardComments;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "productNo")
 	private ProductEntity product;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "propertyNo")
+	private PropertyEntity property;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "categoryNo")
+	private CategoryEntity category;
 }

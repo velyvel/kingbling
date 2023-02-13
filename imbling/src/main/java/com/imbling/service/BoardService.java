@@ -1,10 +1,7 @@
 package com.imbling.service;
 
 import com.imbling.dto.*;
-import com.imbling.entity.BoardAttachEntity;
-import com.imbling.entity.BoardCommentEntity;
-import com.imbling.entity.BoardEntity;
-import com.imbling.entity.BoardFaqEntity;
+import com.imbling.entity.*;
 import jdk.jfr.Category;
 
 import java.util.List;
@@ -121,6 +118,33 @@ public interface BoardService {
         return faqEntity;
     }
 
+    public default ProductDto productEntityToDto(ProductEntity productEntity) {
+        ProductDto productDto = new ProductDto();
+        productDto.setProductNo(productEntity.getProductNo());
+        productDto.setProductName(productEntity.getProductName());
+        productDto.setProductContent(productEntity.getProductContent());
+        productDto.setProductImage(productEntity.getProductImage());
+        productDto.setProductPrice(productEntity.getProductPrice());
+        productDto.setProductRegdate(productEntity.getProductRegdate());
+        productDto.setProductCount(productEntity.getProductCount());
+
+        return productDto;
+    }
+
+    public default ProductEntity productDtoToEntity(ProductDto productDto) {
+        ProductEntity productEntity = ProductEntity.builder()
+                .productNo(productDto.getProductNo())
+                .productName(productDto.getProductName())
+                .productContent(productDto.getProductContent())
+                .productImage(productDto.getProductImage())
+                .productPrice(productDto.getProductPrice())
+                .productRegdate(productDto.getProductRegdate())
+                .productCount(productDto.getProductCount())
+                .build();
+
+        return productEntity;
+    }
+
 
     List<BoardDto> findEventBoard();
 
@@ -131,6 +155,8 @@ public interface BoardService {
     //Detail 수정
     //BoardDto findBoardByBoardNoAndBoardCategory(int boardNo, int boardCategory);
     BoardDto findBoardByBoardNo(int boardNo, int boardCategory);
+
+    BoardDto findBoardByBoardNoAndProductNo(int boardNo, int productNo, String productName);
 
     BoardDto findBoardByBoardNo(int boardNo);
 
@@ -168,6 +194,8 @@ public interface BoardService {
     List<BoardDto> findModalBoardByProductNo(int productNo);
 
     void deleteFaq(BoardFaqDto faq);
+
+    void writeProductBoard(BoardDto board, ProductDto product, CategoryDto category);
 
 
     //void updateGroupNo(int commentNo, int commentGroup);

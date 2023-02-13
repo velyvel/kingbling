@@ -56,10 +56,10 @@
             <div class="col-sm-6" style="float: right;">
                 <div class="form-group">
                     <label>상품명</label>
-                    <input type="text" class="form-control" id="propertyNo" name="propertyNo" value="${review.propertyDto.propertyNo}">
-                    <input type="text" class="form-control" id="productNo" name="productNo" value="${review.productDto.productNo}">
+                    <input type="hidden" class="form-control" id="propertyNo" name="propertyNo" value="${review.propertyDto.propertyNo}">
+                    <input type="hidden" class="form-control" id="productNo" name="productNo" value="${review.productDto.productNo}">
                     <input type="text" class="form-control" id="propertyName" value="${review.productDto.productName}" readonly>
-                    <input type="text" class="form-control" id="reviewNo" value="${review.reviewNo}" name="reviewNo" readonly>
+                    <input type="hidden" class="form-control" id="reviewNo" value="${review.reviewNo}" name="reviewNo" readonly>
                 </div>
             </div>
             <div class="col-sm-6">

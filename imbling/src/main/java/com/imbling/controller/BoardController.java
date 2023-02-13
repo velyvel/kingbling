@@ -53,7 +53,7 @@ public class BoardController {
 	public String writeModal(BoardDto board2){
 		int boardCategory = board2.getBoardCategory();
 		boardService.writeBoardModal(board2);
-		System.out.println(board2);
+		//System.out.println(board2);
 
 
 		return "/";
@@ -65,7 +65,7 @@ public class BoardController {
 	public String writeQnaBoardModal(BoardDto board2){
 		int boardCategory = board2.getBoardCategory();
 		boardService.writeBoardModal(board2);
-		System.out.println(board2);
+		//System.out.println(board2);
 
 
 			return "success";
@@ -106,10 +106,36 @@ public class BoardController {
 		boardService.writeComment(comment, account);
 		return "success";
 	}
+//	//======================상품목록에서 1:1문의==========================
+	@GetMapping(path = {"/productModalDetail"})
+	public String showProductModalDetail(@RequestParam(defaultValue = "-1") int boardNo, @RequestParam(defaultValue = "-1") int pageNo, @RequestParam(defaultValue = "1") int productNo,CategoryDto category,String productName, Model model){
 
+		BoardDto board = boardService.findBoardByBoardNoAndProductNo(boardNo, productNo, productName);
+		model.addAttribute("board",board);
+		model.addAttribute("pageNo",pageNo);
+		model.addAttribute("boardNo", boardNo);
+		model.addAttribute("productNo", productNo);
+		model.addAttribute("productName", productName);
+		model.addAttribute("categoryNo", category.getCategoryNo());
+		return "board/productModalDetail";
+	}
 
+	@GetMapping(path = {"/questionCommentList"})
+	public String showQuestionCommentList(int boardNo, Model model){
+		List<BoardCommentDto> comments = boardService.findComments(boardNo);
+		model.addAttribute("comments", comments);
 
+		return "board/questionCommentList";
 
+	}
+
+	@PostMapping(path = {"/questionCommentForm"})
+	@ResponseBody
+	public String writeQuestionComment(BoardCommentDto comment, AccountDto account){
+		boardService.writeComment(comment, account);
+
+		return "success";
+	}
 
 	//============================ 공지사항 ============================
 //공지사항 페이지 보여주기

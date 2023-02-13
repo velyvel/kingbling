@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 
@@ -44,4 +45,11 @@ public class BoardFaqEntity {
     @Column
     @Builder.Default
     private boolean faqDeleted = false;
+
+
+    //댓글 추가
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Collection<BoardCommentEntity> boardComments;
+
+
 }

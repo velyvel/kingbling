@@ -429,6 +429,10 @@
             });
         });
 
+        $('#dataTable1').dataTable({
+
+        });
+
     });
 </script>
 </body>

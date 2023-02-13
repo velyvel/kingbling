@@ -1,17 +1,8 @@
 package com.imbling.service;
 
-import com.imbling.dto.AccountDto;
-import com.imbling.dto.BoardCommentDto;
-import com.imbling.dto.BoardDto;
-import com.imbling.dto.BoardFaqDto;
-import com.imbling.entity.AccountDtoEntity;
-import com.imbling.entity.BoardCommentEntity;
-import com.imbling.entity.BoardEntity;
-import com.imbling.entity.BoardFaqEntity;
-import com.imbling.repository.AccountRepository;
-import com.imbling.repository.BoardFaqRepository;
-import com.imbling.repository.CommentRepository;
-import com.imbling.repository.BoardRepository;
+import com.imbling.dto.*;
+import com.imbling.entity.*;
+import com.imbling.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +18,10 @@ public class BoardServiceImpl implements BoardService{
     private CommentRepository commentRepository;
     @Autowired
     private BoardFaqRepository faqRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     //이벤트 리스트 조회
     @Override
@@ -86,6 +81,13 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public BoardDto findBoardByBoardNoAndProductNo(int boardNo, int productNo, String productName) {
+        BoardEntity boardEntity = boardRepository.findByBoardNoAndProductNo(boardNo,productNo);
+        BoardDto board = boardEntityToDto(boardEntity);
+        return board;
+    }
+
+    @Override
     public BoardDto findBoardByBoardNo(int boardNo) {
         BoardEntity boardEntity = boardRepository.findByBoardNo(boardNo);
         BoardDto board = boardEntityToDto(boardEntity);
@@ -135,7 +137,6 @@ public class BoardServiceImpl implements BoardService{
                 .boardTitle(board2.getBoardTitle())
                 .boardCategory(board2.getBoardCategory())
                 .boardContent(board2.getBoardContent())
-                .boardNo(board2.getBoardNo())
                 .userId(board2.getUserId())
                 .build();
         boardRepository.save(boardEntity);
@@ -236,6 +237,42 @@ public class BoardServiceImpl implements BoardService{
 
     }
 
+    @Override
+    public void writeProductBoard(BoardDto board,ProductDto product,CategoryDto category) {
+
+        BoardEntity boardEntity = BoardEntity.builder()
+                .boardTitle(board.getBoardTitle())
+                .boardCategory(board.getBoardCategory())
+                .boardContent(board.getBoardContent())
+                .userId(board.getUserId())
+                .build();
+
+        ProductEntity productEntity = productRepository.findByProductNo(product.getProductNo());
+        boardEntity.setProduct(productEntity);
+
+        CategoryEntity categoryEntity = categoryRepository.findByCategoryNo(category.getCategoryNo());
+        boardEntity.setCategory(categoryEntity);
+        boardRepository.save(boardEntity);
+
+    }
+
+
+    @Override
+    public List<BoardDto> findModalBoardByProductNo(int productNo) {
+        List<BoardEntity> boardList = boardRepository.findBoardByProductNo(productNo);
+        ArrayList<BoardDto> boards = new ArrayList<>();
+
+        for(BoardEntity boardEntity : boardList){
+            BoardDto boardDto = boardEntityToDto(boardEntity);
+            boardDto.setProductDto(productEntityToDto(boardEntity.getProduct()));
+            boards.add(boardDto);
+        }
+
+        return boards;
+    }
+
+
+
 //    @Override
 //    public void deleteFaq(int faqNo) {
 //
@@ -265,18 +302,6 @@ public class BoardServiceImpl implements BoardService{
         return faqs;
     }
 
-    @Override
-    public List<BoardDto> findModalBoardByProductNo(int productNo) {
-//        List<BoardEntity> boardList = boardRepository.findBoardByProductNo(productNo);
-//        ArrayList<BoardDto> boards = new ArrayList<>();
-
-//        for(BoardEntity  boardEntity : boardList){
-//            BoardDto boardDto = boardEntityToDto(boardEntity);
-//        }
-
-
-        return null;
-    }
 
 
 

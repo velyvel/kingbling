@@ -20,4 +20,5 @@ public class ProductDto {
 	
 	private CategoryDto category;
 	private List<PropertyDto> properties;
+
 }
